@@ -17,9 +17,5 @@ namespace FinalProject_GameForum.Controllers
 
             return RedirectToAction("Index");
         }
-
-
-
-
     }
 }
