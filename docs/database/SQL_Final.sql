@@ -41,6 +41,19 @@ CREATE TABLE ProductPictures (
     ImageURL NVARCHAR(250),
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
+
+CREATE TABLE Likes (
+    UserID INT,
+    ProductID INT,
+    Preference DOUBLE PRECISION,
+    PRIMARY KEY (UserID, ProductID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+
+
+
 CREATE TABLE Advertisements (
     AdID INT IDENTITY(1,1) PRIMARY KEY,
     AdName NVARCHAR(50),
