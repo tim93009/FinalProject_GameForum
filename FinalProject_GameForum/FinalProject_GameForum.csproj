@@ -6,4 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="wwwroot\content\**" />
+    <Content Remove="wwwroot\content\**" />
+    <EmbeddedResource Remove="wwwroot\content\**" />
+    <None Remove="wwwroot\content\**" />
+  </ItemGroup>
+
 </Project>
