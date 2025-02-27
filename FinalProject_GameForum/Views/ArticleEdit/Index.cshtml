@@ -1,80 +1,96 @@
 ﻿@{
-    Layout = "_LayoutTes";
+	Layout = "_LayoutTes";
 }
 
 <h1>文章編輯</h1>
 <form id="editorForm" method="post" action="/ArticleEdit/SaveContent">
-    <div id="toolbar">
-        <button class="ql-bold"></button>
-        <button class="ql-italic"></button>
-        <button class="ql-underline"></button>
-        <button class="ql-strike"></button>
-        <button class="ql-blockquote"></button>
-        <button class="ql-code-block"></button>
-        <select class="ql-font">
-            <option selected></option>
-            <option value="songti">宋體</option>
-            <option value="heiti">黑體</option>
-        </select>
-        <select class="ql-header">
-            <option selected></option>
-            <option value="1"></option>
-            <option value="2"></option>
-        </select>
-        <button class="ql-list" value="ordered"></button>
-        <button class="ql-list" value="bullet"></button>
-        <button class="ql-script" value="sub"></button>
-        <button class="ql-script" value="super"></button>
-        <button class="ql-indent" value="-1"></button>
-        <button class="ql-indent" value="+1"></button>
-        <button class="ql-direction" value="rtl"></button>
-        <select class="ql-size">
-            <option value="small"></option>
-            <option selected></option>
-            <option value="large"></option>
-            <option value="huge"></option>
-        </select>
-        <select class="ql-color"></select>
-        <select class="ql-background"></select>
-        <select class="ql-align"></select>
-        <button class="ql-link"></button>
-        <button class="ql-image"></button>
-        <button class="ql-video"></button>
-        <button class="ql-formula"></button>
-        <button class="ql-clean"></button>
-    </div>
-    <div id="editor"></div>
-    <textarea id="hiddenContent" name="content" style="display:none;"></textarea>
-    <button type="button" onclick="submitForm()">提交</button>
+	<div id="toolbar-container">
+		<span class="ql-formats">
+			<select class="ql-header">
+				<option selected>文字</option>
+				<option value="2">小標題</option>
+				<option value="1">大標題</option>
+			</select>
+		</span>
+		<span class="ql-formats">
+			<select class="ql-font">
+				<option selected></option>
+				<option value="songti">宋體</option>
+				<option value="heiti">黑體</option>
+				<option value="A">A</option>
+			</select>
+		</span>
+		<span class="ql-formats">
+			<select class="ql-size">
+				<option value="small">小</option>
+				<option selected>一般</option>
+				<option value="large">大</option>
+				<option value="huge">更大</option>
+			</select>
+		</span>
+		<span class="ql-formats">
+			<button class="ql-bold"></button>
+			<button class="ql-italic"></button>
+			<button class="ql-underline"></button>
+			<button class="ql-strike"></button>
+		</span>
+		<span class="ql-formats">
+			<select class="ql-color"></select>
+			<select class="ql-background"></select>
+		</span>
+		<span class="ql-formats">
+			<button class="ql-blockquote"></button>
+			<button class="ql-code-block"></button>
+		</span>
+		<span class="ql-formats">
+			<button class="ql-list" value="ordered"></button>
+			<button class="ql-list" value="bullet"></button>
+			<button class="ql-script" value="sub"></button>
+			<button class="ql-script" value="super"></button>
+			<button class="ql-indent" value="-1"></button>
+			<button class="ql-indent" value="+1"></button>
+			<button class="ql-direction" value="rtl"></button>
+			<select class="ql-align"></select>
+			<button class="ql-link"></button>
+			<button class="ql-image"></button>
+			<button class="ql-video"></button>
+			<button class="ql-formula"></button>
+			<button class="ql-clean"></button>
+		</span>
+	</div>
+	<div id="editor"></div>
+	<textarea id="hiddenContent" name="content" style="display:none;"></textarea>
+	<button type="button" onclick="submitForm()">提交</button>
 </form>
 
 <!-- Quill JS -->
 <script src="~/lib/quill/quill.js"></script>
 <script>
-    var Font = Quill.import("formats/font");
-    // 自訂中文字體
-    Font.whitelist = ["songti", "heiti"];
-    Quill.register(Font, true);
+	var Font = Quill.import("formats/font");
+	// 自訂中文字體
+	Font.whitelist = ["songti", "heiti", "A"];
+	Quill.register(Font, true);
 
-    var quill = new Quill("#editor", {
-      theme: "snow",
-      modules: {
-        toolbar: "#toolbar",
-      },
-    });
+	var quill = new Quill("#editor", {
+	  theme: "snow",
+	  modules: {
+		toolbar: "#toolbar-container",
+	  },
+	});
 
-    // 加入對應的 CSS
-    const style = document.createElement("style");
-    style.innerHTML = `
-      .ql-font-songti { font-family: "SimSun", "宋体", serif; }
-      .ql-font-heiti { font-family: "Microsoft JhengHei", "黑体", sans-serif; }
-    `;
-    document.head.appendChild(style);
+	// 加入對應的 CSS
+	const style = document.createElement("style");
+	style.innerHTML = `
+	  .ql-font-songti { font-family: "SimSun", "宋体", serif; }
+	  .ql-font-heiti { font-family: "Microsoft JhengHei", "黑体", sans-serif; }
+	  .ql-font-A { font-family: "LiHei Pro","黑體-繁","微軟正黑體", sans-serif; }
+	`;
+	document.head.appendChild(style);
 
 
-    // 提交表單時，把 Quill 內容轉換成 HTML 放入 textarea
-    function submitForm() {
-      document.getElementById("hiddenContent").value = quill.root.innerHTML;
-      document.forms["editorForm"].submit();
-    }
+	// 提交表單時，把 Quill 內容轉換成 HTML 放入 textarea
+	function submitForm() {
+	  document.getElementById("hiddenContent").value = quill.root.innerHTML;
+	  document.forms["editorForm"].submit();
+	}
 </script>
