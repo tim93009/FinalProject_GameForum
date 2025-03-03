@@ -1,1 +1,39 @@
-﻿
+﻿input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: flex; 
+    align-items: center; /* 垂直置中 */
+    justify-content: center; /* 水平置中 */
+    width: 100px;
+    height: 100px;
+    font-size: 90px;
+    cursor: pointer;
+}
+
+.mycss {
+    background-color: lightblue; /* 背景顏色 */
+    padding: 20px; /* 內距 */
+    border: 2px solid blue; /* 加邊框 */
+}
+
+.toolbarContainer{
+    background-color: azure;
+    margin-top: 5px;
+}
+
+
+.editorBlock{
+    height: 500px;  
+    background-color: azure;
+}
+
+.selectArticleType {
+    width: 250px;
+}
+
+#hiddenContent{
+    display: none;
+}

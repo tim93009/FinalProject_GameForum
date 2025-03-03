@@ -3,72 +3,93 @@
 }
 
 <h1>文章編輯</h1>
-<form id="editorForm" method="post" action="/ArticleEdit/SaveContent">
-	<div id="toolbar-container">
-		<span class="ql-formats">
-			<select class="ql-header">
-				<option selected>文字</option>
-				<option value="2">小標題</option>
-				<option value="1">大標題</option>
-			</select>
-		</span>
-		<span class="ql-formats">
-			<select class="ql-font">
-				<option selected></option>
-				<option value="songti">宋體</option>
-				<option value="heiti">黑體</option>
-				<option value="A">A</option>
-			</select>
-		</span>
-		<span class="ql-formats">
-			<select class="ql-size">
-				<option value="small">小</option>
-				<option selected>一般</option>
-				<option value="large">大</option>
-				<option value="huge">更大</option>
-			</select>
-		</span>
-		<span class="ql-formats">
-			<button class="ql-bold"></button>
-			<button class="ql-italic"></button>
-			<button class="ql-underline"></button>
-			<button class="ql-strike"></button>
-			<button class="ql-script" value="sub"></button>
-			<button class="ql-script" value="super"></button>
-		</span>
-		<span class="ql-formats">
-			<select class="ql-color"></select>
-			<select class="ql-background"></select>
-		</span>
-		<span class="ql-formats">
-			<button class="ql-blockquote"></button>
-			<button class="ql-code-block"></button>
-		</span>
-		<span class="ql-formats">
-			<button class="ql-list" value="ordered"></button>
-			<button class="ql-list" value="bullet"></button>
-		</span>
-		<span class="ql-formats">			
-			<button class="ql-indent" value="-1"></button>
-			<button class="ql-indent" value="+1"></button>
-			<button class="ql-direction" value="rtl"></button>
-			<select class="ql-align"></select>
-		</span>
-		<span class="ql-formats">
-			<button class="ql-link"></button>
-			<button class="ql-image"></button>
-			<button class="ql-video"></button>
-			<button class="ql-formula"></button>
-		</span>
-		<span class="ql-formats">
-			<button class="ql-clean"></button>
-		</span>
-	</div>
-	<div id="editor"></div>
-	<textarea id="hiddenContent" name="content" style="display:none;"></textarea>
-	<button type="button" onclick="submitForm()">提交</button>
-</form>
-
+<div class="container mycss">
+	<form id="editorForm" method="post" action="/ArticleEdit/SaveContent">
+		<div class="row p-1">
+			<label for="type">
+				文章分類:
+				<select name="type" class="selectArticleType">
+					<option>AA</option>
+					<option>AA</option>
+					<option>AA</option>
+					<option>AA</option>
+				</select>
+			</label>
+		</div>
+		<div class="row p-1">
+			<label for="title">
+				文章標題:
+				<input type="text" name="title" class="w-100" />
+			</label>
+		</div>
+		<div id="toolbar-container" class="toolbarContainer">
+			<span class="ql-formats">
+				<select class="ql-header">
+					<option selected>文字</option>
+					<option value="2">小標題</option>
+					<option value="1">大標題</option>
+				</select>
+			</span>
+			<span class="ql-formats">
+				<select class="ql-font">
+					<option selected></option>
+					<option value="songti">宋體</option>
+					<option value="heiti">黑體</option>
+					<option value="A">A</option>
+				</select>
+			</span>
+			<span class="ql-formats">
+				<select class="ql-size">
+					<option value="small">小</option>
+					<option selected>一般</option>
+					<option value="large">大</option>
+					<option value="huge">更大</option>
+				</select>
+			</span>
+			<span class="ql-formats">
+				<button class="ql-bold"></button>
+				<button class="ql-italic"></button>
+				<button class="ql-underline"></button>
+				<button class="ql-strike"></button>
+				<button class="ql-script" value="sub"></button>
+				<button class="ql-script" value="super"></button>
+			</span>
+			<span class="ql-formats">
+				<select class="ql-color"></select>
+				<select class="ql-background"></select>
+			</span>
+			<span class="ql-formats">
+				<button class="ql-blockquote"></button>
+				<button class="ql-code-block"></button>
+			</span>
+			<span class="ql-formats">
+				<button class="ql-list" value="ordered"></button>
+				<button class="ql-list" value="bullet"></button>
+			</span>
+			<span class="ql-formats">
+				<button class="ql-indent" value="-1"></button>
+				<button class="ql-indent" value="+1"></button>
+				<button class="ql-direction" value="rtl"></button>
+				<select class="ql-align"></select>
+			</span>
+			<span class="ql-formats">
+				<button class="ql-link"></button>
+				<button class="ql-image"></button>
+				<button class="ql-video"></button>
+				<button class="ql-formula"></button>
+			</span>
+			<span class="ql-formats">
+				<button class="ql-clean"></button>
+			</span>
+		</div>
+		<div id="editor" class="editorBlock"></div>
+		<textarea id="hiddenContent" name="content"></textarea>
+		<label class="custom-file-upload" for="coverImg" onclick="open()">+</label>
+		<input type="file" id="coverImg" accept="image/gif, image/jpeg, image/png"/>	
+		<button type="button" onclick="">儲存草稿</button>
+		<button type="button" onclick="submitForm()">發表文章</button>
+	</form>
+</div>
 <!-- Quill JS -->
 <script src="~/lib/quill/quill.js"></script>
 <script>
@@ -83,6 +104,7 @@
 		toolbar: "#toolbar-container",
 	  },
 	});
+
 
 	// 加入對應的 CSS
 	const style = document.createElement("style");
