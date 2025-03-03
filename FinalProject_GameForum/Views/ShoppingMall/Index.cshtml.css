@@ -1,3 +1,14 @@
-﻿.row{
-    height:25vh;
+﻿/*商城logo靠左 搜尋框置中 選單靠右*/
+@media (max-width: 991px) 
+{
+    .navbar .position-absolute
+    {
+        position: static !important;
+        transform: none !important;
+        margin: 10px auto;
+    }
+}
+
+.sidebar img {
+    margin-bottom: 10px; /* 在每張圖片底部添加10px間距 */
 }
