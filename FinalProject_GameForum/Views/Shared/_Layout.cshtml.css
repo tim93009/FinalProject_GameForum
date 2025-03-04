@@ -46,7 +46,100 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
-.navbar-nav {
-    align-items: center;
+
+/* Style the search field */
+    form.search input[type=text] {
+        padding: 10px;
+        font-size: 17px;
+        border: 1px solid grey;
+        border-radius:5px;
+        float: left;
+        width: 300px;
+        background: #f1f1f1;
+    }
+
+/* Style the submit button */
+form.search button {
+    float: left;
+    width: 50px;
+    padding: 10px;
+    background: #2196F3;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-radius:5px;
+    border-left: none; /* Prevent double borders */
+    cursor: pointer;
+    margin-left:-51px;
+}
+
+form.search button:hover {
+        background: #0b7dda;
+    }
+
+/* Clear floats */
+form.search:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* RWD */
+.search-container {
+    display: flex;
     justify-content: center;
+    flex: 1;
+}
+
+.search form {
+    width: 400px; /* default form width */
+}
+
+/* For medium screens like tablets (between 768px and 1024px) */
+@media (max-width: 1024px) {
+    .search form {
+        width: 300px; /* Adjust width for medium screens */
+    }
+    form.search input[type=text] {
+        padding: 10px;
+        font-size: 17px;
+        border: 1px solid grey;
+        border-radius: 5px;
+        float: left;
+        width: 250px;
+        background: #f1f1f1;
+    }
+
+    /* Style the submit button */
+    form.search button {
+        float: left;
+        width: 50px;
+        padding: 10px;
+        background: #2196F3;
+        color: white;
+        font-size: 17px;
+        border: 1px solid grey;
+        border-radius: 5px;
+        border-left: none; /* Prevent double borders */
+        cursor: pointer;
+        margin-left: -51px;
+    }
+
+}
+
+/* For small screens like mobile devices (below 768px) */
+@media (max-width: 767px) {
+    .search-container {
+        justify-content: center;
+        flex: 1;
+        margin-left: 20px;
+        margin-right: 20px;
+        width:210px;
+    }
+
+    .search form {
+        width: 100%; /* Full width on small screens */
+        max-width: 350px; /* Limit max width */
+    }
+
 }
