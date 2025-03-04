@@ -1,0 +1,9 @@
+﻿/*商城導覽列*/
+/*商城logo靠左 搜尋框置中 選單靠右*/
+@media (max-width: 991px) {
+    .navbar .position-absolute {
+        position: static !important;
+        transform: none !important;
+        margin: 10px auto;
+    }
+}
