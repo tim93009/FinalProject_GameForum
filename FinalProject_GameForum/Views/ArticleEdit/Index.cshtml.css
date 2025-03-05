@@ -2,21 +2,14 @@
     display: none;
 }
 
-.custom-file-upload {
+.imgFile-border {
     border: 1px solid #ccc;
-    display: flex; 
-    align-items: center; /* 垂直置中 */
-    justify-content: center; /* 水平置中 */
-    width: 100px;
-    height: 100px;
-    font-size: 90px;
-    cursor: pointer;
 }
 
-.mycss {
-    background-color: lightblue; /* 背景顏色 */
-    padding: 20px; /* 內距 */
-    border: 2px solid blue; /* 加邊框 */
+.myContainer {
+    background-color: lightblue;
+    padding: 20px;
+    border: 2px solid blue;
 }
 
 .toolbarContainer{
@@ -35,5 +28,9 @@
 }
 
 #hiddenContent{
+    display: none;
+}
+
+#imgFileBlock{
     display: none;
 }
