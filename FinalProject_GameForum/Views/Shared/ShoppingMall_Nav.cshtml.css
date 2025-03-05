@@ -1,9 +1,33 @@
 ﻿/*商城導覽列*/
 /*商城logo靠左 搜尋框置中 選單靠右*/
+
+/*大螢幕*/
+@media (min-width: 992px) {
+    .navbar .container-fluid {
+        justify-content: space-between; /* 確保大螢幕時元素合理分配空間 */
+    }
+
+    .navbar .d-flex.justify-content-center {
+        flex-grow: 1; /* 讓搜尋框區域佔據中間空間 */
+        justify-content: center;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 0.9rem; /* 縮小選單文字大小 */
+        padding: 0.5rem 0.75rem; /* 調整內距 */
+        white-space: nowrap; /* 防止文字換行 */
+    }
+
+    .navbar-nav {
+        display: flex;
+        flex-direction: row; /* 確保水平排列 */
+        gap: 5px; /* 選單項目之間的間距 */
+    }
+}
+
+/*小螢幕*/
 @media (max-width: 991px) {
-    .navbar .position-absolute {
-        position: static !important;
-        transform: none !important;
-        margin: 10px auto;
+    .navbar .d-flex.justify-content-center {
+        justify-content: center; /* 小螢幕時搜尋框置中 */
     }
 }

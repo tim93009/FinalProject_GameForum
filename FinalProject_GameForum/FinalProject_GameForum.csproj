@@ -13,4 +13,8 @@
     <None Remove="wwwroot\content\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\share\" />
+  </ItemGroup>
+
 </Project>
