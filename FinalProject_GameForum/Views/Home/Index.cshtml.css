@@ -1,2 +1,7 @@
-﻿body {
+﻿.list-group{
+    margin-top: 50px;    
+    border-radius: 5px;
+}
+.list-group-item {
+    background-color: bisque;
 }
