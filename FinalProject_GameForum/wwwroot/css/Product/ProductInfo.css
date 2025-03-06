@@ -12,11 +12,11 @@
     overflow: hidden;
 }
 
-.img-container img {
-    width: 100%;
-    height: auto;
-    object-fit: contain; /* 確保圖片完整顯示 */
-}
+    .img-container img {
+        width: 100%;
+        height: auto;
+        object-fit: contain; /* 確保圖片完整顯示 */
+    }
 
 .img-color-ns {
     display: block;
@@ -24,14 +24,13 @@
     margin-top: 5px;
     font-size: 20px;
     background-color: red;
-    padding: 0 10px; /* 上下0px，左右5px，增加一點內距，讓背景更好看 */    
+    padding: 0 10px; /* 上下0px，左右5px，增加一點內距，讓背景更好看 */
     border-radius: 0px; /* 增加圓角，數值可調整 */
     margin-top: 10px; /* 上外距 */
-    margin-bottom: 0px; /* 下外距 */    
+    margin-bottom: 0px; /* 下外距 */
 }
 
 .detail-name-block {
-    
 }
 
 .color-ns {
@@ -47,13 +46,12 @@
 
 .pokemon-font {
     font-size: 15px; /* 設定字體大小，可自行調整 */
-    
 }
 
 .detail-info-block {
-    display: flex; /* 啟用 Flexbox */
-    align-items: center; /* 垂直置中對齊 */
-    gap: 10px; /* 子元素之間的間距，可調整 */
+    display: flex;
+    flex-direction: column;
+    gap: 0px; /* 行間距 */
 }
 
 .products-version {
