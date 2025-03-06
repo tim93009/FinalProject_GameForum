@@ -22,7 +22,7 @@
 				<input type="text" name="title" class="w-100" />
 			</label>
 		</div>
-		<div id="toolbar-container" class="toolbarContainer">
+		<div id="toolbar-container" class="toolbar-container">
 			<span class="ql-formats">
 				<select class="ql-header">
 					<option selected>文字</option>
@@ -31,7 +31,7 @@
 				</select>
 			</span>
 			<span class="ql-formats">
-				<select class="ql-font">
+				<select class="ql-font" id="ql-font">
 					<option selected></option>
 					<option value="Arial">Arial</option>
 					<option value="Helvetica">Helvetica</option>
@@ -70,22 +70,28 @@
 			<span class="ql-formats">
 				<button class="ql-blockquote"></button>
 				<button class="ql-code-block"></button>
+				<button class="ql-hr">
+					<span>
+						<svg width="18" height="18" viewBox="0 0 18 18">
+							<line class="ql-stroke" x1="3" y1="9" x2="15" y2="9" stroke-width="2" stroke-linecap="round"></line>
+						</svg>
+					</span>
+				</button>
 			</span>
 			<span class="ql-formats">
 				<button class="ql-list" value="ordered"></button>
 				<button class="ql-list" value="bullet"></button>
+
 			</span>
 			<span class="ql-formats">
 				<button class="ql-indent" value="-1"></button>
 				<button class="ql-indent" value="+1"></button>
-				<button class="ql-direction" value="rtl"></button>
 				<select class="ql-align"></select>
 			</span>
 			<span class="ql-formats">
 				<button class="ql-link"></button>
 				<button class="ql-image"></button>
 				<button class="ql-video"></button>
-				<button class="ql-formula"></button>
 			</span>
 			<span class="ql-formats">
 				<button class="ql-clean"></button>
@@ -96,7 +102,7 @@
 		<div>
 			<label for="imgFile">
 				<div class="imgFile-border">
-					<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+					<svg width="100" height="100" viewBox="0 0 100 100">
 						<!-- 水平線 -->
 						<line x1="20" y1="50" x2="80" y2="50" stroke="black" stroke-width="5" />
 						<!-- 垂直線 -->
@@ -108,8 +114,8 @@
 			<input type="file" id="imgFile" accept="image/gif, image/jpeg, image/png" />
 		</div>
 		<div class="m-2">
-			<button type="button" class="submit-button" onclick="">儲存草稿</button>
-			<button type="button" class="submit-button" onclick="submitForm()">發表文章</button>
+			<button type="button" class="btn btn-outline-dark" onclick="">儲存草稿</button>
+			<button type="button" class="btn btn-outline-dark" onclick="submitForm()">發表文章</button>
 		</div>
 		<div id="imgFileBlock">
 			<h5>圖片顯示: </h5>
@@ -117,21 +123,24 @@
 		</div>
 	</form>
 </div>
+<div class="container" id="imageModal">
+	<div class="row">
+		<input type="text" id="imageUrl" placeholder="請輸入圖片網址">
+	</div>
+	<div class="row">
+		<button class="btn btn-outline-primary" id="uploadImage">上傳</button>
+		<button class="btn btn-outline-primary" id="closeModal">關閉</button>
+	</div>
+</div>
+
 <!-- Quill JS -->
 <script src="~/lib/quill/quill.js"></script>
 <script>
-	var Font = Quill.import("formats/font");
+	let Font = Quill.import("formats/font");
 	// 定義字體
 	Font.whitelist = ["Arial", "Helvetica", "Verdana", "Times-New-Roman", "Georgia", "Courier-New", "Comic-Sans-MS",
 					"Microsoft-JhengHei", "PingFang-TC", "DFKai-SB", "PMingLiU", "MingLiU"];
 	Quill.register(Font, true);
-
-	var quill = new Quill("#editor", {
-	  theme: "snow",
-	  modules: {
-		toolbar: "#toolbar-container",
-	  },
-	});
 
 
 	// 加入字體
@@ -148,9 +157,57 @@
 	  .ql-font-PingFang-TC { font-family: "PingFang TC"}
 	  .ql-font-DFKai-SB { font-family: "DFKai-SB"}
 	  .ql-font-PMingLiU { font-family: "PMingLiU"}
-	  .ql-font-MingLiU { font-family: "MingLiU"}	  
+	  .ql-font-MingLiU { font-family: "MingLiU"}
 	`;
 	document.head.appendChild(style);
+
+
+	// 加入水平線(開始)
+	let BlockEmbed = Quill.import("blots/block/embed");
+
+	class HrBlot extends BlockEmbed {
+		static create() {
+			let node = document.createElement("hr");
+			// node.setAttribute('style', "height:0px; margin-top:10px; margin-bottom:10px;");
+			return node;
+		}
+	}
+	HrBlot.blotName = "hr";
+	// Hr.className = 'my-hr';
+	HrBlot.tagName = "hr";
+	Quill.register(HrBlot);
+
+	function hrHandler() {
+		let range = this.quill.getSelection();
+		if (range) {
+			this.quill.insertEmbed(range.index, "hr", true);
+			this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+		}
+	}
+	// 加入水平線(結束)
+
+	function imageHandler() {
+		let modal = document.getElementById("imageModal");
+		modal.style.display = "block";
+
+		let input = document.getElementById("imageInput");
+		let uploadButton = document.getElementById("uploadImage");
+		let closeButton = document.getElementById("closeModal");
+
+		uploadButton.onclick = function() {
+			var imageUrl = document.getElementById("imageUrl").value;
+			if (imageUrl) {
+				var range = quill.getSelection();
+				quill.insertEmbed(range.index, "image", imageUrl);
+			}
+			closeModal(); 
+		};
+
+		closeButton.onclick = function closeModal() {
+			modal.style.display = "none";
+			input.value = "";
+		};
+	}
 
 	document.getElementById('imgFile').addEventListener('change', function(event) {
 		const file = event.target.files[0]; // 取得選擇的檔案
@@ -163,6 +220,31 @@
 				};
 				reader.readAsDataURL(file); // 讀取檔案內容並轉為 Base64
 			}
+	});
+
+	let quill = new Quill("#editor", {
+		theme: "snow",
+		modules: {
+			toolbar: {
+				container: "#toolbar-container",
+				handlers: {
+					image: imageHandler,
+					hr: hrHandler,
+					link: function(value) {
+						if (value) {
+						// 使用自訂的提示文字，改成中文例如「請輸入連結網址」
+						var href = prompt("請輸入連結網址", "http://");
+						if (href) {
+							let range = this.quill.getSelection();
+							this.quill.format("link", href);
+						}
+						} else {
+						this.quill.format("link", false);
+						}
+					},
+				}
+			}
+		}
 	});
 
 
