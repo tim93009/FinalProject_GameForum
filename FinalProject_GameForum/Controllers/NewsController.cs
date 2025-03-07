@@ -8,5 +8,9 @@ namespace FinalProject_GameForum.Controllers
         {
             return View();
         }
+        public IActionResult News()
+        {
+            return View();
+        }
     }
 }
