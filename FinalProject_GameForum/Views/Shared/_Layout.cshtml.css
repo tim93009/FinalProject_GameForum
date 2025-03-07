@@ -46,6 +46,15 @@ button.accept-policy {
   line-height: 60px;
 }
 
+.footer {
+    
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    margin-top: 5px; /* 與上方內容的間距 */
+}
+
 /* Style the search field */
     form.search input[type=text] {
         padding: 10px;
