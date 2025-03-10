@@ -1,4 +1,214 @@
-﻿/* 限制側邊欄的行為 */
-.sidebar {
-    
+﻿/* 排行榜整體容器樣式 */
+.rank-list {
+    max-width: 1200px; /* 設置最大寬度為1200px，限制內容寬度 */
+    margin: 0 auto; /* 水平居中顯示 */
+}
+
+/* 排行榜標題區域的文字樣式 */
+.rank-title-area p {
+    font-size: 24px; /* 字體大小設為24px */
+    font-weight: bold; /* 字體加粗 */
+    margin: 0 0 10px; /* 上右下左外距，上0px、下10px，移除預設外距 */
+}
+
+/* 排行榜分類選擇區域樣式 */
+.rank-category-area {
+    margin-bottom: 20px; /* 底部外距20px，與下方內容分隔 */
+}
+
+/* 分類標籤的通用樣式 */
+.rank-category-area span {
+    padding: 10px 20px; /* 上下10px、左右20px的內距 */
+    margin-right: 10px; /* 右側外距10px，分隔各標籤 */
+    cursor: pointer; /* 滑鼠懸停時顯示手型，表示可點擊 */
+    border-radius: 5px; /* 圓角邊框，半徑5px */
+}
+
+/* 當前啟動分類的樣式 */
+.rank-active {
+    background-color: #007bff; /* 背景色為藍色 */
+    color: white; /* 文字顏色設為白色，與背景對比 */
+}
+
+/* 更新日期文字樣式 */
+.rank-date {
+    font-size: 14px; /* 字體大小14px */
+    color: #666; /* 文字顏色為淺灰色 */
+    margin-top: 10px; /* 上方外距10px，與分類標籤分隔 */
+}
+
+/* 排行榜內容區域的佈局 */
+.rank-ranking-list-area {
+    display: flex; /* 使用彈性布局，子元素水平排列 */
+}
+
+/* 前三名商品展示區樣式 */
+.ranking-list-top3-area {
+    flex: 1; /* 平均分配寬度 */
+    display: flex; /* 使用彈性布局 */
+    flex-direction: row; /* 子元素水平排列 */ 
+    font-size: 12px; /* 字體大小16px */
+    margin: 0 0 10px 0px; /* 上下外距5px */
+}
+
+/* 前三名商品卡片樣式 */
+.ranking-list-card {
+    text-decoration: none; /* 移除超連結的下劃線 */
+    color: #333; /* 文字顏色為深灰色 */
+    display: block; /* 塊級顯示，占滿寬度 */
+    border: 1px solid #ddd; /* 邊框為1px實線，淺灰色 */
+    padding: 10px; /* 內距10px */
+    border-radius: 5px; /* 圓角邊框，半徑5px */
+    background: #fff; /* 背景色為白色 */
+    flex: 1;
+    margin: 0 5px;
+    text-align: center;
+}
+
+/* 排名標示區域樣式 */
+.ranking-number {
+    display: flex; /* 使用彈性布局，子元素水平排列 */
+    align-items: center; /* 垂直居中對齊 */
+    gap: 5px; /* 子元素間距5px */
+}
+
+/* 排名圖標（皇冠）樣式 */
+.ranking-number img {
+    width: 30px; /* 圖標寬度30px */
+}
+
+/* 排名文字樣式 */
+.ranking-number p {
+    margin: 0; /* 移除預設外距 */
+    font-weight: bold; /* 字體加粗 */
+}
+
+/* 商品圖片樣式 */
+.pic-ranking-products {
+    width: 100%; /* 寬度占滿容器 */
+    max-width: 100%; /* 最大寬度150px */
+    height: auto; /* 高度自適應，保持比例 */
+    margin: 10px 0; /* 上下外距10px */
+}
+
+/* 商品名稱樣式 */
+.ranking-porducts-name {
+    font-size: 16px; /* 字體大小16px */
+    margin: 5px 0; /* 上下外距5px */
+}
+
+/* 商品資訊區域樣式 */
+.ranking-products-info {
+    display: flex; /* 使用彈性布局，子元素水平排列 */
+    align-items: center; /* 垂直居中對齊 */
+    gap: 5px; /* 子元素間距5px */
+}
+
+/* Nintendo Switch 商品標籤顏色 */
+.rank-NS-color {
+    color: white;
+    background-color: red; /* 紅色，代表PC平台 */
+    padding: 6px 8px; /* 增加內距，垂直8px，水平12px，可自行調整 */
+    border-radius: 8px; /* 圓角半徑，數值越大越圓，可自行調整 */
+}
+
+/* PS5 商品標籤顏色 */
+.rank-PS5-color {
+    color: white;
+    background-color: #003087; /* 深藍色，代表PC平台 */
+    padding: 6px 8px; /* 增加內距，垂直8px，水平12px，可自行調整 */
+    border-radius: 8px; /* 圓角半徑，數值越大越圓，可自行調整 */
+}
+
+/* PC 商品標籤顏色 */
+.rank-PC-color {
+    color: white;
+    background-color: #00aaff; /* 淺藍色，代表PC平台 */
+    padding: 6px 8px; /* 增加內距，垂直8px，水平12px，可自行調整 */
+    border-radius: 8px; /* 圓角半徑，數值越大越圓，可自行調整 */
+}
+
+/* 其他類型商品標籤顏色 */
+.rank-etc-color {    
+    color: white;
+    background-color: #666; /* 淺灰色，代表其他類型 */
+    padding: 6px 8px; /* 增加內距，垂直8px，水平12px，可自行調整 */
+    border-radius: 8px; /* 圓角半徑，數值越大越圓，可自行調整 */
+}
+
+/* 其他特殊類型商品標籤顏色 */
+.rank-other-color {
+    color: #999; /* 中灰色，代表其他特殊類型 */
+}
+
+/* 趨勢圖標（上升、下降、無變化）的樣式 */
+.ranking-product-up, .ranking-product-down, .ranking-product-none {
+    margin-left: auto; /* 推到最右邊 */
+}
+
+/* 第四到第十名商品列表區樣式 */
+.ranking-list-4to10-area {
+    flex: 1; /* 平均分配寬度 */
+    display: flex; /* 使用彈性布局 */
+    flex-direction: column; /* 子元素垂直排列 */
+    gap: 9px; /* 子元素間距10px */
+    font-size: 12px;
+    line-height: 1;    
+}
+
+/* 第四到第十名商品項樣式 */
+.ranking-list-list {
+    display: flex; /* 使用彈性布局，子元素水平排列 */
+    align-items: center; /* 垂直居中對齊 */
+    padding: 5px;
+    border: 1px solid #ddd; /* 邊框為1px實線，淺灰色 */
+    border-radius: 5px; /* 圓角邊框，半徑5px */
+    background: #fff; /* 背景色為白色 */
+    text-decoration: none; /* 移除超連結下劃線 */
+    color: #333; /* 文字顏色為深灰色 */
+    justify-content: flex-start; /* 確保整體靠左對齊 */
+    gap: 0; /* 確保子元素之間無間距 */
+}
+
+/* 修改商品類型標籤的樣式 */
+    .ranking-list-list span {
+        line-height: 1; /* 統一行高，確保與文字一致 */
+        display: flex; /* 可選：確保標籤內部內容垂直置中 */
+        align-items: center; /* 可選：垂直居中 */
+        justify-content: flex-start; /* 確保標籤靠左 */
+        text-align: left; /* 明確文字左對齊 */
+        width: auto; /* 確保寬度由內容決定 */
+        min-width: 0; /* 移除任何潛在的最小寬度限制 */        
+        margin: 0 10px 0 0; /* 只在右邊添加 5px 間距，左邊為 0 */
+    }
+
+/* 新增或修改商品名稱的樣式 */
+.ranking-list-list p {
+    margin: 0; /* 移除預設外距 */
+    line-height: 1; /* 統一行高 */
+    flex-grow: 1; /* 讓商品名稱占據剩餘空間 */
+    display: flex; /* 使用 flex 讓文字內部置中 */
+    align-items: center; /* 垂直居中 */
+    justify-content: flex-start; /* 確保文字靠左 */
+    text-align: left; /* 明確指定文字左對齊 */
+}
+
+/* 第四到第十名排名文字樣式 */
+.ranking-list-rank {
+    font-weight: bold; /* 字體加粗 */
+    margin: 0; /* 移除預設外距 */
+    padding: 0; /* 確保沒有內距 */
+    margin-right: 0px; /* 排名數字與 NS 之間設為 3px */
+}
+
+/* 遮罩區域樣式（可能用於提示或隱藏內容） */
+.ranking-mask {
+    text-align: center; /* 文字居中對齊 */
+    padding: 10px; /* 內距10px */
+}
+
+/* 開啟遮罩的按鈕樣式 */
+.ranking-open-mask-btn {
+    cursor: pointer; /* 滑鼠懸停時顯示手型，表示可點擊 */
+    color: #007bff; /* 文字顏色為藍色 */
 }
