@@ -6,6 +6,9 @@ namespace FinalProject_GameForum.Controllers
     {
         public IActionResult Index()
         {
+            ViewBag.Name = "五冠王";
+            ViewBag.Id = "faker";
+            ViewBag.CreteTime = DateTime.Now.ToString();
             return View();
         }
     }
