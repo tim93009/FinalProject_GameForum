@@ -12,11 +12,11 @@
     overflow: hidden;
 }
 
-    .img-container img {
-        width: 100%;
-        height: auto;
-        object-fit: contain; /* 確保圖片完整顯示 */
-    }
+.img-container img {
+    width: 100%;
+    height: auto;
+    object-fit: contain; /* 確保圖片完整顯示 */
+}
 
 .img-color-ns {
     display: block;
@@ -58,4 +58,64 @@
     display: flex; /* 內層並排 */
     align-items: center; /* 垂直置中對齊 */
     gap: 10px; /* 商品狀態和熱烈預購中之間的間距，可調整 */
+}
+
+/*分隔線*/
+hr {
+    border: 1px solid white;
+    margin: 10px 0;
+}
+
+/*商品價格*/
+.info-main-price{
+    font-size:24px;
+    color:hotpink;
+}
+
+.products-number-choice {
+    display: flex;
+    align-items: center;
+}
+
+/*商品欲購買數量標題*/
+.number-title {
+    margin-right: 10px; /* 可調整標題與按鈕間的間距 */
+}
+
+.btn-reduce-number,
+.btn-add-number {
+    background-color: #e0e0e0;
+    width: 20px; /* 設定固定寬度 */
+    height: 20px; /* 設定固定高度 */
+    display: flex; /* 使用 flex 來置中內容 */
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+    border-radius: 4px; /* 可選：添加圓角 */
+}
+
+.btn-reduce-number p,
+.btn-add-number p {
+    margin: 0; /* 移除 p 標籤的預設邊距 */
+}
+
+/*商品欲購買數量*/
+.show-products-number {
+    margin: 5px;
+    width: 20px;
+    text-align: center;
+}
+
+/*商品描述*/
+.product-description{
+    font-size:12px;
+}
+
+/*加入購物車按鈕*/
+.btn-add-to-cart{
+    width:115px;
+}
+
+/*商品補充圖片*/
+.product-image {
+    width:100px !important;
 }
