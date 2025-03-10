@@ -38,6 +38,28 @@ button.accept-policy {
   line-height: inherit;
 }
 
+.goTop {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    transform: translateX(0);
+    transition: transform 0.2s;
+}
+
+    .goTop.hide {
+        transform: translateX(120%);
+    }
+
+    .goTop .goTopBtn {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+    .goTop .goTopBtn .fa-arrow-alt-circle-up {
+        color: #3d82ad;
+    }
+
 
 .footer { 
     bottom: 0;

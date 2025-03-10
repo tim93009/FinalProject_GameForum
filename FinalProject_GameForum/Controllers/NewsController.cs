@@ -13,4 +13,5 @@ namespace FinalProject_GameForum.Controllers
             return View();
         }
     }
+
 }
