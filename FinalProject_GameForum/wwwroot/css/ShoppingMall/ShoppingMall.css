@@ -143,7 +143,7 @@
 
 /* 趨勢圖標（上升、下降、無變化）的樣式 */
 .ranking-product-up, .ranking-product-down, .ranking-product-none {
-    width: 10px; /* 圖標寬度20px */
+    margin-left: auto; /* 推到最右邊 */
 }
 
 /* 第四到第十名商品列表區樣式 */
