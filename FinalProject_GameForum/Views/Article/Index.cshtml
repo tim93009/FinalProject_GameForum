@@ -1,6 +1,48 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<h1>文章編輯頁面</h1>
+﻿<h1>文章編輯頁面</h1>
+<div class="container mt-4">
+	<nav aria-label="Page navigation">
+		<ul class="pagination justify-content-center">
+			<li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+			<li class="page-item"><a class="page-link" href="#">1</a></li>
+			<li class="page-item"><a class="page-link" href="#">2</a></li>
+			<li class="page-item"><a class="page-link" href="#">3</a></li>
+			<li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+		</ul>
+	</nav>
+
+	<h2>[攻略] 123</h2>
+	@for (int i = 0; i < 20; i++)
+	{
+		<div class="article-content">
+			<div class="row align-items-center mb-3">
+				<div class="col-3"><img src="~/tempcontent/faker.jpg" alt="faker" class="img-fluid" style="max-width: 150px; max-height: 150px; object-fit: cover;"></div>
+				<div class="col-1 bg-dark bg-gradient text-white">
+					@if (i == 0)
+					{
+						<text>
+							樓主
+						</text>
+					}
+					else
+					{
+						<text>
+							第@(i+1)樓
+						</text>
+					}
+				</div>
+				<div class="col-2">@ViewBag.Name</div>
+				<div class="col-2">@ViewBag.Id</div>
+				<div class="col-4 text-end">@ViewBag.CreteTime</div>
+			</div>
+			<p class="text-break">《魔物獵人》：捕獵傳說的冒險之旅《魔物獵人》系列，是由日本遊戲開發公司卡普空（Capcom）製作的一款動作角色扮演遊戲系列。自2004年首度問世以來，《魔物獵人》便憑藉其獨特的遊戲機制、豐富的內容及深厚的玩家社群，在全球掀起了一股狩獵熱潮。</p>
+		</div>
+		<div class="comment-section">
+			<h3>留言</h3>
+			<div class="mb-3">
+				<textarea class="form-control" rows="3" placeholder="輸入您的留言..."></textarea>
+			</div>
+			<button type="button" class="btn btn-primary">送出留言</button>
+		</div>
+	}
+</div>
+
