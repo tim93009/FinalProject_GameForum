@@ -1,39 +1,100 @@
-﻿@{
+﻿<link rel="stylesheet" href="~/css/Home/Index.css" asp-append-version="true" />
+
+@{
     ViewBag.Title = "Home Page";
 }
 
     <!--側邊選單-->
 <div class="home-container">
-    <div class="list-group " style="width:120px;" >
-        <a href="/News/Index" class="list-group-item list-group-item-action">新聞區</a>
-        <a href="#" class="list-group-item list-group-item-action">討論區</a>
-        <a href="/ShoppingMall/Index" class="list-group-item list-group-item-action">商城</a>
-        <a href="#" class="list-group-item list-group-item-action">客服中心</a>
-        <a href="#" class="list-group-item list-group-item-action">設置</a>
+    <div class="side-menu">
+        <div class="list-group " style="width:120px;" >
+            <a href="/News/Index" class="list-group-item list-group-item-action">新聞區</a>
+            <a href="#" class="list-group-item list-group-item-action">討論區</a>
+            <a href="/ShoppingMall/Index" class="list-group-item list-group-item-action">商城</a>
+            <a href="/CustomerServiceIssues/Index" class="list-group-item list-group-item-action">客服中心</a>
+            <a href="/Setting/Setting" class="list-group-item list-group-item-action">設置</a>
+        </div>
     </div>
     @* 熱門新聞 *@
     <div class="news-container">
-        熱門新聞
-    </div>
+        <h3>最新消息</h3>
 
-    @* 廣告 *@
-    <div class="ad">
-        廣告
+        <div class="newsList">
+            <div class="News">
+                <a href="/News/News"><img src="~/img/News/MLB.png" alt="MHN Image" style="width:220px;height:220px" /></a>
+                <h6><a href="/News/News">《鬼滅之刃》與美國職棒大聯盟展開合作企劃 大谷使出「打擊之呼吸」猛力一擊</a></h6>
+            </div>
+
+            <div class="News">
+                <a href="#"><img src="~/img/News/Zero.jpg" alt="MHN Image" style="width:220px;height:220px" /></a>
+                <h6><a href="#">《絕區零》釋出「薇薇安」代理人檔案</a></h6>
+            </div>
+
+            <div class="News">
+                <a href="#"><img src="~/img/News/MHN.jpg" alt="MHN Image" style="width:220px;height:220px" /></a>
+                <h6><a href="#">《Monster Hunter Now》SEASON 5「劃破春日的劍尾」正式登場 追加斬龍與青熊獸</a></h6>
+            </div>
+            <div class="News">
+                <a href="#"><img src="~/img/News/MLB.png" alt="MHN Image" style="width:220px;height:220px" /></a>
+                <h6><a href="#">《鬼滅之刃》與美國職棒大聯盟展開合作企劃 大谷使出「打擊之呼吸」猛力一擊</a></h6>
+            </div>
+
+            <div class="News">
+                <a href="#"><img src="~/img/News/Zero.jpg" alt="MHN Image" style="width:220px;height:220px" /></a>
+                <h6><a href="#">《絕區零》釋出「薇薇安」代理人檔案</a></h6>
+            </div>
+
+            <div class="News">
+                <a href="#"><img src="~/img/News/MHN.jpg" alt="MHN Image" style="width:220px;height:220px" /></a>
+                <h6><a href="#">《Monster Hunter Now》SEASON 5「劃破春日的劍尾」正式登場 追加斬龍與青熊獸</a></h6>
+            </div>
+        </div>
     </div>
-    <div class="ad">
-        廣告
+    
+    @* 廣告 *@
+    <div class="ad-container">
+        <div class="ad">
+            廣告
+        </div>
+        <div class="ad">
+            廣告
+        </div>
     </div>
 
     @* 熱門商品 *@
-    <div class="hot-container">
-        熱門商品
+    <div class="product-container">
+        <h3>熱門商品</h3>
+
+        <div class="productList">
+            <div class="product">
+                <a href="#"><img src="~/img/News/MLB.png" alt="MHN Image" style="width:220px;height:220px" /></a>
+                <h6><a href="#">《鬼滅之刃》與美國職棒大聯盟展開合作企劃 大谷使出「打擊之呼吸」猛力一擊</a></h6>
+            </div>
+
+            <div class="product">
+                <a href="#"><img src="~/img/News/Zero.jpg" alt="MHN Image" style="width:220px;height:220px" /></a>
+                <h6><a href="#">《絕區零》釋出「薇薇安」代理人檔案</a></h6>
+            </div>
+
+            <div class="product">
+                <a href="#"><img src="~/img/News/MHN.jpg" alt="MHN Image" style="width:220px;height:220px" /></a>
+                <h6><a href="#">《Monster Hunter Now》SEASON 5「劃破春日的劍尾」正式登場 追加斬龍與青熊獸</a></h6>
+            </div>
+            <div class="product">
+                <a href="#"><img src="~/img/News/MLB.png" alt="MHN Image" style="width:220px;height:220px" /></a>
+                <h6><a href="#">《鬼滅之刃》與美國職棒大聯盟展開合作企劃 大谷使出「打擊之呼吸」猛力一擊</a></h6>
+            </div>
+
+            <div class="product">
+                <a href="#"><img src="~/img/News/Zero.jpg" alt="MHN Image" style="width:220px;height:220px" /></a>
+                <h6><a href="#">《絕區零》釋出「薇薇安」代理人檔案</a></h6>
+            </div>
     </div>
 
     @* 熱門看板 *@
     <div class="hot-container">
         熱門看板
     </div>
-
 </div>
 
 
