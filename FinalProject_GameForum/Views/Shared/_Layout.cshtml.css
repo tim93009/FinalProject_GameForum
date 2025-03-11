@@ -40,26 +40,23 @@ button.accept-policy {
 
 .goTop {
     position: fixed;
-    right: 10px;
-    bottom: 10px;
-    transform: translateX(0);
-    transition: transform 0.2s;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
 }
 
-    .goTop.hide {
-        transform: translateX(120%);
-    }
+.goTopBtn {
+    display: block;
+    width: 50px; /* 調整圖片大小 */
+    height: 50px; /* 調整圖片大小 */
+}
 
-    .goTop .goTopBtn {
-        background-color: transparent;
-        border: none;
-        outline: none;
-        cursor: pointer;
-    }
-    .goTop .goTopBtn .fa-arrow-alt-circle-up {
-        color: #3d82ad;
-    }
-
+.goTopImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 保證圖片顯示效果 */
+    transition: 0.3s ease; /* 平滑過渡效果 */
+}
 
 .footer { 
     bottom: 0;
