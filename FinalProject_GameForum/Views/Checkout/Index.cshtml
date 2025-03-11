@@ -6,15 +6,58 @@
 <div class="row g-0">
     <div class="col-sm-12">
         <!-- 區塊 2 -->
-        <div class="section bg-success">
-            <h2>排行榜</h2>
-            <p>這裡是區塊 B 的內容。可以放置圖片、文字或其他元素。</p>
+        <div class="section bg-success">            
+            <div class="checkout-products-info-area">
+                <h2>訂單明細</h2>
+                <div class="products-detail-main-block order-detail">
+                    <div class="products-info-title">
+                        <div class="checkout-title-name">平台</div>
+                        <div class="checkout-title-game-name">品名</div>
+                        <div class="checkout-title-price">單價</div>
+                        <div class="checkout-title-number">數量</div>
+                        <div class="checkout-title-note">小計</div>
+                        <div class="checkout-title-space"></div>
+                    </div>
+                    <div class="products-info-list-area">
+                        <div id="row38576" data-sn="38576" class="products-info-list">
+                            <div class="list-name">PlayStation5</div>
+                            <div class="list-gamename">
+                                <p>《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）</p>
+                            </div>
+                            <div class="list-price">2550元</div>
+                            <div class="list-number" name="itemList" data-title="《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）" data-platform="PlayStation5" data-shipway="7" data-sn="38576">
+                                <div class="btn-reduce-products-number">
+                                    <p>-</p>
+                                </div>
+                                <p class="product-num" data-limited="1" data-sn="38576" data-price="2550">1</p>
+                                <div class="btn-add-products-number">
+                                    <p>＋</p>
+                                </div>
+                            </div>
+                            <div id="subtotal38576" class="list-note">2550元</div>
+                            <div class="btn-products-delete">刪除</div>
+                        </div>
+                    </div>
+                    <div class="products-info-bonus-area">
+                        <div class="bonus-info-block">
+                            <p id="bonusTotal" data-bonus="0">您有 0 點紅利，本次抵用</p>
+                            <input type="text" name="bonus" id="bonus" placeholder="0" value="0" disabled="">
+                            <p>點</p>
+                        </div>
+                        <div class="total-cost-block">
+                            <p>付款金額</p>
+                            <span id="amountpaid" data-grandtotal="2550">2550</span>
+                            <p>元</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- 區塊 3 -->
         <div class="section bg-danger">
-            <h2>實體商品</h2>
-            <p>這裡是 商品 的內容。可以用來展示更多資訊。</p>
+            <h2>收件人資訊</h2>
+            <p>這裡是 收件人資訊 的內容。可以用來展示更多資訊。</p>
             <a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">商品連結</a>
         </div>
 

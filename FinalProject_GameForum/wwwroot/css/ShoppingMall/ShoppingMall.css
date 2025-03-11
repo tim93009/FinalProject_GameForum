@@ -1,4 +1,23 @@
-﻿/* 排行榜整體容器樣式 */
+﻿.rank-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* 改為 flex-start，讓元素靠左緊貼 */
+}
+
+.rank-tabs {
+    display: flex;
+    gap: 15px;
+}
+
+.rank-date-area .rank-date {
+    display: none;
+}
+
+.rank-date-area .rank-date[style*="display: block"] {
+    display: block;
+}
+
+/* 排行榜整體容器樣式 */
 .rank-list {
     max-width: 1200px; /* 設置最大寬度為1200px，限制內容寬度 */
     margin: 0 auto; /* 水平居中顯示 */
@@ -19,7 +38,7 @@
 /* 分類標籤的通用樣式 */
 .rank-category-area span {
     padding: 10px 20px; /* 上下10px、左右20px的內距 */
-    margin-right: 10px; /* 右側外距10px，分隔各標籤 */
+    margin-right: 0; /* 移除右外距 */
     cursor: pointer; /* 滑鼠懸停時顯示手型，表示可點擊 */
     border-radius: 5px; /* 圓角邊框，半徑5px */
 }
@@ -34,7 +53,8 @@
 .rank-date {
     font-size: 14px; /* 字體大小14px */
     color: #666; /* 文字顏色為淺灰色 */
-    margin-top: 10px; /* 上方外距10px，與分類標籤分隔 */
+    margin-top: 0; /* 移除上方外距，之前是 10px */
+    margin-left: 0; /* 確保左邊無間距 */
 }
 
 /* 排行榜內容區域的佈局 */
@@ -57,24 +77,43 @@
     color: #333; /* 文字顏色為深灰色 */
     display: block; /* 塊級顯示，占滿寬度 */
     border: 1px solid #ddd; /* 邊框為1px實線，淺灰色 */
-    padding: 10px; /* 內距10px */
+    padding: 0px; /* 內距10px */
     border-radius: 5px; /* 圓角邊框，半徑5px */
     background: #fff; /* 背景色為白色 */
     flex: 1;
-    margin: 0 5px;
+    margin: 0 3px;
     text-align: center;
+    position: relative; /* 添加相對定位 */
+    min-height: 320px; /* 可選：確保卡片有足夠高度容納內容 */
 }
 
 /* 排名標示區域樣式 */
 .ranking-number {
     display: flex; /* 使用彈性布局，子元素水平排列 */
     align-items: center; /* 垂直居中對齊 */
+    justify-content: center; /* 水平居中對齊 */
     gap: 5px; /* 子元素間距5px */
+    padding: 5px 10px; /* 內距，讓背景更明顯 */    
+}
+
+/* 第一名：淡黃色漸層 */
+.ranking-list-card:nth-child(1) .ranking-number {
+    background: linear-gradient(135deg, #fffacd 0%, #f0e68c 50%, #fffacd 100%);
+}
+
+/* 第二名：更淺的銀色漸層 */
+.ranking-list-card:nth-child(2) .ranking-number {
+    background: linear-gradient(135deg, #e8ecef 0%, #c0c7cc 50%, #e8ecef 100%);
+}
+
+/* 第三名：更淺的棕色漸層 */
+.ranking-list-card:nth-child(3) .ranking-number {
+    background: linear-gradient(135deg, #faf0e6 0%, #deb887 50%, #faf0e6 100%);
 }
 
 /* 排名圖標（皇冠）樣式 */
 .ranking-number img {
-    width: 30px; /* 圖標寬度30px */
+    width: 15px; /* 圖標寬度30px */    
 }
 
 /* 排名文字樣式 */
@@ -88,12 +127,12 @@
     width: 100%; /* 寬度占滿容器 */
     max-width: 100%; /* 最大寬度150px */
     height: auto; /* 高度自適應，保持比例 */
-    margin: 10px 0; /* 上下外距10px */
+    margin: 0px 0; /* 上下外距10px */
 }
 
 /* 商品名稱樣式 */
 .ranking-porducts-name {
-    font-size: 16px; /* 字體大小16px */
+    font-size: 12px; /* 字體大小16px */
     margin: 5px 0; /* 上下外距5px */
 }
 
@@ -101,44 +140,52 @@
 .ranking-products-info {
     display: flex; /* 使用彈性布局，子元素水平排列 */
     align-items: center; /* 垂直居中對齊 */
+    justify-content: space-between; /* 水平分隔元素，確保左右分佈 */
     gap: 5px; /* 子元素間距5px */
+    position: absolute; /* 絕對定位 */
+    bottom: 10px; /* 距離底部 10px，與 padding 一致 */
+    left: 10px; /* 與左邊 padding 對齊 */
+    right: 10px; /* 與右邊 padding 對齊 */
 }
 
 /* Nintendo Switch 商品標籤顏色 */
 .rank-NS-color {
     color: white;
     background-color: red; /* 紅色，代表PC平台 */
-    padding: 6px 8px; /* 增加內距，垂直8px，水平12px，可自行調整 */
-    border-radius: 8px; /* 圓角半徑，數值越大越圓，可自行調整 */
+    padding: 3px 8px; /* 增加內距，垂直8px，水平12px，可自行調整 */
+    border-radius: 4px; /* 圓角半徑，數值越大越圓，可自行調整 */
 }
 
 /* PS5 商品標籤顏色 */
 .rank-PS5-color {
     color: white;
     background-color: #003087; /* 深藍色，代表PC平台 */
-    padding: 6px 8px; /* 增加內距，垂直8px，水平12px，可自行調整 */
-    border-radius: 8px; /* 圓角半徑，數值越大越圓，可自行調整 */
+    padding: 3px 8px; /* 增加內距，垂直8px，水平12px，可自行調整 */
+    border-radius: 4px; /* 圓角半徑，數值越大越圓，可自行調整 */
 }
 
 /* PC 商品標籤顏色 */
 .rank-PC-color {
     color: white;
     background-color: #00aaff; /* 淺藍色，代表PC平台 */
-    padding: 6px 8px; /* 增加內距，垂直8px，水平12px，可自行調整 */
-    border-radius: 8px; /* 圓角半徑，數值越大越圓，可自行調整 */
+    padding: 3px 8px; /* 增加內距，垂直8px，水平12px，可自行調整 */
+    border-radius: 4px; /* 圓角半徑，數值越大越圓，可自行調整 */
 }
 
 /* 其他類型商品標籤顏色 */
-.rank-etc-color {    
+.rank-etc-color {
     color: white;
     background-color: #666; /* 淺灰色，代表其他類型 */
-    padding: 6px 8px; /* 增加內距，垂直8px，水平12px，可自行調整 */
-    border-radius: 8px; /* 圓角半徑，數值越大越圓，可自行調整 */
+    padding: 3px 8px; /* 增加內距，垂直8px，水平12px，可自行調整 */
+    border-radius: 4px; /* 圓角半徑，數值越大越圓，可自行調整 */            
 }
 
 /* 其他特殊類型商品標籤顏色 */
-.rank-other-color {
-    color: #999; /* 中灰色，代表其他特殊類型 */
+.rank-other-color {    
+    color: white;
+    background-color: #999; /* 淺灰色，代表其他類型 */
+    padding: 3px 8px; /* 增加內距，垂直8px，水平12px，可自行調整 */
+    border-radius: 4px; /* 圓角半徑，數值越大越圓，可自行調整 */
 }
 
 /* 趨勢圖標（上升、下降、無變化）的樣式 */
@@ -151,7 +198,7 @@
     flex: 1; /* 平均分配寬度 */
     display: flex; /* 使用彈性布局 */
     flex-direction: column; /* 子元素垂直排列 */
-    gap: 9px; /* 子元素間距10px */
+    gap: 7px; /* 子元素間距10px */
     font-size: 12px;
     line-height: 1;    
 }
@@ -160,27 +207,27 @@
 .ranking-list-list {
     display: flex; /* 使用彈性布局，子元素水平排列 */
     align-items: center; /* 垂直居中對齊 */
-    padding: 5px;
+    padding: 10px;
     border: 1px solid #ddd; /* 邊框為1px實線，淺灰色 */
     border-radius: 5px; /* 圓角邊框，半徑5px */
     background: #fff; /* 背景色為白色 */
     text-decoration: none; /* 移除超連結下劃線 */
     color: #333; /* 文字顏色為深灰色 */
     justify-content: flex-start; /* 確保整體靠左對齊 */
-    gap: 0; /* 確保子元素之間無間距 */
+    gap: 10px; /* 子元素之間距 */
 }
 
 /* 修改商品類型標籤的樣式 */
-    .ranking-list-list span {
-        line-height: 1; /* 統一行高，確保與文字一致 */
-        display: flex; /* 可選：確保標籤內部內容垂直置中 */
-        align-items: center; /* 可選：垂直居中 */
-        justify-content: flex-start; /* 確保標籤靠左 */
-        text-align: left; /* 明確文字左對齊 */
-        width: auto; /* 確保寬度由內容決定 */
-        min-width: 0; /* 移除任何潛在的最小寬度限制 */        
-        margin: 0 10px 0 0; /* 只在右邊添加 5px 間距，左邊為 0 */
-    }
+.ranking-list-list span {
+    line-height: 1; /* 統一行高，確保與文字一致 */
+    display: flex; /* 可選：確保標籤內部內容垂直置中 */
+    align-items: center; /* 可選：垂直居中 */
+    justify-content: center; /* 確保標籤靠左 */
+    text-align: center; /* 明確文字左對齊 */
+    width: auto; /* 確保寬度由內容決定 */
+    min-width: 0; /* 移除任何潛在的最小寬度限制 */        
+    margin: 0 0px 0 0; /* 只在右邊添加 5px 間距，左邊為 0 */
+}
 
 /* 新增或修改商品名稱的樣式 */
 .ranking-list-list p {
@@ -198,7 +245,7 @@
     font-weight: bold; /* 字體加粗 */
     margin: 0; /* 移除預設外距 */
     padding: 0; /* 確保沒有內距 */
-    margin-right: 0px; /* 排名數字與 NS 之間設為 3px */
+    flex: 0 0 15px; /* 不增長、不收縮、固定寬度 30px */    
 }
 
 /* 遮罩區域樣式（可能用於提示或隱藏內容） */
@@ -212,3 +259,78 @@
     cursor: pointer; /* 滑鼠懸停時顯示手型，表示可點擊 */
     color: #007bff; /* 文字顏色為藍色 */
 }
+
+.products-cards-area {
+    padding-left: 20px; /* 最左邊間距 */
+    padding-right: 20px; /* 最右邊間距 */
+}
+
+.products-card {
+    margin: 0px 0px 20px 0px;
+    background-color: #f5f5f5; /* 淺灰色背景，你可以自行調整顏色 */
+    height: 350px;
+    position: relative; /* 新增：作為按鈕的定位參考 */
+}
+
+.pic-products {
+    width: 100%; /* 圖片寬度占滿容器 */
+    height: auto; /* 高度自適應 */
+    max-width: 100%; /* 確保不超出容器 */
+    object-fit: contain; /* 保持圖片比例，避免變形 */
+}
+
+.color-PS5 {
+    color: white;
+    background-color: #2e52b2; /* 淺灰色，與 rank-other-color 一致 */
+    padding: 3px 8px; /* 內距與 rank-other-color 一致 */
+    border-radius: 4px; /* 圓角與 rank-other-color 一致 */
+    display: inline-block; /* 確保標籤不會過寬 */
+    font-size: 12px;
+    position: absolute; /* 新增：絕對定位 */
+    bottom: 80px; /* 新增：距離底部 10px，與 padding 一致 */
+    left: 5px;
+}
+
+.feedback-point {
+    color: white;
+    background-color: #419f8b; /* 淺灰色，與 rank-other-color 一致 */
+    padding: 3px 8px; /* 內距與 rank-other-color 一致 */
+    border-radius: 4px; /* 圓角與 rank-other-color 一致 */
+    display: inline-block; /* 確保紅利標籤不會過寬 */
+    font-size: 12px;
+    position: absolute; /* 新增：絕對定位 */
+    bottom: 80px; /* 新增：距離底部 10px，與 padding 一致 */
+    left: 50px;
+}
+
+.products-price {
+    color: #0088CC;
+    padding: 3px 0px; /* 內距與 rank-other-color 一致 */
+    border-radius: 4px; /* 圓角與 rank-other-color 一致 */
+    display: inline-block; /* 確保價格標籤不會過寬 */
+    margin: 0; /* 移除多餘外距，保持乾淨 */
+    font-size: 20px;
+    position: absolute; /* 新增：絕對定位 */
+    bottom: 40px; /* 新增：距離底部 10px，與 padding 一致 */
+    left: 5px;
+}
+
+.btn-buy-now {
+    color: white; /* 文字顏色為白色 */
+    background-color: #999; /* 淺灰色背景，與 rank-other-color 一致 */
+    padding: 6px 12px; /* 內距稍微加大，垂直6px，水平12px */
+    border-radius: 0px; /* 圓角與 rank-other-color 一致 */
+    text-decoration: none; /* 移除超連結下劃線 */
+    display: inline-block; /* 確保按鈕不會過寬 */
+    text-align: center; /* 文字居中 */
+    width: 100%;
+    position: absolute; /* 新增：絕對定位 */
+    bottom: 0px; /* 新增：距離底部 10px，與 padding 一致 */
+}
+
+.btn-buy-now:hover {
+    background-color: #777; /* 滑鼠懸停時變深一點 */
+    color: white; /* 保持文字白色 */
+    text-decoration: none; /* 確保懸停時無下劃線 */
+}
+
