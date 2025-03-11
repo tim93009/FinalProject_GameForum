@@ -8,5 +8,10 @@ namespace FinalProject_GameForum.Controllers
         {
             return View();
         }
+        public IActionResult Permissions()
+        {
+            return View();
+        }
+        
     }
 }
