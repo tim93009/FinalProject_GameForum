@@ -19,8 +19,8 @@ $(".jq-goTop").click(function (e) {
 const goTopImage = document.getElementById('goTopImage');
 
 // 設置圖片的正常和懸停狀態圖片路徑
-const normalImage = "/Layout/ps_dpad.png"; // 正常狀態圖片路徑
-const hoverImage = "/Layout/ps_dpad_up.png"; // 懸停狀態圖片路徑
+const normalImage = "~/img/Layout/ps_dpad.png"; // 正常狀態圖片路徑
+const hoverImage = "~/img/Layout/ps_dpad_up.png"; // 懸停狀態圖片路徑
 
 // 當鼠標懸停時更換圖片
 goTopImage.addEventListener('mouseenter', function () {
