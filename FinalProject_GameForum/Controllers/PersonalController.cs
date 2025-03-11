@@ -8,5 +8,17 @@ namespace FinalProject_GameForum.Controllers
         {
             return View();
         }
+        public IActionResult Collect()
+        {
+            return View();
+        }
+        public IActionResult Log()
+        {
+            return View();
+        }
+        public IActionResult Friends()
+        {
+            return View();
+        }
     }
 }
