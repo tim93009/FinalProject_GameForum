@@ -1,33 +1,83 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - FinalProject_GameForum</title>
-    <!-- Quill CSS -->
-    <link rel="stylesheet" href="~/lib/quill/quill.snow.css">
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/FinalProject_GameForum.styles.css" asp-append-version="true" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - FinalProject_GameForum</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/FinalProject_GameForum.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    
+	<header>
+		<nav class="navbar" style="padding:0px">
+			<div class="container-fluid" style="display: flex; justify-content: space-between; align-items: center; background-color:black;">
+				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+					<img src="~/img/Layout/gamer.jpg" width="100px" />
+				</a>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+				<!-- 搜索列 -->
+				<div class="search-container" style="flex: 1; display: flex; justify-content: center;">
+					<form class="search" action="action_page.php" style="width:400px;">
+						<input type="text" placeholder="Searching.." name="search">
+						<button type="submit"><i class="fa fa-search"></i></button>
+					</form>
+				</div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - FinalProject_GameForum - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+				<!--個人圖片-->
+				<div>
+					<div style="color:aliceblue">
+						<img src="~/img/Login/btn_base.png"> <!--放個人圖片用 先放line替代-->
+						<!--登入註冊-->
+						<a class="m-3" asp-controller="Login" asp-action="Login">登入</a>
+						<a class="m-3" asp-controller="Login" asp-action="Register">註冊</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<nav class="navbar p-0">
+			<div class="container-fluid article-navbar">
+				<div>
+					<div style="display:inline-block">
+						<a class="m-3" asp-action="Login">版面</a>
+					</div>
+					<div style="display:inline-block">
+						<a class="m-3" asp-action="Register">文章列表</a>
+					</div>
+				</div>
+				<div class="d-flex text-center">
+					<div class="m-2" style="display:inline-block ">
+						<button class="btn btn-outline-info">訂閱</button>
+					</div>
+					<div class="m-2" style="display:inline-block">
+						<button class="btn btn-outline-info">回覆</button>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
+
+	<div class="goTop">
+		<a href="#" class="goTopBtn jq-goTop">
+			<img src="~/img/Layout/ps_dpad.png" alt="Go to top" class="goTopImage" id="goTopImage">
+		</a>
+	</div>
+
+	<footer class="border-top footer text-muted">
+		<div class="container">
+			&copy; 2025 - FinalProject_GameForum - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+		</div>
+	</footer>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,12 +1,52 @@
 ﻿.article-content {
     padding: 20px;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 20px;
+    border-radius: 5px;    
+    background-color: whitesmoke;
+}
+
+.article-block {
+    box-shadow: 0 0 10px 5px;
+    padding: 25px 50px 75px 100px;
+}
+
+.article-border {
+    padding: 15px;
+    background-color: lightgreen;
+    margin-left: 10px;
 }
 
 .comment-section {
     padding: 20px;
     background-color: #f8f9fa;
     border-radius: 5px;
+}
+
+.article-row-1 {
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.article-row-2 {
+    background-color: white;
+    border: 1px solid #ddd;
+    height: 500px;
+}
+
+.member-block {
+    position: sticky;
+    top: 20px;
+    height: fit-content; 
+}
+
+.further-reading-block {   
+    box-shadow: 0 0 10px 5px;
+    padding: 25px 50px 75px 100px;
+}
+
+.further-article-block {
+    border: 1px solid black;
+    background-color: aquamarine;
+    height: 200px;    
 }
