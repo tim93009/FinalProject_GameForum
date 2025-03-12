@@ -114,6 +114,7 @@
 .bonus-info-block {
     display: flex;
     align-items: center;
+    justify-content: flex-end; /* 內容靠右 */
     gap: 10px;
     margin-bottom: 15px;
 }
@@ -143,9 +144,17 @@
     font-weight: bold;
 }
 
+.total-cost-block p {
+    margin: 0; /* 移除可能的預設外邊距 */
+    line-height: 2; /* 統一行高 */
+}
+
 #amountpaid {
     color: #dc3545;
     font-size: 1.3em;
+    line-height: 1; /* 確保行高與文字高度一致 */
+    display: flex; /* 確保內部垂直置中 */
+    align-items: center; /* 內部置中 */
 }
 
 /* 響應式調整 */
