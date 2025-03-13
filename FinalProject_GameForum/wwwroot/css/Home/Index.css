@@ -12,7 +12,9 @@
 }
 .list-group-item {
     background-color: bisque;
+    font-weight:bold;
 }
+
 
 /* 最新消息 */
 .news-container {

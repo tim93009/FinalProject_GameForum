@@ -19,7 +19,7 @@
 
                 <!-- 搜索列 -->
                 <div class="search-container" style="flex: 1; display: flex; justify-content: center;">
-                    <form class="search" action="action_page.php" style="width:400px;">
+                    <form class="search" action="action_page.php" style="width:1%">
                         <input type="text" placeholder="Searching.." name="search">
                         <button type="submit"><i class="fa fa-search"></i></button>
                     </form>
@@ -27,7 +27,7 @@
 
                 <!--個人圖片-->
                 <div>
-                    <div style="color:aliceblue" >
+                    <div style="color:aliceblue; margin-right:50px" >
                         <img src="~/img/Login/btn_base.png"> <!--放個人圖片用 先放line替代-->
                     <!--登入註冊--> 
                         <a class="m-3" asp-controller="Login" asp-action="Login">登入</a>
@@ -35,7 +35,44 @@
                     </div>
                 </div>
             </div>
-           
+
+            <!-- 漢堡選單 -->
+            <div class="hamburger-menu" id="hamburgerMenu">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+
+            <!-- 彈出提示框 -->
+            <div class="popup" id="popup">
+                <div class="popup-content">
+                    <h2>服務選單</h2>
+                    <br>
+                    <!-- 新增5組圖片+文字 -->
+                    <ul class="image-text-list">
+                        <li class="image-text-item">
+                            <img src="~/img/Layout/newspaper.png" alt="圖片1">
+                            <p>新聞區</p>
+                        </li>
+                        <li class="image-text-item">
+                            <img src="~/img/Layout/discussion.png" alt="圖片2">
+                            <p>討論區</p>
+                        </li>
+                        <li class="image-text-item">
+                            <img src="~/img/Layout/shop.png" alt="圖片3">
+                            <p>商城</p>
+                        </li>
+                        <li class="image-text-item">
+                            <img src="~/img/Layout/request.png" alt="圖片4">
+                            <p>客服中心</p>
+                        </li>
+                        <li class="image-text-item">
+                            <img src="~/img/Layout/configuration.png" alt="圖片5">
+                            <p>設置</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </nav>
     </header>
     <div class="container">
@@ -46,7 +83,8 @@
 
     <div class="goTop">
         <a href="#" class="goTopBtn jq-goTop">
-            <img src="~/img/Layout/ps_dpad.png" alt="Go to top" class="goTopImage" id="goTopImage">
+            <img src="/img/Layout/tile_0272.png" alt="Go to top" class="goTopImage" id="goTopImage">
+            <span class="goTopText">TOP</span>
         </a>
     </div>
 
