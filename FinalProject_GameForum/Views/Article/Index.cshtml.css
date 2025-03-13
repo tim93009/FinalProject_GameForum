@@ -1,7 +1,7 @@
 ﻿.article-content {
     padding: 20px;
     border: 1px solid #ddd;
-    border-radius: 5px;    
+    border-radius: 5px;
     background-color: whitesmoke;
 }
 
@@ -26,21 +26,24 @@
     background-color: white;
     border-radius: 5px;
     border: 1px solid #ddd;
+    height: 50px;
+    padding: 4px;
 }
 
 .article-row-2 {
     background-color: white;
     border: 1px solid #ddd;
     height: 500px;
+    padding: 15px;
 }
 
 .member-block {
     position: sticky;
     top: 20px;
-    height: fit-content; 
+    height: fit-content;
 }
 
-.further-reading-block {   
+.further-reading-block {
     box-shadow: 0 0 10px 5px;
     padding: 25px 50px 75px 100px;
 }
@@ -48,5 +51,5 @@
 .further-article-block {
     border: 1px solid black;
     background-color: aquamarine;
-    height: 200px;    
+    height: 200px;
 }

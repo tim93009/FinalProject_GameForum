@@ -1,0 +1,19 @@
+﻿.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    background-color:green;
+}
+ul {
+    display: flex;
+    padding-left: 2rem;
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    list-style-type: none;
+}
+li{
+    margin-right:20px;
+
+}
+a{
+    color:inherit;
+    text-decoration:none;
+}

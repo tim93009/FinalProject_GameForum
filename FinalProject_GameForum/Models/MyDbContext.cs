@@ -9,6 +9,5 @@ namespace FinalProject_GameForum.Models
         }
 
         public DbSet<CustomerProblem> CustomerProblems { get; set; } 
-        public DbSet<User> User { get; set; }
     }
 }

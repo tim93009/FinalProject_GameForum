@@ -3,6 +3,8 @@
 @{
 
 }
+@await Html.PartialAsync("_LayoutNews")
+
 <div class="myContainer">
 	<div>
 		<h2>
@@ -45,8 +47,7 @@
 <div class="container">
 	<textarea id="text" placeholder="留言..." maxlength="80"></textarea>
 </div>
-<button>送出</button>
-
+<button class="send">送出</button>
 
 <div class="container">
 	<div class="others">

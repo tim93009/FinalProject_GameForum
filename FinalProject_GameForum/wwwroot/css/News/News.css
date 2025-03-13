@@ -25,10 +25,10 @@ h5{
     line-height:2em;
     margin-top:20px;
 }
-.container{
-    display:flex;
-    align-items:center;
-    justify-content:center;
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .comment{
     display:flex;
@@ -51,17 +51,16 @@ h5{
     opacity: 0.5;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
-button{
+.send{
     margin-left:11%;
     margin-top:8px;
     background-color:green;
     color:white;
     border:1px solid black;
     border-radius:5px;
-    border-bottom:solid;
 }
 .others{
-    margin-top:30px;
+    margin-top:50px;
     width:80%;
     height:380px;
     border:1px solid gray;
