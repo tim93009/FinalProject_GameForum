@@ -1,19 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace FinalProject_GameForum.Models
+namespace FinalProject_GameForum.Models;
+
+public partial class CustomerProblem
 {
-    public class CustomerProblem
-    {
-        [Key]
-        public int QuestionId { get; set; }
+    public int QuestionId { get; set; }
 
-        [Required]
-        public int User_id { get; set; } // 使用者ID
+    public string UserId { get; set; } = null!;
 
-        public string? QuestionType { get; set; } // 問題類型
+    public string? QuestionType { get; set; }
 
-        public string? QuestionDescription { get; set; } // 問題描述
+    public string? QuestionDescription { get; set; }
 
-        public byte[]? Image { get; set; } // 圖片 (Binary)
-    }
+    public byte[]? Image { get; set; }
+
+    public virtual User User { get; set; } = null!;
 }

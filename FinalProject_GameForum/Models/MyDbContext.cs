@@ -8,6 +8,6 @@ namespace FinalProject_GameForum.Models
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)        {
         }
 
-        public DbSet<CustomerProblem> CustomerProblems { get; set; } 
+        public DbSet<CustomerProblem2> CustomerProblems { get; set; } 
     }
 }
