@@ -4,7 +4,7 @@ $(document).ready(function () {
     const $jqGoTopButton = $(".jq-goTop");
 
     // 滾動事件處理
-    $(window).on('scroll', _.throttle(function () {
+    $(window).on('scroll', (function () {
         requestAnimationFrame(function () {
             const scrollTop = $(window).scrollTop();
             $goTopButton.toggleClass("hide", scrollTop <= 200);
