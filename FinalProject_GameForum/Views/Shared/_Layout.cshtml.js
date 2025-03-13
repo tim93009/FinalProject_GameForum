@@ -20,20 +20,13 @@ $(document).ready(function () {
 });
 
 /* 漢堡選單 */
-document.addEventListener('DOMContentLoaded', function () { 
+document.addEventListener('DOMContentLoaded', function () {
     const hamburgerMenu = document.getElementById('hamburgerMenu');
     const popup = document.getElementById('popup');
-    const closeBtn = document.getElementById('closeBtn');
 
     // 點擊漢堡選單顯示提示框
     hamburgerMenu.addEventListener('click', function () {
         popup.classList.toggle('active'); // 顯示或隱藏提示框
         hamburgerMenu.classList.toggle('active'); // 漢堡選單切換為"X"
     });
-
-    // 點擊關閉按鈕關閉提示框
-    closeBtn.addEventListener('click', function () {
-        popup.classList.remove('active'); // 隱藏提示框
-        hamburgerMenu.classList.remove('active'); // 恢復漢堡選單為三條線
-    });
-})
+});

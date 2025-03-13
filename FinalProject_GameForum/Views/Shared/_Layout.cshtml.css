@@ -93,23 +93,24 @@ button.accept-policy {
         transition: 0.3s;
     }
 
+
 /* 彈出提示框 */
 .popup {
-    display: none;
+    display:none;
     position: absolute;
-    top: 55px;
-    right: 20px;
+    top: 85px;
+    right: 15px;
     background-color:white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
     border-radius: 10px;
-    z-index: 50;
-    max-width: 400px;
+    z-index: 1001;
+    max-width: 450px;
     width: 100%;
 }
 
     .popup.active {
-        display: block;
+        display: flex;
     }
 
 /* 彈出框內容 */
