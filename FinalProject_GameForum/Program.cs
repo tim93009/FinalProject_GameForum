@@ -15,7 +15,7 @@ builder.Services.AddControllersWithViews();
 //});
 
 // 從 appsettings.json 讀取連線字串並設定 DbContext
-builder.Services.AddDbContext<GameForumContext>(
+builder.Services.AddDbContext<MyDbContext>(
         options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllersWithViews();
 
