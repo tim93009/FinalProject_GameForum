@@ -24,21 +24,21 @@ namespace FinalProject_GameForum.Controllers
 
 
 
-        [HttpPost]
-        public IActionResult Register(User user)
-        {
-            var TrueUser = _context.User.Where(u => u.user_id == user.user_id).Select(u => u.user_id).FirstOrDefault();
-            if (TrueUser != null)
-            {
-                TempData["Error"] = "帳號已經存在，請嘗試使別的帳號!";
-                return RedirectToAction("Register");
-            }
+        //[HttpPost]
+        //public IActionResult Register(User user)
+        //{
+        //    var TrueUser = _context.User.Where(u => u.user_id == user.user_id).Select(u => u.user_id).FirstOrDefault();
+        //    if (TrueUser != null)
+        //    {
+        //        TempData["Error"] = "帳號已經存在，請嘗試使別的帳號!";
+        //        return RedirectToAction("Register");
+        //    }
 
-            return RedirectToAction("Index", "Home");
+        //    return RedirectToAction("Index", "Home");
 
              
 
-        }
+        //}
 
         public IActionResult ForgotPW()
         {
