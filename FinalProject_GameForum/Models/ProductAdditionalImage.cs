@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace FinalProject_GameForum.Models;
+
+public partial class ProductAdditionalImage
+{
+    public int ProductAdditionalImageId { get; set; }
+
+    public int ProductId { get; set; }
+
+    public string AdditionalImageUrl { get; set; } = null!;
+
+    public virtual Product Product { get; set; } = null!;
+}

@@ -1,64 +1,76 @@
 ﻿@{
 	Layout = "_LayoutTes";
+	var x = ViewBag.A1;
 }
-
-@{var x = ViewBag.A1;}
-<h1>[情報] T1勝利感言</h1>
 <div class="container mt-4">
-	<nav aria-label="Page navigation">
-		<ul class="pagination justify-content-center">
-			<li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-			<li class="page-item"><a class="page-link" href="#">1</a></li>
-			<li class="page-item"><a class="page-link" href="#">2</a></li>
-			<li class="page-item"><a class="page-link" href="#">3</a></li>
-			<li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-		</ul>
-	</nav>
 	<div class="container">
-		<div class="article-title">
-			<h2>[情報] T1勝利感言</h2>
-		</div>
-		@for (int i = 0; i < 5; i++)
-		{
-			<div class="d-flex mb-5 article-block">
-				<div class="member-block">
-					<img src="@x[@i].Url" alt="faker" class="img-fluid" style="width: 180px;height: 200px; object-fit: cover;">
-				</div>
-				<div class="article-border flex-grow-1">
-					<div class="article-content">
-						<div class="row align-items-center mb-3 article-row-1">
-							<div class="col-1 bg-dark bg-gradient text-white">
-								@if (i == 0)
-								{
-									<text>
-										樓主
-									</text>
-								}
-								else
-								{
-									<text>
-										第@(i + 1)樓
-									</text>
-								}
-							</div>
-							<div class="col-2">@x[@i].Name</div>
-							<div class="col-2">@x[@i].TempName</div>
-							<div class="col-7 text-end">@ViewBag.CreteTime</div>
-						</div>
-						<div class="article-row-2">
-							<p class="text-break">@Html.Raw(@x[@i].Content)</p>
-						</div>
-					</div>
-					<div class="comment-section">
-						<h3>留言</h3>
-						<div class="mb-3">
-							<textarea class="form-control" rows="3" placeholder="輸入您的留言..."></textarea>
-						</div>
-						<button type="button" class="btn btn-primary">送出留言</button>
-					</div>
-				</div>
+		<div class="d-flex flex-column">
+			<div class="article-title">
+				<h2>[情報] T1勝利感言</h2>
 			</div>
-		}
+			@for (int i = 0; i < 5; i++)
+			{
+				<div class="d-flex mb-5 article-block">
+					<div class="member-block me-lg-3 row-gap-3">
+						<div class="p-2 g-col-6">
+							<img src="@x[@i].Url" alt="faker" class="img-fluid" style="width: 180px;height: 200px; object-fit: cover;">
+						</div>
+						<div class="p-2 g-col">名字: @x[@i].Name</div>
+						<div class="p-2 g-col">暱稱: @x[@i].TempName</div>
+					</div>
+					<div class="article-border flex-grow-1">
+						<div class="article-content">
+							<div class="row align-items-center mb-3 article-row-1">
+								<div class="p-1 col-1">
+									<div class="bg-dark bg-gradient text-white text-center">
+										@if (i == 0)
+										{
+											<text>
+												樓主
+											</text>
+										}
+										else
+										{
+											<text>
+												第@(i + 1)樓
+											</text>
+										}
+									</div>
+								</div>
+								<div class="col-2">@x[@i].Name</div>
+								<div class="col-2">@x[@i].TempName</div>
+								<div class="col-7 text-end">@ViewBag.CreteTime</div>
+							</div>
+							<div class="row article-row-2">
+								<p class="text-break">@Html.Raw(@x[@i].Content)</p>
+							</div>
+						</div>
+						<div class="comment-section">
+							<div class="row p-3">
+								<div class="col-1">
+									<img src="~/tempcontent/Faker.jpg" alt="faker" class="img-fluid" style="width: 50px;height: 50px; object-fit: contain;">
+								</div>
+								<div class="col">
+									<p>「能夠再次奪冠，我感到非常高興。這次勝利對我和隊伍都有著特殊的意義。」「感謝一直以來支持我們的粉絲，這個冠軍屬於你們。」</p>
+								</div>
+							</div>
+							<div class="row p-3">
+								<div class="col-1">
+									<img src="~/tempcontent/Faker.jpg" alt="faker" class="img-fluid" style="width: 50px;height: 50px; object-fit: contain;">
+								</div>
+								<div class="col">
+									<p>「能夠再次奪冠，我感到非常高興。這次勝利對我和隊伍都有著特殊的意義。」「感謝一直以來支持我們的粉絲，這個冠軍屬於你們。」</p>
+								</div>
+							</div>
+							<div class="mb-3">
+								<textarea class="form-control" rows="3" placeholder="輸入您的留言..."></textarea>
+							</div>
+							<button type="button" class="btn btn-primary">送出留言</button>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
 		<div class="further-reading-block mb-5">
 			<h5>延伸閱讀</h5>
 			<div class="row align-items-center mb-3">

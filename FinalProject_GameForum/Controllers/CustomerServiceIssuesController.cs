@@ -32,7 +32,7 @@ namespace FinalProject_GameForum.Controllers
                 }
             }
 
-            var problem = new CustomerProblem
+            var problem = new CustomerProblem2
             {
                 User_id = user_id,
                 QuestionType = questionType,
