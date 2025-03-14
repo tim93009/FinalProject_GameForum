@@ -6,12 +6,12 @@ namespace FinalProject_GameForum.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly MyDbContext _context;
+        //private readonly MyDbContext _context;
 
-        public LoginController(MyDbContext context)
-        {
-            _context = context;
-        }
+        //public LoginController(MyDbContext context)
+        //{
+        //    _context = context;
+        //}
         public IActionResult Login()
         {
             return View();
