@@ -5,9 +5,9 @@ namespace FinalProject_GameForum.Controllers
 {
     public class CustomerServiceIssuesController : Controller
     {
-        private readonly MyDbContext _context;
+        private readonly GameForumContext _context;
 
-        public CustomerServiceIssuesController(MyDbContext context)
+        public CustomerServiceIssuesController(GameForumContext context)
         {
             _context = context;
         }
@@ -18,32 +18,32 @@ namespace FinalProject_GameForum.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Submit(IFormFile? image, int user_id, string questionType, string questionDescription)
-        //{
-        //    byte[]? imageData = null;
+        [HttpPost]
+        public async Task<IActionResult> Submit(IFormFile? image, string userId, string questionType, string questionDescription)
+        {
+            byte[]? imageData = null;
 
-        //    if (image != null && image.Length > 0)
-        //    {
-        //        using (var memoryStream = new MemoryStream())
-        //        {
-        //            await image.CopyToAsync(memoryStream);
-        //            imageData = memoryStream.ToArray();
-        //        }
-        //    }
+            if (image != null && image.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await image.CopyToAsync(memoryStream);
+                    imageData = memoryStream.ToArray();
+                }
+            }
 
-        //    var problem = new CustomerProblem2
-        //    {
-        //        User_id = user_id,
-        //        QuestionType = questionType,
-        //        QuestionDescription = questionDescription,
-        //        Image = imageData
-        //    };
+            var problem = new CustomerProblem
+            {
+                UserId = userId,
+                QuestionType = questionType,
+                QuestionDescription = questionDescription,
+                Image = imageData
+            };
 
-        //    _context.CustomerProblems.Add(problem);
-        //    await _context.SaveChangesAsync();
+            _context.CustomerProblems.Add(problem);
+            await _context.SaveChangesAsync();
 
-        //    return RedirectToAction("Index");
-        //}
+            return RedirectToAction("Index");
+        }
     }
 }
