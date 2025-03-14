@@ -13,19 +13,7 @@ $(document).ready(function () {
 
     // 點擊返回頂部
     $jqGoTopButton.click(function (e) {
-        e.preventDefault();
-
-        const scrollToTop = function () {
-            const currentScroll = window.scrollY;
-            if (currentScroll > 0) {
-                window.scrollTo(0, currentScroll - currentScroll / 8);
-                requestAnimationFrame(scrollToTop);
-            } else {
-                window.scrollTo(0, 0);
-            }
-        };
-
-        requestAnimationFrame(scrollToTop);
+        window.scrollTo(0, 0); // 瞬間到頂
     });
 });
 
