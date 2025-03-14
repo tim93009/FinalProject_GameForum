@@ -4,7 +4,7 @@ $(document).ready(function () {
     const $jqGoTopButton = $(".jq-goTop");
 
     // 滾動事件處理
-    $(window).on('scroll', (function () {
+    $(window).on('scroll', _.throttle(function () {
         requestAnimationFrame(function () {
             const scrollTop = $(window).scrollTop();
             $goTopButton.toggleClass("hide", scrollTop <= 200);
@@ -12,13 +12,13 @@ $(document).ready(function () {
     }, 100));
 
     // 點擊返回頂部
-   $jqGoTopButton.click(function (e) {
+    $jqGoTopButton.click(function (e) {
         e.preventDefault();
-        
+
         const scrollToTop = function () {
             const currentScroll = window.scrollY;
             if (currentScroll > 0) {
-                window.scrollTo(0, currentScroll - currentScroll / 8); 
+                window.scrollTo(0, currentScroll - currentScroll / 8);
                 requestAnimationFrame(scrollToTop);
             } else {
                 window.scrollTo(0, 0);
@@ -26,7 +26,7 @@ $(document).ready(function () {
         };
 
         requestAnimationFrame(scrollToTop);
-    });  
+    });
 });
 
 /* 漢堡選單 */
