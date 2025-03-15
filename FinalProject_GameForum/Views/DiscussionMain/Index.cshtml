@@ -1,0 +1,62 @@
+﻿@* @{ *@
+@*     Layout = ViewData["Layout"] as string ?? "_Layout"; *@
+@* } *@
+
+@model FinalProject_GameForum.Models.ForumViewModel
+
+@{
+    ViewData["Title"] = "新楓之谷 哈啦板";
+}
+
+<div class="forum-banner">
+    @* <img src="@Model.BannerImage" alt="Banner"> *@
+    <img src="https://megapx-assets.dcard.tw/images/51703f75-f51d-4074-acb4-b81cd9641b5b/orig.jpeg" alt="Banner">
+</div>
+
+<div class="container">
+    <div class="featured-posts">
+        <h3>熱門文章</h3>
+        <div class="post-list">
+            @foreach (var post in Model.FeaturedPosts)
+            {
+                    <div class="post-item">
+                        <img src="@post.ImageUrl" alt="文章縮圖">
+                        <div class="post-info">
+                            <h4>@post.Title</h4>
+                            <p>作者: @post.Author | 回應: @post.Comments</p>
+                        </div>
+                    </div>
+            }
+        </div>
+    </div>
+
+    <div class="forum-stats">
+        <h3>板務資訊</h3>
+        <div class="admin-info">
+            <img src="@Model.BoardAdmin.AvatarUrl" alt="板主">
+            <p>板主: @Model.BoardAdmin.Name</p>
+        </div>
+        <p>總文章數: @Model.TotalPosts</p>
+        <p>近一個月新增: @Model.RecentPosts 篇</p>
+    </div>
+</div>
+
+<style>
+    .forum-banner img {
+        width: 100%;
+    }
+    .container { padding: 20px; }
+    .featured-posts { margin-bottom: 20px; }
+    .post-list { display: flex; gap: 15px; }
+    .post-item { border: 1px solid #ccc; padding: 10px; width: 250px; }
+    .post-item img { width: 100%; height: 150px; object-fit: cover; }
+    .admin-info { display: flex; align-items: center; gap: 10px; }
+    .admin-info img { width: 50px; height: 50px; border-radius: 50%; }
+
+    .container {
+        padding: 20px;
+        max-width: 70%; /* 設定最大寬度 */
+        margin: 0 auto; /* 使容器居中顯示 */
+    }
+
+</style>
