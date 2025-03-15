@@ -31,17 +31,9 @@ public partial class User
 
     public virtual ICollection<CustomerProblem> CustomerProblems { get; set; } = new List<CustomerProblem>();
 
-    public virtual ICollection<HistoricalVisitor> HistoricalVisitorOwners { get; set; } = new List<HistoricalVisitor>();
-
-    public virtual ICollection<HistoricalVisitor> HistoricalVisitorVisitors { get; set; } = new List<HistoricalVisitor>();
-
     public virtual ICollection<NewsMessage> NewsMessages { get; set; } = new List<NewsMessage>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-
-    public virtual ICollection<Relationship> RelationshipPersonAs { get; set; } = new List<Relationship>();
-
-    public virtual ICollection<Relationship> RelationshipPersonBs { get; set; } = new List<Relationship>();
 
     public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; } = new List<ShoppingCart>();
 

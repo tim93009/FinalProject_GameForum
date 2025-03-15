@@ -7,11 +7,17 @@ public partial class ArticleGroup
 {
     public int ArticleGroupId { get; set; }
 
+    public int DiscussionId { get; set; }
+
     public string Category { get; set; } = null!;
 
     public int? Views { get; set; }
 
-    public virtual Article ArticleGroupNavigation { get; set; } = null!;
+    public byte[]? CoverImage { get; set; }
 
-    public virtual ICollection<Discussion> Discussions { get; set; } = new List<Discussion>();
+    public string? ArticleTitle { get; set; }
+
+    public virtual ICollection<Article> Articles { get; set; } = new List<Article>();
+
+    public virtual Discussion Discussion { get; set; } = null!;
 }
