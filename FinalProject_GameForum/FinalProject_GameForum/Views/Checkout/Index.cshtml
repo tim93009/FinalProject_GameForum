@@ -1,0 +1,116 @@
+﻿<link rel="stylesheet" href="~/css/Checkout/Checkout.css" asp-append-version="true" />
+
+<!-- 嵌入商城導覽列 -->
+@await Html.PartialAsync("ShoppingMall_Nav")
+
+<p>這裡是結帳頁面</p>
+
+<div class="row g-0">
+	<div class="col-sm-12">
+		<!-- 區塊 2 -->
+		<div class="section bg-success">
+			<div class="checkout-products-info-area">
+				<h2>訂單明細</h2>
+				<div class="products-detail-main-block order-detail">
+					<div class="products-info-title">
+						<div class="row g-0">
+							<div class="col-sm-2">
+								<div class="checkout-title-name">平台</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="checkout-title-game-name">品名</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="checkout-title-price">單價</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="checkout-title-number">數量</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="checkout-title-note">小計</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="checkout-title-space"></div>
+							</div>
+						</div>
+					</div>
+					<div class="products-info-list-area">
+						<div id="row38576" data-sn="38576" class="products-info-list">
+							<div class="row g-0">
+								<div class="col-sm-2">
+									<div class="list-name">PlayStation5</div>
+								</div>
+								<div class="col-sm-2">
+									<div class="list-gamename">
+										<p>《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）</p>
+									</div>
+								</div>
+								<div class="col-sm-2">
+									<div class="list-price">2550元</div>
+								</div>
+								<div class="col-sm-2">
+									<div class="list-number" name="itemList" data-title="《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）" data-platform="PlayStation5" data-shipway="7" data-sn="38576">
+										<div class="btn-reduce-products-number">
+											<p>-</p>
+										</div>
+										<p class="product-num" data-limited="1" data-sn="38576" data-price="2550">1</p>
+										<div class="btn-add-products-number">
+											<p>＋</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-2">
+									<div id="subtotal38576" class="list-note">2550元</div>
+								</div>
+								<div class="col-sm-2">
+									<div class="btn-products-delete">刪除</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="products-info-bonus-area">
+						<div class="row g-0">
+							<div class="col-sm-12">
+								<div class="bonus-info-block">
+									<p id="bonusTotal" data-bonus="100">您有 0 點紅利，本次抵用</p>
+									<input type="number" name="bonus" id="bonus" placeholder="0" value="0" min="0" disabled="">
+									<p>點</p>
+								</div>
+							</div>
+						</div>
+						<div class="row g-0">
+							<div class="col-sm-12">
+								<div class="total-cost-block">
+									<p>付款金額</p>
+									<span id="amountpaid" data-grandtotal="2550">2550</span>
+									<p>元</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<br />
+
+		<!-- 區塊 3 -->
+		<div class="section bg-danger">
+			<h2>收件人資訊</h2>
+			<p>這裡是 收件人資訊 的內容。可以用來展示更多資訊。</p>
+			<a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">商品連結</a>
+		</div>
+
+		<br />
+
+		<!-- 結帳 -->
+		<div class="section bg-info">
+			<h2>結帳</h2>
+			<p>這裡是 結帳區塊 的內容。可以用來展示更多資訊。</p>
+			<a class="nav-link" asp-area="" asp-controller="Checkout" asp-action="Index">結帳連結</a>
+		</div>
+	</div>
+</div>
+
+
+<script src="~/js/checkout/AdjustCheckoutQuantity.js" asp-append-version="true"></script>

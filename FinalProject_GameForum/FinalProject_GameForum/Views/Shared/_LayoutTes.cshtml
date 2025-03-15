@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - FinalProject_GameForum</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/FinalProject_GameForum.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+	<header>
+		<nav class="navbar" style="padding:0px">
+			<div class="container-fluid" style="display: flex; justify-content: space-between; align-items: center; background-color:black;">
+				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+					<img src="~/img/Layout/gamer.jpg" width="100px" />
+				</a>
+
+				<!-- 搜索列 -->
+				<div class="search-container" style="flex: 1; display: flex; justify-content: center;">
+					<form class="search" action="action_page.php" style="width:400px;">
+						<input type="text" placeholder="Searching.." name="search">
+						<button type="submit"><i class="fa fa-search"></i></button>
+					</form>
+				</div>
+
+				<!--個人圖片-->
+				<div>
+					<div style="color:aliceblue">
+						<img src="~/img/Login/btn_base.png"> <!--放個人圖片用 先放line替代-->
+						<!--登入註冊-->
+						<a class="m-3" asp-controller="Login" asp-action="Login">登入</a>
+						<a class="m-3" asp-controller="Login" asp-action="Register">註冊</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<nav class="navbar p-0 article-navbar">
+			<div class="container-fluid">
+				<div class="col-lg-2"></div>
+				<div class="row col-lg-8" id="titleContent1">
+					<div class="col-1">
+						<button id="leftArrow" class="arrow-btn">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+								<path d="M15 5L8 12L15 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+						</button>
+
+					</div>
+					<div class="col-11" style="display:inline-block">
+						<a class="m-3" asp-action="Login">版面</a>
+						<a class="m-3" asp-action="Register">文章列表</a>
+					</div>
+				</div>
+				<div class="row col-lg-2">
+					<div class="col-xxl-4 ">
+					</div>
+					<div class="col-xxl-4 col-lg-6">
+						<button class="btn btn-outline-info">訂閱</button>
+					</div>
+					<div class="col-xxl-4 col-lg-6">
+						<button class="btn btn-outline-info">回覆</button>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
+
+	<div class="selectFloor">
+		<p>前往樓層</p>
+		<input type="text" placeholder="?樓" style="width:50px;"/>
+	</div>
+
+	<div class="goTop">
+		<a href="#" class="goTopBtn jq-goTop">
+			<img src="/img/Layout/tile_0272.png" alt="Go to top" class="goTopImage" id="goTopImage">
+		</a>
+	</div>
+
+	<footer class="border-top footer text-muted">
+		<div class="container">
+			&copy; 2025 - FinalProject_GameForum - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+		</div>
+	</footer>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

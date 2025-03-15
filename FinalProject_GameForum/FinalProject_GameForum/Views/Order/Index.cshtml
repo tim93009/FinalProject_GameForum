@@ -1,0 +1,84 @@
+﻿
+@await Html.PartialAsync("ShoppingMall_Nav")
+
+
+@model OrderView
+
+<div class="container">
+	<h2>我的訂單</h2>
+
+	<div class="order-summary">
+		<div class="order-category">
+			<h3>虛擬商品</h3>
+			<p>登記完成：@Model.VirtualCompleted</p>
+			<p>等待建單：@Model.PendingOrders</p>
+			<p>等待繳款：@Model.PendingPayment</p>
+			<p>交易完成：@Model.TransactionsCompleted</p>
+		</div>
+
+		<div class="order-category">
+			<h3>實體商品</h3>
+			<p>未出貨：@Model.PhysicalPendingShipment</p>
+			<p>出貨中：@Model.PhysicalShipping</p>
+			<p>待取貨：@Model.PhysicalAwaitingPickup</p>
+			<p>交易完成：@Model.PhysicalTransactionsCompleted</p>
+		</div>
+	</div>
+
+	<br />
+	
+	@if (Model.VirtualCompleted == 0 && Model.PhysicalPendingShipment == 0)
+	{
+		<div class="order-category">
+			<div class="no-orders">
+				@* <img src="~/images/no-orders.png" alt="沒有訂單"> *@
+				<img src="https://i2.bahamut.com.tw/newgshop/pic_order_noitems.png" alt="沒有訂單">
+				@* <p>目前沒有需要繳費、出貨、取貨的訂單</p> *@
+			</div>
+		</div>
+	}
+</div>
+
+<style>
+	.container {	
+		max-width: 68%; /* block寬度 */
+		max-height: 100%;
+		margin: 50px auto; /* 整個區塊水平置中 */
+		background: #f8f8f8;
+		padding: 20px;
+		border-radius: 10px;
+	}
+
+	h2 {
+		text-align: center;
+	}
+
+	.order-summary {
+		display: flex;
+		justify-content: center; /* 讓訂單資訊置中 */
+		gap: 20px;
+		flex-wrap: wrap; /* 防止太窄時換行 */
+	}
+
+	.order-category {
+		background: white;
+		padding: 20px;
+		border-radius: 10px;
+		box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+		text-align: center;
+		min-width: 300px;
+
+	}
+
+	.no-orders {
+		text-align: center;
+		margin-top: 20px;
+	}
+
+		.no-orders img {
+			display: block;
+			margin: 0 auto; /* 圖片置中 */
+			max-width: 100%; /* 限制圖片寬度 */
+		}
+
+</style>

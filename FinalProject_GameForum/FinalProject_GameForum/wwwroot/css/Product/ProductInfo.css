@@ -1,0 +1,178 @@
+﻿.section {
+    padding: 15px;
+}
+
+.detail-img-block {
+    text-decoration: none;
+    color: inherit;
+}
+
+.img-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.img-container img {
+    width: 100%;
+    height: auto;
+    object-fit: contain; /* 確保圖片完整顯示 */
+}
+
+.img-color-ns {
+    display: block;
+    text-align: center;
+    margin-top: 5px;
+    font-size: 20px;
+    background-color: red;
+    padding: 0 10px; /* 上下0px，左右5px，增加一點內距，讓背景更好看 */
+    border-radius: 0px; /* 增加圓角，數值可調整 */
+    margin-top: 10px; /* 上外距 */
+    margin-bottom: 0px; /* 下外距 */
+}
+
+.detail-name-block {
+}
+
+.color-ns {
+    font-size: 10px;
+    background-color: red;
+    padding: 0 10px; /* 上下0px，左右5px，增加一點內距，讓背景更好看 */
+    display: inline-block; /* 讓背景只包裹文字 */
+    border-radius: 5px; /* 增加圓角，數值可調整 */
+    margin-top: 10px; /* 上外距 */
+    margin-bottom: 5px; /* 下外距 */
+    margin-right: 5px; /* 右外距 */
+}
+
+.pokemon-font {
+    font-size: 15px; /* 設定字體大小，可自行調整 */
+}
+
+.detail-info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0px; /* 行間距 */
+}
+
+.products-version {
+    display: flex; /* 內層並排 */
+    align-items: center; /* 垂直置中對齊 */
+    gap: 10px; /* 商品狀態和熱烈預購中之間的間距，可調整 */
+}
+
+/*分隔線*/
+hr {
+    border: 1px solid white;
+    margin: 10px 0;
+}
+
+/*商品價格*/
+.info-main-price{
+    font-size:24px;
+    color:hotpink;
+}
+
+.products-number-choice {
+    display: flex;
+    align-items: center;
+}
+
+/*商品欲購買數量標題*/
+.number-title {
+    margin-right: 10px; /* 可調整標題與按鈕間的間距 */
+}
+
+.btn-reduce-number,
+.btn-add-number {
+    background-color: #e0e0e0;
+    width: 20px; /* 設定固定寬度 */
+    height: 20px; /* 設定固定高度 */
+    display: flex; /* 使用 flex 來置中內容 */
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+    border-radius: 4px; /* 可選：添加圓角 */
+}
+
+.btn-reduce-number p,
+.btn-add-number p {
+    margin: 0; /* 移除 p 標籤的預設邊距 */
+}
+
+/*商品欲購買數量*/
+.show-products-number {
+    margin: 5px;
+    width: 20px;
+    text-align: center;
+}
+
+/*商品描述*/
+.product-description{
+    font-size:12px;
+}
+
+/*加入購物車按鈕*/
+.btn-add-to-cart{
+    width:115px;
+}
+
+.scroll-container {
+    overflow-x: auto;           /* 啟用水平卷軸 */
+    white-space: nowrap;        /* 防止內容換行 */
+    width: 100%;               /* 可根據需要調整寬度 */
+    padding-bottom: 15px;      /* 可選：增加底部空間以避免卷軸遮蓋內容 */
+}
+
+.products-wrapper {
+    display: inline-flex;
+    gap: 20px;
+    padding: 10px;
+}
+
+.share-products-card {
+    text-decoration: none;
+    color: inherit;
+    width: 200px; /* 固定卡片寬度，圖片和標籤將適應此寬度 */
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.products-card-block {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* 確保子元素拉伸填滿寬度 */
+}
+
+.share-products-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.img-color-NS {
+    background: #e60012; /* NS 主色 */
+    color: white;
+    padding: 2px 5px;
+    font-size: 12px;
+    margin-bottom: 0px; /* 標籤和圖片之間的間距 */
+    width: 100%; /* 寬度與圖片一致 */
+    box-sizing: border-box; /* 確保內邊距不影響寬度計算 */
+    text-align: center; /* 文字居中 */
+}
+
+.img-color-PS5 {
+    background: #003087; /* PS5 主色 */
+    color: white;
+    padding: 2px 5px;
+    font-size: 12px;
+    margin-bottom: 0px; /* 標籤和圖片之間的間距 */
+    width: 100%; /* 寬度與圖片一致 */
+    box-sizing: border-box; /* 確保內邊距不影響寬度計算 */
+    text-align: center; /* 文字居中 */
+}
+
+.products-name-content {
+    font-size: 14px;
+    margin: 0;
+    white-space: normal;
+}

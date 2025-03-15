@@ -1,0 +1,387 @@
+﻿<link rel="stylesheet" href="~/lib/quill/quill.snow.css">
+
+<h1>文章編輯</h1>
+<div class="container myContainer">
+	<form id="editorForm" method="post" action="/ArticleEdit/SaveContent">
+		<div class="row p-1">
+			<label for="type">
+				<h5>文章分類: </h5>
+				<select name="type">
+					<option>AA</option>
+					<option>AA</option>
+					<option>AA</option>
+					<option>AA</option>
+				</select>
+			</label>
+		</div>
+		<div class="row p-1">
+			<label for="title">
+				<h5>文章標題: </h5>
+				<input type="text" name="title" class="w-100" />
+			</label>
+		</div>
+		<div id="toolbar-container" class="toolbar-container">
+			<span class="ql-formats">
+				<select class="ql-header">
+					<option selected>文字</option>
+					<option value="2">小標題</option>
+					<option value="1">大標題</option>
+				</select>
+			</span>
+			<span class="ql-formats">
+				<select class="ql-font" id="ql-font">
+					<option selected></option>
+					<option value="Arial">Arial</option>
+					<option value="Helvetica">Helvetica</option>
+					<option value="Verdana">Verdana</option>
+					<option value="Times-New-Roman">Times New Roman</option>
+					<option value="Georgia">Georgia</option>
+					<option value="Courier-New">Courier New</option>
+					<option value="Comic-Sans-MS">Comic Sans MS</option>
+					<option value="Microsoft-JhengHei">微軟正黑體</option>
+					<option value="PingFang-TC">蘋方體</option>
+					<option value="DFKai-SB">標楷體</option>
+					<option value="PMingLiU">新細明體</option>
+					<option value="MingLiU">細明體</option>
+				</select>
+			</span>
+			<span class="ql-formats">
+				<select class="ql-size">
+					<option value="small">小</option>
+					<option selected>一般</option>
+					<option value="large">大</option>
+					<option value="huge">更大</option>
+				</select>
+			</span>
+			<span class="ql-formats">
+				<button class="ql-bold"></button>
+				<button class="ql-italic"></button>
+				<button class="ql-underline"></button>
+				<button class="ql-strike"></button>
+				<button class="ql-script" value="sub"></button>
+				<button class="ql-script" value="super"></button>
+			</span>
+			<span class="ql-formats">
+				<select class="ql-color"></select>
+				<select class="ql-background"></select>
+			</span>
+			<span class="ql-formats">
+				<button class="ql-blockquote"></button>
+				<button class="ql-code-block"></button>
+				<button class="ql-hr">
+					<span>
+						<svg width="18" height="18" viewBox="0 0 18 18">
+							<line class="ql-stroke" x1="3" y1="9" x2="15" y2="9" stroke-width="2" stroke-linecap="round"></line>
+						</svg>
+					</span>
+				</button>
+			</span>
+			<span class="ql-formats">
+				<button class="ql-list" value="ordered"></button>
+				<button class="ql-list" value="bullet"></button>
+
+			</span>
+			<span class="ql-formats">
+				<button class="ql-indent" value="-1"></button>
+				<button class="ql-indent" value="+1"></button>
+				<select class="ql-align"></select>
+			</span>
+			<span class="ql-formats">
+				<button class="ql-link"></button>
+				<button class="ql-image"></button>
+				<button class="ql-video"></button>
+			</span>
+			<span class="ql-formats">
+				<button id="undo-button" type="button">
+					<svg width="18" height="18" fill="currentColor" class="bi bi-reply-fill" viewBox="0 0 18 18">
+						<path d="M5.921 11.9 1.353 8.62a.72.72 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z" />
+					</svg>
+				</button>
+				<button id="redo-button" type="button">
+					<svg width="18" height="18" fill="currentColor" class="bi bi-reply-fill" viewBox="0 0 18 18">
+						<g transform="scale(-1,1) translate(-18,0)">
+							<path d="M5.921 11.9 1.353 8.62a.72.72 0 0 1 0-1.238L5.921 4.1A.716.716 0 0 1 7 4.719V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z" />
+						</g>
+					</svg>
+				</button>
+			</span>
+			<span class="ql-formats">
+				<button class="ql-clean"></button>
+			</span>
+		</div>
+		<div id="editor" class="editorBlock"></div>
+		<textarea id="hiddenContent" name="content"></textarea>
+		<div class="row d-flex align-items-center">
+			<div class="col-8 d-flex align-items-center" id="imgFileBlock">
+				<h5 class="me-3">圖片顯示: </h5>
+				<img id="previewImg" class="ms-auto me-auto" />
+			</div>
+			<div class="col-1">
+				<label for="imgFile">
+					<div class="imgFile-border d-flex justify-content-center align-items-center">
+						<svg width="100" height="100" viewBox="0 0 100 100">
+							<!-- 水平線 -->
+							<line x1="20" y1="50" x2="80" y2="50" stroke="black" stroke-width="5" />
+							<!-- 垂直線 -->
+							<line x1="50" y1="20" x2="50" y2="80" stroke="black" stroke-width="5" />
+						</svg>
+					</div>
+					<h5 class="m-1 text-center">上傳封面</h5>
+				</label>
+				<input type="file" id="imgFile" class="form-control mt-2" accept="image/gif, image/jpeg, image/png" />
+			</div>
+			<div class="col-3 text-end">
+				<button type="button" class="btn btn-outline-success w-100 mb-2">儲存草稿</button>
+				<button type="button" class="btn btn-outline-primary w-100" onclick="submitForm()">發表文章</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="container p-4 shadow-lg rounded-3 bg-white" id="LinkModal">
+	<h4 class="text-center mb-3">插入連結</h4>
+	<div class="row mb-3">
+		<div class="col-12">
+			<label class="mb-1">顯示文字：</label>
+			<input type="text" id="linkText" class="form-control" placeholder="請輸入顯示文字">
+		</div>
+	</div>
+	<div class="row mb-3">
+		<div class="col-12">
+			<label class="mb-1">連結網址：</label>
+			<input type="text" id="linkUrl" class="form-control" placeholder="請輸入連結網址">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6">
+			<button class="btn btn-outline-primary w-100" id="insertLink">確定</button>
+		</div>
+		<div class="col-6">
+			<button class="btn btn-outline-secondary w-100" id="cancelLink">取消</button>
+		</div>
+	</div>
+</div>
+
+<div class="container p-4 shadow-lg rounded-3 bg-white" id="imageModal">
+	<h4 class="text-center mb-3">圖片連結</h4>
+	<div class="row mb-3">
+		<div class="col-12">
+			<input type="text" id="imageUrl" class="form-control" placeholder="請輸入圖片網址">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6">
+			<button class="btn btn-outline-primary w-100" id="uploadImage">確定</button>
+		</div>
+		<div class="col-6">
+			<button class="btn btn-outline-secondary w-100" id="closeModal">關閉</button>
+		</div>
+	</div>
+</div>
+
+<div class="container p-4 shadow-lg rounded-3 bg-white" id="videoModal">
+	<h4 class="text-center mb-3">插入 YouTube 影片</h4>
+	<div class="row mb-3">
+		<div class="col-12">
+			<input type="text" id="videoUrl" class="form-control" placeholder="請輸入 YouTube 網址">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6">
+			<button class="btn btn-outline-primary w-100" id="confirmVideo">確定</button>
+		</div>
+		<div class="col-6">
+			<button class="btn btn-outline-secondary w-100" id="cancelVideo">取消</button>
+		</div>
+	</div>
+</div>
+
+
+<!-- Quill JS -->
+<script src="~/lib/quill/quill.js"></script>
+<script>
+	var Font = Quill.import("formats/font");
+	// 定義字體
+	Font.whitelist = ["Arial", "Helvetica", "Verdana", "Times-New-Roman", "Georgia", "Courier-New", "Comic-Sans-MS",
+					"Microsoft-JhengHei", "PingFang-TC", "DFKai-SB", "PMingLiU", "MingLiU"];
+	Quill.register(Font, true);
+
+
+	// 加入字體
+	const style = document.createElement("style");
+	style.innerHTML = `
+	  .ql-font-Arial { font-family: "Arial"}
+	  .ql-font-Helvetica { font-family: "Helvetica"}
+	  .ql-font-Verdana { font-family: "Verdana"}
+	  .ql-font-Times-New-Roman { font-family: "Times New Roman"}
+	  .ql-font-Georgia { font-family: "Georgia"}
+	  .ql-font-Courier-New { font-family: "Courier New"}
+	  .ql-font-Comic-Sans-MS { font-family: "Comic Sans MS"}
+	  .ql-font-Microsoft-JhengHei { font-family: "Microsoft JhengHei"}
+	  .ql-font-PingFang-TC { font-family: "PingFang TC"}
+	  .ql-font-DFKai-SB { font-family: "DFKai-SB"}
+	  .ql-font-PMingLiU { font-family: "PMingLiU"}
+	  .ql-font-MingLiU { font-family: "MingLiU"}
+	`;
+	document.head.appendChild(style);
+
+
+	// 加入水平線(開始)
+	var BlockEmbed = Quill.import("blots/block/embed");
+
+	class HrBlot extends BlockEmbed {
+		static create() {
+			let node = document.createElement("hr");
+			// node.setAttribute("style", "height:0px; margin-top:10px; margin-bottom:10px;");
+			return node;
+		}
+	}
+	HrBlot.blotName = "hr";
+	// Hr.className = "my-hr";
+	HrBlot.tagName = "hr";
+	Quill.register(HrBlot);
+
+	function hrHandler() {
+		let range = this.quill.getSelection();
+		if (range) {
+			this.quill.insertEmbed(range.index, "hr", true);
+			this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
+		}
+	}
+	// 加入水平線(結束)
+	// 超連結(開始)
+	function linkHandler() {
+		let range = quill.getSelection();
+		if (!range) return; // 如果沒有選擇文字，則不執行
+
+		let modal = document.getElementById("LinkModal");
+		let linkText = document.getElementById("linkText");
+		let linkUrl = document.getElementById("linkUrl");
+		let insertBtn = document.getElementById("insertLink");
+		let cancelBtn = document.getElementById("cancelLink");
+
+		modal.style.display = "block";
+		linkText.value = quill.getText(range.index, range.length); // 預填選中的文字
+		linkUrl.value = "";
+
+		insertBtn.onclick = function () {
+			let text = linkText.value.trim();
+			let url = linkUrl.value.trim();
+
+			if (text && url) {
+				quill.deleteText(range.index, range.length);
+				quill.insertText(range.index, text, { link: url });
+			}
+			modal.style.display = "none";
+		};
+
+		cancelBtn.onclick = function () {
+			modal.style.display = "none";
+		};
+	}
+	// 超連結(結束)
+	// 圖片(開始)
+	function imageHandler() {
+		let modal = document.getElementById("imageModal");
+		modal.style.display = "block";
+
+		let input = document.getElementById("imageInput");
+		let uploadButton = document.getElementById("uploadImage");
+		let closeButton = document.getElementById("closeModal");
+
+		uploadButton.onclick = function() {
+			var imageUrl = document.getElementById("imageUrl").value;
+			if (imageUrl) {
+				var range = quill.getSelection();
+				quill.insertEmbed(range.index, "image", imageUrl);
+			}
+			closeModal();
+		};
+
+		closeButton.onclick = function closeModal() {
+			modal.style.display = "none";
+			input.value = "";
+		};
+	}
+	// 圖片(結束)
+	function videoHandler() {
+		document.getElementById("videoModal").style.display = "block";
+		document.getElementById("confirmVideo").onclick = () => {
+			let url = document.getElementById("videoUrl").value;
+				if (url) {
+					const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+					const match = url.match(regExp);
+					if (match && match[2].length === 11) {
+						let videoEmbedUrl = "https://www.youtube.com/embed/" + match[2];
+						let range = quill.getSelection();
+						quill.insertEmbed(range.index, "video", videoEmbedUrl);
+						document.getElementById("videoModal").style.display = "none";
+					} 
+					else {alert("請輸入有效的 YouTube 影片網址。");
+				}
+			}
+		};
+
+		document.getElementById("cancelVideo").onclick = () => {
+			document.getElementById("videoModal").style.display = "none";
+		};
+
+		window.onclick = (event) => {
+			if (event.target === document.getElementById("videoModal")) {
+				document.getElementById("videoModal").style.display = "none";
+			}
+		};
+    }
+	
+
+	// 綁定撤銷（Undo）按鈕
+	document.getElementById("undo-button").addEventListener("click", function () {
+		quill.history.undo();
+	});
+
+	// 綁定重做（Redo）按鈕
+	document.getElementById("redo-button").addEventListener("click", function () {
+		quill.history.redo();
+	});
+
+
+	document.getElementById("imgFile").addEventListener("change", function(event) {
+		const file = event.target.files[0]; // 取得選擇的檔案
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					const previewImg = document.getElementById("previewImg");
+					previewImg.src = e.target.result;
+					imgFileBlock.style.visibility ="visible";
+				};
+				reader.readAsDataURL(file); // 讀取檔案內容並轉為 Base64
+			}
+	});
+
+	var quill = new Quill("#editor", {
+		theme: "snow",
+		modules: {
+			toolbar: {
+				container: "#toolbar-container",
+				handlers: {
+					link: linkHandler,
+					image: imageHandler,
+					hr: hrHandler,
+					video: videoHandler,
+					history: {
+						delay: 1000,
+						maxStack: 50,
+						userOnly: true
+					},
+				}
+			}
+		}
+	});
+
+
+	// 提交表單時，把 Quill 內容轉換成 HTML 放入 textarea
+	function submitForm() {
+		document.getElementById("hiddenContent").value = quill.root.innerHTML;
+		document.forms["editorForm"].submit();
+	}
+</script>
