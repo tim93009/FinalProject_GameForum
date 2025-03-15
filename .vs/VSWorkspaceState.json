@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\FinalProject_GameForum"
+    "\\FinalProject_GameForum",
+    "\\FinalProject_GameForum\\Views",
+    "\\FinalProject_GameForum\\Views\\Order"
   ],
+  "SelectedNode": "\\FinalProject_GameForum\\Views\\Order\\Index.cshtml",
   "PreviewInSolutionExplorer": false
 }
