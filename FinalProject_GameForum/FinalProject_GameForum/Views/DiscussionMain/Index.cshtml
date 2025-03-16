@@ -4,146 +4,160 @@
 @model FinalProject_GameForum.Models.ForumViewModel
 
 @{
-    ViewData["Title"] = "魔物獵人系列 討論板";
+	ViewData["Title"] = "魔物獵人系列 討論板";
 }
 
-<button class="btn btn-primary" style="margin-left: 90px;">發文</button>
+<button class="btn btn-primary" style="margin-left: 150px;">發文</button>
 
 <!-- 切換按鈕 -->
 <div class="text-center mb-3">
-    <button class="btn btn-primary" onclick="showSection('home')">看板首頁</button>
-    <button class="btn btn-primary" onclick="showSection('postList')">文章列表</button>
+	<button class="btn btn-primary" onclick="showSection('home')">看板首頁</button>
+	<button class="btn btn-primary" onclick="showSection('postList')">文章列表</button>
 </div>
 
 <!-- 看板首頁 -->
 <div id="homeSection" class="content-section">
-    <div class="forum-banner">
-        <img src="https://blog.shopping.gamania.com/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F3wl0vtkq%2Fproduction%2F6804a07b994fc13396f49cf02548ea10c25ec3b4-1999x1125.jpg&w=3840&q=75" alt="Banner">
-    </div>
-       
+	<div class="forum-banner">
+		<img src="https://blog.shopping.gamania.com/_next/image?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2F3wl0vtkq%2Fproduction%2F6804a07b994fc13396f49cf02548ea10c25ec3b4-1999x1125.jpg&w=3840&q=75" alt="Banner">
+	</div>
 
-    <div class="container">
-        <div class="featured-posts">
-            <h3>熱門文章</h3>
-            <div class="post-list">
-                @foreach (var post in Model.FeaturedPosts)
-                {
-                    <div class="post-item">
-                        <img src="@post.ImageUrl" alt="文章縮圖">
-                        <div class="post-info">
-                            <h4>@post.Title</h4>
-                            <p>作者: @post.Author | 回應: @post.Comments</p>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
 
-        <div class="forum-stats">
-            <h3>板務資訊</h3>
-            <div class="admin-info">
-                <img src="@Model.BoardAdmin.AvatarUrl" alt="板主">
-                <p>板主: @Model.BoardAdmin.Name</p>
-            </div>
-            <p>總文章數: @Model.TotalPosts</p>
-            <p>近一個月新增: @Model.RecentPosts 篇</p>
-        </div>
-    </div>
+<div class="container">
+	<div class="featured-posts">
+		<h3>熱門文章</h3>
+		<div class="post-list">
+			@foreach (var post in Model.FeaturedPosts)
+			{
+				<div class="post-item">
+					<img src="@post.ImageUrl" alt="文章縮圖">
+					<div class="post-info">
+						<h4>@post.Title</h4>
+						<p>作者: @post.Author | 回應: @post.Comments</p>
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+
+	<div class="forum-stats">
+		<h3>板務資訊</h3>
+		<div class="admin-info">
+			<img src="@Model.BoardAdmin.AvatarUrl" alt="板主">
+			<p>板主: @Model.BoardAdmin.Name</p>
+		</div>
+		<p>總文章數: @Model.TotalPosts</p>
+		<p>近一個月新增: @Model.RecentPosts 篇</p>
+	</div>
+</div>
 </div>
 
 <!-- 文章列表 -->
 <div id="postListSection" class="content-section" style="display: none;">
-    <div class="container">
-        <h3>文章列表</h3>
-        <table class="table table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>分類</th>
-                    <th>標題</th>
-                    <th>作者</th>
-                    <th>回應數</th>
-                    <th>瀏覽數</th>
-                    <th>最新回應</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var post in Model.AllPosts)
-                {
-                    <tr>
-                        <td>@post.Category</td>
-                        <td>
-                            <a href="/Forum/Post/@post.Id" class="text-decoration-none text-primary">
-                                @post.Title
-                            </a>
-                        </td>
-                        <td>@post.Author</td>
-                        <td>@post.Comments</td>
-                        <td>@post.Views</td>
-                        <td>@post.LastReplyTime.ToString("MM-dd HH:mm")</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+	<div class="container">
+		<h3>文章列表</h3>
+		<div class="table-container">
+			<table class="table table-striped">
+				<thead class="table-dark">
+					<tr>
+						<th>分類</th>
+						<th>標題</th>
+						<th>作者</th>
+						<th>回應數</th>
+						<th>瀏覽數</th>
+						<th>最新回應</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var post in Model.AllPosts)
+					{
+						<tr>
+							<td>@post.Category</td>
+							<td>
+								<a href="/Forum/Post/@post.Id" class="text-decoration-none text-primary">
+									@post.Title
+								</a>
+							</td>
+							<td>@post.Author</td>
+							<td>@post.Comments</td>
+							<td>@post.Views</td>
+							<td>@post.LastReplyTime.ToString("MM-dd HH:mm")</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
 
 <!-- 切換區塊的 JavaScript -->
 <script>
-    function showSection(section) {
-        document.getElementById("homeSection").style.display = (section === 'home') ? "block" : "none";
-        document.getElementById("postListSection").style.display = (section === 'postList') ? "block" : "none";
-    }
+	function showSection(section) {
+		document.getElementById("homeSection").style.display = (section === 'home') ? "block" : "none";
+		document.getElementById("postListSection").style.display = (section === 'postList') ? "block" : "none";
+	}
 </script>
 
 <style>
-    .forum-banner img {
-        width: 88%;
-        margin-left: 77px;
-    }
+	.forum-banner img {
+		width: 88%;
+		margin-left: 70px;
+	}
 
-    .container {
-        padding: 20px;
-        max-width: 80%;
-        margin: 0 auto;
-    }
+	.container {
+		padding: 20px;
+		max-width: 80%;
+		margin: 0 auto;
+		/* display: flex; */
+	}
 
-    .featured-posts {
-        margin-bottom: 20px;
-    }
+	.featured-posts {
+		margin-bottom: 20px;
+		flex: 2;
+	}
 
-    .post-list {
-        display: flex;
-        gap: 15px;
-    }
+	.forum-stats {
+		flex: 1; 
+		max-width: 300px;
+	}
 
-    .post-item {
-        border: 1px solid #ccc;
-        padding: 10px;
-        width: 250px;
-    }
+	.post-list {
+		display: flex;
+		gap: 15px;
+	}
 
-        .post-item img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
+	.post-item {
+		border: 1px solid #ccc;
+		padding: 10px;
+		width: 250px;
+	}
 
-    .admin-info {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+		.post-item img {
+			width: 100%;
+			height: 150px;
+			object-fit: cover;
+		}
 
-        .admin-info img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-        }
+	.admin-info {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
 
-    .content-section {
-        margin-top: 20px;
-    }
-</style>
+		.admin-info img {
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+		}
 
+	.content-section {
+		margin-top: 20px;
+	}
 
+	.table-container{
+		width:100%;
+		max-width: 100%; 
+		overflow-x: auto;
+	}
+
+	
 </style>
