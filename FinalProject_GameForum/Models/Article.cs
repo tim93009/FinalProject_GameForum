@@ -9,7 +9,7 @@ public partial class Article
 
     public string UserId { get; set; } = null!;
 
-    public string ArticleTitle { get; set; } = null!;
+    public int? ArticleGroupId { get; set; }
 
     public string ArticleContent { get; set; } = null!;
 
@@ -18,8 +18,6 @@ public partial class Article
     public DateTime? EditDate { get; set; }
 
     public string Status { get; set; } = null!;
-
-    public byte[]? CoverImage { get; set; }
 
     public virtual ArticleGroup? ArticleGroup { get; set; }
 

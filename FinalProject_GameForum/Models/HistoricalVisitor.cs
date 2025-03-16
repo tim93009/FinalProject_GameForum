@@ -12,8 +12,4 @@ public partial class HistoricalVisitor
     public string? VisitorId { get; set; }
 
     public DateTime? VisitTime { get; set; }
-
-    public virtual User Owner { get; set; } = null!;
-
-    public virtual User? Visitor { get; set; }
 }

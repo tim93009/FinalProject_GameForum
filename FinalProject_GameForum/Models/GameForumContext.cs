@@ -53,53 +53,50 @@ public partial class GameForumContext : DbContext
 
     public virtual DbSet<ViewHistory> ViewHistories { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=GameForum;Integrated Security=True;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Advertisement>(entity =>
         {
-            entity.HasKey(e => e.AdvertisementId).HasName("PK__Advertis__7F50179140B29894");
+            entity.HasKey(e => e.AdvertisementId).HasName("PK__Advertis__C4C7F42D97B64776");
 
             entity.ToTable("Advertisement");
 
-            entity.Property(e => e.AdvertisementId).HasColumnName("advertisement_id");
-            entity.Property(e => e.AdvertisementName)
-                .HasMaxLength(50)
-                .HasColumnName("advertisementName");
-            entity.Property(e => e.Category)
-                .HasMaxLength(24)
-                .HasColumnName("category");
-            entity.Property(e => e.ImageUrl)
-                .HasMaxLength(250)
-                .HasColumnName("imageUrl");
+            entity.Property(e => e.AdvertisementId).HasColumnName("AdvertisementID");
+            entity.Property(e => e.AdvertisementName).HasMaxLength(50);
+            entity.Property(e => e.Category).HasMaxLength(24);
+            entity.Property(e => e.HyperUrl)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.ImageUrl).HasMaxLength(250);
         });
 
         modelBuilder.Entity<Article>(entity =>
         {
-            entity.HasKey(e => e.ArticleId).HasName("PK__Article__CC36F6603193FACC");
+            entity.HasKey(e => e.ArticleId).HasName("PK__Article__CC36F66090AB9C5B");
 
             entity.ToTable("Article");
 
-            entity.Property(e => e.ArticleId).HasColumnName("article_id");
-            entity.Property(e => e.ArticleTitle)
-                .HasMaxLength(50)
-                .HasColumnName("articleTitle");
-            entity.Property(e => e.CoverImage).HasColumnType("image");
+            entity.Property(e => e.ArticleId).HasColumnName("ArticleID");
+            entity.Property(e => e.ArticleGroupId).HasColumnName("ArticleGroupID");
             entity.Property(e => e.EditDate)
                 .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("editDate");
+                .HasColumnType("datetime");
             entity.Property(e => e.PostDate)
                 .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("postDate");
-            entity.Property(e => e.Status)
-                .HasMaxLength(10)
-                .HasColumnName("status");
+                .HasColumnType("datetime");
+            entity.Property(e => e.Status).HasMaxLength(10);
             entity.Property(e => e.UserId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("user_id");
+                .HasColumnName("UserID");
+
+            entity.HasOne(d => d.ArticleGroup).WithMany(p => p.Articles)
+                .HasForeignKey(d => d.ArticleGroupId)
+                .HasConstraintName("FK_Article_ArticleGroup1");
 
             entity.HasOne(d => d.User).WithMany(p => p.Articles)
                 .HasForeignKey(d => d.UserId)
@@ -109,45 +106,39 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<ArticleGroup>(entity =>
         {
-            entity.HasKey(e => e.ArticleGroupId).HasName("PK__ArticleG__9DEC28CAE5E573D3");
+            entity.HasKey(e => e.ArticleGroupId).HasName("PK__ArticleG__9DEC28CAA7277795");
 
             entity.ToTable("ArticleGroup");
 
-            entity.Property(e => e.ArticleGroupId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("articleGroup_id");
-            entity.Property(e => e.Category)
-                .HasMaxLength(24)
-                .HasColumnName("category");
-            entity.Property(e => e.Views)
-                .HasDefaultValue(0)
-                .HasColumnName("views");
+            entity.Property(e => e.ArticleGroupId).HasColumnName("ArticleGroupID");
+            entity.Property(e => e.ArticleTitle).HasMaxLength(100);
+            entity.Property(e => e.Category).HasMaxLength(24);
+            entity.Property(e => e.CoverImage).HasColumnType("image");
+            entity.Property(e => e.DiscussionId).HasColumnName("DiscussionID");
+            entity.Property(e => e.Views).HasDefaultValue(0);
 
-            entity.HasOne(d => d.ArticleGroupNavigation).WithOne(p => p.ArticleGroup)
-                .HasForeignKey<ArticleGroup>(d => d.ArticleGroupId)
+            entity.HasOne(d => d.Discussion).WithMany(p => p.ArticleGroups)
+                .HasForeignKey(d => d.DiscussionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ArticleGroup_Article");
+                .HasConstraintName("FK_ArticleGroup_Discussion");
         });
 
         modelBuilder.Entity<ArticleMessage>(entity =>
         {
-            entity.HasKey(e => e.ArticleMessageId).HasName("PK__ArticleM__693D9D55E646CB09");
+            entity.HasKey(e => e.ArticleMessageId).HasName("PK__ArticleM__1AF9C29803D308A2");
 
             entity.ToTable("ArticleMessage");
 
-            entity.Property(e => e.ArticleMessageId).HasColumnName("articleMessage_id");
-            entity.Property(e => e.ArticleId).HasColumnName("article_id");
+            entity.Property(e => e.ArticleMessageId).HasColumnName("ArticleMessageID");
+            entity.Property(e => e.ArticleId).HasColumnName("ArticleID");
             entity.Property(e => e.EditDate)
                 .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("editDate");
-            entity.Property(e => e.MessageContent)
-                .HasMaxLength(250)
-                .HasColumnName("messageContent");
+                .HasColumnType("datetime");
+            entity.Property(e => e.MessageContent).HasMaxLength(250);
             entity.Property(e => e.UserId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("user_id");
+                .HasColumnName("UserID");
 
             entity.HasOne(d => d.Article).WithMany(p => p.ArticleMessages)
                 .HasForeignKey(d => d.ArticleId)
@@ -164,13 +155,14 @@ public partial class GameForumContext : DbContext
         {
             entity.HasKey(e => e.QuestionId);
 
+            entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
             entity.Property(e => e.Image).HasColumnType("image");
             entity.Property(e => e.QuestionDescription).HasMaxLength(1000);
             entity.Property(e => e.QuestionType).HasMaxLength(50);
             entity.Property(e => e.UserId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("User_id");
+                .HasColumnName("UserID");
 
             entity.HasOne(d => d.User).WithMany(p => p.CustomerProblems)
                 .HasForeignKey(d => d.UserId)
@@ -180,117 +172,80 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<Discussion>(entity =>
         {
-            entity.HasKey(e => e.DiscussionId).HasName("PK__Discussi__2AC5FD65588BFC89");
-
             entity.ToTable("Discussion");
 
-            entity.Property(e => e.DiscussionId).HasColumnName("discussion_id");
-            entity.Property(e => e.ArticleGroupId).HasColumnName("articleGroup_id");
-            entity.Property(e => e.Category)
-                .HasMaxLength(24)
-                .HasColumnName("category");
-            entity.Property(e => e.DiscussionDescription)
-                .HasMaxLength(500)
-                .HasColumnName("discussionDescription");
-            entity.Property(e => e.DiscussionName)
-                .HasMaxLength(50)
-                .HasColumnName("discussionName");
-            entity.Property(e => e.ImageUrl)
-                .HasMaxLength(250)
-                .HasColumnName("imageUrl");
-            entity.Property(e => e.Views)
-                .HasDefaultValue(0)
-                .HasColumnName("views");
-
-            entity.HasOne(d => d.ArticleGroup).WithMany(p => p.Discussions)
-                .HasForeignKey(d => d.ArticleGroupId)
-                .HasConstraintName("FK_Discussion_ArticleGroup");
+            entity.Property(e => e.DiscussionId).HasColumnName("DiscussionID");
+            entity.Property(e => e.Category).HasMaxLength(24);
+            entity.Property(e => e.DiscussionDescription).HasMaxLength(500);
+            entity.Property(e => e.DiscussionName).HasMaxLength(50);
+            entity.Property(e => e.ImageUrl).HasMaxLength(250);
+            entity.Property(e => e.Views).HasDefaultValue(0);
         });
 
         modelBuilder.Entity<HistoricalVisitor>(entity =>
         {
-            entity.Property(e => e.HistoricalVisitorId).ValueGeneratedNever();
+            entity.Property(e => e.HistoricalVisitorId).HasColumnName("HistoricalVisitorID");
             entity.Property(e => e.OwnerId)
                 .HasMaxLength(50)
-                .IsUnicode(false);
+                .IsUnicode(false)
+                .HasColumnName("OwnerID");
             entity.Property(e => e.VisitTime).HasColumnType("datetime");
             entity.Property(e => e.VisitorId)
                 .HasMaxLength(50)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.Owner).WithMany(p => p.HistoricalVisitorOwners)
-                .HasForeignKey(d => d.OwnerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_HistoricalVisitors_User");
-
-            entity.HasOne(d => d.Visitor).WithMany(p => p.HistoricalVisitorVisitors)
-                .HasForeignKey(d => d.VisitorId)
-                .HasConstraintName("FK_HistoricalVisitors_User1");
+                .IsUnicode(false)
+                .HasColumnName("VisitorID");
         });
 
         modelBuilder.Entity<News>(entity =>
         {
-            entity.HasKey(e => e.NewsId).HasName("PK__News__4C27CCD879E9F154");
+            entity.HasKey(e => e.NewsId).HasName("PK__News__954EBDD3F386C5BB");
 
-            entity.Property(e => e.NewsId).HasColumnName("news_id");
-            entity.Property(e => e.Category)
-                .HasMaxLength(24)
-                .HasColumnName("category");
+            entity.Property(e => e.NewsId).HasColumnName("NewsID");
+            entity.Property(e => e.Category).HasMaxLength(24);
             entity.Property(e => e.EditDate)
                 .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("editDate");
-            entity.Property(e => e.ImageUrl)
-                .HasMaxLength(250)
-                .HasColumnName("imageUrl");
-            entity.Property(e => e.NewsContent).HasColumnName("newsContent");
-            entity.Property(e => e.NewsTitle)
-                .HasMaxLength(50)
-                .HasColumnName("newsTitle");
+                .HasColumnType("datetime");
+            entity.Property(e => e.ImageUrl).HasMaxLength(250);
+            entity.Property(e => e.NewsTitle).HasMaxLength(50);
         });
 
         modelBuilder.Entity<NewsImage>(entity =>
         {
-            entity.HasKey(e => e.NewsImageId).HasName("PK__NewsImag__55468B3F7623409E");
+            entity.HasKey(e => e.NewsImageId).HasName("PK__NewsImag__E8D22582836E73A0");
 
             entity.ToTable("NewsImage");
 
-            entity.Property(e => e.NewsImageId).HasColumnName("newsImage_id");
-            entity.Property(e => e.ImageUrl)
-                .HasMaxLength(250)
-                .HasColumnName("imageUrl");
-            entity.Property(e => e.NewsId).HasColumnName("news_id");
+            entity.Property(e => e.NewsImageId).HasColumnName("NewsImageID");
+            entity.Property(e => e.ImageUrl).HasMaxLength(250);
+            entity.Property(e => e.NewsId).HasColumnName("NewsID");
 
             entity.HasOne(d => d.News).WithMany(p => p.NewsImages)
                 .HasForeignKey(d => d.NewsId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__NewsImage__news___6E01572D");
+                .HasConstraintName("FK__NewsImage__NewsI__6C190EBB");
         });
 
         modelBuilder.Entity<NewsMessage>(entity =>
         {
-            entity.HasKey(e => e.NewsMessageId).HasName("PK__NewsMess__B607BBB34A952065");
+            entity.HasKey(e => e.NewsMessageId).HasName("PK__NewsMess__FAB86F19817AB2D7");
 
             entity.ToTable("NewsMessage");
 
-            entity.Property(e => e.NewsMessageId).HasColumnName("newsMessage_id");
+            entity.Property(e => e.NewsMessageId).HasColumnName("NewsMessageID");
             entity.Property(e => e.EditDate)
                 .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("editDate");
-            entity.Property(e => e.MessageContent)
-                .HasMaxLength(250)
-                .HasColumnName("messageContent");
-            entity.Property(e => e.NewsId).HasColumnName("news_id");
+                .HasColumnType("datetime");
+            entity.Property(e => e.MessageContent).HasMaxLength(250);
+            entity.Property(e => e.NewsId).HasColumnName("NewsID");
             entity.Property(e => e.UserId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("user_id");
+                .HasColumnName("UserID");
 
             entity.HasOne(d => d.News).WithMany(p => p.NewsMessages)
                 .HasForeignKey(d => d.NewsId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__NewsMessa__news___6EF57B66");
+                .HasConstraintName("FK__NewsMessa__NewsI__6D0D32F4");
 
             entity.HasOne(d => d.User).WithMany(p => p.NewsMessages)
                 .HasForeignKey(d => d.UserId)
@@ -300,35 +255,31 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Order__46596229720DF249");
+            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BAFB5871FFD");
 
             entity.ToTable("Order");
 
-            entity.Property(e => e.OrderId).HasColumnName("order_id");
+            entity.Property(e => e.OrderId).HasColumnName("OrderID");
             entity.Property(e => e.OrderDate)
                 .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("orderDate");
-            entity.Property(e => e.OrderStatusId).HasColumnName("orderStatus_id");
-            entity.Property(e => e.ProductId).HasColumnName("product_id");
-            entity.Property(e => e.Quantity).HasColumnName("quantity");
-            entity.Property(e => e.ShippingAddress)
-                .HasMaxLength(100)
-                .HasColumnName("shippingAddress");
+                .HasColumnType("datetime");
+            entity.Property(e => e.OrderStatusId).HasColumnName("OrderStatusID");
+            entity.Property(e => e.ProductId).HasColumnName("ProductID");
+            entity.Property(e => e.ShippingAddress).HasMaxLength(100);
             entity.Property(e => e.UserId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("user_id");
+                .HasColumnName("UserID");
 
             entity.HasOne(d => d.OrderStatus).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.OrderStatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Order__orderStat__70DDC3D8");
+                .HasConstraintName("FK__Order__OrderStat__6EF57B66");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Order__product_i__71D1E811");
+                .HasConstraintName("FK__Order__ProductID__6FE99F9F");
 
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
@@ -338,120 +289,91 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<OrderStatus>(entity =>
         {
-            entity.HasKey(e => e.OrderStatusId).HasName("PK__OrderSta__527F3408C566EED6");
+            entity.HasKey(e => e.OrderStatusId).HasName("PK__OrderSta__BC674F41D4A13BF3");
 
             entity.ToTable("OrderStatus");
 
-            entity.Property(e => e.OrderStatusId).HasColumnName("orderStatus_id");
-            entity.Property(e => e.Status)
-                .HasMaxLength(20)
-                .HasColumnName("status");
+            entity.Property(e => e.OrderStatusId).HasColumnName("OrderStatusID");
+            entity.Property(e => e.Status).HasMaxLength(20);
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Product__47027DF518849693");
+            entity.HasKey(e => e.ProductId).HasName("PK__Product__B40CC6ED52C57133");
 
             entity.ToTable("Product");
 
-            entity.Property(e => e.ProductId).HasColumnName("product_id");
-            entity.Property(e => e.MainImageUrl)
-                .HasMaxLength(250)
-                .HasColumnName("mainImageUrl");
-            entity.Property(e => e.Price).HasColumnName("price");
-            entity.Property(e => e.ProductCategoryId).HasColumnName("productCategory_id");
-            entity.Property(e => e.ProductDescription)
-                .HasMaxLength(500)
-                .HasColumnName("productDescription");
-            entity.Property(e => e.ProductName)
-                .HasMaxLength(50)
-                .HasColumnName("productName");
-            entity.Property(e => e.Rating)
-                .HasDefaultValue(0.0)
-                .HasColumnName("rating");
-            entity.Property(e => e.Sold)
-                .HasDefaultValue(0)
-                .HasColumnName("sold");
-            entity.Property(e => e.Stock)
-                .HasDefaultValue(0)
-                .HasColumnName("stock");
+            entity.Property(e => e.ProductId).HasColumnName("ProductID");
+            entity.Property(e => e.MainImageUrl).HasMaxLength(250);
+            entity.Property(e => e.ProductCategoryId).HasColumnName("ProductCategoryID");
+            entity.Property(e => e.ProductDescription).HasMaxLength(500);
+            entity.Property(e => e.ProductName).HasMaxLength(50);
+            entity.Property(e => e.Rating).HasDefaultValue(0.0);
+            entity.Property(e => e.Sold).HasDefaultValue(0);
+            entity.Property(e => e.Stock).HasDefaultValue(0);
 
             entity.HasOne(d => d.ProductCategory).WithMany(p => p.Products)
                 .HasForeignKey(d => d.ProductCategoryId)
-                .HasConstraintName("FK__Product__product__73BA3083");
+                .HasConstraintName("FK__Product__Product__71D1E811");
         });
 
         modelBuilder.Entity<ProductAdditionalImage>(entity =>
         {
-            entity.HasKey(e => e.ProductAdditionalImageId).HasName("PK__ProductA__DDBE70B9F3D16FEA");
+            entity.HasKey(e => e.ProductAdditionalImageId).HasName("PK__ProductA__EE272CE4F631D854");
 
             entity.ToTable("ProductAdditionalImage");
 
-            entity.Property(e => e.ProductAdditionalImageId).HasColumnName("productAdditionalImage_id");
-            entity.Property(e => e.AdditionalImageUrl)
-                .HasMaxLength(250)
-                .HasColumnName("additionalImageUrl");
-            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.ProductAdditionalImageId).HasColumnName("ProductAdditionalImageID");
+            entity.Property(e => e.AdditionalImageUrl).HasMaxLength(250);
+            entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
             entity.HasOne(d => d.Product).WithMany(p => p.ProductAdditionalImages)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ProductAd__produ__74AE54BC");
+                .HasConstraintName("FK__ProductAd__Produ__72C60C4A");
         });
 
         modelBuilder.Entity<ProductCategory>(entity =>
         {
-            entity.HasKey(e => e.ProductCategoryId).HasName("PK__ProductC__01D20E30112B0B57");
+            entity.HasKey(e => e.ProductCategoryId).HasName("PK__ProductC__3224ECEEA4B775E4");
 
             entity.ToTable("ProductCategory");
 
-            entity.Property(e => e.ProductCategoryId).HasColumnName("productCategory_id");
-            entity.Property(e => e.Category)
-                .HasMaxLength(24)
-                .HasColumnName("category");
+            entity.Property(e => e.ProductCategoryId).HasColumnName("ProductCategoryID");
+            entity.Property(e => e.Category).HasMaxLength(24);
         });
 
         modelBuilder.Entity<Relationship>(entity =>
         {
-            entity.Property(e => e.RelationshipId).ValueGeneratedNever();
-            entity.Property(e => e.PersonAId)
+            entity.Property(e => e.RelationshipId).HasColumnName("RelationshipID");
+            entity.Property(e => e.PersonAid)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("PersonA_ID");
-            entity.Property(e => e.PersonBId)
+                .HasColumnName("PersonAID");
+            entity.Property(e => e.PersonBid)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("PersonB_ID");
+                .HasColumnName("PersonBID");
             entity.Property(e => e.RelationshipType).HasMaxLength(50);
-
-            entity.HasOne(d => d.PersonA).WithMany(p => p.RelationshipPersonAs)
-                .HasForeignKey(d => d.PersonAId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Relationships_User");
-
-            entity.HasOne(d => d.PersonB).WithMany(p => p.RelationshipPersonBs)
-                .HasForeignKey(d => d.PersonBId)
-                .HasConstraintName("FK_Relationships_User1");
         });
 
         modelBuilder.Entity<ShoppingCart>(entity =>
         {
-            entity.HasKey(e => e.ShoppingCartId).HasName("PK__Shopping__1C91548FB3205FC6");
+            entity.HasKey(e => e.ShoppingCartId).HasName("PK__Shopping__7A789A848F688C11");
 
             entity.ToTable("ShoppingCart");
 
-            entity.Property(e => e.ShoppingCartId).HasColumnName("shoppingCart_id");
-            entity.Property(e => e.ProductId).HasColumnName("product_id");
-            entity.Property(e => e.Quantity).HasColumnName("quantity");
+            entity.Property(e => e.ShoppingCartId).HasColumnName("ShoppingCartID");
+            entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.UserId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("user_id");
+                .HasColumnName("UserID");
 
             entity.HasOne(d => d.Product).WithMany(p => p.ShoppingCarts)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ShoppingC__produ__778AC167");
+                .HasConstraintName("FK__ShoppingC__Produ__73BA3083");
 
             entity.HasOne(d => d.User).WithMany(p => p.ShoppingCarts)
                 .HasForeignKey(d => d.UserId)
@@ -461,69 +383,54 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__User__B9BE370F2D35C770");
+            entity.HasKey(e => e.UserId).HasName("PK__User__B9BE370F8393A9A1");
 
             entity.ToTable("User");
 
             entity.Property(e => e.UserId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("user_id");
-            entity.Property(e => e.Address)
-                .HasMaxLength(100)
-                .HasColumnName("address");
-            entity.Property(e => e.Birthdate)
-                .HasColumnType("datetime")
-                .HasColumnName("birthdate");
-            entity.Property(e => e.Email)
-                .HasMaxLength(100)
-                .HasColumnName("email");
+                .HasColumnName("UserID");
+            entity.Property(e => e.Address).HasMaxLength(100);
+            entity.Property(e => e.Birthdate).HasColumnType("datetime");
+            entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.Gender)
                 .HasMaxLength(1)
-                .IsUnicode(false)
-                .HasColumnName("gender");
-            entity.Property(e => e.Nickname)
-                .HasMaxLength(50)
-                .HasColumnName("nickname");
+                .IsUnicode(false);
+            entity.Property(e => e.Nickname).HasMaxLength(50);
             entity.Property(e => e.Password)
-                .HasMaxLength(64)
-                .IsUnicode(false)
-                .HasColumnName("password");
+                .HasMaxLength(128)
+                .IsUnicode(false);
             entity.Property(e => e.Phone)
                 .HasMaxLength(10)
                 .IsUnicode(false)
-                .IsFixedLength()
-                .HasColumnName("phone");
-            entity.Property(e => e.PhotoUrl)
-                .HasMaxLength(250)
-                .HasColumnName("photoUrl");
+                .IsFixedLength();
+            entity.Property(e => e.PhotoUrl).HasMaxLength(250);
             entity.Property(e => e.RegisterDate)
                 .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("registerDate");
+                .HasColumnType("datetime");
         });
 
         modelBuilder.Entity<ViewHistory>(entity =>
         {
-            entity.HasKey(e => e.ViewHistoryId).HasName("PK__ViewHist__2BA828D7DE0D5E33");
+            entity.HasKey(e => e.ViewHistoryId).HasName("PK__ViewHist__55D4BB13901660C2");
 
             entity.ToTable("ViewHistory");
 
-            entity.Property(e => e.ViewHistoryId).HasColumnName("viewHistory_id");
-            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.ViewHistoryId).HasColumnName("ViewHistoryID");
+            entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.UserId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("user_id");
+                .HasColumnName("UserID");
             entity.Property(e => e.ViewDate)
                 .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("viewDate");
+                .HasColumnType("datetime");
 
             entity.HasOne(d => d.Product).WithMany(p => p.ViewHistories)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ViewHisto__produ__797309D9");
+                .HasConstraintName("FK__ViewHisto__Produ__75A278F5");
 
             entity.HasOne(d => d.User).WithMany(p => p.ViewHistories)
                 .HasForeignKey(d => d.UserId)
