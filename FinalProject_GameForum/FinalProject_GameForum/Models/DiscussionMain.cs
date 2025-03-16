@@ -9,14 +9,19 @@ namespace FinalProject_GameForum.Models
         public Users BoardAdmin { get; set; } // 板主
         public int TotalPosts { get; set; } // 總文章數
         public int RecentPosts { get; set; } // 近期更新
+        public List<Post> AllPosts { get; set; } // 文章列表
     }
 
     public class Post
     {
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public int Comments { get; set; }
-        public string ImageUrl { get; set; }
+        public int Id { get; set; }
+        public string Category { get; set; } // 文章分類
+        public string Title { get; set; } // 文章標題
+        public string Author { get; set; } // 作者
+        public int Comments { get; set; } // 回應數
+        public int Views { get; set; } // 瀏覽數
+        public DateTime LastReplyTime { get; set; } // 最新回應時間
+        public string ImageUrl { get; set; } // 文章縮圖
     }
 
     public class Users
