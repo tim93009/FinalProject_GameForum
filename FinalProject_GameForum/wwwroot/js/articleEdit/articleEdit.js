@@ -179,7 +179,8 @@ var quill = new Quill("#editor", {
 
 
 // 提交表單時，把 Quill 內容轉換成 HTML 放入 textarea
-function submitForm() {
-	document.getElementById("hiddenContent").value = quill.root.innerHTML;
-	document.forms["editorForm"].submit();
-}
+document.getElementById("editorForm").addEventListener("submit", function (event) {
+	// 將 Quill 內容轉換為 HTML
+	var quillEditor = document.querySelector(".ql-editor");
+	document.getElementById("hiddenContent").value = quillEditor.innerHTML;
+});

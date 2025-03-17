@@ -1,5 +1,6 @@
 ﻿using FinalProject_GameForum.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinalProject_GameForum.Controllers
 {
@@ -16,29 +17,48 @@ namespace FinalProject_GameForum.Controllers
         {
             return View();
         }
-
-        //[HttpPost]
-        //public IActionResult SaveContent(string content)
-        //{
-        //    // content 變數會接收到 HTML 格式的 Quill 內容
-        //    System.IO.File.WriteAllText("wwwroot/tempcontent/content.html", content);
-
-        //    return RedirectToAction("Index");
-        //}
+       
 
         [HttpPost]
-        public async Task<IActionResult> Submit(IFormFile? image, string userId, string questionType, string content)
+        public async Task<IActionResult> Submit(string articleTitle, int articleType, string articleContent, IFormFile imgFile)
         {
+            if (string.IsNullOrEmpty(articleTitle) || string.IsNullOrEmpty(articleContent))
+            {
+                ModelState.AddModelError("", "標題和內容不能為空");
+                return View();
+            }
+
+            // 找到對應的 ArticleGroup (文章分類)
+            var articleGroup = await _context.ArticleGroups.FirstOrDefaultAsync(g => g.ArticleGroupId == articleType);
+           
+
+            // 讀取封面圖片 (存入 byte[] 格式)
+            byte[]? coverImage = null;
+            if (imgFile != null && imgFile.Length > 0)
+            {
+                using (var ms = new MemoryStream())
+                {
+                    await imgFile.CopyToAsync(ms);
+                    coverImage = ms.ToArray();
+                }
+                articleGroup.CoverImage = coverImage; // 更新封面圖片
+            }
+
+            // 創建文章物件
             var article = new Article
             {
-                UserId = userId,
-                ArticleContent = content
+                UserId = "User001",
+                ArticleGroupId = 1,
+                ArticleContent = articleContent,
+                PostDate = DateTime.Now,
+                Status = "文章"
             };
 
+            // 存入資料庫
             _context.Articles.Add(article);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index" ,"Home");
         }
     }
 }
