@@ -6,7 +6,9 @@
 	<div class="container">
 		<div class="d-flex flex-column">
 			<div class="article-title mb-2">
-				<h2>[@Html.DisplayNameFor(model => model.ArticleGroup!.Category)] @Html.DisplayNameFor(model => model.ArticleGroup!.ArticleTitle)</h2>
+				<h2>
+					[@Model.FirstOrDefault()?.ArticleGroup?.Category] @Model.FirstOrDefault()?.ArticleGroup?.ArticleTitle
+				</h2>
 			</div>
 			@foreach (var item in Model)
 			{
