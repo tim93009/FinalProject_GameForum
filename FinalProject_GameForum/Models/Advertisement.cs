@@ -12,4 +12,6 @@ public partial class Advertisement
     public string Category { get; set; } = null!;
 
     public string? ImageUrl { get; set; }
+
+    public string? HyperUrl { get; set; }
 }

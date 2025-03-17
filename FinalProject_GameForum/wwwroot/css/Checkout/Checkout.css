@@ -88,7 +88,7 @@
 
 .product-num {
     margin: 0;
-    width: 30px;
+    width: 60px;
     text-align: center;
 }
 
@@ -171,4 +171,182 @@
     .col-sm-2 {
         margin-bottom: 10px;
     }
+}
+
+/* 整體容器樣式 */
+.checkout-products-recipient-area {
+    padding: 20px;
+    border-radius: 0px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 標題樣式 */
+h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* 欄位區域樣式 */
+.checkout-products-main-block {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* 標題文字樣式 */
+.recive-name-title,
+.cellphone-title,
+.phone-title,
+.email-title,
+.address-title {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* 輸入框共同樣式 */
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+    input[type="text"]:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0,123,255,0.3);
+    }
+
+/* 特定輸入框調整 */
+.input-name,
+.input-cellphone-num,
+.input-email,
+.input-address {
+    width: 100%;
+}
+
+.input-front-phone {
+    flex: 2; /* 對應 col-sm-2 的比例 */
+    width: 100%; /* 確保占滿分配空間 */
+}
+
+.input-main-phone {
+    flex: 10; /* 對應 col-sm-10 的比例 */
+    width: 100%; /* 確保占滿分配空間 */
+}
+
+.input-postal-code {
+    width: 100px;
+    margin-right: 10px;
+}
+
+.input-address {
+    width: calc(100% - 110px);
+}
+
+/* 欄位區域間距 */
+.recive-name-area,
+.cellphone-area,
+.email-area {
+    margin-bottom: 20px;
+    padding-right: 100px;
+}
+
+.phone-area,
+.address-area {
+    margin-bottom: 20px;
+    padding-right: 100px;
+}
+
+/* 手機號碼區塊 */
+.cellphone-block {
+    display: flex;
+    flex-direction: column; /* 改為垂直排列 */
+    align-items: flex-start; /* 左對齊 */
+    gap: 10px; /* 調整輸入框與勾選框間距 */
+}
+
+/* 電話輸入區塊 */
+.phone-input-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 地址輸入區塊 */
+.address-input-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 簡訊通知勾選框 */
+.cellphone-send-mes-block {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+    .cellphone-send-mes-block p {
+        margin: 0;
+        font-size: 14px;
+        color: #666;
+    }
+
+input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+
+/* 響應式設計 */
+@media (max-width: 576px) {
+    .col-sm-6 {
+        width: 100%;
+    }
+
+    .recive-name-area,
+    .cellphone-area,
+    .phone-area,
+    .email-area,
+    .address-area {
+        padding-right: 0;
+    }
+
+    .input-front-phone {
+        width: 50px;
+    }
+
+    .input-main-phone {
+        width: calc(100% - 60px);
+    }
+
+    .input-postal-code {
+        width: 80px;
+    }
+
+    .input-address {
+        width: calc(100% - 90px);
+    }
+}
+
+/* placeholder 樣式 */
+input::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+/* 當外部容器有 bg-danger 時的調整 */
+.bg-danger .checkout-products-recipient-area {
+    background: #ffffff;
+}
+
+.bg-danger h2 {
+    color: #dc3545;
 }

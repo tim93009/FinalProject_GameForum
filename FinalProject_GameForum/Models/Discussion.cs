@@ -17,7 +17,5 @@ public partial class Discussion
 
     public string? Category { get; set; }
 
-    public int? ArticleGroupId { get; set; }
-
-    public virtual ArticleGroup? ArticleGroup { get; set; }
+    public virtual ICollection<ArticleGroup> ArticleGroups { get; set; } = new List<ArticleGroup>();
 }

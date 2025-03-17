@@ -53,7 +53,7 @@
 										<div class="btn-reduce-products-number">
 											<p>-</p>
 										</div>
-										<p class="product-num" data-limited="1" data-sn="38576" data-price="2550">1</p>
+										<input type="number" class="product-num" data-limited="1" data-sn="38576" data-price="2550" value="1" min="1" max="999">
 										<div class="btn-add-products-number">
 											<p>＋</p>
 										</div>
@@ -96,9 +96,68 @@
 
 		<!-- 區塊 3 -->
 		<div class="section bg-danger">
-			<h2>收件人資訊</h2>
-			<p>這裡是 收件人資訊 的內容。可以用來展示更多資訊。</p>
-			<a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">商品連結</a>
+			<div class="checkout-products-recipient-area">
+				<h2>收件人資訊</h2>
+				<span id="js-recipients-edit"></span>
+				<div id="js-recipients" class="checkout-products-main-block">
+					<div class="row g-0">
+						<div class="col-sm-6">
+							<div class="recive-name-area">
+								<div class="recive-name-title">姓名</div>
+								<input type="text" class="input-name" name="uname" value="" placeholder="請填寫真實姓名">
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="cellphone-area">
+								<div class="cellphone-title">手機</div>
+								<div class="cellphone-block">
+									<input type="text" class="input-cellphone-num" name="ucell" value="" placeholder="限填數字" maxlength="10">
+									<label class="cellphone-send-mes-block">
+										<input type="checkbox" checked="" name="usms">
+										<p>到貨簡訊通知</p>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row g-0">
+						<div class="col-sm-6">
+							<div class="phone-area">
+								<div class="phone-title">電話</div>
+								<div class="phone-input-area">
+									<div class="col-sm-2">
+										<input type="text" class="input-front-phone" name="ucity" value="" maxlength="2">
+									</div>
+									<div class="col-sm-10">
+										<input type="text" class="input-main-phone" name="utel" value="" placeholder="限填數字" maxlength="8">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="email-area">
+								<div class="email-title">Email</div>
+								<input type="text" class="input-email" name="uemail" value="">
+							</div>
+						</div>
+					</div>
+					<div class="row g-0">
+						<div class="col-sm-6">
+							<div class="address-area">
+								<div class="address-title">寄件地址</div>
+								<div class="address-input-area">
+									<div class="col-sm-3">
+										<input type="text" class="input-postal-code" name="upostal" value="" placeholder="郵遞區號" maxlength="5">
+									</div>
+									<div class="col-sm-9">
+										<input type="text" class="input-address" name="uaddress" value="" placeholder="請輸入完整地址">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<br />
