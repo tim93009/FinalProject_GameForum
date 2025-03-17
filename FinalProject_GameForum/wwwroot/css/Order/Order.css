@@ -1,0 +1,103 @@
+﻿body {
+}
+
+.order-container {
+    width: 100%;
+    min-height: 600px;
+    margin: 0 auto;
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.order-container2 {
+    width: 100%;
+    min-height: 30px;
+    display: flex;
+    justify-content: space-between; /* 讓標題在左，查詢框在右 */
+    align-items: center; /* 垂直置中 */
+    padding: 10px; /* 增加內邊距 */
+}
+
+.search-box {
+    display: flex;
+    gap: 10px; /* 設定 input 和 button 之間的間距 */
+}
+
+.order-category2 {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/*表格*/
+
+.order-table {
+    width: 100%; /* 設定表格寬度佔滿容器 */
+    border-collapse: collapse; /* 讓邊框合併，避免雙線 */
+}
+
+    .order-table th,
+    .order-table td {
+        border: 1px solid #ddd; /* 添加邊框 */
+        padding: 10px; /* 內邊距，讓內容不要太擠 */
+        text-align: center; /* 讓文字置中 */
+    }
+
+    .order-table th {
+        background-color: #f4f4f4; /* 標題列加上背景色 */
+    }
+
+        /* 指定每個欄位的寬度 */
+        .order-table th:nth-child(1),
+        .order-table td:nth-child(1) {
+            width: 10%; /* 訂單編號 */
+        }
+
+        .order-table th:nth-child(2),
+        .order-table td:nth-child(2) {
+            width: 5%; /* 日期 */
+        }
+
+        .order-table th:nth-child(3),
+        .order-table td:nth-child(3) {
+            width: 6%; /* 總價 */
+        }
+
+        .order-table th:nth-child(4),
+        .order-table td:nth-child(4) {
+            width: 6%; /* 訂單狀態 */
+        }
+
+        .order-table th:nth-child(5),
+        .order-table td:nth-child(5) {
+            width: 12%; /* 商品名稱 */
+        }
+
+        .order-table th:nth-child(6),
+        .order-table td:nth-child(6) {
+            width: 7%; /* 分類 */
+        }
+
+        .order-table th:nth-child(7),
+        .order-table td:nth-child(7) {
+            width: 4%; /* 數量 */
+        }
+
+        .order-table th:nth-child(8),
+        .order-table td:nth-child(8) {
+            width: 10%; /* 收件地址 */
+        }
+
+        .order-table th:nth-child(9),
+        .order-table td:nth-child(9) {
+            width: 3%; /* 訂單進度 */
+        }
+
+        .order-table th:nth-child(10),
+        .order-table td:nth-child(10) {
+            width: 6%; /* 操作按鈕 */
+        }
