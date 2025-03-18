@@ -1,3 +1,9 @@
+.body {
+    background: linear-gradient(to right, transparent 16%, #f0f0f0 16% 84%, transparent 84%), url('/img/Layout/matrix-code.gif');
+    background-size: 100% 100%, cover;
+    background-position: left top, center;
+}
+
 .goTop {
     position: fixed;
     bottom: 60px;
@@ -18,9 +24,9 @@
     transition: 0.3s ease;
 }
 
-.goTopImage:hover {
-    content: url('/img/Layout/tile_0273.png');
-}
+    .goTopImage:hover {
+        content: url('/img/Layout/tile_0273.png');
+    }
 
 .goTopText {
     display: flex;
@@ -47,13 +53,13 @@
     z-index: 1000;
 }
 
-.hamburger-menu .bar {
-    background-color: white;
-    height: 4px;
-    width: 100%;
-    margin: 6px 0;
-    transition: 0.3s;
-}
+    .hamburger-menu .bar {
+        background-color: white;
+        height: 4px;
+        width: 100%;
+        margin: 6px 0;
+        transition: 0.3s;
+    }
 
 
 /* 彈出提示框 */
@@ -71,26 +77,26 @@
     width: 100%;
 }
 
-.popup.active {
-    display: flex;
-}
+    .popup.active {
+        display: flex;
+    }
 
 /* 彈出框內容 */
 .popup-content {
     text-align: center;
 }
 
-.popup-content h2 {
-    margin: 0;
-    font-size: 24px;
-    color: black;
-}
+    .popup-content h2 {
+        margin: 0;
+        font-size: 24px;
+        color: black;
+    }
 
-.popup-content p {
-    font-size: 18px;
-    margin-top: 10px;
-    color: black;
-}
+    .popup-content p {
+        font-size: 18px;
+        margin-top: 10px;
+        color: black;
+    }
 
 /* 漢堡選單的動畫效果 */
 .hamburger-menu.active .bar:nth-child(1) {
@@ -136,17 +142,17 @@
     text-align: center;
 }
 
-.image-text-item img {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 10px;
-}
+    .image-text-item img {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 10px;
+    }
 
-.image-text-item p {
-    font-size: 15px;
-    font-weight: bold;
-    color: black;
-}
+    .image-text-item p {
+        font-size: 15px;
+        font-weight: bold;
+        color: black;
+    }
 
 
 

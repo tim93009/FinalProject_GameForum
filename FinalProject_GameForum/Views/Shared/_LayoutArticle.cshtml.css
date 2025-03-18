@@ -2,13 +2,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: mediumpurple;
+    background-color: snow;
+    box-shadow: 10px 10px 10px -6px;
     height: 60px;
 }
 
 .selectFloor {
     position: fixed;
-    bottom: 100px;
+    bottom: 200px;
     right: 5px;
     z-index: 1000;
     background-color: white;
@@ -20,3 +21,4 @@
     align-items: center;
     text-align: center;
 }
+

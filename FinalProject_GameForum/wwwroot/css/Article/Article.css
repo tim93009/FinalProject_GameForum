@@ -1,0 +1,38 @@
+﻿
+.title-content a {
+    position: relative;
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+    .title-content a::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -3px; /* 控制橫條距離文字的間距 */
+        width: 0%;
+        height: 2px;
+        background-color: black;
+        transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    .title-content a:hover::after {
+        width: 100%; /* 滑鼠懸停時展開 */
+        left: 0; /* 調整對齊 */
+    }
+
+    .title-content a::before {
+        content: "";
+        position: absolute;
+        left: -10px; /* 控制直線的位置 */
+        top: 50%;
+        transform: translateY(-50%);
+        width: 2px; /* 直線的寬度 */
+        height: 15px; /* 直線的長度 */
+        background-color: gray;
+    }
+
+/*    .title-content a:first-child::before {
+        display: none; 
+    }*/
