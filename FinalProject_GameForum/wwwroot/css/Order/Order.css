@@ -21,6 +21,11 @@
     padding: 10px; /* 增加內邊距 */
 }
 
+.row {
+   padding-top:3%;
+    align-items: center;
+}
+
 .search-box {
     display: flex;
     gap: 10px; /* 設定 input 和 button 之間的間距 */
