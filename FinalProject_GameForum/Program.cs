@@ -22,9 +22,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     option.LoginPath = new PathString("/Home/Index");
 }).AddFacebook(options =>
 {
-    options.AppId = "653772980397141";
-    options.AppSecret = "1900b877b5c6f17fe9dc51505daf20b1";
+    options.AppId = "1356523462025711";
+    options.AppSecret = "4535e782ed6bf815f2907cb9868ff089";
     options.AccessDeniedPath = "/AccessDeniedPathInfo";
+
 }).AddGoogle(options =>
 {
     options.ClientId = "365818433505-0ha2qhf5tuh9brrir7tot8a4qb6otrgr.apps.googleusercontent.com";

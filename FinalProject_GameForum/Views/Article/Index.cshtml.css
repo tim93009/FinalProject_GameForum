@@ -1,4 +1,13 @@
-﻿.article-content {
+﻿.article-title {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: snow;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 控制按鈕與標題的間距 */
+}
+
+.article-content {
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -12,7 +21,8 @@
 
 .article-border {
     padding: 15px;
-    background-color: lightgreen;
+    border-radius: 5px;
+    background-color: #3734342c;
     margin-left: 10px;
 }
 
@@ -33,6 +43,7 @@
 .article-row-2 {
     background-color: white;
     border: 1px solid #ddd;
+    border-radius: 5px;
     height: 500px;
     padding: 15px;
 }
@@ -49,7 +60,12 @@
 }
 
 .further-article-block {
-    border: 1px solid black;
-    background-color: aquamarine;
-    height: 200px;
+    height: 300px;
+}
+
+.further-article-img-block {
+    overflow: hidden;
+    border-radius: 8px;
+    height: 250px;
+    width: 250px;
 }
