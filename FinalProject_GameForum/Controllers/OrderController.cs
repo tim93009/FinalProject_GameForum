@@ -42,5 +42,26 @@ namespace FinalProject_GameForum.Controllers
 
             return View(order);
         }
+
+
+        // 訂單編號查詢
+        public async Task<IActionResult> Search(string? searchOrderId)
+        {
+            var orders = _context.Orders
+                .Include(o => o.Product)
+                .ThenInclude(p => p.ProductCategory)
+                .Include(o => o.OrderStatus)
+                .AsQueryable(); // 先建立 IQueryable
+
+            if (!string.IsNullOrEmpty(searchOrderId))
+            {
+                orders = orders.Where(o => o.OrderId.ToString().Contains(searchOrderId));
+            }
+
+            return View("Index", await orders.ToListAsync()); // 返回 Index 視圖並傳遞結果
+        }
+
+
+
     }
 }
