@@ -1,43 +1,28 @@
 ﻿<link rel="stylesheet" href="~/css/News/News.css" asp-append-version="true" />
 
-@{
-
-}
 @await Html.PartialAsync("_LayoutNews")
+@model FinalProject_GameForum.Models.News
 
 <div class="myContainer">
 	<div>
 		<h2>
-			《劇場版「鬼滅之刃」無限城篇》第一章台灣 8 月 8 日上映《無限列車篇》7 月重映
+			@Model.NewsTitle
 		</h2>
 	</div>
 	<br />
-	<p><time>2025-03-07 15:30</time></p>
-	<div>
-		<h5>
-			繼日前《鬼滅之刃》動畫公開最新劇場版將於 7 月在日本上映的消息後，代理商木棉花今日宣布《劇場版「鬼滅之刃」無限城篇》第一章將於 8 月 8 日在台灣上映日語配音版、8 月 15 日推出國語配音版的消息，屆時將同步推出 2D 與 IMAX 版本。
-		</h5>
-			<div>
-				<ul>
-				<li><img src="~/img/news/demon1.jpg" class="myImage" style="width:450px"/></li>
-				<li><img src="~/img/news/demon2.jpg" class="d-block" style="width:450px" /></li>
-				</ul>
-			</div>
-		<h5>
-			《劇場版「鬼滅之刃」無限城篇》故事中，竈門炭治郎為了讓成為鬼的妹妹禰豆子變回人類，加入狩獵鬼的組織「鬼殺隊」。
-
-			入隊之後，他與夥伴我妻善逸以及嘴平伊之助跟各式各樣的鬼戰鬥，在成長的同時加深友情與羈絆。然後，炭治郎與「鬼殺隊」最高階的劍士「柱」一同戰鬥，在《無限列車》跟炎柱煉獄杏壽郎、在《遊郭》跟音柱宇髓天元、在《刀匠村》則是跟霞柱時透無一郎以及戀柱甘露寺蜜璃一起展開激烈的戰鬥。
-
-			其後，為了面對與鬼即將到來的決戰，隊員們集體參加「柱」所舉行的聯合強化訓練《柱訓練》。此時，鬼舞辻無慘卻出現在「鬼殺隊」的大本營產屋敷府。雖然「柱」們與炭治郎連忙趕去營救陷入危機的主公大人，卻在無慘的操縱之下落入了充滿謎團的空間。
-
-			炭治郎等人落下的地方，正是鬼的大本營「無限城」──鬼殺隊與鬼的最終決戰，序幕就此揭開。
-		</h5>
-		<h5>
-			同時，木棉花表示，為配合《劇場版「鬼滅之刃」無限城篇》第一章的上映，7 月 4 日將重新上映《鬼滅之刃 無限列車篇》（日語配音 2D 版），帶領觀眾回到煉獄杏壽郎奮戰的時刻。
-
-			而這次還特別結合作品，推出了《鬼滅之刃》淡水紫藤花園聯動活動與《鬼滅之刃》全集中路跑，淡水紫藤花園預計於 3 月 20 日當週開園（依紫藤花開花時間調整，活動約為期兩週），在園區當中設有主要角色立牌（不同園區立牌不同），現場更將舉辦活動贈送電影限定明信片。
-		</h5>
+	<p><time>@Model.EditDate?.ToString("yyyy-MM-dd HH:mm")</time></p>
+	<div class="news-content">
+		@foreach (var paragraph in Model.NewsContent.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries))
+		{
+			<h5>@paragraph</h5>
+		}
 	</div>
+	<ul>
+		@foreach(var image in Model.NewsImages)
+		{
+			<li><img src="@image.ImageUrl"></li>
+		}
+		</ul>
 </div>
 <div class="container">
 	<div class="comment">
@@ -52,22 +37,15 @@
 <div class="container">
 	<div class="others">
 		<h3>相關新聞</h3>
-
 		<div class="newsList">
-			<div class="otherNews">
-				<a href="#"><img src="~/img/News/MHN.jpg" alt="MHN Image" style="width:220px;height:220px" /></a>
-				<h6><a href="#">《Monster Hunter Now》SEASON 5「劃破春日的劍尾」正式登場 追加斬龍與青熊獸</a></h6>
-			</div>
-
-			<div class="otherNews">
-				<a href="#"><img src="~/img/News/MHN.jpg" alt="MHN Image" style="width:220px;height:220px" /></a>
-				<h6><a href="#">《Monster Hunter Now》SEASON 5「劃破春日的劍尾」正式登場 追加斬龍與青熊獸</a></h6>
-			</div>
-
-			<div class="otherNews">
-				<a href="#"><img src="~/img/News/MHN.jpg" alt="MHN Image" style="width:220px;height:220px" /></a>
-				<h6><a href="#">《Monster Hunter Now》SEASON 5「劃破春日的劍尾」正式登場 追加斬龍與青熊獸</a></h6>
-			</div>
-		</div>
+			@foreach (var relatedNews in ViewBag.RelatedNews as List<FinalProject_GameForum.Models.News> ??  ViewBag.RelatedNews.Empty<News>())
+			{
+				<div class="otherNews">
+					<a href="@Url.Action("News","News",new {id = relatedNews.NewsId})">
+						<img src="@relatedNews.ImageUrl" alt="MHN Image" style="width:220px;height:220px" /></a>
+					<h6><a href="@Url.Action("News","News",new {id = relatedNews.NewsId})">@relatedNews.NewsTitle</a></h6>
+				</div>
+			}
+		</div>		
 	</div>
 </div>

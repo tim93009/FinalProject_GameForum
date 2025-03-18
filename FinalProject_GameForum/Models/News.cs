@@ -21,3 +21,8 @@ public partial class News
 
     public virtual ICollection<NewsMessage> NewsMessages { get; set; } = new List<NewsMessage>();
 }
+public class NewsViewModel
+{
+    public List<News> NewsHome { get; set; } = new List<News>();
+    public List<News> NewsDetail { get; set; } = new List<News>();
+}
