@@ -1,5 +1,8 @@
 ﻿using FinalProject_GameForum.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FinalProject_GameForum.Controllers
 {
@@ -11,14 +14,47 @@ namespace FinalProject_GameForum.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var NewsHome = await _context.News
+                .Where(n => !string.IsNullOrEmpty(n.ImageUrl))
+                .Take(3)
+                .ToListAsync();
+
+            var NewsDetail = await _context.News
+                .Include(n => n.NewsImages)
+                .Include(n => n.NewsMessages)
+                .ToListAsync();
+
+            var model = new NewsViewModel
+            {
+                NewsHome = NewsHome,
+                NewsDetail = NewsDetail
+            };
             var news = _context.News.ToList();
-            return View(news);
+            return View(model);
         }
-        public IActionResult News()
+        public IActionResult News(int id)
         {
-            return View();
+            var newsItem = _context.News
+            .Include(n => n.NewsImages)
+            .Include(n => n.NewsMessages)
+            .FirstOrDefault(n => n.NewsId == id);
+
+            if(newsItem == null)
+            {
+                return NotFound();
+            }
+
+            var relatedNews = _context.News
+            .Where(n => n.NewsId != id)
+            .Take(3)
+            .ToList();
+
+            ViewBag.RelatedNews = relatedNews;
+
+
+            return View(newsItem);
         }
     }
 
