@@ -26,6 +26,9 @@
     align-items: center;
 }
 
+
+
+
 .search-box {
     display: flex;
     gap: 10px; /* 設定 input 和 button 之間的間距 */
@@ -64,45 +67,42 @@
 
         .order-table th:nth-child(2),
         .order-table td:nth-child(2) {
-            width: 5%; /* 日期 */
+            width: 7%; /* 分類 */
         }
 
         .order-table th:nth-child(3),
         .order-table td:nth-child(3) {
-            width: 6%; /* 總價 */
+            width: 12%; /* 商品名稱 */
         }
 
         .order-table th:nth-child(4),
         .order-table td:nth-child(4) {
-            width: 6%; /* 訂單狀態 */
+            width: 4%; /* 數量 */
         }
 
         .order-table th:nth-child(5),
         .order-table td:nth-child(5) {
-            width: 12%; /* 商品名稱 */
+            width: 6%; /* 總價 */
         }
 
         .order-table th:nth-child(6),
         .order-table td:nth-child(6) {
-            width: 7%; /* 分類 */
+            width: 5%; /* 日期 */
         }
 
         .order-table th:nth-child(7),
         .order-table td:nth-child(7) {
-            width: 4%; /* 數量 */
+            width: 10%; /* 收件地址 */
         }
 
         .order-table th:nth-child(8),
         .order-table td:nth-child(8) {
-            width: 10%; /* 收件地址 */
+            width: 6%; /* 訂單狀態 */
         }
 
         .order-table th:nth-child(9),
         .order-table td:nth-child(9) {
-            width: 3%; /* 訂單進度 */
+            width: 8%; /* 操作 */
         }
 
-        .order-table th:nth-child(10),
-        .order-table td:nth-child(10) {
-            width: 6%; /* 操作按鈕 */
-        }
+
