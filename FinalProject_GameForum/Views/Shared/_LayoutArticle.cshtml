@@ -34,16 +34,8 @@
                     <div style="color:aliceblue; margin-right:50px">
                         <img src="~/img/Login/btn_base.png"> <!--放個人圖片用 先放line替代-->
                         <!--登入註冊-->
-                        @if (User.Identity!.IsAuthenticated)
-                        {
-                            <span>@User.Identity.Name</span>
-                            <a class="m-3" asp-controller="Login" asp-action="Logout">登出</a>
-                        }
-                        else
-                        {
-                            <a class="m-3" asp-controller="Login" asp-action="Login">登入</a>
-                            <a class="m-3" asp-controller="Login" asp-action="Register">註冊</a>
-                        }
+                        <a class="m-3" asp-controller="Login" asp-action="Login">登入</a>
+                        <a class="m-3" asp-controller="Login" asp-action="Register">註冊</a>
                     </div>
                 </div>
             </div>
@@ -86,11 +78,45 @@
                 </div>
             </div>
         </nav>
+        <nav class="navbar p-0 article-navbar">
+            <div class="container-fluid">
+                <div class="col-lg-2"></div>
+                <div class="row col-lg-8" id="titleContent1">
+                    <div class="col-1">
+                        <button id="leftArrow" class="arrow-btn">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M15 5L8 12L15 19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+
+                    </div>
+                    <div class="col-11" style="display:inline-block">
+                        <a class="m-3" asp-action="Login">版面</a>
+                        <a class="m-3" asp-action="Register">文章列表</a>
+                    </div>
+                </div>
+                <div class="row col-lg-2">
+                    <div class="col-xxl-4 ">
+                    </div>
+                    <div class="col-xxl-4 col-lg-6">
+                        <button class="btn btn-outline-info">訂閱</button>
+                    </div>
+                    <div class="col-xxl-4 col-lg-6">
+                        <button class="btn btn-outline-info">回覆</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+    </div>
+
+    <div class="selectFloor">
+        <p>前往樓層</p>
+        <input type="text" placeholder="?樓" style="width:50px;" />
     </div>
 
     <div class="goTop">
@@ -110,7 +136,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/Views/Shared/_Layout.cshtml.js" asp-append-version="true"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>    
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
