@@ -17,11 +17,10 @@ namespace FinalProject_GameForum.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-           
-
-            var articles = _context.Articles
-           .Include(a => a.ArticleGroup) 
-           .Include(a => a.User)          
+            List<Article> articles = _context.Articles
+           .Include(a => a.ArticleGroup)
+           .Include(a => a.User)
+           .Include(a => a.ArticleMessages)
            .ToList();
 
             return View(articles);
