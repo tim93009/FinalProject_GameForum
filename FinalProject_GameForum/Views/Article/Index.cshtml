@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<FinalProject_GameForum.Models.Article>
 @{
-	Layout = "_LayoutTes";	
+	Layout = "_LayoutArticle";
+	int floor = 1;
 }
 <div class="container mt-4">
 	<div class="container">
@@ -15,7 +16,7 @@
 				<div class="d-flex mb-5 article-block">
 					<div class="member-block me-lg-3 row-gap-3">
 						<div class="p-2 g-col-6">
-							<img src="~/tempcontent/Faker.jpg" alt="faker" class="img-fluid" style="width: 180px;height: 200px; object-fit: cover;">
+							<img src="~/tempcontent/Faker.jpg" alt="faker"  style="width: 140px;height: 200px; object-fit: cover;">
 						</div>
 						<div class="p-2 g-col">名字: @item.User?.UserId</div>
 						<div class="p-2 g-col">暱稱: @item.User?.Nickname</div>
@@ -24,9 +25,9 @@
 						<div class="article-content">
 							<div class="row align-items-center mb-3 article-row-1">
 								<div class="p-1 col-1">
-									<div class="bg-dark bg-gradient text-white text-center">										
+									<div class="bg-dark bg-gradient text-white text-center">
 										<text>
-											樓主
+											@(floor == 1 ? "樓主" : $"第{floor}樓")
 										</text>
 									</div>
 								</div>
@@ -39,22 +40,18 @@
 							</div>
 						</div>
 						<div class="comment-section">
-							<div class="row p-3">
-								<div class="col-1">
-									<img src="~/tempcontent/Faker.jpg" alt="faker" class="img-fluid" style="width: 50px;height: 50px; object-fit: contain;">
+							@foreach (var message in item.ArticleMessages)
+							{
+								<div class="row p-3">
+									<div class="col-1">
+										<img src="~/tempcontent/Faker.jpg" alt="user" class="img-fluid" style="width: 50px;height: 50px; object-fit: cover;">
+									</div>
+									<div class="col">
+										<span><b>@message.UserId</b></span>
+										<p>@message.MessageContent</p>
+									</div>
 								</div>
-								<div class="col">
-									<p>「能夠再次奪冠，我感到非常高興。這次勝利對我和隊伍都有著特殊的意義。」「感謝一直以來支持我們的粉絲，這個冠軍屬於你們。」</p>
-								</div>
-							</div>
-							<div class="row p-3">
-								<div class="col-1">
-									<img src="~/tempcontent/Faker.jpg" alt="faker" class="img-fluid" style="width: 50px;height: 50px; object-fit: contain;">
-								</div>
-								<div class="col">
-									<p>「能夠再次奪冠，我感到非常高興。這次勝利對我和隊伍都有著特殊的意義。」「感謝一直以來支持我們的粉絲，這個冠軍屬於你們。」</p>
-								</div>
-							</div>
+							}
 							<div class="mb-3">
 								<textarea class="form-control" rows="3" placeholder="輸入您的留言..."></textarea>
 							</div>
@@ -62,6 +59,7 @@
 						</div>
 					</div>
 				</div>
+				floor++;
 			}
 		</div>
 		<div class="further-reading-block mb-5">
