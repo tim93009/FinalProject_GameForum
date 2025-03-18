@@ -1,6 +1,7 @@
 ﻿using FinalProject_GameForum.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FinalProject_GameForum.Controllers
 {
@@ -23,7 +24,7 @@ namespace FinalProject_GameForum.Controllers
             var userinfo = new User()
             {
                 Nickname = user.Identity!.Name!,
-                Email = user.Claims.FirstOrDefault(c => c.Type == "email")?.Value,
+                Email = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
             };
             
             return View(userinfo);

@@ -246,7 +246,7 @@ namespace FinalProject_GameForum.Controllers
             {
                 UserId = email,
                 Email = email,
-                Nickname =  email,
+                Nickname = name!,
                 Provider = provider,
                 ProviderId = providerID
             };
