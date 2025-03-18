@@ -25,14 +25,14 @@ namespace FinalProject_GameForum.Controllers
 
             if (image != null && image.Length > 0)
             {
-                using (var memoryStream = new MemoryStream())
+                using (MemoryStream memoryStream = new MemoryStream())
                 {
                     await image.CopyToAsync(memoryStream);
                     imageData = memoryStream.ToArray();
                 }
             }
 
-            var problem = new CustomerProblem
+            CustomerProblem problem = new CustomerProblem
             {
                 UserId = userId,
                 QuestionType = questionType,
@@ -43,7 +43,7 @@ namespace FinalProject_GameForum.Controllers
             _context.CustomerProblems.Add(problem);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
