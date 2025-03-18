@@ -31,11 +31,19 @@
 
                 <!--個人圖片-->
                 <div>
-                    <div style="color:aliceblue; margin-right:50px" >
+                    <div style="color:aliceblue; margin-right:50px">
                         <img src="~/img/Login/btn_base.png"> <!--放個人圖片用 先放line替代-->
-                    <!--登入註冊--> 
-                        <a class="m-3" asp-controller="Login" asp-action="Login">登入</a>
-                        <a class="m-3" asp-controller="Login" asp-action="Register">註冊</a>
+                        <!--登入註冊-->
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            <span>@User.Identity.Name</span>
+                            <a class="m-3" asp-controller="Login" asp-action="Logout">登出</a>
+                        }
+                        else
+                        {
+                            <a class="m-3" asp-controller="Login" asp-action="Login">登入</a>
+                            <a class="m-3" asp-controller="Login" asp-action="Register">註冊</a>
+                        }
                     </div>
                 </div>
             </div>
