@@ -1,10 +1,10 @@
 ﻿.myContainer{
     padding:30px 80px;
 }
-h2 {
+.myContainer h2 {
     font-weight: bold;
 }
-p {
+.myContainer p {
     padding: 10px 0 30px;
     color: #c9cacb;
     font-size: 14px;
@@ -12,18 +12,18 @@ p {
     border-bottom: 1px solid #c9cacb;
     margin-bottom: 5px;
 }
-ul {
+.myContainer ul {
     display: flex !important;
     align-items: flex-start;
     justify-content: space-between;
-    padding:0px;
+    padding: 0px;
 }
-li {
-    list-style:none;
+.myContainer li {
+    list-style: none;
 }
-h5{
-    line-height:2em;
-    margin-top:20px;
+.myContainer h5 {
+    line-height: 2em;
+    margin-top: 20px;
 }
 .container {
     display: flex;
