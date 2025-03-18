@@ -195,6 +195,64 @@ namespace FinalProject_GameForum.Controllers
             };
             return Challenge(properties, provider);
         }
+        [HttpGet]
+        public async Task<IActionResult> ThirdLoginCallBack(string returnURL = "/")
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (!result.Succeeded)
+            {
+                TempData["Error"] = "登入失敗，請再試一次!";
+                return RedirectToAction("Login");
+            }
+            //判斷有沒有拿到登入者的資料
+            var claims = result.Principal.Identities.FirstOrDefault()?.Claims;
+            var email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var name = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+            var provider = claims?.FirstOrDefault(c => c.Type == "Provider")?.Value;
+            var providerID = claims?.FirstOrDefault(c => c.Type == "ProviderID")?.Value;
+
+            if (email == null)
+            {
+                TempData["Error"] = "無法取得信箱，請使用其他方式登入!";
+                return RedirectToAction("Login");
+            }
+            //判斷是否有此信箱
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user != null && user?.Email != email)
+            {
+                TempData["Error"] = "您已註冊過，請使用原帳號登入!";
+                return RedirectToAction("Login");
+            }
+
+            if (user != null)
+            {
+               var claimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+               var authPropertie = new AuthenticationProperties { IsPersistent = true };
+               await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimIdentity), authPropertie);
+               return RedirectToAction("Index", "Home");
+            }
+
+           
+
+            user =  new User
+            {
+                UserId = email,
+                Email = email,
+                Nickname =  email,
+                Provider = provider,
+                ProviderId = providerID
+            };
+
+            _context.Users.Add(user);
+            _context.SaveChanges();
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties { IsPersistent = true };
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+            return RedirectToAction("Index", "Home");
+
+          
+        }
 
     }
 }

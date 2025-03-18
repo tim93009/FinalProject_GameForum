@@ -7,7 +7,7 @@ public partial class User
 {
     public string UserId { get; set; } = null!;
 
-    public string Password { get; set; } = null!;
+    public string? Password { get; set; }
 
     public string Nickname { get; set; } = null!;
 
@@ -24,6 +24,10 @@ public partial class User
     public string? Phone { get; set; }
 
     public DateTime? RegisterDate { get; set; }
+
+    public string? Provider { get; set; }
+
+    public string? ProviderId { get; set; }
 
     public virtual ICollection<ArticleMessage> ArticleMessages { get; set; } = new List<ArticleMessage>();
 
