@@ -1,9 +1,9 @@
-﻿a {
+﻿.dis-container a {
     text-decoration: none;
 }
-    a:hover {
-        text-decoration: underline;
-    }
+.dis-container a:hover {
+    text-decoration: underline;
+}
 .dis-container {
     display:flex;
     width: 100%;

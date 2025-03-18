@@ -1,0 +1,88 @@
+﻿@* @model FinalProject_GameForum.Views.Order.IndexModel *@
+@{
+}
+<link rel="stylesheet" href="~/css/Order/Order.css" asp-append-version="true" />
+
+@await Html.PartialAsync("ShoppingMall_Nav")
+
+@model IEnumerable<FinalProject_GameForum.Models.Order>
+
+<div class="order-container">
+    <div class="order-container2">
+        <h2>訂單紀錄清單</h2>
+        <!-- 搜尋表單 -->
+        <form method="get" action="@Url.Action("Search", "Order")">
+            <div class="search-box">
+                <input type="text" name="searchOrderId" placeholder="輸入訂單編號" />
+                <button type="submit">查詢</button>
+            </div>
+        </form>
+    </div>
+
+    <br />
+
+    <!-- 訂單列表 -->
+    <div class="order-category2">
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>訂單編號</th>
+                    <th>日期</th>
+                    <th>總價</th>
+                    <th>訂單狀態</th>
+                    <th>商品名稱</th>
+                    <th>分類</th>
+                    <th>數量</th>
+                    <th>收件地址</th>
+                    <th>訂單進度</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.OrderId</td>
+                            <td>@order.OrderDate?.ToString("yyyy/MM/dd")</td>
+                            <td>@(order.Product.Price * order.Quantity) 元</td>
+                            <td>@order.OrderStatus.Status</td>
+                            <td>@order.Product.ProductName</td>
+                            <td>@order.Product.ProductCategory?.Category</td>
+                            <td>@order.Quantity</td>
+                            <td>@order.ShippingAddress</td>
+                            <td>
+                                <div class="progress-bar">
+                                    @if (order.OrderStatusId == 1)
+                                    {
+                                        <span class="active">收到訂單</span>
+                                    }
+                                    @if (order.OrderStatusId == 2)
+                                    {
+                                        <span class="active">確認付款</span>
+                                    }
+                                    @if (order.OrderStatusId == 3)
+                                    {
+                                        <span class="active">出貨</span>
+                                    }
+                                    @if (order.OrderStatusId == 4)
+                                    {
+                                        <span class="active">已完成</span>
+                                    }
+                                </div>
+                            </td>
+                            <td><button>查看詳情</button></td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" style="text-align: center;">目前沒有訂單資料。</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

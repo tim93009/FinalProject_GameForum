@@ -1,67 +1,57 @@
-﻿@{
-	Layout = "_LayoutTes";
-	var x = ViewBag.A1;
+﻿@model IEnumerable<FinalProject_GameForum.Models.Article>
+@{
+	Layout = "_LayoutArticle";
+	int floor = 1;
 }
 <div class="container mt-4">
 	<div class="container">
 		<div class="d-flex flex-column">
 			<div class="article-title mb-2">
-				<h2>[情報] T1勝利感言</h2>
+				<h2>
+					[@Model.FirstOrDefault()?.ArticleGroup?.Category] @Model.FirstOrDefault()?.ArticleGroup?.ArticleTitle
+				</h2>
 			</div>
-			@for (int i = 0; i < 5; i++)
+			@foreach (var item in Model)
 			{
 				<div class="d-flex mb-5 article-block">
 					<div class="member-block me-lg-3 row-gap-3">
 						<div class="p-2 g-col-6">
-							<img src="@x[@i].Url" alt="faker" class="img-fluid" style="width: 180px;height: 200px; object-fit: cover;">
+							<img src="~/tempcontent/Faker.jpg" alt="faker"  style="width: 140px;height: 200px; object-fit: cover;">
 						</div>
-						<div class="p-2 g-col">名字: @x[@i].Name</div>
-						<div class="p-2 g-col">暱稱: @x[@i].TempName</div>
+						<div class="p-2 g-col">名字: @item.User?.UserId</div>
+						<div class="p-2 g-col">暱稱: @item.User?.Nickname</div>
 					</div>
 					<div class="article-border flex-grow-1">
 						<div class="article-content">
 							<div class="row align-items-center mb-3 article-row-1">
 								<div class="p-1 col-1">
 									<div class="bg-dark bg-gradient text-white text-center">
-										@if (i == 0)
-										{
-											<text>
-												樓主
-											</text>
-										}
-										else
-										{
-											<text>
-												第@(i + 1)樓
-											</text>
-										}
+										<text>
+											@(floor == 1 ? "樓主" : $"第{floor}樓")
+										</text>
 									</div>
 								</div>
-								<div class="col-2">@x[@i].Name</div>
-								<div class="col-2">@x[@i].TempName</div>
-								<div class="col-7 text-end">@ViewBag.CreteTime</div>
+								<div class="col-2">@item.User?.UserId</div>
+								<div class="col-2">@item.User?.Nickname</div>
+								<div class="col-7 text-end">@item.PostDate</div>
 							</div>
 							<div class="row article-row-2">
-								<p class="text-break">@Html.Raw(@x[@i].Content)</p>
+								<p class="text-break">@Html.Raw(item.ArticleContent)</p>
 							</div>
 						</div>
 						<div class="comment-section">
-							<div class="row p-3">
-								<div class="col-1">
-									<img src="~/tempcontent/Faker.jpg" alt="faker" class="img-fluid" style="width: 50px;height: 50px; object-fit: contain;">
+							@foreach (var message in item.ArticleMessages)
+							{
+								<div class="row p-3">
+									<div class="col-1">
+										<img src="~/tempcontent/Faker.jpg" alt="user" class="img-fluid" style="width: 50px;height: 50px; object-fit: cover;">
+									</div>
+									<div class="col">
+										<span><b>@message.UserId</b></span>
+										<p>@message.MessageContent</p>
+									</div>
 								</div>
-								<div class="col">
-									<p>「能夠再次奪冠，我感到非常高興。這次勝利對我和隊伍都有著特殊的意義。」「感謝一直以來支持我們的粉絲，這個冠軍屬於你們。」</p>
-								</div>
-							</div>
-							<div class="row p-3">
-								<div class="col-1">
-									<img src="~/tempcontent/Faker.jpg" alt="faker" class="img-fluid" style="width: 50px;height: 50px; object-fit: contain;">
-								</div>
-								<div class="col">
-									<p>「能夠再次奪冠，我感到非常高興。這次勝利對我和隊伍都有著特殊的意義。」「感謝一直以來支持我們的粉絲，這個冠軍屬於你們。」</p>
-								</div>
-							</div>
+							}
 							<div class="mb-3">
 								<textarea class="form-control" rows="3" placeholder="輸入您的留言..."></textarea>
 							</div>
@@ -69,6 +59,7 @@
 						</div>
 					</div>
 				</div>
+				floor++;
 			}
 		</div>
 		<div class="further-reading-block mb-5">
