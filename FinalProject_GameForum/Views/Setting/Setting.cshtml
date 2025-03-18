@@ -3,6 +3,7 @@
 *@
 @{
 }
+@model User
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,8 +37,8 @@
 					<div class="card p-4 border shadow-sm">
 						<h5 class="card-titles d-flex align-items-center">
 							<img src="~/img/Login/btn_base.png" class="me-2" id="profileImage" width="60">
-							<span id="MemberName">暱稱</span>
-							<input type="text" id="nameInput" class="form-control d-none col " value="暱稱">
+							<span id="MemberName">@Model.Nickname</span>
+							<input type="text" id="nameInput" class="form-control d-none col " value="@Model.Nickname">
 							<div>
 								<input type="file" id="imageInput" class="d-none ms-2" accept="image/*">
 								<a href="#" class="ms-2 fs-6" style="text-decoration:none" onclick="NameEdit(true)">修改</a>

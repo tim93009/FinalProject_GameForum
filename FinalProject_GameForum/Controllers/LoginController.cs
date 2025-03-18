@@ -16,12 +16,12 @@ namespace FinalProject_GameForum.Controllers
     public class LoginController : Controller
     {
         private readonly GameForumContext _context;
-        protected UserInfoService _userInfo { get; set; }
+     
 
-        public LoginController(GameForumContext context, UserInfoService userInfo)
+        public LoginController(GameForumContext context)
         {
             _context = context;
-            _userInfo = userInfo;
+            
         }
         public IActionResult Login()
         {
@@ -49,14 +49,22 @@ namespace FinalProject_GameForum.Controllers
             else
             {
                 //Identity 要求Claim類別格式對應指派登入成功的用戶資料
-                var varClaims = new List<Claim>
+                var varClaims = new List<Claim>();
+                if (isEmail)
                 {
-                    new Claim(ClaimTypes.Name, user.Nickname),
-                    new Claim("FullName", user.Nickname),
-                    new Claim(ClaimTypes.Email, user.Email!),
-                    new Claim("UserEmail", user.Email!),
-                    new Claim("UserPW", user.Password)
-                };
+                    varClaims.Add(new Claim(ClaimTypes.Name, user.Nickname));
+                    varClaims.Add(new Claim("FullName", user.Nickname));
+                    varClaims.Add(new Claim(ClaimTypes.Email, user.Email!));
+                    varClaims.Add(new Claim("UserEmail", user.Email!));
+                    varClaims.Add(new Claim("UserPW", user.Password!));
+                }
+                else
+                {
+                    varClaims.Add(new Claim(ClaimTypes.Name, user.Nickname));
+                    varClaims.Add(new Claim("FullName", user.Nickname));
+                    varClaims.Add(new Claim("UserPW", user.Password!));
+                }
+                ;
                 //建構ClaimsIdentity Cookie 用戶驗證物件的狀態存取案例。
                 var ClaimsIdentity = new ClaimsIdentity(varClaims, CookieAuthenticationDefaults.AuthenticationScheme);
 
