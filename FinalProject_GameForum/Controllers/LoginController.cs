@@ -185,5 +185,16 @@ namespace FinalProject_GameForum.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult ThirdLogin(string provider, string returnURL = "/")
+        {
+            var redirectUrl = Url.Action("ThirdLoginCallback","Login", new { returnURL });
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = redirectUrl
+            };
+            return Challenge(properties, provider);
+        }
+
     }
 }
