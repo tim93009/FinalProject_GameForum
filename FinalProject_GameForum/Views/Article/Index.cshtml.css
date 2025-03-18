@@ -69,3 +69,14 @@
     height: 250px;
     width: 250px;
 }
+
+.button-return {
+    background-color: lightgray;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .button-return:hover {
+        background-color: lightseagreen;
+    }
