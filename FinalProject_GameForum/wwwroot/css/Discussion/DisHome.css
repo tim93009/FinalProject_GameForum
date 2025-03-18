@@ -1,11 +1,8 @@
-﻿.dis-container {
-
-﻿main{
+﻿
+﻿.dis-container{
     width: 80%;
-    margin: 0 auto;
     margin: 20px auto;
     padding: 20px;
-    background-color: #f4f4f4;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -17,7 +14,7 @@ a img {
     .dis-container a:hover{
         text-decoration:underline;
     }
-    .dis-container a img {
+    .dis-container img {
         width: 100%;
         height: auto;
     border-radius: 8px;
@@ -31,8 +28,6 @@ h3 {
 .dis-container h3 {
     font-size: 24px;
     font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
     color: black;
     background-color:aqua;
     margin-top:20px;
@@ -47,14 +42,11 @@ h3 {
 }
 
 .hot-dis li {
-    background-color: #fff;
-    margin-bottom: 10px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     background-color: white;
     padding: 15px;
-    border-radius: 6px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 .dis-container h4 {
@@ -66,14 +58,12 @@ h3 {
 .hot-dis h5 {
     padding:10px;
     font-size: 18px;
-    color: #444;
     color: black;
     margin-bottom: 5px;
 }
 
 .hot-dis h6 {
     font-size: 14px;
-    color: #777;
     color: blue;
     margin-right:30%;
 }
