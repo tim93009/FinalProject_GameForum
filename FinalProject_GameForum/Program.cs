@@ -1,22 +1,26 @@
+using FinalProject_GameForum;
 using FinalProject_GameForum.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-////Session 登入
-//builder.Services.AddSession(options =>
-//{
-//    //登入效期1天
-//    options.IdleTimeout = TimeSpan.FromDays(1);
-//    options.Cookie.HttpOnly = true;
-//    options.Cookie.IsEssential = true;
-//});
+
 
 // 從 appsettings.json 讀取連線字串並設定 DbContext
 builder.Services.AddDbContext<GameForumContext>(
         options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<UserInfoService>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
+{
+    //未登入時自動移轉到此網址
+    option.LoginPath = new PathString("/Home/Index");
+});
+
 builder.Services.AddControllersWithViews();
 
 
@@ -33,10 +37,13 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-//app.UseSession();
+
 app.UseRouting();
 
+app.UseCookiePolicy();
+app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",
