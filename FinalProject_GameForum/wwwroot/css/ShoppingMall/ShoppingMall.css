@@ -289,11 +289,6 @@
     gap: 5px; /* 添加間距 */
 }
 
-.products-feedback {
-    display: block;
-    width: 100%;
-}
-
 .category-name {
     color: white;
     background-color: #2e52b2; /* 淺灰色，與 rank-other-color 一致 */
@@ -302,20 +297,8 @@
     display: inline-block; /* 確保標籤不會過寬 */
     font-size: 12px;
     position: absolute; /* 新增：絕對定位 */
-    bottom: 110px; /* 新增：距離底部 10px，與 padding 一致 */
-    left: 5px;
-}
-
-.feedback-point {
-    color: white;
-    background-color: #419f8b; /* 淺灰色，與 rank-other-color 一致 */
-    padding: 3px 8px; /* 內距與 rank-other-color 一致 */
-    border-radius: 4px; /* 圓角與 rank-other-color 一致 */
-    display: inline-block; /* 確保紅利標籤不會過寬 */
-    font-size: 12px;
-    position: absolute; /* 新增：絕對定位 */
     bottom: 80px; /* 新增：距離底部 10px，與 padding 一致 */
-    left: 5px;    
+    left: 5px;
 }
 
 .products-price {
