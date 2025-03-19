@@ -2,6 +2,8 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+	var photourl = Model.PhotoUrl ?? "/img/Login/headphoto.jpg";
+
 }
 @model User
 <!DOCTYPE html>
@@ -33,114 +35,120 @@
 			</div>
 
 			<div class="col-md-8">
-				<form action="">
-					<div class="card p-4 border shadow-sm">
+				<form action="/Setting/Setting" method="post"  enctype="multipart/form-data">
+					<div class=" p-4">
 						<h5 class="card-titles d-flex align-items-center">
-							<img src="~/img/Login/btn_base.png" class="me-2" id="profileImage" width="60">
+							<img src="@photourl" class="me-2" id="profileImage" width="60">
 							<span id="MemberName">@Model.Nickname</span>
-							<input type="text" id="nameInput" class="form-control d-none col " value="@Model.Nickname">
+							<input type="text" id="nameInput" class="form-control d-none col " value="@Model.Nickname" name="Nickname">
 							<div>
-								<input type="file" id="imageInput" class="d-none ms-2" accept="image/*">
+								<input type="file" id="imageInput" class="d-none ms-2" accept="image/*" onchange="previewImage(event)" name="PhotoUrl">
 								<a href="#" class="ms-2 fs-6" style="text-decoration:none" onclick="NameEdit(true)">修改</a>
 							</div>
 						</h5>
 						<div class="d-none" style="margin-left: 70px;" id="EditButton">
-							<button class="btn btn-outline-success btn-sm me-3 " id="saveButton" onclick="saveChanges()">儲存</button>
-							<button class="btn btn-outline-success btn-sm me-3" onclick="NameEdit(false)">取消</button>>
+							<button type="submit" class="btn btn-outline-success btn-sm me-3 " id="saveButton" onclick="saveChanges()">儲存</button>
+							<button class="btn btn-outline-success btn-sm me-3" onclick="NameEdit(false)">取消</button>
 						</div>
+					</div>
+				</form>
+
+				<form>
+					<h5 class="mt-5">
+						<strong>個人資料</strong>
+						<a href="#" class="ms-2 fs-6" style="text-decoration:none" onclick="MemberEdit(true)" id="Edit">編輯</a>
+					</h5>
 
 
-						<h5 class="mt-5">
-							<strong>個人資料</strong>
-							<a href="#" class="ms-2 fs-6" style="text-decoration:none" onclick="MemberEdit(true)" id="Edit">編輯</a>
-						</h5>
+					<div class="mb-3 row">
+						<label for="Email" class="col-sm-2 col-form-label"><strong>電子信箱 :</strong></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control-plaintext" id="Email" value="email@example.com" readonly>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="Name" class="col-sm-2 col-form-label"><strong>姓名 :</strong></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control-plaintext" id="Name" value="***" readonly>
+						</div>
+					</div>
+					<div class=" mb-3 row">
+						<label class="col-sm-2 col-form-label"><strong>性別 :</strong></label>
+						<div class="col-sm-10 d-flex align-items-center">
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+									   value="option1">
+								<label class="form-check-label" for="inlineRadio1">男</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+									   value="option2">
+								<label class="form-check-label" for="inlineRadio2">女</label>
+							</div>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="Birthdate" class="col-sm-2 col-form-label"><strong>生日 :</strong></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control-plaintext" id="Birthdate" value="1001/01/01" readonly>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="ID" class="col-sm-2 col-form-label"><strong>住址 :</strong></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control-plaintext" id="ID" value="台中市xx區" readonly>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="Phone" class="col-sm-2 col-form-label"><strong>手機 :</strong></label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control-plaintext" id="Phone" value="09123456789" readonly>
+						</div>
+					</div>
+					<div class="d-flex justify-content-end mt-3 d-none" id="MemberEdit">
+						<button class="btn btn-outline-success btn-sm me-3 " id="saveButton" onclick="saveMember()">儲存</button>
+						<button class="btn btn-outline-success btn-sm" onclick="MemberEdit(false)">取消</button>
+					</div>
+				</form>
 
+				<form action="/" method="post">
+					<h5 class="mt-5">
+						<strong>更改密碼</strong>
+					</h5>
 
-						<div class="mb-3 row">
-							<label for="Email" class="col-sm-2 col-form-label"><strong>電子信箱 :</strong></label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control-plaintext" id="Email" value="email@example.com" readonly>
-							</div>
+					<div class="mb-3 row">
+						<label for="OldPassword" class="col  form-label mt-5">舊密碼 :</label>
+						<div class="col-sm-9 mt-5">
+							<input type="password" class="form-control  " id="OldPassword"
+								   oninput="Password()">
 						</div>
-						<div class="mb-3 row">
-							<label for="Name" class="col-sm-2 col-form-label"><strong>姓名 :</strong></label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control-plaintext" id="Name" value="***" readonly>
-							</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="NewPassword" class="col  form-label mt-3">新密碼 :</label>
+						<div class="col-sm-9 mt-3">
+							<input type="password" class="form-control  " id="NewPassword"
+								   oninput="Password()">
 						</div>
-						<div class=" mb-3 row">
-							<label class="col-sm-2 col-form-label"><strong>性別 :</strong></label>
-							<div class="col-sm-10 d-flex align-items-center">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-										   value="option1">
-									<label class="form-check-label" for="inlineRadio1">男</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-										   value="option2">
-									<label class="form-check-label" for="inlineRadio2">女</label>
-								</div>
-							</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="RePassword" class="col  form-label mt-3">確認密碼 :</label>
+						<div class="col-sm-9 mt-3">
+							<input type="password" class="form-control  " id="RePassword"
+								   oninput="Password()">
 						</div>
-						<div class="mb-3 row">
-							<label for="Birthdate" class="col-sm-2 col-form-label"><strong>生日 :</strong></label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control-plaintext" id="Birthdate" value="1001/01/01" readonly>
-							</div>
-						</div>
-						<div class="mb-3 row">
-							<label for="ID" class="col-sm-2 col-form-label"><strong>住址 :</strong></label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control-plaintext" id="ID" value="台中市xx區" readonly>
-							</div>
-						</div>
-						<div class="mb-3 row">
-							<label for="Phone" class="col-sm-2 col-form-label"><strong>手機 :</strong></label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control-plaintext" id="Phone" value="09123456789" readonly>
-							</div>
-						</div>
-						<div class="d-flex justify-content-end mt-3 d-none" id="MemberEdit">
-							<button class="btn btn-outline-success btn-sm me-3 " id="saveButton" onclick="saveMember()">儲存</button>
-							<button class="btn btn-outline-success btn-sm" onclick="MemberEdit(false)">取消</button>
-						</div>
-
-						<h5 class="mt-5">
-							<strong>更改密碼</strong></h5>
-
-							<div class="mb-3 row">
-								<label for="OldPassword" class="col  form-label mt-5">舊密碼 :</label>
-								<div class="col-sm-9 mt-5">
-									<input type="password" class="form-control  " id="OldPassword"
-										   oninput="Password()">
-								</div>
-							</div>
-							<div class="mb-3 row">
-								<label for="NewPassword" class="col  form-label mt-3">新密碼 :</label>
-								<div class="col-sm-9 mt-3">
-									<input type="password" class="form-control  " id="NewPassword"
-										   oninput="Password()">
-								</div>
-							</div>
-							<div class="mb-3 row">
-								<label for="RePassword" class="col  form-label mt-3">確認密碼 :</label>
-								<div class="col-sm-9 mt-3">
-									<input type="password" class="form-control  " id="RePassword"
-										   oninput="Password()">
-								</div>
-							</div>
-							<div class="d-flex justify-content-end mt-3">
-								<button type="submit" class="btn btn-outline-success" id="save" data-bs-toggle="modal"
-										data-bs-target="#exampleModal" disabled>
-									修改密碼
-								</button>
-							</div>
+					</div>
+					<div class="d-flex justify-content-end mt-3">
+						<button type="submit" class="btn btn-outline-success" id="save" data-bs-toggle="modal"
+								data-bs-target="#exampleModal" disabled>
+							修改密碼
+						</button>
 					</div>
 				</form>
 			</div>
 		</div>
-	</div>
+		</div>
+
+	
 	<script src="~/js/setting/setting.js"></script>
 </body>
 
