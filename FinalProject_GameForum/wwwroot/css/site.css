@@ -3,7 +3,12 @@
     background-size: 100% 100%, cover;
     background-position: left top, center;
 }
-
+.navbar span{
+    margin-left:30px;
+    font-size:24px;
+    font-weight:bold;
+    color:white
+}
 .m-3 {
     color: #0077cc;
     text-decoration: none;
@@ -165,7 +170,7 @@
     width: 100%;
     white-space: nowrap;
     line-height: 60px;
-    margin-top: 80px; /* 與上方內容的間距 */
+    margin-top: 200px; /* 與上方內容的間距 */
 }
 
 /* Style the search field */

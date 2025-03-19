@@ -35,34 +35,15 @@
         <h3>最新消息</h3>
 
         <div class="newsList">
-            <div class="News">
-                <a href="/News/News"><img src="~/img/News/MLB.png" alt="MHN Image" style="width:220px;height:220px" /></a>
-                <h6><a href="/News/News">《鬼滅之刃》與美國職棒大聯盟展開合作企劃 大谷使出「打擊之呼吸」猛力一擊</a></h6>
+            @foreach (var news in Model) {
+                <div class="News">
+                    <a href="@Url.Action("News", "News", new { id = news.NewsId })">
+                        <img src="@news.ImageUrl" alt="MHN Image" style="width:220px;height:220px" />
+                    </a>
+                    <h6><a href=" @Url.Action("News", "News", new { id = news.NewsId })">
+                        @news.NewsTitle</a></h6>
             </div>
-
-            <div class="News">
-                <a href="#"><img src="~/img/News/Zero.jpg" alt="MHN Image" style="width:220px;height:220px" /></a>
-                <h6><a href="#">《絕區零》釋出「薇薇安」代理人檔案</a></h6>
-            </div>
-
-            <div class="News">
-                <a href="#"><img src="~/img/News/MHN.jpg" alt="MHN Image" style="width:220px;height:220px" /></a>
-                <h6><a href="#">《Monster Hunter Now》SEASON 5「劃破春日的劍尾」正式登場 追加斬龍與青熊獸</a></h6>
-            </div>
-            <div class="News">
-                <a href="#"><img src="~/img/News/MLB.png" alt="MHN Image" style="width:220px;height:220px" /></a>
-                <h6><a href="#">《鬼滅之刃》與美國職棒大聯盟展開合作企劃 大谷使出「打擊之呼吸」猛力一擊</a></h6>
-            </div>
-
-            <div class="News">
-                <a href="#"><img src="~/img/News/Zero.jpg" alt="MHN Image" style="width:220px;height:220px" /></a>
-                <h6><a href="#">《絕區零》釋出「薇薇安」代理人檔案</a></h6>
-            </div>
-
-            <div class="News">
-                <a href="#"><img src="~/img/News/MHN.jpg" alt="MHN Image" style="width:220px;height:220px" /></a>
-                <h6><a href="#">《Monster Hunter Now》SEASON 5「劃破春日的劍尾」正式登場 追加斬龍與青熊獸</a></h6>
-            </div>
+            }
         </div>
     </div>
     
@@ -72,7 +53,7 @@
 			<a href="/Product/Index" alt"廣告"><img src="~/img/product/17de292a8fb7805796cf99d3001p39z5.jpg" /></a>
         </div>
         <div class="ad">
-			<a href="/ShoppingMall/Index" alt"廣告"><img src="~/img/product/97f39860d771a87c21972e0c0f1snyv5.jpg" /></a>
+			<a href="/ShoppingMall/Index" alt"廣告"><img src="~/img/Home/ad01.jpg" /></a>
         </div>
     </div>
 
@@ -127,30 +108,32 @@
     </div>
 
     @* 熱門看板 *@
+    <h2>熱門看板</h2>
+
     <div class="discussion-container">
         <div class="discussion-card">
-		    <a href=""><img src="~/img/home/test.jpg" /></a>
-            <h6>魔物獵人</h6>
+		    <a href="/Discussion/DisHome"><img src="~/img/home/test.jpg" /></a>
+            <h6>魔物獵人 - 系列</h6>
         </div>
         <div class="discussion-card">
-            <a href=""><img src="~/img/home/test.jpg" /></a>
-            <h6>魔物獵人</h6>
+            <a href=""><img src="~/img/home/test02.jpg" /></a>
+            <h6>崩壞：星穹鐵道</h6>
         </div>
         <div class="discussion-card">
-            <a href=""><img src="~/img/home/test.jpg" /></a>
-            <h6>魔物獵人</h6>
+            <a href=""><img src="~/img/home/test03.jpg" /></a>
+            <h6>新楓之谷</h6>
         </div>
         <div class="discussion-card">
-            <a href=""><img src="~/img/home/test.jpg" /></a>
-            <h6>魔物獵人</h6>
+            <a href=""><img src="~/img/home/test04.jpg" /></a>
+            <h6>神魔之塔</h6>
         </div>
         <div class="discussion-card">
-            <a href=""><img src="~/img/home/test.jpg" /></a>
-            <h6>魔物獵人</h6>
+            <a href=""><img src="~/img/home/test05.jpg" /></a>
+            <h6>貓咪大戰爭</h6>
         </div>
         <div class="discussion-card">
-            <a href=""><img src="~/img/home/test.jpg" /></a>
-            <h6>魔物獵人</h6>
+            <a href=""><img src="~/img/home/test06.jpg" /></a>
+            <h6>英雄聯盟</h6>
         </div>
 
     </div>

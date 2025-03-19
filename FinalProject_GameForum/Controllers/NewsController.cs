@@ -18,7 +18,7 @@ namespace FinalProject_GameForum.Controllers
         {
             var NewsHome = await _context.News
                 .Where(n => !string.IsNullOrEmpty(n.ImageUrl))
-                .Take(3)
+                .Take(5)
                 .ToListAsync();
 
             var NewsDetail = await _context.News
@@ -46,7 +46,14 @@ namespace FinalProject_GameForum.Controllers
                 return NotFound();
             }
 
-            var relatedNews = _context.News
+			var newsMessages = _context.NewsMessages
+						.Where(m => m.NewsId == id)
+						.OrderByDescending(m => m.EditDate)
+						.ToList();
+
+			ViewBag.NewsMessages = newsMessages ?? new List<NewsMessage>();
+
+			var relatedNews = _context.News
             .Where(n => n.NewsId != id)
             .Take(3)
             .ToList();
@@ -56,6 +63,7 @@ namespace FinalProject_GameForum.Controllers
 
             return View(newsItem);
         }
+
     }
 
 }
