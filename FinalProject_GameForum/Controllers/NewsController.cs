@@ -17,11 +17,12 @@ namespace FinalProject_GameForum.Controllers
         public async Task<IActionResult> Index()
         {
             var NewsHome = await _context.News
-                .Where(n => !string.IsNullOrEmpty(n.ImageUrl))
-                .Take(5)
+                .OrderByDescending(n => n.EditDate)
+                .Take(3)
                 .ToListAsync();
 
             var NewsDetail = await _context.News
+                .OrderByDescending(n => n.EditDate)
                 .Include(n => n.NewsImages)
                 .Include(n => n.NewsMessages)
                 .ToListAsync();
