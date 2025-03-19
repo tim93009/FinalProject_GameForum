@@ -1,11 +1,13 @@
-﻿.myContainer{
+﻿/* 新聞內容 */
+.myContainer{
     padding:30px 80px;
 }
 .myContainer h2 {
     font-weight: bold;
+    padding:30px;
 }
 .myContainer p {
-    padding: 10px 0 30px;
+    padding: 0 30px 30px;
     color: #c9cacb;
     font-size: 14px;
     font-weight: bold;
@@ -15,33 +17,62 @@
 .myContainer ul {
     display: flex !important;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: center;
     padding: 0px;
 }
 .myContainer li {
     list-style: none;
 }
-.myContainer h5 {
+.myContainer li img{
+    width:100%;
+}
+.news-content {
+    padding: 50px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.news-content h5 {
+    padding: 10px 0;
     line-height: 2em;
     margin-top: 20px;
 }
-.container {
+
+/* 留言板 */
+.message-container {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.comment{
-    display:flex;
-    width:80%;
-    height:300px;
-    border:1px solid black;
-    border-radius:4px;
-    font-size:18px;
+.message {
+    display: flex;
+    width: 80%;
+    height: 300px;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding:15px;
+}
+.comment-item h4 {
+    color: blue;
+    font-size: 16px;
+    margin-top: 15px;
+}
+.comment-item h5 {
     color:black;
+    font-size: 20px;
+    margin-top: 15px;
+}
+.comment-item h6 {
+    color: gray;
+    font-size: 14px;
+    margin-top: 10px;
     opacity:0.5;
 }
-#text {
-    margin-top: 10px;
+.text-container{
+    display:flex;
+    flex-direction:column;
+}
+textarea {
+    margin: 10px 0 0 10%;
     width: 80%;
     height: 80px;
     border: 1px solid black;
@@ -59,11 +90,18 @@
     border:1px solid black;
     border-radius:5px;
 }
-.others{
-    margin-top:50px;
-    width:80%;
-    height:380px;
-    border:1px solid gray;
+
+/* 相關新聞 */
+.others-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.others {
+    margin-top: 50px;
+    width: 80%;
+    height: 380px;
+    border: 1px solid gray;
 }
 .others h3 {
     color: forestgreen;

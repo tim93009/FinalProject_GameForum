@@ -7,6 +7,7 @@
 
 <div class="row g-0">
 	<div class="col-sm-12">
+		@* 訂單明細 *@
 		<!-- 區塊 2 -->
 		<div class="section bg-success">
 			<div class="checkout-products-info-area">
@@ -68,16 +69,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="products-info-bonus-area">
-						<div class="row g-0">
-							<div class="col-sm-12">
-								<div class="bonus-info-block">
-									<p id="bonusTotal" data-bonus="100">您有 0 點紅利，本次抵用</p>
-									<input type="number" name="bonus" id="bonus" placeholder="0" value="0" min="0" disabled="">
-									<p>點</p>
-								</div>
-							</div>
-						</div>
+					<div class="products-info-bonus-area">						
 						<div class="row g-0">
 							<div class="col-sm-12">
 								<div class="total-cost-block">
@@ -94,6 +86,7 @@
 
 		<br />
 
+		@* 收件人資訊 *@
 		<!-- 區塊 3 -->
 		<div class="section bg-danger">
 			<div class="checkout-products-recipient-area">
@@ -160,13 +153,15 @@
 			</div>
 		</div>
 
-		<br />
+		<br />		
+	</div>
+</div>
 
-		<!-- 結帳 -->
-		<div class="section bg-info">
-			<h2>結帳</h2>
-			<p>這裡是 結帳區塊 的內容。可以用來展示更多資訊。</p>
-			<a class="nav-link" asp-area="" asp-controller="Checkout" asp-action="Index">結帳連結</a>
+<div class="row g-0">
+	<div class="col-sm-12">
+		<!-- 送出訂單按鈕 -->
+		<div class="submit-button-area">
+			<button type="submit" class="btn-submit-order">送出訂單</button>
 		</div>
 	</div>
 </div>

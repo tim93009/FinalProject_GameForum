@@ -3,34 +3,44 @@
 <!-- 嵌入商城導覽列 -->
 @await Html.PartialAsync("ShoppingMall_Nav")
 
-@model List<Product>
-
-<p>這裡是商城頁面</p>
+@model iSpan_MSIT62_Final_Project.Controllers.ShoppingViewData
 
 
 <div class="row g-0">
-	<div class="col-sm-12">
+	<div class="col-sm-12">		
+		@* 商品輪播圖 *@
 		<!-- 區塊 1 -->
 		<div class="section bg-primary text-white">
 			@* 輪播圖 *@
-			<div id="carouselExampleIndicators" class="carousel slide " data-bs-ride="carousel">
+			<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 				@* 指示器 *@
 				<div class="carousel-indicators">
-					<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-					<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-					<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+					@for (int i = 0; i < Math.Min(Model.Products.OrderByDescending(p => p.Sold ?? 0).Take(5).Count(), 5); i++)
+					{
+						<button type="button" data-bs-target="#carouselExampleIndicators"
+								data-bs-slide-to="@i"
+								class="@(i == 0 ? "active" : "")"
+								aria-current="@(i == 0 ? "true" : "false")"
+								aria-label="Slide @(i + 1)"></button>
+					}
 				</div>
 				@* 圖片 *@
 				<div class="carousel-inner">
-					<div class="carousel-item active">
-						<img src="~/img/product/97f39860d771a87c21972e0c0f1snyv5.jpg" class="d-block w-100" style="object-fit: contain; height: 20vh;" alt="...">
-					</div>
-					<div class="carousel-item">
-						<img src="~/img/product/17de292a8fb7805796cf99d3001p39z5.jpg" class="d-block w-100" style="object-fit: contain; height: 20vh;" alt="...">
-					</div>
-					<div class="carousel-item">
-						<img src="~/img/product/29adba0217e3641578f2dbb3831qm415.jpg" class="d-block w-100" style="object-fit: contain; height: 20vh;" alt="...">
-					</div>
+					@{
+						var carouselProducts = Model.Products.OrderByDescending(p => p.Sold ?? 0).Take(5).ToList();
+						for (int i = 0; i < carouselProducts.Count; i++)
+						{
+							var product = carouselProducts[i];
+							<div class="carousel-item @(i == 0 ? "active" : "")">
+								<a href="@Url.Action("Details", "ShoppingMall", new { id = product.ProductId })">
+									<img src="@product.MainImageUrl"
+										 class="d-block w-100"
+										 style="object-fit: contain; height: 20vh;"
+										 alt="@product.ProductName">
+								</a>
+							</div>
+						}
+					}
 				</div>
 				@* 前後按鈕 *@
 				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -47,634 +57,63 @@
 	</div>
 </div>
 
+
 <div class="row g-0">
 	<div class="col-sm-10">
+		@* 排行榜(foreach版本) *@
 		<!-- 區塊 2 -->
 		<div class="section bg-success">
+			<h2>商城排行榜</h2>
 			<!-- 整體排行榜容器 -->
 			<div class="rank-list">
-				<!-- 排行榜標題區域 -->
-				<div class="rank-title-area">
-					<!-- 顯示 "商城排行榜" 的標題 -->
-					<p>商城排行榜</p>
-					<!-- 空 div，可能用於樣式或未來擴展 -->
-					<div></div>
-				</div>
-
-				<!-- 排行榜分類選擇區域 -->
-				<div class="rank-category-area">
-					<div class="rank-row">
-						<div class="rank-tabs">
-							<!-- 每日熱銷分類標籤，默認啟動，點擊觸發 changeRank(0) 函數 -->
-							<span class="rank-entity-game rank-active" onclick="changeRank(0)">每日熱銷</span>
-							<!-- 實體預購分類標籤，點擊觸發 changeRank(1) 函數 -->
-							<span class="rank-entity-order" onclick="changeRank(1)">實體預購</span>
-							<!-- 數位遊戲分類標籤，點擊觸發 changeRank(2) 函數 -->
-							<span class="rank-digital-game" onclick="changeRank(2)">數位遊戲</span>
-						</div>
-						<div class="rank-date-area">
-							<!-- 更新日期顯示區域，第一個日期顯示（每日熱銷），更新於 2025/03/10 上午 8 點 -->
-							<div class="rank-date" style="display: block;">更新日期：2025 / 03 / 10 上午 8 點（每日更新）</div>
-							<!-- 更新日期顯示區域，第二個日期隱藏（實體預購），更新於 2025/03/09 上午 8 點 -->
-							<div class="rank-date" style="display: none;">更新日期：2025 / 03 / 09 上午 8 點（週日更新）</div>
-							<!-- 更新日期顯示區域，第三個日期隱藏（數位遊戲），更新於 2025/03/10 上午 8 點 -->
-							<div class="rank-date" style="display: none;">更新日期：2025 / 03 / 10 上午 8 點（每日更新）</div>
-						</div>
-					</div>					
-				</div>
-
-				<!-- 排行榜內容區域 - 每日熱銷榜（第一個顯示） -->
+				<!-- 排行榜內容區域 - 每日熱銷榜 -->
 				<div class="rank-ranking-list-area" style="display: flex;">
 					<!-- 前三名商品展示區域 -->
 					<div class="ranking-list-top3-area">
-						<!-- 第一名商品卡片 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜"
-						data-gtm-click="點擊商品" data-gtm-type="巴哈商城每日熱銷榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=3113&dc_c2=20&dc_type=16&dc_machine=0,0"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=3113&dc_c2=20&dc_type=16&dc_machine=0,0"
-						class="ranking-list-card">
-							<!-- 排名標示區域 -->
-							<div style="pointer-events:none;" class="ranking-number">
-								<!-- 第一名圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/pic_ranking_crown_01.png">
-								<!-- 第一名文字 -->
-								<p>第 1 名</p>
-							</div>
-							<!-- 商品圖片 -->
-							<img style="pointer-events:none;"
-							src="https://p2.bahamut.com.tw/B/2KU/54/33b5549bde4ef4948bba20406f1tcny5.JPG"
-							class="pic-ranking-products">
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;" class="ranking-porducts-name">NETFLIX《航海王》草帽 logo 木桶杯</p>
-							<!-- 商品附加資訊 -->
-							<div style="pointer-events:none;" class="ranking-products-info">
-								<!-- 商品類型標籤（其他） -->
-								<span class="rank-etc-color">etc</span>
-								<!-- 無排名變動圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/ranking-product-none.png" class="ranking-product-none">
-							</div>
-						</a>
-						<!-- 第二名商品卡片 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="巴哈商城每日熱銷榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=3103&dc_c2=49&dc_type=1&dc_machine=262144,24"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=3103&dc_c2=49&dc_type=1&dc_machine=262144,24"
-						class="ranking-list-card">
-							<!-- 排名標示區域 -->
-							<div style="pointer-events:none;" class="ranking-number">
-								<!-- 第二名圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/pic_ranking_crown_02.png">
-								<!-- 第二名文字 -->
-								<p>第 2 名</p>
-							</div>
-							<!-- 商品圖片 -->
-							<img style="pointer-events:none;"
-							src="https://p2.bahamut.com.tw/B/2KU/28/ce6cddde00ae927f88fdf50a7e1tdc85.JPG"
-							class="pic-ranking-products">
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;" class="ranking-porducts-name">魔物獵人 荒野</p>
-							<!-- 商品附加資訊 -->
-							<div style="pointer-events:none;" class="ranking-products-info">
-								<!-- 商品類型標籤（其他） -->
-								<span class="rank-etc-color">etc</span>
-								<!-- 無排名變動圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/ranking-product-none.png" class="ranking-product-none">
-							</div>
-						</a>
-						<!-- 第三名商品卡片 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="巴哈商城每日熱銷榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=1020&dc_c2=167&dc_type=1&dc_machine=0,4"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=1020&dc_c2=167&dc_type=1&dc_machine=0,4"
-						class="ranking-list-card">
-							<!-- 排名標示區域 -->
-							<div style="pointer-events:none;" class="ranking-number">
-								<!-- 第三名圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/pic_ranking_crown_03.png">
-								<!-- 第三名文字 -->
-								<p>第 3 名</p>
-							</div>
-							<!-- 商品圖片 -->
-							<img style="pointer-events:none;"
-							src="https://p2.bahamut.com.tw/B/2KU/88/6b2eb09a43cbe10a7db32786c01tb845.JPG"
-							class="pic-ranking-products">
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;" class="ranking-porducts-name">寶可夢傳說 Z-A</p>
-							<!-- 商品附加資訊 -->
-							<div style="pointer-events:none;" class="ranking-products-info">
-								<!-- 商品類型標籤（Nintendo Switch） -->
-								<span class="rank-NS-color">NS</span>
-								<!-- 無排名變動圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/ranking-product-none.png" class="ranking-product-none">
-							</div>
-						</a>
+						@foreach (var product in Model.Products.OrderByDescending(p => p.Sold ?? 0).Take(3))
+						{
+							<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜"
+							   data-gtm-click="點擊商品" data-gtm-type="巴哈商城每日熱銷榜"
+							   data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=@product.ProductCategoryId&dc_c2=20&dc_type=16&dc_machine=0,0"
+							   href="@Url.Action("Details", "ShoppingMall", new { id = product.ProductId })"
+							   class="ranking-list-card">
+								<!-- 排名標示區域 -->
+								<div style="pointer-events:none;" class="ranking-number">
+									<img src="https://i2.bahamut.com.tw/newgshop/pic_ranking_crown_0@(Model.Products.OrderByDescending(p => p.Sold ?? 0).ToList().IndexOf(product) + 1).png">
+									<p>第 @(Model.Products.OrderByDescending(p => p.Sold ?? 0).ToList().IndexOf(product) + 1) 名</p>
+								</div>
+								<!-- 商品圖片 -->
+								<img style="pointer-events:none;" src="@product.MainImageUrl" class="pic-ranking-products">
+								<!-- 商品名稱 -->
+								<p style="pointer-events:none;" class="ranking-porducts-name">@product.ProductName</p>
+								<!-- 商品附加資訊 -->
+								<div style="pointer-events:none;" class="ranking-products-info">
+									<span class="rank-etc-color">@(product.ProductCategory?.Category ?? "etc")</span>
+									<img src="https://i2.bahamut.com.tw/newgshop/ranking-product-none.png" class="ranking-product-none">
+								</div>
+							</a>
+						}
 					</div>
 
 					<!-- 第 4 到 10 名商品列表區域 -->
 					<div class="ranking-list-4to10-area">
-						<!-- 第 4 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜"
-						data-gtm-click="點擊商品" data-gtm-type="巴哈商城每日熱銷榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=1020&dc_c2=167&dc_type=1&dc_machine=0,4"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=30045&dc_c2=6&dc_type=1&dc_machine=0,4"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">4</span>
-							<!-- 商品類型標籤（Nintendo Switch） -->
-							<span style="pointer-events:none;" class="rank-NS-color">NS</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">音速之翼 REUNION</p>
-							<!-- 排名上升圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-up.png"
-							class="ranking-product-up">
-						</a>
-						<!-- 第 5 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="巴哈商城每日熱銷榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=1020&dc_c2=167&dc_type=1&dc_machine=0,4"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=3&dc_c1=4206&dc_c2=28&dc_type=1&dc_machine=262144,0"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">5</span>
-							<!-- 商品類型標籤（PC） -->
-							<span style="pointer-events:none;" class="rank-PC-color">PC</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">人中之龍 8 外傳 夏威夷海盜</p>
-							<!-- 排名上升圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-up.png"
-							class="ranking-product-up">
-						</a>
-						<!-- 第 6 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="巴哈商城每日熱銷榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=1020&dc_c2=167&dc_type=1&dc_machine=0,4"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=30045&dc_c2=6&dc_type=1&dc_machine=0,8"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">6</span>
-							<!-- 商品類型標籤（PS5） -->
-							<span style="pointer-events:none;" class="rank-PS5-color">PS5</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">音速之翼 REUNION</p>
-							<!-- 排名上升圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-up.png"
-							class="ranking-product-up">
-						</a>
-						<!-- 第 7 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="巴哈商城每日熱銷榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=1020&dc_c2=167&dc_type=1&dc_machine=0,4"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=879&dc_c2=47&dc_type=1&dc_machine=0,4"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">7</span>
-							<!-- 商品類型標籤（Nintendo Switch） -->
-							<span style="pointer-events:none;" class="rank-NS-color">NS</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">符文工廠 龍之天地</p>
-							<!-- 排名下降圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-down.png"
-							class="ranking-product-down">
-						</a>
-						<!-- 第 8 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="巴哈商城每日熱銷榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=1020&dc_c2=167&dc_type=1&dc_machine=0,4"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=3897&dc_c2=71&dc_type=1&dc_machine=0,4"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">8</span>
-							<!-- 商品類型標籤（Nintendo Switch） -->
-							<span style="pointer-events:none;" class="rank-NS-color">NS</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">Hello Kitty Island Adventure</p>
-							<!-- 排名上升圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-up.png"
-							class="ranking-product-up">
-						</a>
-						<!-- 第 9 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="巴哈商城每日熱銷榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=1020&dc_c2=167&dc_type=1&dc_machine=0,4"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=515&dc_c2=56&dc_type=1&dc_machine=0,4"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">9</span>
-							<!-- 商品類型標籤（Nintendo Switch） -->
-							<span style="pointer-events:none;" class="rank-NS-color">NS</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">優米雅的鍊金工房 ～追憶之鍊金術士與幻創之地～</p>
-							<!-- 排名下降圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-down.png"
-							class="ranking-product-down">
-						</a>
-						<!-- 第 10 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="巴哈商城每日熱銷榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=1020&dc_c2=167&dc_type=1&dc_machine=0,4"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=515&dc_c2=56&dc_type=1&dc_machine=0,8"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">10</span>
-							<!-- 商品類型標籤（PS5） -->
-							<span style="pointer-events:none;" class="rank-PS5-color">PS5</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">優米雅的鍊金工房 ～追憶之鍊金術士與幻創之地～</p>
-							<!-- 排名上升圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-up.png"
-							class="ranking-product-up">
-						</a>
-					</div>
-				</div>
-
-				<!-- 排行榜內容區域 - 實體預購榜（隱藏） -->
-				<div class="rank-ranking-list-area" style="display: none;">
-					<!-- 前三名商品展示區域 -->
-					<div class="ranking-list-top3-area">
-						<!-- 第一名商品卡片 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜"
-						data-gtm-click="點擊商品" data-gtm-type="實體預購榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=1020&dc_c2=167&dc_type=1&dc_machine=0,4"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=1020&dc_c2=167&dc_type=1&dc_machine=0,4"
-						class="ranking-list-card">
-							<!-- 排名標示區域 -->
-							<div style="pointer-events:none;" class="ranking-number">
-								<!-- 第一名圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/pic_ranking_crown_01.png">
-								<!-- 第一名文字 -->
-								<p>第 1 名</p>
-							</div>
-							<!-- 商品圖片 -->
-							<img style="pointer-events:none;"
-							src="https://p2.bahamut.com.tw/B/2KU/88/6b2eb09a43cbe10a7db32786c01tb845.JPG"
-							class="pic-ranking-products">
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;" class="ranking-porducts-name">寶可夢傳說 Z-A</p>
-							<!-- 商品附加資訊 -->
-							<div style="pointer-events:none;" class="ranking-products-info">
-								<!-- 商品類型標籤（Nintendo Switch） -->
-								<span class="rank-NS-color">NS</span>
-								<!-- 無排名變動圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/ranking-product-none.png" class="ranking-product-none">
-							</div>
-						</a>
-						<!-- 第二名商品卡片 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="實體預購榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=860&dc_c2=20&dc_type=1&dc_machine=0,4"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=860&dc_c2=20&dc_type=1&dc_machine=0,4"
-						class="ranking-list-card">
-							<!-- 排名標示區域 -->
-							<div style="pointer-events:none;" class="ranking-number">
-								<!-- 第二名圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/pic_ranking_crown_02.png">
-								<!-- 第二名文字 -->
-								<p>第 2 名</p>
-							</div>
-							<!-- 商品圖片 -->
-							<img style="pointer-events:none;"
-							src="https://p2.bahamut.com.tw/B/2KU/78/737dd50ad7f40513e81ff4d1041s05e5.JPG"
-							class="pic-ranking-products">
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;" class="ranking-porducts-name">異度神劍 X 終極版</p>
-							<!-- 商品附加資訊 -->
-							<div style="pointer-events:none;" class="ranking-products-info">
-								<!-- 商品類型標籤（Nintendo Switch） -->
-								<span class="rank-NS-color">NS</span>
-								<!-- 無排名變動圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/ranking-product-none.png" class="ranking-product-none">
-							</div>
-						</a>
-						<!-- 第三名商品卡片 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="實體預購榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=35909&dc_c2=2&dc_type=1&dc_machine=4096,0"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=35909&dc_c2=2&dc_type=1&dc_machine=4096,0"
-						class="ranking-list-card">
-							<!-- 排名標示區域 -->
-							<div style="pointer-events:none;" class="ranking-number">
-								<!-- 第三名圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/pic_ranking_crown_03.png">
-								<!-- 第三名文字 -->
-								<p>第 3 名</p>
-							</div>
-							<!-- 商品圖片 -->
-							<img style="pointer-events:none;"
-							src="https://p2.bahamut.com.tw/B/2KU/92/3ec57c6ef4a8d42c463a7ce64c1shr45.JPG"
-							class="pic-ranking-products">
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;" class="ranking-porducts-name">PlayStation 30 週年 棒球帽</p>
-							<!-- 商品附加資訊 -->
-							<div style="pointer-events:none;" class="ranking-products-info">
-								<!-- 商品類型標籤（其他） -->
-								<span class="rank-other-color">other</span>
-								<!-- 無排名變動圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/ranking-product-none.png" class="ranking-product-none">
-							</div>
-						</a>
-					</div>
-
-					<!-- 第 4 到 10 名商品列表區域 -->
-					<div class="ranking-list-4to10-area">
-						<!-- 第 4 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜"
-						data-gtm-click="點擊商品" data-gtm-type="實體預購榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=35909&dc_c2=2&dc_type=1&dc_machine=4096,0"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=879&dc_c2=47&dc_type=1&dc_machine=0,4"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">4</span>
-							<!-- 商品類型標籤（Nintendo Switch） -->
-							<span style="pointer-events:none;" class="rank-NS-color">NS</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">符文工廠 龍之天地</p>
-							<!-- 排名上升圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-up.png"
-							class="ranking-product-up">
-						</a>
-						<!-- 第 5 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="實體預購榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=35909&dc_c2=2&dc_type=1&dc_machine=4096,0"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=515&dc_c2=56&dc_type=1&dc_machine=0,8"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">5</span>
-							<!-- 商品類型標籤（PS5） -->
-							<span style="pointer-events:none;" class="rank-PS5-color">PS5</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">優米雅的鍊金工房 ～追憶之鍊金術士與幻創之地～</p>
-							<!-- 排名下降圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-down.png"
-							class="ranking-product-down">
-						</a>
-						<!-- 第 6 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="實體預購榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=35909&dc_c2=2&dc_type=1&dc_machine=4096,0"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=608&dc_c2=45&dc_type=1&dc_machine=0,8"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">6</span>
-							<!-- 商品類型標籤（PS5） -->
-							<span style="pointer-events:none;" class="rank-PS5-color">PS5</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">空之軌跡 the 1st</p>
-							<!-- 無排名變動圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-none.png"
-							class="ranking-product-none">
-						</a>
-						<!-- 第 7 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="實體預購榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=35909&dc_c2=2&dc_type=1&dc_machine=4096,0"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=306&dc_c2=42&dc_type=1&dc_machine=0,8"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">7</span>
-							<!-- 商品類型標籤（PS5） -->
-							<span style="pointer-events:none;" class="rank-PS5-color">PS5</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">潛龍諜影 Delta：食蛇者</p>
-							<!-- 無排名變動圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-none.png"
-							class="ranking-product-none">
-						</a>
-						<!-- 第 8 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="實體預購榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=35909&dc_c2=2&dc_type=1&dc_machine=4096,0"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=44348&dc_c2=1&dc_type=1&dc_machine=0,4"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">8</span>
-							<!-- 商品類型標籤（Nintendo Switch） -->
-							<span style="pointer-events:none;" class="rank-NS-color">NS</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">百劍討妖傳綺譚</p>
-							<!-- 無排名變動圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-none.png"
-							class="ranking-product-none">
-						</a>
-						<!-- 第 9 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="實體預購榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=35909&dc_c2=2&dc_type=1&dc_machine=4096,0"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=515&dc_c2=56&dc_type=1&dc_machine=0,4"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">9</span>
-							<!-- 商品類型標籤（Nintendo Switch） -->
-							<span style="pointer-events:none;" class="rank-NS-color">NS</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">優米雅的鍊金工房 ～追憶之鍊金術士與幻創之地～</p>
-							<!-- 無排名變動圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-none.png"
-							class="ranking-product-none">
-						</a>
-						<!-- 第 10 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="實體預購榜"
-						data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=35909&dc_c2=2&dc_type=1&dc_machine=4096,0"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=0&dc_c1=44348&dc_c2=1&dc_type=1&dc_machine=0,8"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">10</span>
-							<!-- 商品類型標籤（PS5） -->
-							<span style="pointer-events:none;" class="rank-PS5-color">PS5</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">百劍討妖傳綺譚</p>
-							<!-- 無排名變動圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-none.png"
-							class="ranking-product-none">
-						</a>
-					</div>
-				</div>
-
-				<!-- 排行榜內容區域 - 數位遊戲榜（隱藏） -->
-				<div class="rank-ranking-list-area" style="display: none;">
-					<!-- 前三名商品展示區域 -->
-					<div class="ranking-list-top3-area">
-						<!-- 第一名商品卡片 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜"
-						data-gtm-click="點擊商品" data-gtm-type="數位銷售榜"
-						data-gtm-var1="search.php?frm=rank&kind=3&dc_c1=4206&dc_c2=28&dc_type=1&dc_machine=262144,0"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=3&dc_c1=4206&dc_c2=28&dc_type=1&dc_machine=262144,0"
-						class="ranking-list-card">
-							<!-- 排名標示區域 -->
-							<div style="pointer-events:none;" class="ranking-number">
-								<!-- 第一名圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/pic_ranking_crown_01.png">
-								<!-- 第一名文字 -->
-								<p>第 1 名</p>
-							</div>
-							<!-- 商品圖片 -->
-							<img style="pointer-events:none;"
-							src="https://p2.bahamut.com.tw/B/2KU/23/5eb3d8db4836ff65d81811bc041sh5r5.JPG"
-							class="pic-ranking-products">
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;" class="ranking-porducts-name">人中之龍 8 外傳 夏威夷海盜</p>
-							<!-- 商品附加資訊 -->
-							<div style="pointer-events:none;" class="ranking-products-info">
-								<!-- 商品類型標籤（PC） -->
-								<span class="rank-PC-color">PC</span>
-								<!-- 排名上升圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/ranking-product-up.png" class="ranking-product-up">
-							</div>
-						</a>
-						<!-- 第二名商品卡片 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="數位銷售榜" data-gtm-var1="vItem.php?sn=v1683" href="//buy.gamer.com.tw/vItem.php?sn=v1683"
-						class="ranking-list-card">
-							<!-- 排名標示區域 -->
-							<div style="pointer-events:none;" class="ranking-number">
-								<!-- 第二名圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/pic_ranking_crown_02.png">
-								<!-- 第二名文字 -->
-								<p>第 2 名</p>
-							</div>
-							<!-- 商品圖片 -->
-							<img style="pointer-events:none;"
-							src="https://p2.bahamut.com.tw/B/2KU/72/581722a76529058df48c8b470c189185.JPG"
-							class="pic-ranking-products">
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;" class="ranking-porducts-name">動畫瘋無廣告 30 天序號</p>
-							<!-- 商品附加資訊 -->
-							<div style="pointer-events:none;" class="ranking-products-info">
-								<!-- 商品類型標籤（其他） -->
-								<span class="rank-etc-color">etc</span>
-								<!-- 無排名變動圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/ranking-product-none.png" class="ranking-product-none">
-							</div>
-						</a>
-						<!-- 第三名商品卡片 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="數位銷售榜" data-gtm-var1="vItem.php?sn=v1686" href="//buy.gamer.com.tw/vItem.php?sn=v1686"
-						class="ranking-list-card">
-							<!-- 排名標示區域 -->
-							<div style="pointer-events:none;" class="ranking-number">
-								<!-- 第三名圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/pic_ranking_crown_03.png">
-								<!-- 第三名文字 -->
-								<p>第 3 名</p>
-							</div>
-							<!-- 商品圖片 -->
-							<img style="pointer-events:none;"
-							src="https://p2.bahamut.com.tw/B/2KU/80/5dbefc4f26b80b5b8aa73c0e751891g5.JPG"
-							class="pic-ranking-products">
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;" class="ranking-porducts-name">動畫瘋無廣告 360 天序號</p>
-							<!-- 商品附加資訊 -->
-							<div style="pointer-events:none;" class="ranking-products-info">
-								<!-- 商品類型標籤（其他） -->
-								<span class="rank-etc-color">etc</span>
-								<!-- 排名上升圖標 -->
-								<img src="https://i2.bahamut.com.tw/newgshop/ranking-product-up.png" class="ranking-product-up">
-							</div>
-						</a>
-					</div>
-
-					<!-- 第 4 到 10 名商品列表區域 -->
-					<div class="ranking-list-4to10-area">
-						<!-- 第 4 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜"
-						data-gtm-click="點擊商品" data-gtm-type="數位銷售榜" data-gtm-var1="vItem.php?sn=v1686"
-						href="//buy.gamer.com.tw/search.php?frm=rank&kind=3&dc_c1=11724&dc_c2=9&dc_type=1&dc_machine=262144,0"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">4</span>
-							<!-- 商品類型標籤（PC） -->
-							<span style="pointer-events:none;" class="rank-PC-color">PC</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">我的世界 Windows 10 版</p>
-							<!-- 排名上升圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-up.png"
-							class="ranking-product-up">
-						</a>
-						<!-- 第 5 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="數位銷售榜" data-gtm-var1="vItem.php?sn=v1686" href="//buy.gamer.com.tw/vItem.php?sn=v742"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">5</span>
-							<!-- 商品類型標籤（其他） -->
-							<span style="pointer-events:none;" class="rank-etc-color">etc</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">Microsoft Xbox 禮品卡 $500 數位下載版</p>
-							<!-- 排名上升圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-up.png"
-							class="ranking-product-up">
-						</a>
-						<!-- 第 6 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="數位銷售榜" data-gtm-var1="vItem.php?sn=v1686" href="//buy.gamer.com.tw/vItem.php?sn=v1441"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">6</span>
-							<!-- 商品類型標籤（其他） -->
-							<span style="pointer-events:none;" class="rank-etc-color">etc</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">MyCard 30 點儲值卡</p>
-							<!-- 排名下降圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-down.png"
-							class="ranking-product-down">
-						</a>
-						<!-- 第 7 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="數位銷售榜" data-gtm-var1="vItem.php?sn=v1686" href="//buy.gamer.com.tw/vItem.php?sn=v1442"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">7</span>
-							<!-- 商品類型標籤（其他） -->
-							<span style="pointer-events:none;" class="rank-etc-color">etc</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">MyCard 90 點儲值卡</p>
-							<!-- 排名上升圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-up.png"
-							class="ranking-product-up">
-						</a>
-						<!-- 第 8 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="數位銷售榜" data-gtm-var1="vItem.php?sn=v1686" href="//buy.gamer.com.tw/vItem.php?sn=v3281"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">8</span>
-							<!-- 商品類型標籤（其他） -->
-							<span style="pointer-events:none;" class="rank-etc-color">etc</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">巴哈姆特贊助專用禮物：煉金石 100 個</p>
-							<!-- 排名上升圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-up.png"
-							class="ranking-product-up">
-						</a>
-						<!-- 第 9 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="數位銷售榜" data-gtm-var1="vItem.php?sn=v1686" href="//buy.gamer.com.tw/vItem.php?sn=v743"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">9</span>
-							<!-- 商品類型標籤（其他） -->
-							<span style="pointer-events:none;" class="rank-etc-color">etc</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">Microsoft Xbox 禮品卡 $1000 數位下載版</p>
-							<!-- 排名下降圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-down.png"
-							class="ranking-product-down">
-						</a>
-						<!-- 第 10 名商品 -->
-						<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜" data-gtm-click="點擊商品"
-						data-gtm-type="數位銷售榜" data-gtm-var1="vItem.php?sn=v1686" href="//buy.gamer.com.tw/vItem.php?sn=v90"
-						class="ranking-list-list">
-							<!-- 排名數字 -->
-							<span style="pointer-events:none;" class="ranking-list-rank">10</span>
-							<!-- 商品類型標籤（其他） -->
-							<span style="pointer-events:none;" class="rank-etc-color">etc</span>
-							<!-- 商品名稱 -->
-							<p style="pointer-events:none;">WebMoney 2000 點</p>
-							<!-- 排名下降圖標 -->
-							<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-down.png"
-							class="ranking-product-down">
-						</a>
+						@foreach (var product in Model.Products.OrderByDescending(p => p.Sold ?? 0).Skip(3).Take(7))
+						{
+							<a data-gtm-service="buy" data-gtm-page="首頁" data-gtm-area="商城每日熱銷榜"
+							   data-gtm-click="點擊商品" data-gtm-type="巴哈商城每日熱銷榜"
+							   data-gtm-var1="search.php?frm=rank&kind=0&dc_c1=@product.ProductCategoryId&dc_c2=20&dc_type=16&dc_machine=0,0"
+							   href="@Url.Action("Details", "ShoppingMall", new { id = product.ProductId })"
+							   class="ranking-list-list">
+								<!-- 排名數字 -->
+								<span style="pointer-events:none;" class="ranking-list-rank">@(Model.Products.OrderByDescending(p => p.Sold ?? 0).ToList().IndexOf(product) + 1)</span>
+								<!-- 商品類型標籤 -->
+								<span style="pointer-events:none;" class="rank-etc-color">@(product.ProductCategory?.Category ?? "etc")</span>
+								<!-- 商品名稱 -->
+								<p style="pointer-events:none;">@product.ProductName</p>
+								<!-- 排名變動圖標 -->
+								<img style="pointer-events:none;" src="https://i2.bahamut.com.tw/newgshop/ranking-product-none.png" class="ranking-product-none">
+							</a>
+						}
 					</div>
 				</div>
 			</div>
@@ -682,256 +121,50 @@
 
 		<br />
 
+		@* 商品區 *@
 		<!-- 區塊 3 -->
 		<div class="section bg-danger">
-			<h2>實體商品</h2>
-			<p>這裡是 商品 的內容。可以用來展示更多資訊。</p>
+			<h2>實體商品</h2>			
 			<a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">商品連結</a>
 
 			<div class="products-card-scroll">
 				<div class="products-card-control">
 					<div class="products-cards-area">
-						<!-- 第一行 -->
 						<div class="row">
-							@foreach(var obj in Model)
+							@foreach (var obj in Model.Products)
 							{
 								<div class="col-2">
 									<div class="products-card">
-										<a href="atmItem.php?sn=38576" class="products-card-img">
-											<img src="https://p2.bahamut.com.tw/B/2KU/57/3c5f819f5ceb2c8965c7faf39e1t89p5.JPG" alt="" class="pic-products">
+										@* 商品圖 *@
+										<a href="atmItem.php?sn=@obj.ProductId" class="products-card-img">
+											<img src="@obj.MainImageUrl" alt="@obj.ProductName" class="pic-products">
 										</a>
-										<a href="atmItem.php?sn=38576" class="products-name" title="《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）">
+
+										@* 商品名 *@
+										<a href="atmItem.php?sn=@obj.ProductId" class="products-name" title="@obj.ProductName">
 											<p>@obj.ProductName</p>
 										</a>
-										<div class="products-info">
-											<span class="color-PS5">@obj.ProductCategory?.Category</span>
-										</div>
+
+										@* 商品類別 *@
+										<div class="product-category">
+											<span class="category-name">@obj.ProductCategory?.Category</span>
+										</div>										
+
+										@* 商品價格 *@
 										<div class="products-price-area">
-											<p class="products-price">NT$2550</p>
+											<p class="products-price">NT$@obj.Price</p>
 										</div>
-										<a href="javascript:void(0);" class="btn-buy-now " onclick="buyPart.remind('', 'TW-18UP', buyPart.buyNext(38576, '037baf183ca8330108e82fed78182f1c1acdcb572938b01067ce5640'))">前往購買</a>
+
+										@* 購買按鈕 *@
+										<a href="javascript:void(0);" class="btn-buy-now"
+										   onclick="buyPart.remind('', 'TW-18UP', buyPart.buyNext(@obj.ProductId))">
+											前往購買
+										</a>
 									</div>
 								</div>
 							}
-							<div class="col-2">
-								<div class="products-card">
-									<a href="atmItem.php?sn=38576" class="products-card-img">
-										<img src="https://p2.bahamut.com.tw/B/2KU/57/3c5f819f5ceb2c8965c7faf39e1t89p5.JPG" alt="" class="pic-products">
-									</a>
-									<a href="atmItem.php?sn=38576" class="products-name" title="《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）">
-										<p>《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）</p>
-									</a>
-									<div class="products-info">
-										<span class="color-PS5">PS5</span>
-									</div>
-									<div class="products-price-area">
-										<p class="products-price">NT$2550</p>
-									</div>
-									<a href="javascript:void(0);" class="btn-buy-now " onclick="buyPart.remind('', 'TW-18UP', buyPart.buyNext(38576, '037baf183ca8330108e82fed78182f1c1acdcb572938b01067ce5640'))">前往購買</a>
-								</div>
-							</div>
-							<div class="col-2">
-								<div class="products-card">
-									<a href="atmItem.php?sn=38513" class="products-card-img">
-										<img src="https://p2.bahamut.com.tw/B/2KU/83/1b83ca60302abba94105c7461b1syn75.JPG" alt="" class="pic-products">
-									</a>
-									<a href="atmItem.php?sn=38513" class="products-name" title="《忍者外傳 2 黑之章》中文版">
-										<p>《忍者外傳 2 黑之章》中文版</p>
-									</a>
-									<div class="products-info">
-										<span class="color-PS5">PS5</span>
-										<span class="feedback-point">紅利11</span>
-									</div>
-									<div class="products-price-area">
-										<p class="products-price">NT$1590</p>
-									</div>
-									<a href="javascript:void(0);" class="btn-buy-now " onclick="buyPart.remind('', 'TW-18UP', buyPart.buyNext(38513, '037cbca0c24090b8420fa63db5f2171d790b44eae93d55f467ce5640'))">前往購買</a>
-								</div>
-							</div>
-							<div class="col-2">
-								<div class="products-card">
-									<a href="atmItem.php?sn=38649" class="products-card-img">
-										<img src="https://p2.bahamut.com.tw/B/2KU/32/891ba374cda2f73c11eb93a9131sa585.JPG" alt="" class="pic-products">
-									</a>
-									<a href="atmItem.php?sn=38649" class="products-name" title="《魔物獵人 荒野》中文一般版">
-										<p>《魔物獵人 荒野》中文一般版</p>
-									</a>
-									<div class="products-info">
-										<span class="color-PS5">PS5</span>
-										<span class="feedback-point">紅利18</span>
-									</div>
-									<div class="products-price-area">
-										<p class="products-price">NT$1890</p>
-									</div>
-									<a href="javascript:void(0);" class="btn-buy-now " onclick="buyPart.remind('※ 此為第二批到貨商品，預計取貨時間為 03 月上旬暫定。', 'TW-15TO18', buyPart.buyNext(38649, '037d5ebc01fa50fa72160edfec5b29cb7c9d566e502b9d8067ce5640'))">前往購買</a>
-								</div>
-							</div>
-							<div class="col-2">
-								<div class="products-card">
-									<a href="atmItem.php?sn=38576" class="products-card-img">
-										<img src="https://p2.bahamut.com.tw/B/2KU/57/3c5f819f5ceb2c8965c7faf39e1t89p5.JPG" alt="" class="pic-products">
-									</a>
-									<a href="atmItem.php?sn=38576" class="products-name" title="《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）">
-										<p>《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）</p>
-									</a>
-									<div class="products-info">
-										<span class="color-PS5">PS5</span>
-									</div>
-									<div class="products-price-area">
-										<p class="products-price">NT$2550</p>
-									</div>
-									<a href="javascript:void(0);" class="btn-buy-now " onclick="buyPart.remind('', 'TW-18UP', buyPart.buyNext(38576, '037baf183ca8330108e82fed78182f1c1acdcb572938b01067ce5640'))">前往購買</a>
-								</div>
-							</div>
-							<div class="col-2">
-								<div class="products-card">
-									<a href="atmItem.php?sn=38513" class="products-card-img">
-										<img src="https://p2.bahamut.com.tw/B/2KU/83/1b83ca60302abba94105c7461b1syn75.JPG" alt="" class="pic-products">
-									</a>
-									<a href="atmItem.php?sn=38513" class="products-name" title="《忍者外傳 2 黑之章》中文版">
-										<p>《忍者外傳 2 黑之章》中文版</p>
-									</a>
-									<div class="products-info">
-										<span class="color-PS5">PS5</span>
-										<span class="feedback-point">紅利11</span>
-									</div>
-									<div class="products-price-area">
-										<p class="products-price">NT$1590</p>
-									</div>
-									<a href="javascript:void(0);" class="btn-buy-now " onclick="buyPart.remind('', 'TW-18UP', buyPart.buyNext(38513, '037cbca0c24090b8420fa63db5f2171d790b44eae93d55f467ce5640'))">前往購買</a>
-								</div>
-							</div>
-							<div class="col-2">
-								<div class="products-card">
-									<a href="atmItem.php?sn=38649" class="products-card-img">
-										<img src="https://p2.bahamut.com.tw/B/2KU/32/891ba374cda2f73c11eb93a9131sa585.JPG" alt="" class="pic-products">
-									</a>
-									<a href="atmItem.php?sn=38649" class="products-name" title="《魔物獵人 荒野》中文一般版">
-										<p>《魔物獵人 荒野》中文一般版</p>
-									</a>
-									<div class="products-info">
-										<span class="color-PS5">PS5</span>
-										<span class="feedback-point">紅利18</span>
-									</div>
-									<div class="products-price-area">
-										<p class="products-price">NT$1890</p>
-									</div>
-									<a href="javascript:void(0);" class="btn-buy-now " onclick="buyPart.remind('※ 此為第二批到貨商品，預計取貨時間為 03 月上旬暫定。', 'TW-15TO18', buyPart.buyNext(38649, '037d5ebc01fa50fa72160edfec5b29cb7c9d566e502b9d8067ce5640'))">前往購買</a>
-								</div>
-							</div>
-						</div>
-						<!-- 第一行 -->
-						<div class="row">
-							<div class="col-2">
-								<div class="products-card">
-									<a href="atmItem.php?sn=38576" class="products-card-img">
-										<img src="https://p2.bahamut.com.tw/B/2KU/57/3c5f819f5ceb2c8965c7faf39e1t89p5.JPG" alt="" class="pic-products">
-									</a>
-									<a href="atmItem.php?sn=38576" class="products-name" title="《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）">
-										<p>《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）</p>
-									</a>
-									<div class="products-info">
-										<span class="color-PS5">PS5</span>
-									</div>
-									<div class="products-price-area">
-										<p class="products-price">NT$2550</p>
-									</div>
-									<a href="javascript:void(0);" class="btn-buy-now " onclick="buyPart.remind('', 'TW-18UP', buyPart.buyNext(38576, '037baf183ca8330108e82fed78182f1c1acdcb572938b01067ce5640'))">前往購買</a>
-								</div>
-							</div>
-							<div class="col-2">
-								<div class="products-card">
-									<a href="atmItem.php?sn=38513" class="products-card-img">
-										<img src="https://p2.bahamut.com.tw/B/2KU/83/1b83ca60302abba94105c7461b1syn75.JPG" alt="" class="pic-products">
-									</a>
-									<a href="atmItem.php?sn=38513" class="products-name" title="《忍者外傳 2 黑之章》中文版">
-										<p>《忍者外傳 2 黑之章》中文版</p>
-									</a>
-									<div class="products-info">
-										<span class="color-PS5">PS5</span>
-										<span class="feedback-point">紅利11</span>
-									</div>
-									<div class="products-price-area">
-										<p class="products-price">NT$1590</p>
-									</div>
-									<a href="javascript:void(0);" class="btn-buy-now " onclick="buyPart.remind('', 'TW-18UP', buyPart.buyNext(38513, '037cbca0c24090b8420fa63db5f2171d790b44eae93d55f467ce5640'))">前往購買</a>
-								</div>
-							</div>
-							<div class="col-2">
-								<div class="products-card">
-									<a href="atmItem.php?sn=38649" class="products-card-img">
-										<img src="https://p2.bahamut.com.tw/B/2KU/32/891ba374cda2f73c11eb93a9131sa585.JPG" alt="" class="pic-products">
-									</a>
-									<a href="atmItem.php?sn=38649" class="products-name" title="《魔物獵人 荒野》中文一般版">
-										<p>《魔物獵人 荒野》中文一般版</p>
-									</a>
-									<div class="products-info">
-										<span class="color-PS5">PS5</span>
-										<span class="feedback-point">紅利18</span>
-									</div>
-									<div class="products-price-area">
-										<p class="products-price">NT$1890</p>
-									</div>
-									<a href="javascript:void(0);" class="btn-buy-now " onclick="buyPart.remind('※ 此為第二批到貨商品，預計取貨時間為 03 月上旬暫定。', 'TW-15TO18', buyPart.buyNext(38649, '037d5ebc01fa50fa72160edfec5b29cb7c9d566e502b9d8067ce5640'))">前往購買</a>
-								</div>
-							</div>
-							<div class="col-2">
-								<div class="products-card">
-									<a href="atmItem.php?sn=38576" class="products-card-img">
-										<img src="https://p2.bahamut.com.tw/B/2KU/57/3c5f819f5ceb2c8965c7faf39e1t89p5.JPG" alt="" class="pic-products">
-									</a>
-									<a href="atmItem.php?sn=38576" class="products-name" title="《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）">
-										<p>《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）</p>
-									</a>
-									<div class="products-info">
-										<span class="color-PS5">PS5</span>
-									</div>
-									<div class="products-price-area">
-										<p class="products-price">NT$2550</p>
-									</div>
-									<a href="javascript:void(0);" class="btn-buy-now " onclick="buyPart.remind('', 'TW-18UP', buyPart.buyNext(38576, '037baf183ca8330108e82fed78182f1c1acdcb572938b01067ce5640'))">前往購買</a>
-								</div>
-							</div>
-							<div class="col-2">
-								<div class="products-card">
-									<a href="atmItem.php?sn=38513" class="products-card-img">
-										<img src="https://p2.bahamut.com.tw/B/2KU/83/1b83ca60302abba94105c7461b1syn75.JPG" alt="" class="pic-products">
-									</a>
-									<a href="atmItem.php?sn=38513" class="products-name" title="《忍者外傳 2 黑之章》中文版">
-										<p>《忍者外傳 2 黑之章》中文版</p>
-									</a>
-									<div class="products-info">
-										<span class="color-PS5">PS5</span>
-										<span class="feedback-point">紅利11</span>
-									</div>
-									<div class="products-price-area">
-										<p class="products-price">NT$1590</p>
-									</div>
-									<a href="javascript:void(0);" class="btn-buy-now " onclick="buyPart.remind('', 'TW-18UP', buyPart.buyNext(38513, '037cbca0c24090b8420fa63db5f2171d790b44eae93d55f467ce5640'))">前往購買</a>
-								</div>
-							</div>
-							<div class="col-2">
-								<div class="products-card">
-									<a href="atmItem.php?sn=38649" class="products-card-img">
-										<img src="https://p2.bahamut.com.tw/B/2KU/32/891ba374cda2f73c11eb93a9131sa585.JPG" alt="" class="pic-products">
-									</a>
-									<a href="atmItem.php?sn=38649" class="products-name" title="《魔物獵人 荒野》中文一般版">
-										<p>《魔物獵人 荒野》中文一般版</p>
-									</a>
-									<div class="products-info">
-										<span class="color-PS5">PS5</span>
-										<span class="feedback-point">紅利18</span>
-									</div>
-									<div class="products-price-area">
-										<p class="products-price">NT$1890</p>
-									</div>
-									<a href="javascript:void(0);" class="btn-buy-now " onclick="buyPart.remind('※ 此為第二批到貨商品，預計取貨時間為 03 月上旬暫定。', 'TW-15TO18', buyPart.buyNext(38649, '037d5ebc01fa50fa72160edfec5b29cb7c9d566e502b9d8067ce5640'))">前往購買</a>
-								</div>
-							</div>
-						</div>
 
-						
-
+						</div>
 					</div>
 				</div>
 			</div>
@@ -939,7 +172,7 @@
 
 		<br />
 
-		<!-- 結帳 -->
+		<!-- 結帳連結 -->
 		<div class="section bg-info">
 			<h2>結帳</h2>
 			<p>這裡是 結帳區塊 的內容。可以用來展示更多資訊。</p>
@@ -947,15 +180,23 @@
 		</div>
 	</div>
 
-	<!-- 側邊欄 -->
+	@* 廣告側邊欄 *@
 	<div class="col-sm-2 bg-warning">
 		<div class="sidebar">
 			<h3>廣告</h3>
-			<img src="~/img/product/97f39860d771a87c21972e0c0f1snyv5.jpg" class="d-block w-100 mb-3" style="object-fit: contain; height: 100px;" alt="...">
-			<img src="~/img/product/97f39860d771a87c21972e0c0f1snyv5.jpg" class="d-block w-100 mb-3" style="object-fit: contain; height: 100px;" alt="...">
-			<img src="~/img/product/97f39860d771a87c21972e0c0f1snyv5.jpg" class="d-block w-100 mb-3" style="object-fit: contain; height: 100px;" alt="...">
+			@foreach (var ad in Model.Advertisements)
+			{
+				<a href="@ad.HyperUrl" target="_blank">
+					<img src="@ad.ImageUrl"
+						 class="d-block w-100 mb-3"
+						 style="object-fit: contain; height: 100px;"
+						 alt="@ad.AdvertisementName">
+				</a>
+			}
 		</div>
 	</div>
 </div>
+
+
 
 <script src="~/js/shoppingMall/changeRank.js" asp-append-version="true"></script>
