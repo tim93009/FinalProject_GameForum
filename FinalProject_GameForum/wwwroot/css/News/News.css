@@ -17,14 +17,14 @@
 .myContainer ul {
     display: flex !important;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: center;
     padding: 0px;
 }
 .myContainer li {
     list-style: none;
 }
 .myContainer li img{
-    width:450px;
+    width:100%;
 }
 .news-content {
     padding: 50px;
@@ -38,22 +38,41 @@
 }
 
 /* 留言板 */
-.container {
+.message-container {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.comment{
-    display:flex;
-    width:80%;
-    height:300px;
-    border:1px solid black;
-    border-radius:4px;
-    font-size:18px;
+.message {
+    display: flex;
+    width: 80%;
+    height: 300px;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+.comment-item h4 {
+    color: blue;
+    font-size: 16px;
+    margin-top: 15px;
+}
+.comment-item h5 {
     color:black;
+    font-size: 20px;
+    margin-top: 15px;
+}
+.comment-item h6 {
+    color: gray;
+    font-size: 14px;
+    margin-top: 10px;
     opacity:0.5;
 }
-#text {
+.text-container{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+textarea {
     margin-top: 10px;
     width: 80%;
     height: 80px;
@@ -74,11 +93,16 @@
 }
 
 /* 相關新聞 */
-.others{
-    margin-top:50px;
-    width:80%;
-    height:380px;
-    border:1px solid gray;
+.others-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.others {
+    margin-top: 50px;
+    width: 80%;
+    height: 380px;
+    border: 1px solid gray;
 }
 .others h3 {
     color: forestgreen;

@@ -146,6 +146,9 @@
     background-color: white;
     margin-top: 40px;
 }
+.home-container h2 {
+    margin-top: 50px;
+}
 .discussion-card {
     display: flex;
     flex-direction: column;
