@@ -3,11 +3,14 @@ using System.Threading.Tasks;
 
 
 // 聊天室Hub
-public class ChatHub : Hub
+namespace FinalProject_GameForum.Hubs
 {
-    public async Task SendMessage(string user, string message)
+    public class ChatHub : Hub
     {
-        await Clients.All.SendAsync("ReceiveMessage", user, message);
+        public async Task SendMessage(string message)
+        {
+            string userName = Context.User?.Identity?.Name ?? "訪客";
+            await Clients.All.SendAsync("ReceiveMessage", userName, message);
+        }
     }
 }
-

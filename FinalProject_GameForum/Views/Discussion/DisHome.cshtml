@@ -80,7 +80,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 		<script>
 			var connection = new signalR.HubConnectionBuilder()
-				.withUrl("/chatHub")
+				.withUrl("/Discussion/chatHub")
 				.build();
 
 			connection.start().catch(err => console.error(err.toString()));
@@ -99,7 +99,7 @@
 			function sendMessage() {
 				var message = document.getElementById("messageInput").value;
 				if (message.trim() !== "") {
-					connection.invoke("SendMessage", "使用者", message).catch(err => console.error(err.toString()));
+					connection.invoke("SendMessage", message).catch(err => console.error(err.toString()));
 					document.getElementById("messageInput").value = "";
 				}
 			}
