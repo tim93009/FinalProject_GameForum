@@ -18,7 +18,7 @@
 	<form action="/Login/Register" method="post" class="container p-3 mt-5 border  col-lg-4" id="RegisterForm">
 		<p class="h1 text-center">註冊</p>
 		<div class="mb-3 mt-3 container-sm">
-			<label for="user_id" class="form-label"></label>
+			<label for="nickname" class="form-label"></label>
 			<input type="text" class="form-control" id="nickname" placeholder="輸入暱稱" name="nkname" required>
 			<span id="nicknameError" class="text-danger visually-hidden">暱稱重複!</span>
 		</div>
@@ -89,35 +89,7 @@
 				</div>
 			</div>
 		}
-		@if (TempData["Success"] != null)
-		{
-			<script>
-					  document.addEventListener("DOMContentLoaded", function () {
-					var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-					errorModal.show();
-				});
-			</script>
-
-
-
-			<!-- Bootstrap 5 Modal -->
-			<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="errorModalLabel">錯誤</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-							@TempData["Success"]
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		}
+		
 	</form>
 	<script>
 		$(document).ready(function () {

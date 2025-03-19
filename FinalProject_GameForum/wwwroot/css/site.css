@@ -3,7 +3,16 @@
     background-size: 100% 100%, cover;
     background-position: left top, center;
 }
-
+.container-fluid a span {
+    margin-left: 30px;
+    font-size: 24px;
+    font-weight: bold;
+    color: white
+}
+.m-3 {
+    color: #0077cc;
+    text-decoration: none;
+}
 .goTop {
     position: fixed;
     bottom: 60px;
@@ -161,11 +170,13 @@
     width: 100%;
     white-space: nowrap;
     line-height: 60px;
-    margin-top: 80px; /* 與上方內容的間距 */
+    margin-top: 200px; /* 與上方內容的間距 */
 }
 
 /* Style the search field */
+
 form.search input[type=text] {
+    margin-left:30px;
     padding: 10px;
     font-size: 17px;
     border: 1px solid grey;

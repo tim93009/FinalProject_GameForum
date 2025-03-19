@@ -16,12 +16,12 @@ namespace FinalProject_GameForum.Controllers
     public class LoginController : Controller
     {
         private readonly GameForumContext _context;
-        protected UserInfoService _userInfo { get; set; }
+     
 
-        public LoginController(GameForumContext context, UserInfoService userInfo)
+        public LoginController(GameForumContext context)
         {
             _context = context;
-            _userInfo = userInfo;
+            
         }
         public IActionResult Login()
         {
@@ -49,14 +49,22 @@ namespace FinalProject_GameForum.Controllers
             else
             {
                 //Identity 要求Claim類別格式對應指派登入成功的用戶資料
-                var varClaims = new List<Claim>
+                var varClaims = new List<Claim>();
+                if (isEmail)
                 {
-                    new Claim(ClaimTypes.Name, user.Nickname),
-                    new Claim("FullName", user.Nickname),
-                    new Claim(ClaimTypes.Email, user.Email!),
-                    new Claim("UserEmail", user.Email!),
-                    new Claim("UserPW", user.Password)
-                };
+                    varClaims.Add(new Claim(ClaimTypes.Name, user.Nickname));
+                    varClaims.Add(new Claim("FullName", user.Nickname));
+                    varClaims.Add(new Claim(ClaimTypes.Email, user.Email!));
+                    varClaims.Add(new Claim("UserEmail", user.Email!));
+                    varClaims.Add(new Claim("UserPW", user.Password!));
+                }
+                else
+                {
+                    varClaims.Add(new Claim(ClaimTypes.Name, user.Nickname));
+                    varClaims.Add(new Claim("FullName", user.Nickname));
+                    varClaims.Add(new Claim("UserPW", user.Password!));
+                }
+                ;
                 //建構ClaimsIdentity Cookie 用戶驗證物件的狀態存取案例。
                 var ClaimsIdentity = new ClaimsIdentity(varClaims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -194,6 +202,64 @@ namespace FinalProject_GameForum.Controllers
                 RedirectUri = redirectUrl
             };
             return Challenge(properties, provider);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ThirdLoginCallBack(string returnURL = "/")
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (!result.Succeeded)
+            {
+                TempData["Error"] = "登入失敗，請再試一次!";
+                return RedirectToAction("Login");
+            }
+            //判斷有沒有拿到登入者的資料
+            var claims = result.Principal.Identities.FirstOrDefault()?.Claims;
+            var email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var name = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+            var provider = claims?.FirstOrDefault(c => c.Type == "Provider")?.Value;
+            var providerID = claims?.FirstOrDefault(c => c.Type == "ProviderID")?.Value;
+
+            if (email == null)
+            {
+                TempData["Error"] = "無法取得信箱，請使用其他方式登入!";
+                return RedirectToAction("Login");
+            }
+            //判斷是否有此信箱
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user != null && user?.Email != email)
+            {
+                TempData["Error"] = "您已註冊過，請使用原帳號登入!";
+                return RedirectToAction("Login");
+            }
+
+            if (user != null)
+            {
+               var claimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+               var authPropertie = new AuthenticationProperties { IsPersistent = true };
+               await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimIdentity), authPropertie);
+               return RedirectToAction("Index", "Home");
+            }
+
+           
+
+            user =  new User
+            {
+                UserId = email,
+                Email = email,
+                Nickname = name!,
+                Provider = provider,
+                ProviderId = providerID
+            };
+
+            _context.Users.Add(user);
+            _context.SaveChanges();
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties { IsPersistent = true };
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+            return RedirectToAction("Index", "Home");
+
+          
         }
 
     }

@@ -1,30 +1,146 @@
 ﻿<link rel="stylesheet" href="~/css/Discussion/DisHome.css" asp-append-version="true" />
 
-@await Html.PartialAsync("_LayoutDis")
+@await Html.PartialAsync("_LayoutDis2")
 
-<div class="dis-container">
-    <a href="" alt="進入列表"><img src="~/img/home/test.jpg" /></a>
-    <h3>熱門文章</h3>
-    <div class="hot-dis">
-        <ul>
-            <li>
-                <h5>【攻略】畫面卡住 重新開機 閃退 [可能可行]的解決方法</h5>
-                <h6>...<a href="">繼續閱讀</a></h6>
-            </li>
-            <li>
-                <h5>【討論】荒野太刀</h5>
-                <h6>...<a href="">繼續閱讀</a></h6>
-            </li>
-            <li>
-                <h5>【密技】釣大魚成就跟帶卵魚刷法</h5>
-                <h6>...<a href="">繼續閱讀</a></h6>
-            </li>
-        </ul>
-    </div>
-    <h3>公佈欄</h3>
-    <h4>
-        歡迎來到魔物獵人哈拉板<br />
-        本板為討論CAPCOM的「モンスターハンター（魔物獵人）」系列遊戲而設立
-    </h4>
-    <img src="~/img/home/test.jpg" />
+<div id="main-content">
+	<div class="dis-container">
+		<a href="#" alt="進入列表"><img src="~/img/home/test.jpg" /></a>
+		<h3>熱門文章</h3>
+		<div class="hot-dis">
+			<ul>
+				<li>
+					<h5>【攻略】畫面卡住 重新開機 閃退 [可能可行]的解決方法</h5>
+					<h6>...<a href="#">繼續閱讀</a></h6>
+				</li>
+				<li>
+					<h5>【討論】荒野太刀</h5>
+					<h6>...<a href="#">繼續閱讀</a></h6>
+				</li>
+				<li>
+					<h5>【密技】釣大魚成就跟帶卵魚刷法</h5>
+					<h6>...<a href="#">繼續閱讀</a></h6>
+				</li>
+			</ul>
+		</div>
+		<h3>公佈欄</h3>
+		<h4>
+			歡迎來到魔物獵人哈拉板<br />
+			本板為討論CAPCOM的「モンスターハンター（魔物獵人）」系列遊戲而設立
+		</h4>
+		<img src="~/img/home/test.jpg" />
+	</div>
 </div>
+
+
+<!-- 文章列表頁面 -->
+<div id="article-list-container" style="display: none;">
+	<div class="container mt-3">
+
+		<!-- 分頁和分類按鈕容器 -->
+		<div class="d-flex justify-content-between align-items-center mt-3">
+
+			<!-- 分類按鈕 -->
+			<div>
+				<button class="btn btn-primary me-2">全部</button>
+				<button class="btn btn-outline-primary me-2">攻略</button>
+				<button class="btn btn-outline-primary me-2">討論</button>
+				<button class="btn btn-outline-primary me-2">心情</button>
+				<button class="btn btn-outline-primary">問題</button>
+			</div>
+
+			<!-- 分頁按鈕 -->
+			<div>
+				<button class="btn btn-outline-secondary">« Previous</button>
+				<button class="btn btn-outline-secondary">Next »</button>
+			</div>
+
+		</div>
+
+
+		<!-- 文章列表 -->
+		<div id="articleList"></div>
+
+		<!-- 右側聊天室 -->
+		<div class="chatroom position-fixed end-0 top-50 translate-middle-y bg-white p-3">
+			<h6 class="text-center">聊天室</h6>
+
+			<div id="chatRoom" class="chat-container">
+				<div id="chatMessages" class="chat-messages"></div>
+
+				<div class="chat-input">
+					<input type="text" id="messageInput" placeholder="輸入訊息..." />
+					<button id="sendButton">發送</button>
+				</div>
+			</div>
+		</div>
+
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+		<script>
+			var connection = new signalR.HubConnectionBuilder()
+				.withUrl("/chatHub")
+				.build();
+
+			connection.start().catch(err => console.error(err.toString()));
+
+			// 當點擊發送按鈕時，發送訊息
+			document.getElementById("sendButton").addEventListener("click", function () {
+				sendMessage();
+			});
+
+			// 當按下 Enter 鍵時，發送訊息
+			document.getElementById("messageInput").addEventListener("keydown", function (event) {
+				if (event.key === 'Enter') {
+					event.preventDefault();  // 防止按下 Enter 觸發換行
+					sendMessage();
+				}
+			});
+
+			function sendMessage() {
+				var message = document.getElementById("messageInput").value;
+				if (message.trim() !== "") {  // 確保訊息不為空
+					connection.invoke("SendMessage", "使用者", message).catch(err => console.error(err.toString()));
+					document.getElementById("messageInput").value = "";  // 發送後清空輸入框
+				}
+			}
+
+			// 當接收到訊息時，將訊息顯示在聊天框
+			connection.on("ReceiveMessage", function (user, message) {
+				var chatBox = document.getElementById("chatMessages");
+				var newMessage = document.createElement("div");
+				newMessage.textContent = user + "：" + message;
+				chatBox.appendChild(newMessage);
+			});
+		</script>
+
+	</div>
+</div>
+
+<!-- JavaScript 控制切換 -->
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		document.getElementById("article-list-btn").addEventListener("click", function (event) {
+			event.preventDefault();
+
+			let mainContent = document.getElementById("main-content");
+			let articleListContainer = document.getElementById("article-list-container");
+
+			if (!articleListContainer) {
+				console.warn("找不到文章列表區域！");
+				return;
+			}
+
+			// 切換顯示
+			mainContent.style.display = "none";
+			articleListContainer.style.display = "block";
+
+			// 動態載入文章列表
+			fetch('/Discussion/LoadArticleList')
+				.then(response => response.text())
+				.then(html => {
+					document.getElementById("articleList").innerHTML = html;
+				})
+				.catch(error => console.error("載入文章列表失敗:", error));
+		});
+	});
+</script>

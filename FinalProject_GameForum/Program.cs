@@ -8,6 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// 聊天室 SignalR
+builder.Services.AddSignalR();
+
+
+
 
 // 從 appsettings.json 讀取連線字串並設定 DbContext
 builder.Services.AddDbContext<GameForumContext>(
@@ -22,15 +27,22 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     option.LoginPath = new PathString("/Home/Index");
 }).AddFacebook(options =>
 {
-    options.AppId = "653772980397141";
-    options.AppSecret = "1900b877b5c6f17fe9dc51505daf20b1";
-    options.AccessDeniedPath = "/AccessDeniedPathInfo";
+    options.ClientId = "610374368493483";
+    options.ClientSecret = "3e8cea269a91bf2175f6509fb0351b65";
+    options.AccessDeniedPath = "/Login/Login";
+
 }).AddGoogle(options =>
 {
     options.ClientId = "365818433505-0ha2qhf5tuh9brrir7tot8a4qb6otrgr.apps.googleusercontent.com";
     options.ClientSecret = "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";
 
+}).AddMicrosoftAccount(options => {
+    options.ClientId = "43fc25be-380e-4015-96ea-79eecdd501f5";
+    options.ClientSecret = "KTc8Q~ViN4ap6HjHvrC._BVwC7XTAJW-20.xFbxa";
 });
+
+
+
 
 
 
@@ -61,5 +73,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// 註冊 SignalR Hub 路由
+app.MapHub<ChatHub>("/chatHub"); 
 
 app.Run();

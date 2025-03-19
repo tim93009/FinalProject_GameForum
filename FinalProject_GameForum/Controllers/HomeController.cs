@@ -7,15 +7,22 @@ namespace FinalProject_GameForum.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly GameForumContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, GameForumContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+
+		public IActionResult Index()
         {
-            return View();
+            var newsList = _context.News
+				.OrderBy(n => n.NewsId)
+				.Take(6)
+				.ToList();
+			return View(newsList);
         }
 
         public IActionResult Privacy()
