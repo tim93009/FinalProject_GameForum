@@ -3,6 +3,13 @@
     height:1800px;
     margin-top: 50px;
 }
+h2 {
+    margin-top:30px;
+    color: forestgreen;
+    text-transform: uppercase;
+    text-align: center;
+}
+
 
 /* 側邊選單 */
 .list-group {
@@ -21,11 +28,6 @@
     margin-left: 160px;
     padding: 20px;
     margin-right: 40px
-}
-.news-container h3{
-    color:forestgreen;
-    text-transform:uppercase;
-    text-align:center;
 }
 
 .newsList {
