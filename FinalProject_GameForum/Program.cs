@@ -8,6 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// 聊天室 SignalR
+builder.Services.AddSignalR();
+
+
+
 
 // 從 appsettings.json 讀取連線字串並設定 DbContext
 builder.Services.AddDbContext<GameForumContext>(
@@ -68,5 +73,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// 註冊 SignalR Hub 路由
+app.MapHub<ChatHub>("/chatHub"); 
 
 app.Run();

@@ -16,8 +16,24 @@ namespace iSpan_MSIT62_Final_Project.Controllers
         // 列出所有商品
         public async Task<IActionResult> Index()
         {
-            var products = await _db.Products.Include(p => p.ProductCategory).ToListAsync();
-            return View(products);
+            var viewData = new ShoppingViewData
+            {
+                Products = await _db.Products
+                    .Include(p => p.ProductCategory)
+                    .ToListAsync(),
+                Advertisements = await _db.Advertisements
+                    .Take(3) // 假設顯示 3 個廣告，可根據需求調整
+                    .ToListAsync()
+            };
+
+            return View(viewData);
         }
+    }
+
+    // 數據容器類
+    public class ShoppingViewData
+    {
+        public List<Product> Products { get; set; }
+        public List<Advertisement> Advertisements { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-﻿.dis-container{
+﻿.dis-container {
     width: 80%;
     margin: 20px auto;
     padding: 20px;
@@ -7,48 +7,58 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-a img {
-.dis-container a{
-    text-decoration:none;
-}
-    .dis-container a:hover{
-        text-decoration:underline;
-    }
-    .dis-container img {
-        width: 100%;
-        height: auto;
-    border-radius: 8px;
-        margin-top: 50px;
-        align-items: center;
-        justify-content:center;
-        transition: transform 0.3s ease;
-    }
-h3 {
 
-.dis-container h3 {
+a img {
+    .dis-container a
+
+{
+    text-decoration: none;
+}
+
+.dis-container a:hover {
+    text-decoration: underline;
+}
+
+.dis-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 50px;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+h3 {
+    .dis-container h3
+
+{
     font-size: 24px;
     font-weight: bold;
     color: black;
-    background-color:aqua;
-    margin-top:20px;
+    background-color: aqua;
+    margin-top: 20px;
     margin-bottom: 20px;
     text-align: center;
 }
-.hot-dis ul{
 
 .hot-dis ul {
+    .hot-dis ul
+
+{
     list-style-type: none;
     padding: 0;
 }
 
 .hot-dis li {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background-color: white;
     padding: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 .dis-container h4 {
     text-align: center;
     margin-top: 30px;
@@ -56,7 +66,7 @@ h3 {
 }
 
 .hot-dis h5 {
-    padding:10px;
+    padding: 10px;
     font-size: 18px;
     color: black;
     margin-bottom: 5px;
@@ -65,5 +75,58 @@ h3 {
 .hot-dis h6 {
     font-size: 14px;
     color: blue;
-    margin-right:30%;
+    margin-right: 30%;
 }
+
+/* 聊天室 */
+.chatroom {
+    width: 300px; /* 設定寬度 */
+    height: 400px; /* 設定固定高度 */
+    background: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* 包括內邊距和邊框在內 */    
+}
+
+/* 聊天容器 */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+/* 訊息區域，並讓它可滾動 */
+.chat-messages {
+    flex-grow: 1;
+    overflow-y: auto; /* 訊息超過時顯示滾動條 */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* 輸入區域固定在底部 */
+.chat-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    background-color: white;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+    /* 輸入框樣式 */
+    .chat-input input {
+        flex-grow: 1; /* 輸入框填滿剩餘空間 */
+        padding: 5px;
+        height: 30px;
+        box-sizing: border-box;
+    }
+
+    /* 發送按鈕樣式 */
+    .chat-input button {
+        padding: 5px 10px;
+        height: 30px;
+        margin-left: 10px;
+    }

@@ -21,6 +21,7 @@ namespace FinalProject_GameForum.Controllers
            .Include(a => a.ArticleGroup)
            .Include(a => a.User)
            .Include(a => a.ArticleMessages)
+           .ThenInclude(m => m.User)
            .ToList();
 
             return View(articles);
@@ -40,7 +41,7 @@ namespace FinalProject_GameForum.Controllers
         //    };
         //    ViewBag.A1 = td;
         //    ViewBag.CreteTime = DateTime.Now.ToString();
-            
+
         //    return View();
         //}
     }

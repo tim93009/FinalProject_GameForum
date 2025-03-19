@@ -49,6 +49,7 @@
     height: 300px;
     border: 1px solid black;
     border-radius: 4px;
+    padding:15px;
 }
 .comment-item h4 {
     color: blue;
@@ -69,11 +70,9 @@
 .text-container{
     display:flex;
     flex-direction:column;
-    align-items:center;
-    justify-content:center;
 }
 textarea {
-    margin-top: 10px;
+    margin: 10px 0 0 10%;
     width: 80%;
     height: 80px;
     border: 1px solid black;

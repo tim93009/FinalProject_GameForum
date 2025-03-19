@@ -48,7 +48,7 @@
 	</div>
 </div>
 <div class="text-container">
-	@using (Html.BeginForm("AddMessage", "News", new { newsId = Model.NewsId }, FormMethod.Post))
+	@using (Html.BeginForm("News", "News", new { newsId = Model.NewsId }, FormMethod.Post))
 	{
 		<textarea id="text" placeholder="留言..." maxlength="80"></textarea>
 		<button class="send">送出</button>
