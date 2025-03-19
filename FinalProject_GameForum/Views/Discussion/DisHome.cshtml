@@ -1,10 +1,16 @@
-﻿<link rel="stylesheet" href="~/css/Discussion/DisHome.css" asp-append-version="true" />
+﻿@model FinalProject_GameForum.Models.Discussion
 
+<link rel="stylesheet" href="~/css/Discussion/DisHome.css" asp-append-version="true" />
 @await Html.PartialAsync("_LayoutDis2")
 
 <div id="main-content">
 	<div class="dis-container">
-		<a href="#" alt="進入列表"><img src="~/img/home/test.jpg" /></a>
+		<img src="~/img/home/@(Model.ImageUrl ?? "default.jpg")" />
+		<h3>@Model.DiscussionName</h3>
+		<h4>@Model.DiscussionDescription</h4>
+
+		<br />
+
 		<h3>熱門文章</h3>
 		<div class="hot-dis">
 			<ul>
@@ -22,15 +28,14 @@
 				</li>
 			</ul>
 		</div>
-		<h3>公佈欄</h3>
+
+		<h3>公告</h3>
 		<h4>
-			歡迎來到魔物獵人哈拉板<br />
-			本板為討論CAPCOM的「モンスターハンター（魔物獵人）」系列遊戲而設立
+			歡迎來到 @Model.DiscussionName 哈拉板<br />
+			這裡是討論 @Model.DiscussionName 相關內容的專屬空間！
 		</h4>
-		<img src="~/img/home/test.jpg" />
 	</div>
 </div>
-
 
 <!-- 文章列表頁面 -->
 <div id="article-list-container" style="display: none;">
@@ -38,7 +43,6 @@
 
 		<!-- 分頁和分類按鈕容器 -->
 		<div class="d-flex justify-content-between align-items-center mt-3">
-
 			<!-- 分類按鈕 -->
 			<div>
 				<button class="btn btn-primary me-2">全部</button>
@@ -53,16 +57,14 @@
 				<button class="btn btn-outline-secondary">« Previous</button>
 				<button class="btn btn-outline-secondary">Next »</button>
 			</div>
-
 		</div>
-
 
 		<!-- 文章列表 -->
 		<div id="articleList"></div>
 
 		<!-- 右側聊天室 -->
 		<div class="chatroom position-fixed end-0 top-50 translate-middle-y bg-white p-3">
-			<h6 class="text-center">聊天室</h6>
+			<h5 class="text-center"><strong>聊天室</strong></h5>
 
 			<div id="chatRoom" class="chat-container">
 				<div id="chatMessages" class="chat-messages"></div>
@@ -74,7 +76,7 @@
 			</div>
 		</div>
 
-
+		<!-- 聊天室 JS（SignalR.Hub、卷軸）-->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 		<script>
 			var connection = new signalR.HubConnectionBuilder()
@@ -83,33 +85,57 @@
 
 			connection.start().catch(err => console.error(err.toString()));
 
-			// 當點擊發送按鈕時，發送訊息
 			document.getElementById("sendButton").addEventListener("click", function () {
 				sendMessage();
 			});
 
-			// 當按下 Enter 鍵時，發送訊息
 			document.getElementById("messageInput").addEventListener("keydown", function (event) {
 				if (event.key === 'Enter') {
-					event.preventDefault();  // 防止按下 Enter 觸發換行
+					event.preventDefault();
 					sendMessage();
 				}
 			});
 
 			function sendMessage() {
 				var message = document.getElementById("messageInput").value;
-				if (message.trim() !== "") {  // 確保訊息不為空
+				if (message.trim() !== "") {
 					connection.invoke("SendMessage", "使用者", message).catch(err => console.error(err.toString()));
-					document.getElementById("messageInput").value = "";  // 發送後清空輸入框
+					document.getElementById("messageInput").value = "";
 				}
 			}
 
-			// 當接收到訊息時，將訊息顯示在聊天框
+			// 滾動到底部的函式
+			function scrollToBottom() {
+				let chatMessages = document.getElementById("chatMessages");
+				chatMessages.scrollTop = chatMessages.scrollHeight;
+			}
+
+			// 當訊息被發送時，自動滾動到底部
+			document.getElementById("sendButton").addEventListener("click", function () {
+				setTimeout(scrollToBottom, 100); // 稍微延遲，確保訊息已經插入
+			});
+
+			// 如果是用 Enter 發送訊息，也觸發滾動
+			document.getElementById("messageInput").addEventListener("keypress", function (event) {
+				if (event.key === "Enter") {
+					event.preventDefault(); // 防止換行
+					document.getElementById("sendButton").click(); // 模擬點擊發送按鈕
+					setTimeout(scrollToBottom, 100);
+				}
+			});
+
+			// 當聊天室載入時，自動滾到底部
+			document.addEventListener("DOMContentLoaded", scrollToBottom);
+
+			// 當訊息接收時，自動滾動到底部
 			connection.on("ReceiveMessage", function (user, message) {
 				var chatBox = document.getElementById("chatMessages");
 				var newMessage = document.createElement("div");
 				newMessage.textContent = user + "：" + message;
 				chatBox.appendChild(newMessage);
+
+				// 收到訊息後自動滾動到底部
+				scrollToBottom();
 			});
 		</script>
 
@@ -130,12 +156,10 @@
 				return;
 			}
 
-			// 切換顯示
 			mainContent.style.display = "none";
 			articleListContainer.style.display = "block";
 
-			// 動態載入文章列表
-			fetch('/Discussion/LoadArticleList')
+			fetch('/Discussion/LoadArticleList?discussionId=@Model.DiscussionId')
 				.then(response => response.text())
 				.then(html => {
 					document.getElementById("articleList").innerHTML = html;
@@ -144,3 +168,5 @@
 		});
 	});
 </script>
+
+

@@ -37,16 +37,19 @@ namespace FinalProject_GameForum.Controllers
 
 
         // 討論區首頁
-        public IActionResult DisHome()
+        public IActionResult DisHome(int id)
         {
-            var articles = _context.Articles
-                .Include(a => a.User)
-                .Include(a => a.ArticleGroup)
-                .OrderByDescending(a => a.PostDate)
-                .ToList();
+            var discussion = _context.Discussions
+                .FirstOrDefault(d => d.DiscussionId == id);
 
-            return View(articles);
+            if (discussion == null)
+            {
+                return NotFound();  // 如果沒有這個看板，回傳 404
+            }
+
+            return View(discussion);  // 傳遞 Discussion 模型到 View
         }
+
 
         // 加載文章列表
         public IActionResult LoadArticleList()

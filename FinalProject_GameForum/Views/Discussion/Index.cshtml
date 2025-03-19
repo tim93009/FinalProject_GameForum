@@ -1,44 +1,44 @@
 ﻿<link rel="stylesheet" href="~/css/Discussion/Index.css" asp-append-version="true" />
 @await Html.PartialAsync("_LayoutDis")
+@model List<FinalProject_GameForum.Models.Discussion>
 
 <div class="dis-container">
-    <div class="dis-list-container">
-        @foreach (var discussion in Model)
-        {
-            <div class="dis-list">
-                <a href="/Discussion/DisHome" class="card-image">
-                    <img src="@(string.IsNullOrEmpty(discussion.ImageUrl) ? "/img/home/default.jpg" : discussion.ImageUrl)" />
-                </a>
-                <div class="discussion-card">
-                    <a href="/Discussion/DisHome"><h3>@discussion.DiscussionName</h3></a>
-                    <a href="#"><h5>@discussion.DiscussionDescription</h5></a>
-                    <h6>人氣: @discussion.Views</h6>
-                </div>
-            </div>
-        }
-    </div>
+	<div class="dis-list-container">
+		@foreach (var discussion in Model)
+		{
+			<div class="dis-list">
+				<a href="/Discussion/DisHome/@discussion.DiscussionId" class="card-image">
+					<img src="~/img/home/@(discussion.ImageUrl ?? "default.jpg")" />
+				</a>
+				<div class="discussion-card">
+					<a href="/Discussion/DisHome/@discussion.DiscussionId"><h3>@discussion.DiscussionName</h3></a>
+					<h6>人氣: @(discussion.Views ?? 0)</h6>
+				</div>
+			</div>
+		}
+	</div>
 
-    <div class="right-list">
-        <h5>最近瀏覽看板</h5>
-        <div class="viewed-list">
-            <ul>
-                <li><a href="">魔物獵人 系列</a></li>
-                <li><a href="">寶可夢 系列</a></li>
-                <li><a href="">新楓之谷</a></li>
-                <li><a href="">神魔之塔</a></li>
-                <li><a href="">崩壞：星穹鐵道</a></li>
-            </ul>
-        </div>
+	<div class="right-list">
+		<h5>最近瀏覽看板</h5>
+		<div class="viewed-list">
+			<ul>
+				<li><a href="">魔物獵人 系列</a></li>
+				<li><a href="">寶可夢 系列</a></li>
+				<li><a href="">新楓之谷</a></li>
+				<li><a href="">神魔之塔</a></li>
+				<li><a href="">崩壞：星穹鐵道</a></li>
+			</ul>
+		</div>
 
-        <h5>最新成立看板</h5>
-        <div class="viewed-list">
-            <ul>
-                <li><a href="">魔物獵人 系列</a></li>
-                <li><a href="">寶可夢 系列</a></li>
-                <li><a href="">新楓之谷</a></li>
-                <li><a href="">神魔之塔</a></li>
-                <li><a href="">崩壞：星穹鐵道</a></li>
-            </ul>
-        </div>
-    </div>
+		<h5>最新成立看板</h5>
+		<div class="viewed-list">
+			<ul>
+				<li><a href="">魔物獵人 系列</a></li>
+				<li><a href="">寶可夢 系列</a></li>
+				<li><a href="">新楓之谷</a></li>
+				<li><a href="">神魔之塔</a></li>
+				<li><a href="">崩壞：星穹鐵道</a></li>
+			</ul>
+		</div>
+	</div>
 </div>
