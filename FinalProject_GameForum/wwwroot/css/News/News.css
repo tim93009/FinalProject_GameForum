@@ -69,11 +69,9 @@
 .text-container{
     display:flex;
     flex-direction:column;
-    align-items:center;
-    justify-content:center;
 }
 textarea {
-    margin-top: 10px;
+    margin: 10px 0 0 10%;
     width: 80%;
     height: 80px;
     border: 1px solid black;
