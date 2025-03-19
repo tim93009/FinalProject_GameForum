@@ -31,7 +31,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.ClientId = "365818433505-0ha2qhf5tuh9brrir7tot8a4qb6otrgr.apps.googleusercontent.com";
     options.ClientSecret = "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";
 
+}).AddMicrosoftAccount(options => {
+    options.ClientId = "43fc25be-380e-4015-96ea-79eecdd501f5";
+    options.ClientSecret = "KTc8Q~ViN4ap6HjHvrC._BVwC7XTAJW-20.xFbxa";
 });
+
+
+
 
 
 

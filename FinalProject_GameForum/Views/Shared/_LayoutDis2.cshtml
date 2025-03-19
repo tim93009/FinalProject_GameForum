@@ -1,0 +1,47 @@
+﻿<nav class="navbar" style="padding:0">
+	<div class="container-fluid" style="display: flex; justify-content: space-between; align-items: center; background-color:black;">
+		<div style="margin-right:50px">
+			<ul>
+				<li><a href="/Discussion/DisHome">討論區</a></li>
+				<li><a href="/Discussion/DisHome">看板首頁</a></li>
+				<li><a href="#" id="article-list-btn">文章列表</a></li>
+				<li><a href="">板規</a></li>
+			</ul>
+		</div>
+		<div class="search-container" style="flex: 1; display: flex; justify-content: center;">
+			<form class="search" action="/Discussion/Search" method="get">
+				<input type="text" placeholder="搜尋文章" name="search">
+				<button type="submit"><i class="fa fa-search"></i></button>
+			</form>
+			<button class="btn btn-primary" style="margin-left:300px;">訂閱</button>
+			<button class="btn btn-primary" style="margin-left:20px;">發文</button>
+		</div>
+	</div>
+</nav>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		document.getElementById("article-list-btn").addEventListener("click", function (event) {
+			event.preventDefault();
+
+			let mainContent = document.getElementById("main-content");
+			let articleListContainer = document.getElementById("article-list-container");
+
+			if (!articleListContainer) {
+				console.warn("找不到文章列表區域！");
+				return;
+			}
+
+			mainContent.style.display = "none";
+			articleListContainer.style.display = "block";
+
+			fetch('/Discussion/LoadArticleList')
+				.then(response => response.text())
+				.then(html => {
+					document.getElementById("articleList").innerHTML = html;
+				})
+				.catch(error => console.error("載入文章列表失敗:", error));
+		});
+	});
+</script>
+
