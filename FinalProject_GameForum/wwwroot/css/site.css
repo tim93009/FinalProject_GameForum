@@ -170,7 +170,7 @@
     width: 100%;
     white-space: nowrap;
     line-height: 60px;
-    margin-top: 200px; /* 與上方內容的間距 */
+    margin-top: 80px; /* 與上方內容的間距 */
 }
 
 /* Style the search field */
