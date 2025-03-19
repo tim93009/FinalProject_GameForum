@@ -1,5 +1,6 @@
 ﻿using FinalProject_GameForum.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace iSpan_MSIT62_Final_Project.Controllers
 {    
@@ -12,10 +13,11 @@ namespace iSpan_MSIT62_Final_Project.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
+        // 列出所有商品
+        public async Task<IActionResult> Index()
         {
-            List<Product> objProductList = _db.Products.ToList();
-            return View(objProductList);
+            var products = await _db.Products.Include(p => p.ProductCategory).ToListAsync();
+            return View(products);
         }
     }
 }
