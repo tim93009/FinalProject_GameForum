@@ -5,8 +5,6 @@
 
 @model iSpan_MSIT62_Final_Project.Controllers.ShoppingViewData
 
-<p>這裡是商城頁面</p>
-
 
 <div class="row g-0">
 	<div class="col-sm-12">		
@@ -65,6 +63,7 @@
 		@* 排行榜(foreach版本) *@
 		<!-- 區塊 2 -->
 		<div class="section bg-success">
+			<h2>商城排行榜</h2>
 			<!-- 整體排行榜容器 -->
 			<div class="rank-list">
 				<!-- 排行榜內容區域 - 每日熱銷榜 -->
@@ -120,11 +119,12 @@
 			</div>
 		</div>
 
+		<br />
+
 		@* 商品區 *@
 		<!-- 區塊 3 -->
 		<div class="section bg-danger">
-			<h2>實體商品</h2>
-			<p>這裡是 商品 的內容。可以用來展示更多資訊。</p>
+			<h2>實體商品</h2>			
 			<a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">商品連結</a>
 
 			<div class="products-card-scroll">
@@ -139,21 +139,23 @@
 										<a href="atmItem.php?sn=@obj.ProductId" class="products-card-img">
 											<img src="@obj.MainImageUrl" alt="@obj.ProductName" class="pic-products">
 										</a>
+
 										@* 商品名 *@
 										<a href="atmItem.php?sn=@obj.ProductId" class="products-name" title="@obj.ProductName">
 											<p>@obj.ProductName</p>
 										</a>
-										@* 商品類別與紅利 *@
+
+										@* 商品類別 *@
 										<div class="product-category">
 											<span class="category-name">@obj.ProductCategory?.Category</span>
-										</div>
-										<div class="products-feedback">
-											<span class="feedback-point">紅利10</span>
-										</div>
+										</div>										
+
 										@* 商品價格 *@
 										<div class="products-price-area">
 											<p class="products-price">NT$@obj.Price</p>
 										</div>
+
+										@* 購買按鈕 *@
 										<a href="javascript:void(0);" class="btn-buy-now"
 										   onclick="buyPart.remind('', 'TW-18UP', buyPart.buyNext(@obj.ProductId))">
 											前往購買

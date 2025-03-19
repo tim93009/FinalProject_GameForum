@@ -52,6 +52,7 @@ namespace FinalProject_GameForum.Controllers
                 var varClaims = new List<Claim>();
                 if (isEmail)
                 {
+                    varClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId));
                     varClaims.Add(new Claim(ClaimTypes.Name, user.Nickname));
                     varClaims.Add(new Claim("FullName", user.Nickname));
                     varClaims.Add(new Claim(ClaimTypes.Email, user.Email!));
@@ -60,6 +61,7 @@ namespace FinalProject_GameForum.Controllers
                 }
                 else
                 {
+                    varClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId));
                     varClaims.Add(new Claim(ClaimTypes.Name, user.Nickname));
                     varClaims.Add(new Claim("FullName", user.Nickname));
                     varClaims.Add(new Claim("UserPW", user.Password!));
@@ -213,11 +215,12 @@ namespace FinalProject_GameForum.Controllers
                 return RedirectToAction("Login");
             }
             //判斷有沒有拿到登入者的資料
-            var claims = result.Principal.Identities.FirstOrDefault()?.Claims;
-            var email = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-            var name = claims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-            var provider = claims?.FirstOrDefault(c => c.Type == "Provider")?.Value;
-            var providerID = claims?.FirstOrDefault(c => c.Type == "ProviderID")?.Value;
+            var oldclaims = result.Principal.Identities.FirstOrDefault()?.Claims;
+            var userID = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var email = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var name = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+            var provider = oldclaims?.FirstOrDefault(c => c.Type == "Provider")?.Value;
+            var providerID = oldclaims?.FirstOrDefault(c => c.Type == "ProviderID")?.Value;
 
             if (email == null)
             {
@@ -232,9 +235,30 @@ namespace FinalProject_GameForum.Controllers
                 return RedirectToAction("Login");
             }
 
+            
+            
+
             if (user != null)
             {
-               var claimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var newclaims = new List<Claim>();
+                if (user.PhotoUrl == null)
+                {
+                    newclaims.Add(new Claim(ClaimTypes.NameIdentifier, userID!));
+                    newclaims.Add(new Claim(ClaimTypes.Name, user.Nickname!));
+                    newclaims.Add(new Claim(ClaimTypes.Email, email!));
+                }
+                else
+                {
+                    newclaims.Add(new Claim(ClaimTypes.NameIdentifier, userID!));
+                    newclaims.Add(new Claim(ClaimTypes.Name, user.Nickname!));
+                    newclaims.Add(new Claim(ClaimTypes.Email, email!));
+                    newclaims.Add(new Claim("Photo", user.PhotoUrl!));
+                }
+
+
+
+
+                    var claimIdentity = new ClaimsIdentity(newclaims, CookieAuthenticationDefaults.AuthenticationScheme);
                var authPropertie = new AuthenticationProperties { IsPersistent = true };
                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimIdentity), authPropertie);
                return RedirectToAction("Index", "Home");
@@ -244,7 +268,7 @@ namespace FinalProject_GameForum.Controllers
 
             user =  new User
             {
-                UserId = email,
+                UserId = userID!,
                 Email = email,
                 Nickname = name!,
                 Provider = provider,
@@ -254,7 +278,7 @@ namespace FinalProject_GameForum.Controllers
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsIdentity = new ClaimsIdentity(oldclaims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authProperties = new AuthenticationProperties { IsPersistent = true };
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
             return RedirectToAction("Index", "Home");

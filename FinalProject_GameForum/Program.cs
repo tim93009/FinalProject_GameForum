@@ -19,7 +19,7 @@ builder.Services.AddDbContext<GameForumContext>(
         options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<UserInfoService>();
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
 {

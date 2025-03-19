@@ -7,19 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const reduceButtons = document.querySelectorAll('.btn-reduce-products-number'); // 減少數量的按鈕
     const addButtons = document.querySelectorAll('.btn-add-products-number');     // 增加數量的按鈕
     const subtotalElements = document.querySelectorAll('.list-note');             // 所有小計顯示元素
-    const grandTotalElement = document.getElementById('amountpaid');              // 總計顯示元素
-    const bonusTotal = document.getElementById('bonusTotal');                     // 紅利點數顯示元素
-    const bonusInput = document.getElementById('bonus');                          // 紅利輸入框
-
-    // 初始化紅利點數狀態
-    const availableBonus = parseInt(bonusTotal.getAttribute('data-bonus')) || 0;  // 從 data-bonus 獲取可用紅利，預設為 0
-    bonusTotal.textContent = `您有 ${availableBonus} 點紅利，本次抵用`;           // 顯示可用紅利點數
-    bonusInput.value = "0";                                                       // 紅利輸入框預設為 0
-    if (availableBonus > 0) {
-        bonusInput.removeAttribute('disabled');                                   // 如果有紅利，啟用輸入框
-    } else {
-        bonusInput.setAttribute('disabled', 'true');                              // 無紅利時禁用輸入框
-    }
+    const grandTotalElement = document.getElementById('amountpaid');              // 總計顯示元素      
 
     // 減少數量按鈕的事件監聽器
     // 減少數量
@@ -89,61 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 e.preventDefault();                                               // 若已達 999，阻止進一步輸入
             }
         });
-    });
-
-    // 紅利輸入前處理，處理從 "0" 開始輸入的情況
-    // 在輸入前攔截，處理 "0" 後輸入的情況
-    bonusInput.addEventListener('beforeinput', function (e) {
-        if (e.data && /[0-9]/.test(e.data)) {                                 // 如果輸入的是數字
-            if (this.value === "0") {                                         // 當前值為 "0"
-                e.preventDefault();                                           // 阻止默認行為
-                this.value = e.data;                                          // 直接替換為新輸入的數字
-                updateGrandTotal();                                           // 更新總計
-            }
-        }
-    });
-
-    // 紅利欄位一般輸入處理
-    bonusInput.addEventListener('input', function () {
-        let value = this.value.replace(/[^0-9]/g, '');                        // 移除非數字字符
-        if (value === '') {
-            value = "0";                                                      // 若輸入為空，設為 "0"
-        }
-
-        let bonusValue = parseInt(value);                                     // 轉為數字
-        if (bonusValue > availableBonus) {                                    // 若超過可用紅利
-            value = availableBonus.toString();                                // 限制為可用紅利
-        }
-        this.value = value;                                                   // 更新輸入框顯示
-        updateGrandTotal();                                                   // 更新總計
-    });
-
-    // 處理輸入法結束（例如中文輸入）
-    bonusInput.addEventListener('compositionend', function () {
-        let value = this.value.replace(/[^0-9]/g, '');                        // 移除非數字字符
-        if (value === '') {
-            value = "0";                                                      // 若輸入為空，設為 "0"
-        }
-        let bonusValue = parseInt(value);                                     // 轉為數字
-        if (bonusValue > availableBonus) {                                    // 若超過可用紅利
-            value = availableBonus.toString();                                // 限制為可用紅利
-        }
-        this.value = value;                                                   // 更新輸入框顯示
-        updateGrandTotal();                                                   // 更新總計
-    });
-
-    // 防止紅利欄位貼上非數字內容
-    bonusInput.addEventListener('paste', function (e) {
-        e.preventDefault();                                                   // 阻止默認貼上行為
-        const pastedText = (e.clipboardData || window.clipboardData).getData('text'); // 獲取貼上內容
-        let value = pastedText.replace(/[^0-9]/g, '');                        // 移除非數字字符
-        let bonusValue = parseInt(value) || 0;                                // 轉為數字，若無效則設為 0
-        if (bonusValue > availableBonus) {                                    // 若超過可用紅利
-            value = availableBonus.toString();                                // 限制為可用紅利
-        }
-        this.value = value;                                                   // 更新輸入框顯示
-        updateGrandTotal();                                                   // 更新總計
-    });
+    });    
 
     // 更新單項商品小計
     function updateSubtotal(sn, quantity, price) {
@@ -159,8 +93,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const subtotal = parseInt(element.textContent.replace('元', '')) || 0; // 提取小計數值
             grandTotal += subtotal;                                           // 累加到總計
         });
-        const bonusUsed = parseInt(bonusInput.value) || 0;                    // 獲取使用的紅利點數
-        grandTotal = Math.max(0, grandTotal - bonusUsed);                     // 減去紅利，確保不為負數
         grandTotalElement.textContent = grandTotal;                           // 更新總計顯示
         grandTotalElement.dataset.grandtotal = grandTotal;                    // 更新總計的 data 屬性
     }
