@@ -49,6 +49,7 @@
     height: 300px;
     border: 1px solid black;
     border-radius: 4px;
+    padding:15px;
 }
 .comment-item h4 {
     color: blue;
