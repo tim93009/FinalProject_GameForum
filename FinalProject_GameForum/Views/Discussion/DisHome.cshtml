@@ -133,13 +133,22 @@
 			connection.on("ReceiveMessage", function (user, message) {
 				var chatBox = document.getElementById("chatMessages");
 				var newMessage = document.createElement("div");
-				newMessage.textContent = user + "：" + message;
+				newMessage.innerHTML = user + "：" + convertLinksToAnchors(message); // 使用 convertLinksToAnchors 格式化訊息
 				chatBox.appendChild(newMessage);
 
 				// 收到訊息後自動滾動到底部
 				scrollToBottom();
 			});
+
+			// 將訊息中的 URL 轉換為超連結
+			function convertLinksToAnchors(message) {
+				var urlRegex = /(https?:\/\/[^\s]+)/g; // 正則表達式匹配 URL
+				return message.replace(urlRegex, function(url) {
+					return `<a href="${url}" target="_blank">${url}</a>`; // 將 URL 轉換為超連結
+				});
+			}
 		</script>
+
 
 	</div>
 </div>
