@@ -1,25 +1,27 @@
 ﻿<link rel="stylesheet" href="~/css/News/News.css" asp-append-version="true" />
-
+@{
+	var news = Model.NewsDetail.FirstOrDefault();
+}
 @await Html.PartialAsync("_LayoutNews")
-@model FinalProject_GameForum.Models.News
+@model FinalProject_GameForum.Models.NewsViewModel
 
 <div class="myContainer">
 	<div>
 		<h2>
-			@Model.NewsTitle
+			@news?.NewsTitle
 		</h2>
 	</div>
 	<br />
-	<p><time>@Model.EditDate?.ToString("yyyy-MM-dd HH:mm")</time></p>
+	<p><time>@news?.EditDate?.ToString("yyyy-MM-dd HH:mm")</time></p>
 	<ul>
-		@foreach (var image in Model.NewsImages)
+		@foreach (var image in news?.NewsImages ?? Enumerable.Empty<NewsImage>())
 		{
 			<li><img src="@image.ImageUrl"></li>
 		}
 	</ul>
 
 	<div class="news-content">
-		@foreach (var paragraph in Model.NewsContent.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries))
+		@foreach (var paragraph in news?.NewsContent.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries) ?? Enumerable.Empty<string>())
 		{
 			<h5>@paragraph</h5>
 		}
@@ -29,14 +31,14 @@
 <div class="message-container">
 	<div class="message">
 		<div class="messageList">
-			@if (ViewBag.NewsMessages != null && (ViewBag.NewsMessages as List<FinalProject_GameForum.Models.NewsMessage>)?.Any() == true)
+			@if (ViewBag.NewsMessages is List<FinalProject_GameForum.Models.NewsMessage> messages && messages.Any())
 			{
-				foreach (var message in ViewBag.NewsMessages as List<FinalProject_GameForum.Models.NewsMessage>)
+				foreach (var message in messages)
 				{
 					<div class="comment-item">
 						<h4>@(message.User != null ? message.User.UserId : "匿名")</h4>
 						<h5>@message.MessageContent</h5>						
-						<h6>@(message.EditDate?.ToString("yyyy-MM-dd HH:mm:ss") ?? "")</h6>
+						<h6>@(message.EditDate?.ToString("yyyy-MM-dd HH:mm") ?? "")</h6>
 					</div>
 				}
 			}
@@ -48,25 +50,29 @@
 	</div>
 </div>
 <div class="text-container">
-	@using (Html.BeginForm("News", "News", new { newsId = Model.NewsId }, FormMethod.Post))
-	{
-		<textarea id="text" placeholder="留言..." maxlength="80"></textarea>
-		<button class="send">送出</button>
-	}
+    <form action="@Url.Action("News", "News", new { id = Model.NewsDetail.FirstOrDefault()?.NewsId })" method="post" id="commentForm">
+		<textarea id="text" name="messageContent" placeholder="留言..." maxlength="80"></textarea>
+		<button class="send" type="submit">送出</button>		
+	</form>
 </div>
 
 <div class="others-container">
 	<div class="others">
 		<h3>相關新聞</h3>
 		<div class="newsList">
-			@foreach (var relatedNews in ViewBag.RelatedNews as List<FinalProject_GameForum.Models.News> ??  ViewBag.RelatedNews.Empty<News>())
+			@if(ViewBag.RelatedNews is List<FinalProject_GameForum.Models.News>relatedNewsList && relatedNewsList.Any())
 			{
-				<div class="otherNews">
-					<a href="@Url.Action("News","News",new {id = relatedNews.NewsId})">
-						<img src="@relatedNews.ImageUrl" alt="MHN Image" style="width:220px;height:220px" /></a>
-					<h6><a href="@Url.Action("News","News",new {id = relatedNews.NewsId})">@relatedNews.NewsTitle</a></h6>
-				</div>
+				foreach (var relatedNews in relatedNewsList)
+				{
+					<div class="otherNews">
+						<a href="@Url.Action("News","News",new {id = relatedNews.NewsId})">
+							<img src="@relatedNews.ImageUrl" alt="MHN Image" style="width:220px;height:220px" /></a>
+						<h6><a href="@Url.Action("News","News",new {id = relatedNews.NewsId})">@relatedNews.NewsTitle</a></h6>
+					</div>
+				}
 			}
 		</div>		
 	</div>
 </div>
+
+<script src="~/js/news/News.js" asp-append-version="true"></script>
