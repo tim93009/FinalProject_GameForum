@@ -9,6 +9,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
+
         <!-- 大螢幕時的 Logo（單獨顯示） -->
         <a class="nav-link text-white d-none d-lg-block" asp-area="" asp-controller="ShoppingMall" asp-action="Index">
             <img src="~/img/shoppingMall/baha_shopping_logo.png" class="d-block" style="max-height: 3rem; width: auto; object-fit: contain;" alt="...">
@@ -28,13 +29,14 @@
         <div class="collapse navbar-collapse order-lg-2" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 flex-lg-row">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">購物車</a>
+                    @* 購物車 *@
+                    <a class="nav-link" href="/ShoppingCart/Index">購物車</a>                                         
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/Order/Index">我的訂單</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">客服中心</a>
+                    <a class="nav-link" href="/CustomerServiceIssues/Index">客服中心</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">公告</a>
