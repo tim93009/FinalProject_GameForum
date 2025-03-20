@@ -60,7 +60,7 @@
 
 <div class="row g-0">
 	<div class="col-sm-10">
-		@* 排行榜(foreach版本) *@
+		@* 排行榜 *@
 		<!-- 區塊 2 -->
 		<div class="section bg-success">
 			<h2>商城排行榜</h2>
@@ -156,8 +156,7 @@
 										</div>
 
 										@* 購買按鈕 *@
-										<a href="javascript:void(0);" class="btn-buy-now"
-										   onclick="buyPart.remind('', 'TW-18UP', buyPart.buyNext(@obj.ProductId))">
+										<a class="btn-buy-now" asp-controller="Product" asp-action="Index" asp-route-productId="@obj.ProductId">
 											前往購買
 										</a>
 									</div>

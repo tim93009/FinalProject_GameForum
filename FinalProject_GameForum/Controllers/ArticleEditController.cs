@@ -1,6 +1,8 @@
 ﻿using FinalProject_GameForum.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Ganss.Xss;
+using AngleSharp.Dom;
 
 namespace FinalProject_GameForum.Controllers
 {
@@ -17,7 +19,9 @@ namespace FinalProject_GameForum.Controllers
         {
             return View();
         }
-       
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> Submit(string articleTitle, int articleType, string articleContent, IFormFile imgFile)
@@ -29,8 +33,40 @@ namespace FinalProject_GameForum.Controllers
             }
 
             // 找到對應的 ArticleGroup (文章分類)
-            ArticleGroup articleGroup = await _context.ArticleGroups.FirstAsync(g => g.ArticleGroupId == 1);            
+            ArticleGroup articleGroup = await _context.ArticleGroups.FirstAsync(g => g.ArticleGroupId == 1);
 
+            // **自訂允許的 HTML 標籤**
+            var sanitizer = new HtmlSanitizer();
+            sanitizer.AllowedTags.Add("img");
+            sanitizer.AllowedAttributes.Add("src");
+            sanitizer.AllowedAttributes.Add("alt");
+            sanitizer.AllowedTags.Add("a");
+            sanitizer.AllowedAttributes.Add("href");
+
+            // 允許 <iframe>
+            sanitizer.AllowedTags.Add("iframe");
+            sanitizer.AllowedAttributes.Add("src");
+            sanitizer.AllowedAttributes.Add("frameborder");
+            sanitizer.AllowedAttributes.Add("allowfullscreen");
+            sanitizer.AllowedAttributes.Add("class");
+
+            // 過濾 URL，確保 <iframe> 只允許 YouTube
+            sanitizer.PostProcessNode += (s, e) =>
+            {
+                if (e.Node is IElement element && element.TagName.Equals("iframe", StringComparison.OrdinalIgnoreCase))
+                {
+                    var srcAttribute = element.GetAttribute("src");
+                    if (srcAttribute != null &&
+                        !srcAttribute.StartsWith("https://www.youtube.com/embed/") &&
+                        !srcAttribute.StartsWith("https://youtube.com/embed/"))
+                    {
+                        element.Remove(); // 移除不安全的 <iframe>
+                    }
+                }
+            };
+
+            // 過濾文章內容
+            articleContent = sanitizer.Sanitize(articleContent);
 
             // 讀取封面圖片 (存入 byte[] 格式)
             byte[]? coverImage = null;

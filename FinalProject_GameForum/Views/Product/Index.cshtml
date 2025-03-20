@@ -3,219 +3,67 @@
 <!-- 嵌入商城導覽列 -->
 @await Html.PartialAsync("ShoppingMall_Nav")
 
-@model List<Product>
+@model Product
 
 <p>這裡是商品頁面</p>
 
 <!-- 商品資訊 -->
 <div class="row g-0">
-	<div class="col-sm-4">
-		<div class="section bg-success">
-			<a href="" class="detail-img-block">
-				<span class="img-color-ns">(商品類別) NS</span>
-				<div class="img-container">
-					<img src="https://p2.bahamut.com.tw/B/2KU/87/c3e31c072302c6787a27d354cb1tb835.JPG" alt="products-img">
-				</div>
-			</a>
-			<div class="detail-name-block">
-				<span class="color-ns">(商品類別) NS</span>
-				<span class="pokemon-font">(商品名稱)《寶可夢傳說 Z-A》中文版</span>
-			</div>
-			<div class="detail-info-block">
-				<div class="info-stock">商品評分：<span class="rating" data-rating="5"></span></div>
-				<div class="info-stock">商品庫存：10</div>
-			</div>
-			<hr> <!-- 這裡增加了分隔線 -->
-			<div class="price-info-detail">
-				<p class="info-main-price">NT 1950 元</p>
-			</div>
-			<div class="products-number-choice">
-				<div class="number-title">數量</div>
-				<button class="btn-reduce-number">-</button>
-				<div class="show-products-number">1</div>
-				<button class="btn-add-number">+</button>
-			</div>
-			<div class="add-to-cart-container">
-				<button class="btn-add-to-cart">加入購物車</button>
-			</div>
-			<hr> <!-- 這裡增加了分隔線 -->
-			<div class="products-description-title">
-				<p>產品簡介</p>
-			</div>
-			<div class="product-description">
-				《寶可夢傳說 Z-A》是一款全新冒險遊戲，帶您探索充滿神秘與挑戰的寶可夢世界。遊戲中將帶來全新地區、獨特劇情以及眾多新寶可夢，適合所有年齡層的玩家體驗。
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-8">
-		<div class="section bg-black">
-			<a href="" class="detail-img-block">
-				<span class="img-color-ns">NS</span>
-				<div class="img-container">
-					<div>
-						<img src="https://p2.bahamut.com.tw/B/2KU/07/9a330a85f8ccabd8f5cf6749281taur5.JPG" alt=""
-							 class="pic-slider-items" style="width: 100%; display: inline-block;">
-
-					</div>
-					<br />
-					<div>
-						<img src="https://p2.bahamut.com.tw/B/2KU/12/69972030521dd78e6720ac94191tauw5.JPG" alt=""
-							 class="pic-slider-items" style="width: 100%; display: inline-block;">
-					</div>
-					<br />
-					<div>
-						<img src="https://p2.bahamut.com.tw/B/2KU/00/aa37948698a5ab7f8fe0cb3b991tauk5.JPG" alt=""
-							 class="pic-slider-items" style="width: 100%; display: inline-block;">
-					</div>
-					<br />
-					<div>
-						<img src="https://p2.bahamut.com.tw/B/2KU/20/25b2f095d70db2ce7534a7099a1tav45.JPG" alt=""
-							 class="pic-slider-items" style="width: 100%; display: inline-block;">
-					</div>
-					<br />
-					<div>
-						<img src="https://p2.bahamut.com.tw/B/2KU/10/6922d2ebe144a2450399340dd41tauu5.JPG" alt=""
-							 class="pic-slider-items" style="width: 100%; display: inline-block;">
-					</div>
-				</div>
-			</a>
-		</div>
-	</div>
-
-
-	<br />
-
-	<!-- 相關商品 -->
-	<div class="row g-0">
-		<div class="col-sm-12">
-			<div class="section bg-danger">
-				<h2>相關商品</h2>
-				<p>這裡是 相關商品 的內容。可以用來展示更多資訊。</p>
-				<a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">商品連結</a>
-
-				<div class="scroll-container">
-					<div class="products-wrapper">
-						<a href="https://buy.gamer.com.tw/atmItem.php?sn=38422" class="share-products-card">
-							<div class="products-card-block">
-								<span class="img-color-NS">NS</span>
-								<img src="https://p2.bahamut.com.tw/B/2KU/12/a886730ae8958241f1d73731b41sshs5.JPG" alt="" class="share-products-img">
-							</div>
-							<p class="products-name-content">《符文工廠 龍之天地》中日英文版（附贈預購特典）</p>
-						</a>
-
-						<a href="https://buy.gamer.com.tw/atmItem.php?sn=37750" class="share-products-card">
-							<div class="products-card-block">
-								<span class="img-color-NS">NS</span>
-								<img src="https://p2.bahamut.com.tw/B/2KU/78/737dd50ad7f40513e81ff4d1041s05e5.JPG" alt="" class="share-products-img">
-							</div>
-							<p class="products-name-content">《異度神劍 X 終極版》中日英文版（附贈預購特典）</p>
-						</a>
-
-						<a href="https://buy.gamer.com.tw/atmItem.php?sn=38471" class="share-products-card">
-							<div class="products-card-block">
-								<span class="img-color-PS5">PlayStation5</span>
-								<img src="https://p2.bahamut.com.tw/B/2KU/06/acdaeb3cd25442dc8d50f686ee1sxnq5.JPG" alt="" class="share-products-img">
-							</div>
-							<p class="products-name-content">《空之軌跡 the 1st》中文一般版</p>
-						</a>
-
-						<a href="https://buy.gamer.com.tw/atmItem.php?sn=38472" class="share-products-card">
-							<div class="products-card-block">
-								<span class="img-color-NS">NS</span>
-								<img src="https://p2.bahamut.com.tw/B/2KU/09/6495aab10dab517b9483a4f9621sxnt5.JPG" alt="" class="share-products-img">
-							</div>
-							<p class="products-name-content">《空之軌跡 the 1st》中文一般版</p>
-						</a>
-
-						<a href="https://buy.gamer.com.tw/atmItem.php?sn=38575" class="share-products-card">
-							<div class="products-card-block">
-								<span class="img-color-PS5">PlayStation5</span>
-								<img src="https://p2.bahamut.com.tw/B/2KU/41/5f92d783d47a3962df60d85aeb1t5k15.JPG" alt="" class="share-products-img">
-							</div>
-							<p class="products-name-content">《潛龍諜影 Delta：食蛇者》中文一般版（附贈預購特典）</p>
-						</a>
-
-						<a href="https://buy.gamer.com.tw/atmItem.php?sn=38535" class="share-products-card">
-							<div class="products-card-block">
-								<span class="img-color-PS5">PlayStation5</span>
-								<img src="https://p2.bahamut.com.tw/B/2KU/15/451fffe861fbbb0640459c83621t3rf5.JPG" alt="" class="share-products-img">
-							</div>
-							<p class="products-name-content">《光與影：33 號遠征隊》中文一般版</p>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<br />
-
-	<!-- 瀏覽紀錄 -->
-	<div class="row g-0">
-		<div class="col-sm-12">
-			<div class="section bg-info">
-				<h2>瀏覽紀錄</h2>
-				<p>這裡是 瀏覽紀錄 的內容。可以用來展示更多資訊。</p>
-				<a class="nav-link" asp-area="" asp-controller="Checkout" asp-action="Index">結帳連結</a>
-			
-				<div class="scroll-container">
-					<div class="products-wrapper">
-						<a href="https://buy.gamer.com.tw/atmItem.php?sn=38422" class="share-products-card">
-							<div class="products-card-block">
-								<span class="img-color-NS">NS</span>
-								<img src="https://p2.bahamut.com.tw/B/2KU/12/a886730ae8958241f1d73731b41sshs5.JPG" alt="" class="share-products-img">
-							</div>
-							<p class="products-name-content">《符文工廠 龍之天地》中日英文版（附贈預購特典）</p>
-						</a>
-
-						<a href="https://buy.gamer.com.tw/atmItem.php?sn=37750" class="share-products-card">
-							<div class="products-card-block">
-								<span class="img-color-NS">NS</span>
-								<img src="https://p2.bahamut.com.tw/B/2KU/78/737dd50ad7f40513e81ff4d1041s05e5.JPG" alt="" class="share-products-img">
-							</div>
-							<p class="products-name-content">《異度神劍 X 終極版》中日英文版（附贈預購特典）</p>
-						</a>
-
-						<a href="https://buy.gamer.com.tw/atmItem.php?sn=38471" class="share-products-card">
-							<div class="products-card-block">
-								<span class="img-color-PS5">PlayStation5</span>
-								<img src="https://p2.bahamut.com.tw/B/2KU/06/acdaeb3cd25442dc8d50f686ee1sxnq5.JPG" alt="" class="share-products-img">
-							</div>
-							<p class="products-name-content">《空之軌跡 the 1st》中文一般版</p>
-						</a>
-
-						<a href="https://buy.gamer.com.tw/atmItem.php?sn=38472" class="share-products-card">
-							<div class="products-card-block">
-								<span class="img-color-NS">NS</span>
-								<img src="https://p2.bahamut.com.tw/B/2KU/09/6495aab10dab517b9483a4f9621sxnt5.JPG" alt="" class="share-products-img">
-							</div>
-							<p class="products-name-content">《空之軌跡 the 1st》中文一般版</p>
-						</a>
-
-						<a href="https://buy.gamer.com.tw/atmItem.php?sn=38575" class="share-products-card">
-							<div class="products-card-block">
-								<span class="img-color-PS5">PlayStation5</span>
-								<img src="https://p2.bahamut.com.tw/B/2KU/41/5f92d783d47a3962df60d85aeb1t5k15.JPG" alt="" class="share-products-img">
-							</div>
-							<p class="products-name-content">《潛龍諜影 Delta：食蛇者》中文一般版（附贈預購特典）</p>
-						</a>
-
-						<a href="https://buy.gamer.com.tw/atmItem.php?sn=38535" class="share-products-card">
-							<div class="products-card-block">
-								<span class="img-color-PS5">PlayStation5</span>
-								<img src="https://p2.bahamut.com.tw/B/2KU/15/451fffe861fbbb0640459c83621t3rf5.JPG" alt="" class="share-products-img">
-							</div>
-							<p class="products-name-content">《光與影：33 號遠征隊》中文一般版</p>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="col-sm-4">
+        <div class="section bg-success">
+            <a href="" class="detail-img-block">
+                <span class="img-color-ns">@(Model.ProductCategory?.Category ?? "NS")</span>
+                <div class="img-container">
+                    <img src="@Model.MainImageUrl" alt="product-img">
+                </div>
+            </a>
+            <div class="detail-name-block">
+                <span class="color-ns">@(Model.ProductCategory?.Category ?? "NS")</span>
+                <span class="pokemon-font">@Model.ProductName</span>
+            </div>
+            <div class="detail-info-block">
+                <div class="info-stock">商品評分：<span class="rating" data-rating="@Model.Rating"></span></div>
+                <div class="info-stock">商品庫存：@Model.Stock</div>
+            </div>
+            <hr>
+            <div class="price-info-detail">
+                <p class="info-main-price">NT @Model.Price 元</p>
+            </div>
+            <div class="products-number-choice">
+                <div class="number-title">數量</div>
+                <button class="btn-reduce-number">-</button>
+                <div class="show-products-number">1</div>
+                <button class="btn-add-number">+</button>
+            </div>
+            <div class="add-to-cart-container">
+                <button class="btn-add-to-cart">加入購物車</button>
+            </div>
+            <hr>
+            <div class="products-description-title">
+                <p>產品簡介</p>
+            </div>
+            <div class="product-description">
+                @Model.ProductDescription
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="section bg-black">
+            <a href="" class="detail-img-block">
+                <span class="img-color-ns">@(Model.ProductCategory?.Category ?? "NS")</span>
+                <div class="img-container">
+                    @foreach (var additionalImage in Model.ProductAdditionalImages)
+                    {
+                        <div>
+                            <img src="@additionalImage.AdditionalImageUrl" alt="" class="pic-slider-items" style="width: 100%; display: inline-block;">
+                        </div>
+                        <br />
+                    }
+                </div>
+            </a>
+        </div>
+    </div>
 </div>
 
 <script src="~/js/product/GenerateStars.js" asp-append-version="true"></script>
 <script src="~/js/product/AdjustProductQuantity.js" asp-append-version="true"></script>
-
-
-

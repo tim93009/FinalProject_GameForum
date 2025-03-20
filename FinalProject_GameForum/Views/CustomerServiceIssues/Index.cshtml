@@ -17,8 +17,8 @@
 	};
 }
 
-<h1>客服問題</h1>
-<div class="accordion" id="accordionExample">
+<h1 class="text-center m-3">客服問題</h1>
+<div class="accordion m-3" id="accordionExample">
 	@for (int i = 0; i < accountFaqList.Count; i++)
 	{
 		(string question, string answer) item = accountFaqList[i];
@@ -40,7 +40,7 @@
 		</div>
 	}
 </div>
-<div class="accordion" id="accordionExample">
+<div class="accordion m-3" id="accordionExample">
 	@for (int i = 0; i < shopFaqList.Count; i++)
 	{
 		(string question, string answer) item = shopFaqList[i];
