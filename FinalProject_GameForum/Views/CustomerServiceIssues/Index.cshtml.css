@@ -1,3 +1,3 @@
-﻿.article-content {
-    border: 5px;
+﻿.accordion * {
+    border-radius: 5px;
 }
