@@ -15,7 +15,7 @@ function Password() {
 
 //個人資料編輯
 function MemberEdit(isEditing) {
-    let files = ["Email", "Name", "Birthdate", "address", "Phone"]
+    let files = ["Email",  "Birthdate", "address", "Phone"]
     files.forEach(id => {
         let input = document.getElementById(id);
         if (isEditing) {

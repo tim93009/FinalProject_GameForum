@@ -54,7 +54,7 @@ namespace FinalProject_GameForum.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> SettingName(string Nickname, IFormFile? Photourl)
+        public async Task<IActionResult> Setting(string Nickname, IFormFile? Photourl)
         {
           
             var TrueUserId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
@@ -111,7 +111,7 @@ namespace FinalProject_GameForum.Controllers
             userEntity.Phone = Phone;
 
             _context.SaveChanges();
-            return View(userEntity);
+            return RedirectToAction("Setting");
         }
 
         [HttpPost]
@@ -125,13 +125,14 @@ namespace FinalProject_GameForum.Controllers
             }
             if (userEntity.Password != OldPW)
             {
-                return View("Setting");
+                TempData["Error"] = "舊密碼錯誤，更改失敗!";
+                return RedirectToAction("Setting");
             }
             else
             {
                 userEntity.Password = NewPW;
                 _context.SaveChanges();
-                return View(userEntity);
+                return RedirectToAction("Setting");
             }
                
         }
