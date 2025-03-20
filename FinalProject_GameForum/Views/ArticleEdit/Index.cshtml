@@ -3,6 +3,7 @@
 <h1>文章編輯</h1>
 <div class="container myContainer">
 	<form id="editorForm" method="post" enctype="multipart/form-data" asp-action="Submit">
+		@Html.AntiForgeryToken()
 		@if (!ViewBag.IsReply)
 		{
 			<div class="row p-1">
