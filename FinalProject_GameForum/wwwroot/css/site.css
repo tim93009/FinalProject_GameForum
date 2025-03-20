@@ -1,3 +1,8 @@
+body {
+    background: linear-gradient(to right, transparent 16%, #f0f0f0 16% 84%, transparent 84%), url('/img/Layout/matrix-code.gif');
+    background-size: 100% 100%, cover;
+    background-position: left top, center;
+}
 .navbar {
     position: fixed;
     top: 0;
