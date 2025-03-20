@@ -9,8 +9,8 @@
 			</ul>
 		</div>
 		<div class="search-container" style="flex: 1; display: flex; justify-content: center;">
-			<form class="search" action="/Discussion/Search" method="get">
-				<input type="text" placeholder="搜尋文章" name="search">
+			<form class="search" id="searchForm" action="#" method="get">
+				<input type="text" id="searchInput" placeholder="搜尋文章標題" name="search">
 				<button type="submit"><i class="fa fa-search"></i></button>
 			</form>
 			<button class="btn btn-primary" style="margin-left:300px;">訂閱</button>
@@ -23,6 +23,7 @@
 	document.addEventListener("DOMContentLoaded", function () {
 		document.getElementById("article-list-btn").addEventListener("click", function (event) {
 			event.preventDefault();
+			let searchQuery = document.getElementById("searchInput").value;
 
 			let mainContent = document.getElementById("main-content");
 			let articleListContainer = document.getElementById("article-list-container");
@@ -35,7 +36,44 @@
 			mainContent.style.display = "none";
 			articleListContainer.style.display = "block";
 
-			fetch('/Discussion/LoadArticleList')
+			// 檢查是否有搜尋條件
+			let url = `/Discussion/LoadArticleList?discussionId=@Model.DiscussionId`;
+			if (searchQuery) {
+				url += `&search=${searchQuery}`; // 有搜尋條件時，附加搜尋參數
+			}
+
+			fetch(url)
+				.then(response => response.text())
+				.then(html => {
+					document.getElementById("articleList").innerHTML = html;
+				})
+				.catch(error => console.error("載入文章列表失敗:", error));
+		});
+
+		// 搜尋表單提交處理
+		document.getElementById("searchForm").addEventListener("submit", function (event) {
+			event.preventDefault();
+			let searchQuery = document.getElementById("searchInput").value;
+
+			// 重新加載文章列表，帶入搜尋條件
+			let mainContent = document.getElementById("main-content");
+			let articleListContainer = document.getElementById("article-list-container");
+
+			if (!articleListContainer) {
+				console.warn("找不到文章列表區域！");
+				return;
+			}
+
+			mainContent.style.display = "none";
+			articleListContainer.style.display = "block";
+
+			// 檢查是否有搜尋條件
+			let url = `/Discussion/LoadArticleList?discussionId=@Model.DiscussionId`;
+			if (searchQuery) {
+				url += `&search=${searchQuery}`; // 有搜尋條件時，附加搜尋參數
+			}
+
+			fetch(url)
 				.then(response => response.text())
 				.then(html => {
 					document.getElementById("articleList").innerHTML = html;
@@ -44,4 +82,3 @@
 		});
 	});
 </script>
-
