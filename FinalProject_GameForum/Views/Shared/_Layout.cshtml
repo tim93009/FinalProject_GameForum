@@ -1,6 +1,6 @@
 ﻿
 @{
-	
+
 }
 
 <!DOCTYPE html>
@@ -26,7 +26,7 @@
                     <img src="~/img/Layout/gamer.jpg" width="100px" />
                     <span>GAMERS</span>
                 </a>
-                
+
                 <!-- 搜索列 -->
                 <div class="search-container" style="flex: 1; display: flex; justify-content: center;">
                     <form class="search" action="action_page.php" style="width:20%">
@@ -38,11 +38,16 @@
                 <!--個人圖片-->
                 <div>
                     <div style="color:aliceblue; margin-right:50px">
-                        <a asp-controller="Personal" asp-action="Personal"><img src="~/img/Login/btn_base.png"> </a><!--放個人圖片用 先放line替代-->
+                        @{
+                            var photourl = User.Claims.FirstOrDefault(u => u.Type == "photo")?.Value ?? "/img/Login/headphoto.jpg";
+                            var name = User.Claims.FirstOrDefault(u => u.Type == "name")?.Value;
+							
+                        }
+                        <a asp-controller="Personal" asp-action="Personal" style="text-decoration:none"><img src="@photourl" width="50" height="50" style="border-radius:50%"> </a><!--放個人圖片用 先放line替代-->
                         <!--登入註冊-->
                         @if (User.Identity!.IsAuthenticated)
                         {
-                            <span>@User.Identity.Name</span>
+                            <span>@name</span>
                             <a class="m-3" asp-controller="Login" asp-action="Logout">登出</a>
                         }
                         else
