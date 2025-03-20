@@ -164,19 +164,19 @@ namespace FinalProject_GameForum.Controllers
         }
 
         [HttpPost]
-        public IActionResult ForgotPW(string phone)
+        public IActionResult ForgotPW(string email)
         {
-            phone = phone.Replace("-", "").Trim();
-            var TruePhone = _context.Users.SingleOrDefault(e => e.Phone == phone);
+            
+            var TrueEmail = _context.Users.SingleOrDefault(e => e.Email == email);
 
-            if (TruePhone == null)
+            if (TrueEmail == null)
             {
-                TempData["Error"] = "手機號碼錯誤! 請重新輸入!";
+                TempData["Error"] = "信箱錯誤! 請重新輸入!";
             }
             else
             {
 
-                TempData["phone"] = phone;
+                TempData["email"] = email;
 
 
             }
@@ -186,10 +186,10 @@ namespace FinalProject_GameForum.Controllers
 
 
         [HttpPost]
-        public IActionResult ReSetPw(string phone, string NewPw)
+        public IActionResult ReSetPw(string email, string NewPw)
         {
-            var user = _context.Users.SingleOrDefault(e => e.Phone == phone);
-            user!.Password = BCrypt.Net.BCrypt.HashPassword(NewPw);
+            var user = _context.Users.FirstOrDefault(e => e.Email == email);
+            user!.Password = NewPw;
             _context.SaveChanges();
 
             TempData["Asept"] = "密碼重設成功! 請重新登入!";

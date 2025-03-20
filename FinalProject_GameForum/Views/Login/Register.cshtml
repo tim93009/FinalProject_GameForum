@@ -24,7 +24,7 @@
 		</div>
 		<div class="mb-3 mt-3 container-sm">
 			<label for="email" class="form-label"></label>
-			<input type="text" class="form-control" id="email" placeholder="輸入信箱" name="email" required>
+			<input type="email" class="form-control" id="email" placeholder="輸入信箱" name="email" required>
 		</div>
 		<div class="mb-3 mt-3 container-sm">
 			<label for="user_id" class="form-label"></label>
@@ -40,7 +40,7 @@
 		</div>
 
 		<div class="d-grid gap-2 col-10 p-3 mx-auto ">
-			<button type="submit" class="btn btn-primary">註冊</button>
+			<button type="submit" class="btn btn-primary" onclick="viewEmail()">註冊</button>
 		</div>
 
 		<div class="text-center m-3 p-2">
@@ -115,5 +115,6 @@
 			})
 		})
 	</script>
+	<script src="~/js/email/checkemail.js"></script>
 </body>
 </html>
