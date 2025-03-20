@@ -93,8 +93,11 @@
 .chat-messages {
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 10px;
     box-sizing: border-box;
+    word-wrap: break-word; /* 讓長單詞在邊緣自動換行 */
+    word-break: break-word; /* 確保長字串（如URL）在邊界斷開 */
 }
 
 /* 輸入區域固定在底部 */
@@ -103,7 +106,7 @@
     border-top: 1px solid #ccc;
     background-color: white;
     width: 100%;
-    margin-bottom:17px;
+    margin-bottom: 17px;
     box-sizing: border-box;
 }
 
