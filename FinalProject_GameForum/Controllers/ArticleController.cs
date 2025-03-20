@@ -13,15 +13,15 @@ namespace FinalProject_GameForum.Controllers
             _context = context;
         }
 
-        // GET: Pokemons
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int id)
         {
             List<Article> articles = _context.Articles
            .Include(a => a.ArticleGroup)
            .Include(a => a.User)
            .Include(a => a.ArticleMessages)
-           .ThenInclude(m => m.User)
+               .ThenInclude(m => m.User)
+           .Where(a => a.ArticleGroupId == id)
            .ToList();
 
             return View(articles);
