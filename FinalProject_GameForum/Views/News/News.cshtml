@@ -1,8 +1,8 @@
 ﻿<link rel="stylesheet" href="~/css/News/News.css" asp-append-version="true" />
 @{
+	Layout = "_LayoutNews";
 	var news = Model.NewsDetail.FirstOrDefault();
 }
-@await Html.PartialAsync("_LayoutNews")
 @model FinalProject_GameForum.Models.NewsViewModel
 
 <div class="myContainer">
@@ -12,7 +12,10 @@
 		</h2>
 	</div>
 	<br />
-	<p><time>@news?.EditDate?.ToString("yyyy-MM-dd HH:mm")</time></p>
+	<p>
+		<button href="" class="category-btn @news?.Category?.ToLower()">@news?.Category</button>
+		<time>@news?.EditDate?.ToString("yyyy-MM-dd HH:mm")</time>
+	</p>
 	<ul>
 		@foreach (var image in news?.NewsImages ?? Enumerable.Empty<NewsImage>())
 		{

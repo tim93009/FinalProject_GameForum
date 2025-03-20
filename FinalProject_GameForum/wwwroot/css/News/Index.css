@@ -1,10 +1,12 @@
-﻿a{
+﻿.container {
+    width: 100%;
+    height: auto;
+    margin-top: 200px;
+}
+a{
     text-decoration: none
 }
-.container{
-    width:100%;
-    height:auto;
-}
+
 .carousel {
     margin-top:50px;
 }
@@ -46,3 +48,23 @@ h5 {
 p {
     margin-left: 10px;
 }
+.category-btn {
+    font-size: 16px;
+    color: red;
+    background-color: mediumpurple;
+    margin: 0 0 10px 20px;
+    border: 2px solid gray;
+    border-radius: 4px;
+}
+    .category-btn:hover {
+        opacity: 0.6
+    }
+    .category-btn.pc {
+        background-color: cornflowerblue;
+    }
+    .category-btn.tv {
+        background-color: greenyellow;
+    }
+    .category-btn.手機 {
+        background-color: yellow;
+    }
