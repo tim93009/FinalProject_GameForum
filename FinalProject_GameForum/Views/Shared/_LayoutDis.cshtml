@@ -1,6 +1,10 @@
-﻿<nav class="navbar" style="padding:0">
-    <div class="container-fluid" style="display: flex; justify-content: space-between; align-items: center; background-color:black;">
-        <div style="margin-right:50px">
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section ExtraNavbar{
+<nav class="extra-navbar" style="padding:0">
+    <div class="container-fluid" style="display: flex; justify-content: flex-start; align-items: center; background-color:black;">
+        <div class="dis-list" style="margin-right:50px">
             <ul>
                 <li><a href="/Discussion/Index">熱門排行</a></li>
                 <li><a href="/Discussion/Index?category=PC">電腦</a></li>
@@ -11,8 +15,8 @@
         </div>
 
         @* 只要包含1個字也會搜尋成功 *@
-        <div class="search-container" style="flex: 1; display: flex; justify-content: center;">
-            <form class="search" action="/Discussion/Index" method="get">
+        <div class="dis-search" style="flex: 1; display: flex; justify-content: flex-end;">
+            <form class="search" action="/Discussion/Index" method="get" style="margin-right:24%">
                 <input type="text" placeholder="搜尋看板" name="search">
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
@@ -20,3 +24,7 @@
 
     </div>
 </nav>
+}
+<div class="dis-container">
+    @RenderBody()
+</div>

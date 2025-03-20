@@ -1,5 +1,7 @@
 ﻿<link rel="stylesheet" href="~/css/Discussion/Index.css" asp-append-version="true" />
-@await Html.PartialAsync("_LayoutDis")
+@{
+	Layout = "~/Views/Shared/_LayoutDis.cshtml";
+}
 @model List<FinalProject_GameForum.Models.Discussion>
 
 <div class="dis-container">

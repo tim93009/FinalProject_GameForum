@@ -2,8 +2,9 @@
 <link rel="stylesheet" href="~/css/Product/AddedToCart.css" asp-append-version="true" />
 
 <!-- 嵌入商城導覽列 -->
-@await Html.PartialAsync("ShoppingMall_Nav")
-
+@{
+    Layout = "~/Views/Shared/ShoppingMall_Nav.cshtml";
+}
 @model Product
 
 <p>這裡是商品頁面</p>

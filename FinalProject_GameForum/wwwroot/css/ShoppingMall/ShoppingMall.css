@@ -1,4 +1,9 @@
-﻿.rank-row {
+﻿.container {
+    width: 100%;
+    height: auto;
+    margin-top: 200px;
+}
+.rank-row {
     display: flex;
     align-items: center;
     justify-content: flex-start; /* 改為 flex-start，讓元素靠左緊貼 */

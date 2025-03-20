@@ -21,7 +21,7 @@ body {
 .container {
     width: 100%;
     height: auto;
-    margin-top: 80px;   
+    margin-top: 130px;   
 }
 .container.extra-navbar {
     margin-top: 200px; 
@@ -56,26 +56,27 @@ body {
     transition: 0.3s ease;
 }
 
-    .goTopImage:hover {
-        content: url('/img/Layout/tile_0273.png');
-    }
+.goTop:hover .goTopImage {
+    content: url('/img/Layout/tile_0273.png');
+}
 
 .goTopText {
     display: flex;
     margin-top: 5px;
     font-size: 15px;
-    color: black;
+    color: white;
     opacity: 0.7;
-    text-decoration: none;
     align-items: center;
     justify-content: center;
     letter-spacing: 2px;
     text-shadow: 1px 1px 3px black;
 }
-
-
-/* 漢堡選單 */
-.hamburger-menu {
+.goTop:hover {
+    text-decoration: underline;
+    color: white;
+}
+    /* 漢堡選單 */
+    .hamburger-menu {
     position: absolute;
     top: 30px;
     right: 20px;

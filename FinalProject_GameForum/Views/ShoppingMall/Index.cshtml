@@ -1,13 +1,14 @@
 ﻿<link rel="stylesheet" href="~/css/ShoppingMall/ShoppingMall.css" asp-append-version="true" />
 
 <!-- 嵌入商城導覽列 -->
-@await Html.PartialAsync("ShoppingMall_Nav")
-
+@{
+	Layout = "~/Views/Shared/ShoppingMall_Nav.cshtml";
+}
 @model iSpan_MSIT62_Final_Project.Controllers.ShoppingViewData
 
 
 <div class="row g-0">
-	<div class="col-sm-12">		
+	<div class="col-sm-12">
 		@* 商品輪播圖 *@
 		<!-- 區塊 1 -->
 		<div class="section bg-primary text-white">
@@ -124,7 +125,7 @@
 		@* 商品區 *@
 		<!-- 區塊 3 -->
 		<div class="section bg-danger">
-			<h2>實體商品</h2>			
+			<h2>實體商品</h2>
 			<a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">商品連結</a>
 
 			<div class="products-card-scroll">
@@ -148,7 +149,7 @@
 										@* 商品類別 *@
 										<div class="product-category">
 											<span class="category-name">@obj.ProductCategory?.Category</span>
-										</div>										
+										</div>
 
 										@* 商品價格 *@
 										<div class="products-price-area">

@@ -1,4 +1,9 @@
-﻿.article-title {
+﻿.container {
+    width: 100%;
+    height: auto;
+    margin-top: 200px !important;
+}
+.article-title {
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: snow;

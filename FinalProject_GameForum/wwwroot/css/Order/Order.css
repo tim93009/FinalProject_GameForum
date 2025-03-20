@@ -1,6 +1,10 @@
 ﻿body {
 }
-
+.container {
+    width: 100%;
+    height: auto;
+    margin-top: 200px;
+}
 .order-container {
     width: 100%;
     min-height: 600px;
