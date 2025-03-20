@@ -127,8 +127,9 @@
 .pic-ranking-products {
     width: 100%; /* 寬度占滿容器 */
     max-width: 100%; /* 最大寬度150px */
-    height: auto; /* 高度自適應，保持比例 */
+    height: 50%; /* 高度自適應，保持比例 */
     margin: 0px 0; /* 上下外距10px */
+    object-fit:contain;
 }
 
 /* 商品名稱樣式 */
