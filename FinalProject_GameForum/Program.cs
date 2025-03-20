@@ -1,5 +1,6 @@
 using FinalProject_GameForum;
 using FinalProject_GameForum.Models;
+using FinalProject_GameForum.Hubs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +20,7 @@ builder.Services.AddDbContext<GameForumContext>(
         options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<UserInfoService>();
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
 {
@@ -75,6 +76,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // µù¥U SignalR Hub ¸ô¥Ñ
-app.MapHub<ChatHub>("/chatHub"); 
+app.MapHub<ChatHub>("/Discussion/chatHub"); 
 
 app.Run();

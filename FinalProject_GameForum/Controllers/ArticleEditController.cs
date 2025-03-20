@@ -29,14 +29,14 @@ namespace FinalProject_GameForum.Controllers
             }
 
             // 找到對應的 ArticleGroup (文章分類)
-            var articleGroup = await _context.ArticleGroups.FirstOrDefaultAsync(g => g.ArticleGroupId == articleType);
-           
+            ArticleGroup articleGroup = await _context.ArticleGroups.FirstAsync(g => g.ArticleGroupId == 1);            
+
 
             // 讀取封面圖片 (存入 byte[] 格式)
             byte[]? coverImage = null;
             if (imgFile != null && imgFile.Length > 0)
             {
-                using (var ms = new MemoryStream())
+                using (MemoryStream ms = new MemoryStream())
                 {
                     await imgFile.CopyToAsync(ms);
                     coverImage = ms.ToArray();
