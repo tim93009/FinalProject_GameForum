@@ -1,4 +1,5 @@
 ﻿<link rel="stylesheet" href="~/css/Product/ProductInfo.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/Product/AddedToCart.css" asp-append-version="true" />
 
 <!-- 嵌入商城導覽列 -->
 @await Html.PartialAsync("ShoppingMall_Nav")
@@ -11,37 +12,56 @@
 <div class="row g-0">
     <div class="col-sm-4">
         <div class="section bg-success">
+            @* 商品主要圖片 *@
             <a href="" class="detail-img-block">
                 <span class="img-color-ns">@(Model.ProductCategory?.Category ?? "NS")</span>
                 <div class="img-container">
                     <img src="@Model.MainImageUrl" alt="product-img">
                 </div>
             </a>
+
+            @* 商品名稱 *@
             <div class="detail-name-block">
                 <span class="color-ns">@(Model.ProductCategory?.Category ?? "NS")</span>
                 <span class="pokemon-font">@Model.ProductName</span>
             </div>
+
+			@* 商品評分、庫存 *@
             <div class="detail-info-block">
                 <div class="info-stock">商品評分：<span class="rating" data-rating="@Model.Rating"></span></div>
                 <div class="info-stock">商品庫存：@Model.Stock</div>
             </div>
+
             <hr>
+
+            @* 商品價格 *@
             <div class="price-info-detail">
                 <p class="info-main-price">NT @Model.Price 元</p>
             </div>
+
+			@* 商品購買數量 *@
             <div class="products-number-choice">
                 <div class="number-title">數量</div>
                 <button class="btn-reduce-number">-</button>
                 <div class="show-products-number">1</div>
                 <button class="btn-add-number">+</button>
             </div>
+
+			@* 加入購物車按鈕 *@
             <div class="add-to-cart-container">
-                <button class="btn-add-to-cart">加入購物車</button>
+                <button class="btn-add-to-cart" data-product-id="@Model.ProductId">加入購物車</button>
             </div>
+            
+            <!-- 提示訊息容器，移動到頁面頂部 -->
+            <div id="cart-message" class="cart-message" style="display: none;"></div>
+
             <hr>
+
             <div class="products-description-title">
                 <p>產品簡介</p>
             </div>
+
+			@* 商品描述 *@
             <div class="product-description">
                 @Model.ProductDescription
             </div>
@@ -49,6 +69,7 @@
     </div>
     <div class="col-sm-8">
         <div class="section bg-black">
+            @* 商品補充圖片 *@
             <a href="" class="detail-img-block">
                 <span class="img-color-ns">@(Model.ProductCategory?.Category ?? "NS")</span>
                 <div class="img-container">
@@ -65,5 +86,7 @@
     </div>
 </div>
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/product/GenerateStars.js" asp-append-version="true"></script>
 <script src="~/js/product/AdjustProductQuantity.js" asp-append-version="true"></script>
+<script src="~/js/product/AddedToShoppingCart.js" asp-append-version="true"></script>

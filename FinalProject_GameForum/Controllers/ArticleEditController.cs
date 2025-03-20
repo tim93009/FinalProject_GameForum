@@ -15,27 +15,33 @@ namespace FinalProject_GameForum.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(int? articleGroupId)
         {
+            if (articleGroupId.HasValue)
+            {
+                var articleGroup = await _context.ArticleGroups
+                    .FirstOrDefaultAsync(g => g.ArticleGroupId == articleGroupId.Value);
+
+                if (articleGroup != null)
+                {
+                    ViewBag.IsReply = true;
+                    ViewBag.ArticleGroupId = articleGroupId.Value;
+                    ViewBag.ArticleTitle = $"Re: {articleGroup.ArticleTitle}";
+                    ViewBag.Category = articleGroup.Category;
+                }
+            }
+            else
+            {
+                ViewBag.IsReply = false;
+            }
+
             return View();
         }
 
-
-
-
-        [HttpPost]
-        public async Task<IActionResult> Submit(string articleTitle, int articleType, string articleContent, IFormFile imgFile)
+        private static string CheckHtml(string input)
         {
-            if (string.IsNullOrEmpty(articleTitle) || string.IsNullOrEmpty(articleContent))
-            {
-                ModelState.AddModelError("", "標題和內容不能為空");
-                return View();
-            }
-
-            // 找到對應的 ArticleGroup (文章分類)
-            ArticleGroup articleGroup = await _context.ArticleGroups.FirstAsync(g => g.ArticleGroupId == 1);
-
-            // **自訂允許的 HTML 標籤**
+            // 自訂允許的 HTML 標籤
             var sanitizer = new HtmlSanitizer();
             sanitizer.AllowedTags.Add("img");
             sanitizer.AllowedAttributes.Add("src");
@@ -66,9 +72,32 @@ namespace FinalProject_GameForum.Controllers
             };
 
             // 過濾文章內容
-            articleContent = sanitizer.Sanitize(articleContent);
+            return sanitizer.Sanitize(input);
+        }
 
-            // 讀取封面圖片 (存入 byte[] 格式)
+
+        [HttpPost]
+        public async Task<IActionResult> Submit(int discussionId, int articleGroupId, string articleTitle, string articleContent, IFormFile imgFile)
+        {
+            // 驗證輸入
+            if (string.IsNullOrEmpty(articleTitle) || string.IsNullOrEmpty(articleContent))
+            {
+                ModelState.AddModelError("", "標題和內容不能為空");
+                return View();
+            }
+
+            var articleLocation = await _context.ArticleGroups
+                .FirstOrDefaultAsync(g => g.ArticleGroupId == articleGroupId && g.DiscussionId == discussionId);
+
+            CheckHtml(articleContent);
+
+            if (articleLocation == null)
+            {
+                ModelState.AddModelError("", "指定的版或文章群組不存在");
+                return View();
+            }
+
+            // 處理封面圖片 (如果有上傳)
             byte[]? coverImage = null;
             if (imgFile != null && imgFile.Length > 0)
             {
@@ -77,24 +106,26 @@ namespace FinalProject_GameForum.Controllers
                     await imgFile.CopyToAsync(ms);
                     coverImage = ms.ToArray();
                 }
-                articleGroup.CoverImage = coverImage; // 更新封面圖片
+                articleLocation.CoverImage = coverImage; // 更新 ArticleGroup 的封面圖片
+                _context.ArticleGroups.Update(articleLocation);
             }
 
-            // 創建文章物件
+            // 創建回文（Article）
             var article = new Article
             {
                 UserId = "User001",
-                ArticleGroupId = 1,
+                ArticleGroupId = articleGroupId,
                 ArticleContent = articleContent,
                 PostDate = DateTime.Now,
-                Status = "文章"
+                Status = "回文"
             };
 
             // 存入資料庫
             _context.Articles.Add(article);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index" ,"Home");
+            // 重定向到該文章群組的頁面（假設有個顯示頁面）
+            return RedirectToAction("_ArticleList", "Discussion", new { id = articleGroupId });
         }
     }
 }
