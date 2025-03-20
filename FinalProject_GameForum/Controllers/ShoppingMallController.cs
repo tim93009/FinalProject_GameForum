@@ -34,6 +34,6 @@ namespace iSpan_MSIT62_Final_Project.Controllers
     public class ShoppingViewData
     {
         public List<Product> Products { get; set; }
-        public List<Advertisement> Advertisements { get; set; }
+        public List<Advertisement> Advertisements { get; set; }        
     }
 }

@@ -1,8 +1,64 @@
-﻿@{
+﻿<link rel="stylesheet" href="~/css/ShoppingCart/ShoppingCart.css" asp-append-version="true" />
+
+@{
 	Layout = "_LayoutShoppingCart";
 }
 
 <!-- 嵌入商城導覽列 -->
 @await Html.PartialAsync("ShoppingMall_Nav")
 
+@model List<FinalProject_GameForum.Models.ShoppingCart>
+
 <h2>我是購物車頁面</h2>
+
+<div class="cart-container">
+    @if (Model.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>商品名稱</th>
+                    <th>單價</th>
+                    <th>數量</th>
+                    <th>小計</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr data-cart-id="@item.ShoppingCartId">
+                        <td>@item.Product.ProductName</td>
+                        <td>NT$@item.Product.Price</td>
+                        <td>
+                            <button class="btn-reduce" data-cart-id="@item.ShoppingCartId">-</button>
+                            <span class="quantity">@item.Quantity</span>
+                            <button class="btn-increase" data-cart-id="@item.ShoppingCartId">+</button>
+                        </td>
+                        <td class="subtotal">NT$@(item.Product.Price * item.Quantity)</td>
+                        <td>
+                            <button class="btn-remove" data-cart-id="@item.ShoppingCartId">移除</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>您的購物車是空的。</p>
+    }
+</div>
+
+<!-- 右下角按鈕 -->
+<div class="cart-actions">
+    <a asp-controller="Checkout" asp-action="Index" class="btn-checkout">結帳</a>
+    <button class="btn-clear-cart">清空購物車</button>
+</div>
+
+<!-- 提示訊息容器 -->
+<div id="cart-message" class="cart-message" style="display: none;"></div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" asp-append-version="true"></script>
+<script src="~/js/shoppingCart/ShoppingCart.js" asp-append-version="true"></script>
