@@ -1,23 +1,20 @@
 ﻿
 ﻿.dis-container {
-    width: 80%;
+    width: 100%;
     margin: 20px auto;
     padding: 20px;
-    background-color: white;
+    background-color: #f8f8f8;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-a img {
-    .dis-container a
-
-{
-    text-decoration: none;
+.dis-container a {
+    text-decoration: none; /* 移除超連結的底線 */
 }
 
-.dis-container a:hover {
-    text-decoration: underline;
-}
+    .dis-container a:hover {
+        text-decoration: underline;
+    }
 
 .dis-container img {
     width: 100%;
@@ -29,10 +26,7 @@ a img {
     transition: transform 0.3s ease;
 }
 
-h3 {
-    .dis-container h3
-
-{
+.dis-container h3 {
     font-size: 24px;
     font-weight: bold;
     color: black;
@@ -43,9 +37,6 @@ h3 {
 }
 
 .hot-dis ul {
-    .hot-dis ul
-
-{
     list-style-type: none;
     padding: 0;
 }
@@ -80,12 +71,15 @@ h3 {
 
 /* 聊天室 */
 .chatroom {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-right: 10px;
     width: 300px; /* 設定寬度 */
     height: 400px; /* 設定固定高度 */
     background: white;
-    padding: 20px;
+    padding: 15px;
     border: 1px solid #ccc;
-    box-sizing: border-box; /* 包括內邊距和邊框在內 */    
+    box-sizing: border-box; /* 包括內邊距和邊框在內 */
 }
 
 /* 聊天容器 */
@@ -93,13 +87,12 @@ h3 {
     display: flex;
     flex-direction: column;
     height: 100%;
-    position: relative;
 }
 
 /* 訊息區域，並讓它可滾動 */
 .chat-messages {
-    flex-grow: 1;
-    overflow-y: auto; /* 訊息超過時顯示滾動條 */
+    flex: 1;
+    overflow-y: auto;
     padding: 10px;
     box-sizing: border-box;
 }
@@ -107,12 +100,10 @@ h3 {
 /* 輸入區域固定在底部 */
 .chat-input {
     display: flex;
-    padding: 10px;
     border-top: 1px solid #ccc;
     background-color: white;
-    position: absolute;
-    bottom: 0;
     width: 100%;
+    margin-bottom:17px;
     box-sizing: border-box;
 }
 
@@ -126,7 +117,7 @@ h3 {
 
     /* 發送按鈕樣式 */
     .chat-input button {
-        padding: 5px 10px;
         height: 30px;
+        width: 50px;
         margin-left: 10px;
     }
