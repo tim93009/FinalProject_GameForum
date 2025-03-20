@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Ganss.Xss;
 using AngleSharp.Dom;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace FinalProject_GameForum.Controllers
 {
@@ -16,8 +18,13 @@ namespace FinalProject_GameForum.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Index(int? articleGroupId)
         {
+            // 取得登入使用者 ID
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+         
+
             if (articleGroupId.HasValue)
             {
                 var articleGroup = await _context.ArticleGroups
@@ -77,6 +84,7 @@ namespace FinalProject_GameForum.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Submit(int discussionId, int articleGroupId, string articleTitle, string articleContent, IFormFile imgFile)
         {
             // 驗證輸入
