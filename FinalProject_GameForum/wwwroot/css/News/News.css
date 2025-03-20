@@ -7,12 +7,12 @@
     padding:30px;
 }
 .myContainer p {
-    padding: 0 30px 30px;
+    padding: 0 30px 15px;
     color: #c9cacb;
     font-size: 14px;
     font-weight: bold;
     border-bottom: 1px solid #c9cacb;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 .myContainer ul {
     display: flex !important;
@@ -36,7 +36,30 @@
     line-height: 2em;
     margin-top: 20px;
 }
+.category-btn {
+    font-size: 16px;
+    color: red;
+    background-color: mediumpurple;
+    margin: 10px;
+    border: 2px solid gray;
+    border-radius: 4px;
+}
 
+    .category-btn:hover {
+        opacity: 0.6
+    }
+
+    .category-btn.pc {
+        background-color: cornflowerblue;
+    }
+
+    .category-btn.tv {
+        background-color: greenyellow;
+    }
+
+    .category-btn.手機 {
+        background-color: yellow;
+    }
 /* 留言板 */
 .message-container {
     display: flex;
