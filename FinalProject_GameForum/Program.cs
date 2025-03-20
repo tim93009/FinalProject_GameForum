@@ -78,6 +78,10 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+app.MapControllerRoute(
+    name: "Article",
+    pattern: "{controller=Aritcle}/{action=Index}/{discussion?}/{Article?}");
+
 // µù¥U SignalR Hub ¸ô¥Ñ
 app.MapHub<ChatHub>("/Discussion/chatHub");
 
