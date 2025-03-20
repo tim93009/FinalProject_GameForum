@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Versioning;
 using System.Diagnostics;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -26,9 +28,19 @@ namespace FinalProject_GameForum.Controllers
         {
             
 
-            var user = HttpContext.User;
+            
             Debug.WriteLine(this.GetUserId());
+            // userlogin的取得id方法
             var userID = this.GetUserId();
+            //存cookie
+            Response.Cookies.Append("OriginalUserId", userID, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, // 根據你的環境決定是否設置
+                Expires = DateTimeOffset.UtcNow.AddMinutes(10) // 設定適當的過期時間
+            });
+
+
             var userdb = _context.Users.FirstOrDefault(u => u.UserId == userID);
             if(userdb != null)
             {
@@ -99,6 +111,7 @@ namespace FinalProject_GameForum.Controllers
         {
             var TrueUserId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
             var userEntity = _context.Users.Find(TrueUserId);
+            Phone = Phone.Replace("-", "").Trim();
             if (userEntity == null)
             {
                 return NotFound();
@@ -130,8 +143,10 @@ namespace FinalProject_GameForum.Controllers
             }
             else
             {
+                
                 userEntity.Password = NewPW;
                 _context.SaveChanges();
+                TempData["Success"] = "密碼更新成功!";
                 return RedirectToAction("Setting");
             }
                
@@ -139,8 +154,70 @@ namespace FinalProject_GameForum.Controllers
 
         public IActionResult Permissions()
         {
+
             return View();
         }
-        
+
+        [HttpGet]
+        public IActionResult BindThirdLogin(string provider, string returnURL = "/" )
+        {
+            var redirectUrl = Url.Action("BindThirdLoginCallback", "Setting", new {returnURL});
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = redirectUrl
+            };
+            return Challenge(properties, provider);
+        }
+        [HttpGet]
+        public async Task<IActionResult> BindThirdLoginCallBack(string returnURL = "/")
+        {
+           
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (!result.Succeeded)
+            {
+                TempData["Error"] = "綁定失敗，請再試一次!";
+                return RedirectToAction("Permissions");
+            }
+
+            
+            //取得第三方登入者的資料
+            var oldclaims = result.Principal.Identities.FirstOrDefault()?.Claims; 
+            var email = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var providerID = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            if (email == null ||   providerID == null)
+            {
+                TempData["Error"] = "綁定失敗，請使用其他方式!";
+                return RedirectToAction("Permissions");
+            }
+            //取得目前登入使用者
+            var userid = this.GetUserId();
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userid);
+            if (user == null)
+            {
+                TempData["Error"] = "綁定失敗，請重新登入!";
+                return RedirectToAction("Login");
+            }
+            //目前第三方登入的帳號是否已經被綁定
+            var existUser = _context.Users.FirstOrDefault(u =>  u.ProviderId == providerID);
+            if (existUser != null && existUser.UserId != user.UserId)
+            {
+                TempData["Error"] = "此帳號已經被綁定!";
+                return RedirectToAction("Permissions");
+            }
+
+            
+            user.ProviderId = providerID;
+            _context.SaveChanges();
+
+            TempData["Success"] = "綁定成功!";
+
+
+
+            return RedirectToAction("Permissions");
+
+
+        }
+
     }
 }

@@ -15,20 +15,23 @@ function Password() {
 
 //個人資料編輯
 function MemberEdit(isEditing) {
-    let files = ["Email",  "Birthdate", "address", "Phone"]
+    let files = ["Email", "Birthdate", "address", "Phone"]
+  
     files.forEach(id => {
         let input = document.getElementById(id);
         if (isEditing) {
             input.classList.remove("form-control-plaintext")
             input.classList.add("form-control")
             input.removeAttribute("readonly")
+          
         } else {
             input.classList.remove("form-control")
             input.classList.add("form-control-plaintext")
             input.setAttribute("readonly", true)
+          
         }
     })
-
+  
 
     document.getElementById('MemberEdit').classList.toggle('d-none', !isEditing)
     document.getElementById('Edit').classList.toggle('d-none', isEditing)

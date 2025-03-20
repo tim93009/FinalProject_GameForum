@@ -53,6 +53,7 @@ namespace FinalProject_GameForum.Controllers
                 if (isEmail)
                 {
                     varClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId));
+                    varClaims.Add(new Claim("UserID", user.UserId!));
                     varClaims.Add(new Claim(ClaimTypes.Name, user.Nickname));
                     varClaims.Add(new Claim("name", user.Nickname));
                     varClaims.Add(new Claim(ClaimTypes.Email, user.Email!));
@@ -63,6 +64,7 @@ namespace FinalProject_GameForum.Controllers
                 else
                 {
                     varClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId));
+                    varClaims.Add(new Claim("UserID", user.UserId!));
                     varClaims.Add(new Claim(ClaimTypes.Name, user.Nickname));
                     varClaims.Add(new Claim("name", user.Nickname));
                     varClaims.Add(new Claim("UserPW", user.Password!));
@@ -200,6 +202,8 @@ namespace FinalProject_GameForum.Controllers
         [HttpGet]
         public IActionResult ThirdLogin(string provider, string returnURL = "/")
         {
+
+            
             var redirectUrl = Url.Action("ThirdLoginCallback","Login", new { returnURL });
             var properties = new AuthenticationProperties
             {
@@ -217,13 +221,13 @@ namespace FinalProject_GameForum.Controllers
                 return RedirectToAction("Login");
             }
             //判斷有沒有拿到登入者的資料
-            var oldclaims = result.Principal.Identities.FirstOrDefault()?.Claims;
-            var userID = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var oldclaims = result.Principal.Claims.ToList();
+            var userID = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
             var email = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
             var name = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-            var provider = oldclaims?.FirstOrDefault(c => c.Type == "Provider")?.Value;
-            var providerID = oldclaims?.FirstOrDefault(c => c.Type == "ProviderID")?.Value;
-
+            var providerID = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+       
+         
             if (email == null)
             {
                 TempData["Error"] = "無法取得信箱，請使用其他方式登入!";
@@ -265,7 +269,6 @@ namespace FinalProject_GameForum.Controllers
                 UserId = userID!,
                 Email = email,
                 Nickname = name!,
-                Provider = provider,
                 ProviderId = providerID
             };
 
