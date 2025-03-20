@@ -40,7 +40,7 @@ namespace FinalProject_GameForum.Controllers
                 : _context.Users.SingleOrDefault(u => u.UserId == loginPost.Account);
 
 
-            if (user == null || !BCrypt.Net.BCrypt.Verify(loginPost.Password_P, user.Password))
+            if (user == null ||   loginPost.Password_P != user.Password)
             {
                 TempData["Error"] = "帳號密碼錯誤，請修改!";
                 return RedirectToAction("Login");
@@ -54,18 +54,20 @@ namespace FinalProject_GameForum.Controllers
                 {
                     varClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId));
                     varClaims.Add(new Claim(ClaimTypes.Name, user.Nickname));
-                    varClaims.Add(new Claim("FullName", user.Nickname));
+                    varClaims.Add(new Claim("name", user.Nickname));
                     varClaims.Add(new Claim(ClaimTypes.Email, user.Email!));
                     varClaims.Add(new Claim("UserEmail", user.Email!));
                     varClaims.Add(new Claim("UserPW", user.Password!));
+                    varClaims.Add(new Claim("photo", user.PhotoUrl ?? "/img/Login/headphoto.jpg"));
                 }
                 else
                 {
                     varClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId));
                     varClaims.Add(new Claim(ClaimTypes.Name, user.Nickname));
-                    varClaims.Add(new Claim("FullName", user.Nickname));
+                    varClaims.Add(new Claim("name", user.Nickname));
                     varClaims.Add(new Claim("UserPW", user.Password!));
-                }
+                    varClaims.Add(new Claim("photo", user.PhotoUrl ?? "/img/Login/headphoto.jpg"));
+                }   
                 ;
                 //建構ClaimsIdentity Cookie 用戶驗證物件的狀態存取案例。
                 var ClaimsIdentity = new ClaimsIdentity(varClaims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -117,12 +119,12 @@ namespace FinalProject_GameForum.Controllers
 
 
 
-            var HashPW = BCrypt.Net.BCrypt.HashPassword(pswd);
+            
 
             User newUser = new User
             {
                 UserId = user_id,
-                Password = HashPW,
+                Password = pswd,
                 Nickname = nkname,
                 Email = email,
             };
@@ -240,22 +242,14 @@ namespace FinalProject_GameForum.Controllers
 
             if (user != null)
             {
-                var newclaims = new List<Claim>();
-                if (user.PhotoUrl == null)
+                var newclaims = new List<Claim>()
                 {
-                    newclaims.Add(new Claim(ClaimTypes.NameIdentifier, userID!));
-                    newclaims.Add(new Claim(ClaimTypes.Name, user.Nickname!));
-                    newclaims.Add(new Claim(ClaimTypes.Email, email!));
-                }
-                else
-                {
-                    newclaims.Add(new Claim(ClaimTypes.NameIdentifier, userID!));
-                    newclaims.Add(new Claim(ClaimTypes.Name, user.Nickname!));
-                    newclaims.Add(new Claim(ClaimTypes.Email, email!));
-                    newclaims.Add(new Claim("Photo", user.PhotoUrl!));
-                }
-
-
+                    new Claim(ClaimTypes.NameIdentifier, userID!),
+                    new Claim(ClaimTypes.Name,user.Nickname),
+                    new Claim("name",user.Nickname),
+                    new Claim(ClaimTypes.Email, email!),
+                    new Claim("photo", user.PhotoUrl ?? "/img/Login/headphoto.jpg" )
+                };
 
 
                     var claimIdentity = new ClaimsIdentity(newclaims, CookieAuthenticationDefaults.AuthenticationScheme);
