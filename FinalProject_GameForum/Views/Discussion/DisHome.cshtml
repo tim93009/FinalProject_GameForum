@@ -45,12 +45,14 @@
 		<div class="d-flex justify-content-between align-items-center mt-3">
 			<!-- 分類按鈕 -->
 			<div>
-				<button class="btn btn-primary me-2">全部</button>
-				<button class="btn btn-outline-primary me-2">攻略</button>
-				<button class="btn btn-outline-primary me-2">討論</button>
-				<button class="btn btn-outline-primary me-2">心情</button>
-				<button class="btn btn-outline-primary">問題</button>
+				<button class="btn btn-primary me-2 category-btn" data-category="">全部</button>
+				<button class="btn btn-outline-primary me-2 category-btn" data-category="情報">情報</button>
+				<button class="btn btn-outline-primary me-2 category-btn" data-category="攻略">攻略</button>
+				<button class="btn btn-outline-primary me-2 category-btn" data-category="討論">討論</button>
+				<button class="btn btn-outline-primary me-2 category-btn" data-category="心情">心情</button>
+				<button class="btn btn-outline-primary category-btn" data-category="問題">問題</button>
 			</div>
+
 
 			<!-- 分頁按鈕 -->
 			<div>
@@ -131,13 +133,22 @@
 			connection.on("ReceiveMessage", function (user, message) {
 				var chatBox = document.getElementById("chatMessages");
 				var newMessage = document.createElement("div");
-				newMessage.textContent = user + "：" + message;
+				newMessage.innerHTML = user + "：" + convertLinksToAnchors(message); // 使用 convertLinksToAnchors 格式化訊息
 				chatBox.appendChild(newMessage);
 
 				// 收到訊息後自動滾動到底部
 				scrollToBottom();
 			});
+
+			// 將訊息中的 URL 轉換為超連結
+			function convertLinksToAnchors(message) {
+				var urlRegex = /(https?:\/\/[^\s]+)/g; // 正則表達式匹配 URL
+				return message.replace(urlRegex, function(url) {
+					return `<a href="${url}" target="_blank">${url}</a>`; // 將 URL 轉換為超連結
+				});
+			}
 		</script>
+
 
 	</div>
 </div>
@@ -145,27 +156,38 @@
 <!-- JavaScript 控制切換 -->
 <script>
 	document.addEventListener("DOMContentLoaded", function () {
+		let discussionId = @Model.DiscussionId;
+		let articleListContainer = document.getElementById("article-list-container");
+		let mainContent = document.getElementById("main-content");
+
+		// 監聽文章列表按鈕
 		document.getElementById("article-list-btn").addEventListener("click", function (event) {
 			event.preventDefault();
-
-			let mainContent = document.getElementById("main-content");
-			let articleListContainer = document.getElementById("article-list-container");
-
-			if (!articleListContainer) {
-				console.warn("找不到文章列表區域！");
-				return;
-			}
 
 			mainContent.style.display = "none";
 			articleListContainer.style.display = "block";
 
-			fetch('/Discussion/LoadArticleList?discussionId=@Model.DiscussionId')
+			// 預設載入所有文章（不帶 category）
+			loadArticleList("");
+		});
+
+		// 監聽分類按鈕點擊
+		document.querySelectorAll(".category-btn").forEach(button => {
+			button.addEventListener("click", function () {
+				let category = this.getAttribute("data-category");
+				loadArticleList(category);
+			});
+		});
+
+		// 載入文章列表（可帶入分類）
+		function loadArticleList(category) {
+			fetch(`/Discussion/LoadArticleList?discussionId=${discussionId}&category=${category}`)
 				.then(response => response.text())
 				.then(html => {
 					document.getElementById("articleList").innerHTML = html;
 				})
 				.catch(error => console.error("載入文章列表失敗:", error));
-		});
+		}
 	});
 </script>
 

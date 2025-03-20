@@ -25,6 +25,7 @@ namespace FinalProject_GameForum.Controllers
                 .OrderByDescending(n => n.EditDate)
                 .Include(n => n.NewsImages)
                 .Include(n => n.NewsMessages)
+                .Take(8)
                 .ToListAsync();
 
             var model = new NewsViewModel
@@ -32,37 +33,85 @@ namespace FinalProject_GameForum.Controllers
                 NewsHome = NewsHome,
                 NewsDetail = NewsDetail
             };
-            var news = _context.News.ToList();
             return View(model);
         }
-        public IActionResult News(int id)
+        public async Task<IActionResult> News(int id, string messageContent)
         {
-            var newsItem = _context.News
-            .Include(n => n.NewsImages)
-            .Include(n => n.NewsMessages)
-            .FirstOrDefault(n => n.NewsId == id);
+            var userId = User.Identity?.IsAuthenticated == true ? User.Identity.Name : null;
+            ViewBag.IsAuthenticated = User.Identity?.IsAuthenticated == true;
 
-            if(newsItem == null)
+            if (userId == null)
             {
-                return NotFound();
+                ModelState.AddModelError(string.Empty, "請先登入!!");
+
+                var newsDetail = await _context.News
+                    .Include(n => n.NewsImages)
+                    .Include(n => n.NewsMessages)
+                    .FirstOrDefaultAsync(n => n.NewsId == id);
+
+                ViewBag.NewsMessages = newsDetail?.NewsMessages != null
+                ? newsDetail.NewsMessages.OrderByDescending(m => m.EditDate)
+                .ToList() : new List<NewsMessage>();
+
+                ViewBag.RelatedNews = await _context.News
+                .Where(n => n.NewsId != id)  
+                .OrderByDescending(n => n.EditDate)
+                .Take(3)
+                .ToListAsync();
+
+                var model = new NewsViewModel
+                {
+                    NewsDetail = newsDetail != null ? new List<News> { newsDetail } : new List<News>(),
+                    NewsHome = await _context.News
+                        .OrderByDescending(n => n.EditDate)
+                        .Take(5)
+                        .ToListAsync()
+                };
+
+                return View(model);
             }
 
-			var newsMessages = _context.NewsMessages
-						.Where(m => m.NewsId == id)
-						.OrderByDescending(m => m.EditDate)
-						.ToList();
+            if (string.IsNullOrWhiteSpace(messageContent))
+            {
+                ModelState.AddModelError("messageContent", "留言內容不能為空。");
 
-			ViewBag.NewsMessages = newsMessages ?? new List<NewsMessage>();
+                var newsDetail = await _context.News
+                    .Include(n => n.NewsImages)
+                    .Include(n => n.NewsMessages)
+                    .FirstOrDefaultAsync(n => n.NewsId == id);
 
-			var relatedNews = _context.News
-            .Where(n => n.NewsId != id)
-            .Take(3)
-            .ToList();
+                ViewBag.NewsMessages = newsDetail?.NewsMessages != null
+                ? newsDetail.NewsMessages.OrderByDescending(m => m.EditDate)
+                .ToList() : new List<NewsMessage>();
 
-            ViewBag.RelatedNews = relatedNews;
+                ViewBag.RelatedNews = await _context.News
+                .Where(n => n.NewsId != id)
+                .OrderByDescending(n => n.EditDate)
+                .Take(3)
+                .ToListAsync();
 
+                var model = new NewsViewModel
+                {
+                    NewsDetail = newsDetail != null ? new List<News> { newsDetail } : new List<News>(),
+                    NewsHome = await _context.News.OrderByDescending(n => n.EditDate).Take(5).ToListAsync()
+                };
 
-            return View(newsItem);
+                return View(model);
+            }
+
+            var newMessage = new NewsMessage
+            {
+                NewsId = id,
+                MessageContent = messageContent,
+                UserId = userId,
+                EditDate = DateTime.UtcNow
+            };
+
+            _context.NewsMessages.Add(newMessage);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("News", new { id });
+
         }
 
     }

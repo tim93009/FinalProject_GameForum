@@ -51,17 +51,37 @@ namespace FinalProject_GameForum.Controllers
         }
 
 
-        // 加載文章列表
-        public IActionResult LoadArticleList()
+
+        // 加載文章列表（按看板ID）
+        public IActionResult LoadArticleList(int discussionId, string? category, string? search)
         {
             var articles = _context.Articles
                 .Include(a => a.User)
-                .Include(a => a.ArticleGroup)
-                .OrderByDescending(a => a.PostDate)
-                .ToList();
+                .Include(a => a.ArticleGroup)  // 包含 ArticleGroup，才能訪問其中的屬性
+                .Where(a => a.ArticleGroup.DiscussionId == discussionId);
 
-            return PartialView("_ArticleList", articles);  // 返回部分視圖
+            // 按分類顯示文章
+            if (!string.IsNullOrEmpty(category))
+            {
+                articles = articles.Where(a => a.ArticleGroup.Category == category);
+            }
+
+            // 按標題搜尋文章（標題包含關鍵字）
+            if (!string.IsNullOrEmpty(search))
+            {
+                articles = articles.Where(a => a.ArticleGroup.ArticleTitle.Contains(search));
+            }
+
+            var articleList = articles.OrderByDescending(a => a.PostDate).ToList();
+
+            return PartialView("_ArticleList", articleList);
         }
+
+
+
+
+
+
 
     }
 }

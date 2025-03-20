@@ -1,7 +1,30 @@
-.body {
+body {
     background: linear-gradient(to right, transparent 16%, #f0f0f0 16% 84%, transparent 84%), url('/img/Layout/matrix-code.gif');
     background-size: 100% 100%, cover;
     background-position: left top, center;
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    width:100%;
+}
+.extra-navbar {
+    position: fixed;
+    top: 110px;
+    left: 0;
+    width: 100%;
+    z-index: 1020;
+}
+.container {
+    width: 100%;
+    height: auto;
+    margin-top: 80px;   
+}
+.container.extra-navbar {
+    margin-top: 200px; 
 }
 .container-fluid a span {
     margin-left: 30px;
@@ -166,17 +189,19 @@
 
 
 .footer {
+    display: block;
+    position: relative;
     bottom: 0;
     width: 100%;
     white-space: nowrap;
-    line-height: 60px;
-    margin-top: 200px; /* 與上方內容的間距 */
+    line-height: 50px;
+    margin-top: 30px;
+    padding:10px;
 }
 
 /* Style the search field */
-
 form.search input[type=text] {
-    margin-left:30px;
+    margin-left: 30px;
     padding: 10px;
     font-size: 17px;
     border: 1px solid grey;

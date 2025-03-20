@@ -13,6 +13,7 @@
 					<h5 class="card-title">@article.ArticleGroup?.ArticleTitle</h5>
 					<p class="card-text text-truncate">@article.ArticleContent</p>
 					<p class="card-text"><small class="text-muted">作者: @article.User.Nickname | 發布時間: @article.PostDate?.ToString("yyyy-MM-dd HH:mm")</small></p>
+					<p class="card-text"><small class="text-muted">最後編輯: @article.EditDate?.ToString("yyyy-MM-dd HH:mm")</small></p>
 				</div>
 			</div>
 		</div>

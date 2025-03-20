@@ -40,7 +40,7 @@ namespace FinalProject_GameForum.Controllers
                 : _context.Users.SingleOrDefault(u => u.UserId == loginPost.Account);
 
 
-            if (user == null || !BCrypt.Net.BCrypt.Verify(loginPost.Password_P, user.Password))
+            if (user == null ||   loginPost.Password_P != user.Password)
             {
                 TempData["Error"] = "帳號密碼錯誤，請修改!";
                 return RedirectToAction("Login");
@@ -54,18 +54,20 @@ namespace FinalProject_GameForum.Controllers
                 {
                     varClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId));
                     varClaims.Add(new Claim(ClaimTypes.Name, user.Nickname));
-                    varClaims.Add(new Claim("FullName", user.Nickname));
+                    varClaims.Add(new Claim("name", user.Nickname));
                     varClaims.Add(new Claim(ClaimTypes.Email, user.Email!));
                     varClaims.Add(new Claim("UserEmail", user.Email!));
                     varClaims.Add(new Claim("UserPW", user.Password!));
+                    varClaims.Add(new Claim("photo", user.PhotoUrl ?? "/img/Login/headphoto.jpg"));
                 }
                 else
                 {
                     varClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId));
                     varClaims.Add(new Claim(ClaimTypes.Name, user.Nickname));
-                    varClaims.Add(new Claim("FullName", user.Nickname));
+                    varClaims.Add(new Claim("name", user.Nickname));
                     varClaims.Add(new Claim("UserPW", user.Password!));
-                }
+                    varClaims.Add(new Claim("photo", user.PhotoUrl ?? "/img/Login/headphoto.jpg"));
+                }   
                 ;
                 //建構ClaimsIdentity Cookie 用戶驗證物件的狀態存取案例。
                 var ClaimsIdentity = new ClaimsIdentity(varClaims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -117,12 +119,12 @@ namespace FinalProject_GameForum.Controllers
 
 
 
-            var HashPW = BCrypt.Net.BCrypt.HashPassword(pswd);
+            
 
             User newUser = new User
             {
                 UserId = user_id,
-                Password = HashPW,
+                Password = pswd,
                 Nickname = nkname,
                 Email = email,
             };
@@ -162,19 +164,19 @@ namespace FinalProject_GameForum.Controllers
         }
 
         [HttpPost]
-        public IActionResult ForgotPW(string phone)
+        public IActionResult ForgotPW(string email)
         {
-            phone = phone.Replace("-", "").Trim();
-            var TruePhone = _context.Users.SingleOrDefault(e => e.Phone == phone);
+            
+            var TrueEmail = _context.Users.SingleOrDefault(e => e.Email == email);
 
-            if (TruePhone == null)
+            if (TrueEmail == null)
             {
-                TempData["Error"] = "手機號碼錯誤! 請重新輸入!";
+                TempData["Error"] = "信箱錯誤! 請重新輸入!";
             }
             else
             {
 
-                TempData["phone"] = phone;
+                TempData["email"] = email;
 
 
             }
@@ -184,10 +186,10 @@ namespace FinalProject_GameForum.Controllers
 
 
         [HttpPost]
-        public IActionResult ReSetPw(string phone, string NewPw)
+        public IActionResult ReSetPw(string email, string NewPw)
         {
-            var user = _context.Users.SingleOrDefault(e => e.Phone == phone);
-            user!.Password = BCrypt.Net.BCrypt.HashPassword(NewPw);
+            var user = _context.Users.FirstOrDefault(e => e.Email == email);
+            user!.Password = NewPw;
             _context.SaveChanges();
 
             TempData["Asept"] = "密碼重設成功! 請重新登入!";
@@ -240,22 +242,14 @@ namespace FinalProject_GameForum.Controllers
 
             if (user != null)
             {
-                var newclaims = new List<Claim>();
-                if (user.PhotoUrl == null)
+                var newclaims = new List<Claim>()
                 {
-                    newclaims.Add(new Claim(ClaimTypes.NameIdentifier, userID!));
-                    newclaims.Add(new Claim(ClaimTypes.Name, user.Nickname!));
-                    newclaims.Add(new Claim(ClaimTypes.Email, email!));
-                }
-                else
-                {
-                    newclaims.Add(new Claim(ClaimTypes.NameIdentifier, userID!));
-                    newclaims.Add(new Claim(ClaimTypes.Name, user.Nickname!));
-                    newclaims.Add(new Claim(ClaimTypes.Email, email!));
-                    newclaims.Add(new Claim("Photo", user.PhotoUrl!));
-                }
-
-
+                    new Claim(ClaimTypes.NameIdentifier, userID!),
+                    new Claim(ClaimTypes.Name,user.Nickname),
+                    new Claim("name",user.Nickname),
+                    new Claim(ClaimTypes.Email, email!),
+                    new Claim("photo", user.PhotoUrl ?? "/img/Login/headphoto.jpg" )
+                };
 
 
                     var claimIdentity = new ClaimsIdentity(newclaims, CookieAuthenticationDefaults.AuthenticationScheme);

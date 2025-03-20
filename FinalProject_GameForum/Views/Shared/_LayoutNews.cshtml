@@ -1,15 +1,19 @@
-﻿<nav class="navbar" style="padding:0px">
-    <div class="container-fluid" style="display: flex; justify-content: space-between; align-items: center; background-color:black;">
-        <div>
-            <div style="margin-right:50px">
-                <ul>
-                    <li><a href="/News/Index">綜合新聞</a></li>
-                    <li><a href="">手機</a></li>
-                    <li><a href="">PC</a></li>
-                    <li><a href="">TV</a></li>
-                    <li><a href="">電競</a></li>
-                </ul>
-            </div>
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section ExtraNavbar{
+    <nav class="extra-navbar">
+        <div class="container-fluid">            
+            <ul>
+                <li><a href="/News/Index">綜合新聞</a></li>
+                <li><a href="">手機</a></li>
+                <li><a href="">PC</a></li>
+                <li><a href="">TV</a></li>
+                <li><a href="">電競</a></li>
+            </ul>           
         </div>
-    </div>
-</nav>
+    </nav>
+}
+<div class="news-content">
+    @RenderBody()
+</div>

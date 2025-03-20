@@ -1,6 +1,8 @@
 ﻿<link rel="stylesheet" href="~/css/News/Index.css" asp-append-version="true" />
 
-@await Html.PartialAsync("_LayoutNews")
+@{
+    Layout = "_LayoutNews";
+}
 @model FinalProject_GameForum.Models.NewsViewModel
 
 <div class="container">
@@ -39,6 +41,8 @@
                 <a href="@Url.Action("News", "News", new { id = news.NewsId })"><img src="@Url.Content(news.ImageUrl)" style="width:216px" /></a>
             </div>
             <div>
+                <button href="" class="category-btn @news.Category?.ToLower()">@news.Category</button>
+
                 <h1>
                     <a href="@Url.Action("News", "News", new { id = news.NewsId })">@news.NewsTitle</a>
                 </h1>
