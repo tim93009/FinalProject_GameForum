@@ -16,12 +16,12 @@ namespace FinalProject_GameForum.Controllers
     public class LoginController : Controller
     {
         private readonly GameForumContext _context;
-     
+
 
         public LoginController(GameForumContext context)
         {
             _context = context;
-            
+
         }
         public IActionResult Login()
         {
@@ -40,7 +40,7 @@ namespace FinalProject_GameForum.Controllers
                 : _context.Users.SingleOrDefault(u => u.UserId == loginPost.Account);
 
 
-            if (user == null ||   loginPost.Password_P != user.Password)
+            if (user == null || loginPost.Password_P != user.Password)
             {
                 TempData["Error"] = "帳號密碼錯誤，請修改!";
                 return RedirectToAction("Login");
@@ -67,7 +67,7 @@ namespace FinalProject_GameForum.Controllers
                     varClaims.Add(new Claim("name", user.Nickname));
                     varClaims.Add(new Claim("UserPW", user.Password!));
                     varClaims.Add(new Claim("photo", user.PhotoUrl ?? "/img/Login/headphoto.jpg"));
-                }   
+                }
                 ;
                 //建構ClaimsIdentity Cookie 用戶驗證物件的狀態存取案例。
                 var ClaimsIdentity = new ClaimsIdentity(varClaims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -119,7 +119,7 @@ namespace FinalProject_GameForum.Controllers
 
 
 
-            
+
 
             User newUser = new User
             {
@@ -166,7 +166,7 @@ namespace FinalProject_GameForum.Controllers
         [HttpPost]
         public IActionResult ForgotPW(string email)
         {
-            
+
             var TrueEmail = _context.Users.SingleOrDefault(e => e.Email == email);
 
             if (TrueEmail == null)
@@ -200,7 +200,7 @@ namespace FinalProject_GameForum.Controllers
         [HttpGet]
         public IActionResult ThirdLogin(string provider, string returnURL = "/")
         {
-            var redirectUrl = Url.Action("ThirdLoginCallback","Login", new { returnURL });
+            var redirectUrl = Url.Action("ThirdLoginCallback", "Login", new { returnURL });
             var properties = new AuthenticationProperties
             {
                 RedirectUri = redirectUrl
@@ -237,8 +237,8 @@ namespace FinalProject_GameForum.Controllers
                 return RedirectToAction("Login");
             }
 
-            
-            
+
+
 
             if (user != null)
             {
@@ -252,15 +252,15 @@ namespace FinalProject_GameForum.Controllers
                 };
 
 
-                    var claimIdentity = new ClaimsIdentity(newclaims, CookieAuthenticationDefaults.AuthenticationScheme);
-               var authPropertie = new AuthenticationProperties { IsPersistent = true };
-               await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimIdentity), authPropertie);
-               return RedirectToAction("Index", "Home");
+                var claimIdentity = new ClaimsIdentity(newclaims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var authPropertie = new AuthenticationProperties { IsPersistent = true };
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimIdentity), authPropertie);
+                return RedirectToAction("Index", "Home");
             }
 
-           
 
-            user =  new User
+
+            user = new User
             {
                 UserId = userID!,
                 Email = email,
@@ -277,8 +277,19 @@ namespace FinalProject_GameForum.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
             return RedirectToAction("Index", "Home");
 
-          
+
         }
+
+
+        // 標註使用 LoginCheckFilter
+        [HttpGet]
+        [ServiceFilter(typeof(FinalProject_GameForum.Filters.LoginCheckFilter))]
+        public IActionResult CheckLoginStatus()
+        {
+            // 如果 Filter 沒攔截，就表示已登入
+            return Json(new { loggedIn = true });
+        }
+
 
     }
 }
