@@ -11,6 +11,7 @@ namespace FinalProject_GameForum.Controllers
     public class ArticleEditController : Controller
     {
         private readonly GameForumContext _context;
+        private string userId => User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty; // 取得登入使用者 ID
 
         public ArticleEditController(GameForumContext context)
         {
@@ -21,12 +22,35 @@ namespace FinalProject_GameForum.Controllers
         [Authorize]
         public async Task<IActionResult> Index(int? articleGroupId)
         {
-            // 取得登入使用者 ID
-            string userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
-         
-
             if (articleGroupId.HasValue)
             {
+
+                var articleGroup = await _context.ArticleGroups
+                    .FirstOrDefaultAsync(g => g.ArticleGroupId == articleGroupId.Value);
+
+                if (articleGroup != null)
+                {
+                    ViewBag.IsReply = true;
+                    ViewBag.ArticleGroupId = articleGroupId.Value;
+                    ViewBag.ArticleTitle = $"Re: {articleGroup.ArticleTitle}";
+                    ViewBag.Category = articleGroup.Category;
+                }
+            }
+            else
+            {
+                ViewBag.IsReply = false;
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Reply(int? articleGroupId)
+        {
+            if (articleGroupId.HasValue)
+            {
+
                 var articleGroup = await _context.ArticleGroups
                     .FirstOrDefaultAsync(g => g.ArticleGroupId == articleGroupId.Value);
 
@@ -85,24 +109,24 @@ namespace FinalProject_GameForum.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Submit(int discussionId, int articleGroupId, string articleTitle, string articleContent, IFormFile imgFile)
+        public async Task<IActionResult> Submit(int discussionId, string articleTitle, string articleContent, IFormFile imgFile)
         {
             // 驗證輸入
             if (string.IsNullOrEmpty(articleTitle) || string.IsNullOrEmpty(articleContent))
             {
                 ModelState.AddModelError("", "標題和內容不能為空");
-                return View();
+                return View("Index");
             }
 
             var articleLocation = await _context.ArticleGroups
-                .FirstOrDefaultAsync(g => g.ArticleGroupId == articleGroupId && g.DiscussionId == discussionId);
+                .FirstOrDefaultAsync(g => g.DiscussionId == discussionId);
 
             CheckHtml(articleContent);
 
             if (articleLocation == null)
             {
                 ModelState.AddModelError("", "指定的版或文章群組不存在");
-                return View();
+                return View("Index");
             }
 
             // 處理封面圖片 (如果有上傳)
@@ -121,11 +145,11 @@ namespace FinalProject_GameForum.Controllers
             // 創建回文（Article）
             var article = new Article
             {
-                UserId = "User001",
-                ArticleGroupId = articleGroupId,
+                UserId = userId,
                 ArticleContent = articleContent,
                 PostDate = DateTime.Now,
-                Status = "回文"
+                EditDate = null,
+                Status = "存活"
             };
 
             // 存入資料庫
@@ -133,7 +157,39 @@ namespace FinalProject_GameForum.Controllers
             await _context.SaveChangesAsync();
 
             // 重定向到該文章群組的頁面（假設有個顯示頁面）
-            return RedirectToAction("_ArticleList", "Discussion", new { id = articleGroupId });
+            return RedirectToAction("Index", "Article");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ReplyArticle(int discussionId, string articleContent, int? articleGroupId)
+        {
+            if (articleGroupId.HasValue)
+            {
+                var articleLocation = await _context.ArticleGroups
+                .FirstOrDefaultAsync(g => g.ArticleGroupId == articleGroupId);
+
+                CheckHtml(articleContent);
+
+                // 創建回文（Article）
+                var article = new Article
+                {
+                    UserId = userId,
+                    ArticleGroupId = articleGroupId.Value,
+                    ArticleContent = articleContent,
+                    PostDate = DateTime.Now,
+                    EditDate = null,
+                    Status = "存活"
+                };
+
+                // 存入資料庫
+                _context.Articles.Add(article);
+                await _context.SaveChangesAsync();
+
+                // 重定向到該文章群組的頁面（假設有個顯示頁面）
+                return RedirectToAction("Index", "Article", new { id = articleGroupId.Value });
+            }
+            return View("Index", "Home");
         }
     }
 }
