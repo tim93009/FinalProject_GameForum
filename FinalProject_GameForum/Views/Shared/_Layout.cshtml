@@ -32,9 +32,10 @@
 						@{
 							var photourl = User.Claims.FirstOrDefault(u => u.Type == "photo")?.Value ?? "/img/Login/headphoto.jpg";
 							var name = User.Claims.FirstOrDefault(u => u.Type == "name")?.Value;
+							var userid = User.Claims.FirstOrDefault(u => u.Type == "UserID")?.Value;
 
 						}
-						<a asp-controller="Personal" asp-action="Personal" style="text-decoration:none"><img src="@photourl" width="50" height="50" style="border-radius:50%"> </a><!--放個人圖片用 先放line替代-->
+						<a href="/Personal/Personal?ownerid=@userid" style="text-decoration:none" ><img src="@photourl" width="50" height="50" style="border-radius:50%"> </a>
 						<!--登入註冊-->
 						@if (User.Identity!.IsAuthenticated)
 						{

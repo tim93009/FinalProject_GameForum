@@ -3,6 +3,8 @@
 *@
 @{
 }
+
+@model PersonalView
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,10 +13,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"></script>
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -60,6 +62,10 @@
                                         <a href="">繼續閱讀</a>
                                     </p>
                                 </div>
+
+                            </div>
+                            <div class="text-center mt-2">
+                                <a asp-action="Log" class="btn btn-success btn-sm">看更多</a>
                             </div>
                             <!-- 這邊放置左側卡片內容 -->
                         </div>
@@ -67,9 +73,19 @@
                     <div class="card mt-3">
                         <div class="card-body">
                             <h5 class="fw-bolder">訂閱看板</h5>
-                            <div class="ms-3">
+                            <div class="m-3 mt-2">
                                 <a href="#" class="fst-italic font-monospace lh-sm">崩壞：星穹鐵道</a>
                             </div>
+                            <div class="m-3 mt-2">
+                                <a href="#" class="fst-italic font-monospace lh-sm">崩壞：星穹鐵道</a>
+                            </div>
+                            <div class="m-3 mt-2">
+                                <a href="#" class="fst-italic font-monospace lh-sm">崩壞：星穹鐵道</a>
+                            </div>
+                            <div class="m-3 mt-2">
+                                <a href="#" class="fst-italic font-monospace lh-sm">崩壞：星穹鐵道</a>
+                            </div>
+
                             <!-- 這邊放置左側卡片內容 -->
                         </div>
                     </div>
@@ -86,7 +102,7 @@
                                 <a href="#" class="fst-italic font-monospace lh-sm">【閒聊】差分宇宙不好玩</a>
                             </div>
                             <div class="text-center mt-2">
-                                <a href="#" class="btn btn-success btn-sm">看更多</a>
+                                <a asp-action="Collect" class="btn btn-success btn-sm">看更多</a>
                             </div>
 
                             <!-- 這邊放置左側卡片內容 -->
@@ -101,10 +117,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <div>
-                                    <img src="btn_base.png" class="d-block mx-auto rounded-circle">
-                                    <p class="mt-2"><strong>帳號:</strong></p>
-                                    <p><strong>暱稱:</strong></p>
-                                    <p><strong>好友數:</strong></p>
+                                    <img src="@(Model.owner.PhotoUrl == null ? "/img/Login/headphoto.jpg" : Model.owner.PhotoUrl)" class="d-block mx-auto rounded-circle" height="50px" width="50px" style="border-radius:50%">
+                                    <p class="mt-2"><strong>帳號:</strong> @Model.owner.UserId</p>
+                                    <p><strong>暱稱:</strong>@Model.owner.Nickname</p>
+                                    <p><strong>好友數:</strong>@Model.friends.Count</p>
                                 </div>
                                 <!-- 這邊放置右側卡片內容 -->
                             </div>
@@ -121,9 +137,24 @@
                         <div class="card mt-3">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-4 "><img src="btn_base.png" style="width: 40px;" class="rounded-circle"></div>
-                                    <div class="col-4 "><img src="btn_base.png" style="width: 40px;" class="rounded-circle"></div>
-                                    <div class="col-4 "><img src="btn_base.png" style="width: 40px;" class="rounded-circle"></div>
+                                    @if (Model.visitors.Any())
+                                    {
+                                        foreach(var histoy in Model.visitors)
+                                        {
+                                            var viewuser = Model.viewuser.FirstOrDefault(u => u.UserId == histoy.VisitorId);
+                                            if(viewuser != null)
+                                            {
+                                                <div class="col-4 ">
+                                                    <a href="/Personal/Personal?ownerid=@histoy.VisitorId" style="text-decoration:none">
+                                                        <img src="@(viewuser.PhotoUrl == null ? "/img/Login/headphoto.jpg" : viewuser.PhotoUrl)" width="50" height="50" style="border-radius:50%">
+                                                    </a>
+                                                </div>
+                                            }
+                                            
+                                        }
+                                     
+                                    }
+                                
                                     <div class="text-center mt-2">
                                         <a href="#" class="btn btn-success btn-sm">看更多</a>
                                     </div>
