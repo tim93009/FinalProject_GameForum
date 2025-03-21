@@ -1,6 +1,4 @@
-﻿@* _ArticleList.cshtml *@
-<div id="articles-container" data-total-pages="@ViewBag.TotalPages">
-	<!-- 新增容器與 data-total-pages -->
+﻿<div id="articles-container" data-total-pages="@ViewBag.TotalPages">
 	@foreach (var article in Model)
 	{
 		<div class="card mb-3">

@@ -1,7 +1,7 @@
 ﻿using FinalProject_GameForum.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq; // 若尚未引用請加入喵～
+using System.Linq;
 
 namespace FinalProject_GameForum.Controllers
 {
@@ -52,7 +52,7 @@ namespace FinalProject_GameForum.Controllers
             return View(discussion);  // 傳遞 Discussion 模型到 View
         }
 
-        // 加載文章列表（按看板ID）- 修改：新增分頁參數 page
+        // 加載文章列表（按看板ID）
         public IActionResult LoadArticleList(int discussionId, string? category, string? search, int page = 1)
         {
             // 先取出所有屬於該討論版且狀態為 "存在" 的文章
@@ -86,7 +86,7 @@ namespace FinalProject_GameForum.Controllers
                 .Take(PageSize)
                 .ToList();
 
-            // 如果需要回傳總頁數，可在ViewBag中傳遞（這邊示範）
+            // 如果需要回傳總頁數，可在ViewBag中傳遞
             int totalArticles = groupedArticles.Count();
             ViewBag.TotalPages = (int)System.Math.Ceiling(totalArticles / (double)PageSize);
             ViewBag.CurrentPage = page;

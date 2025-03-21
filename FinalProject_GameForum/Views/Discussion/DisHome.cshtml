@@ -58,6 +58,7 @@
 			<!-- 分頁按鈕 -->
 			<div id="pagination-container">
 				<button id="prevPageBtn" class="btn btn-outline-secondary">« Previous</button>
+				<span id="pageNumbers"></span>
 				<button id="nextPageBtn" class="btn btn-outline-secondary">Next »</button>
 			</div>
 		</div>
@@ -192,7 +193,7 @@
 				.catch(error => console.error("載入文章列表失敗:", error));
 		}
 
-		// 分頁按鈕事件（請先給按鈕加上專屬 id）
+		// 分頁按鈕事件
 		document.getElementById("prevPageBtn").addEventListener("click", function () {
 			if (currentPage > 1) {
 				currentPage--;
@@ -208,13 +209,38 @@
 			}
 		});
 
-		// 更新分頁按鈕狀態
+		// 更新分頁按鈕狀態與產生中間頁碼超連結
 		function updatePaginationButtons() {
 			// 從 _ArticleList 中的 articles-container 讀取 data-total-pages
 			let articlesContainer = document.getElementById("articles-container");
 			totalPages = parseInt(articlesContainer.getAttribute("data-total-pages")) || 1;
 			document.getElementById("prevPageBtn").disabled = (currentPage <= 1);
 			document.getElementById("nextPageBtn").disabled = (currentPage >= totalPages);
+
+			// 產生中間頁碼的超連結
+			let pageNumbersContainer = document.getElementById("pageNumbers");
+			pageNumbersContainer.innerHTML = ""; // 先清空內容
+
+			// 全部顯示，如果頁數很多可以做分段顯示
+			for (let i = 1; i <= totalPages; i++) {
+				let pageLink = document.createElement("a");
+				pageLink.href = "#";
+				pageLink.textContent = i;
+				pageLink.style.margin = "0 5px";
+				if (i === currentPage) {
+					// 當前頁面標示醒目點
+					pageLink.style.fontWeight = "bold";
+					pageLink.style.textDecoration = "underline";
+				}
+				// 綁定點擊事件
+				pageLink.addEventListener("click", function (e) {
+					e.preventDefault();
+					currentPage = i;
+					let activeCategory = document.querySelector(".category-btn.btn-primary")?.getAttribute("data-category") || "";
+					loadArticleList(activeCategory, currentPage);
+				});
+				pageNumbersContainer.appendChild(pageLink);
+			}
 		}
 	});
 </script>
