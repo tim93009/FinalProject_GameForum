@@ -11,6 +11,7 @@ namespace FinalProject_GameForum.Controllers
     public class ArticleEditController : Controller
     {
         private readonly GameForumContext _context;
+        private string userId => User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty; // 取得登入使用者 ID 
 
         public ArticleEditController(GameForumContext context)
         {
@@ -21,10 +22,6 @@ namespace FinalProject_GameForum.Controllers
         [Authorize]
         public async Task<IActionResult> Index(int? articleGroupId)
         {
-            // 取得登入使用者 ID
-            string userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
-         
-
             if (articleGroupId.HasValue)
             {
                 var articleGroup = await _context.ArticleGroups
@@ -91,7 +88,7 @@ namespace FinalProject_GameForum.Controllers
             if (string.IsNullOrEmpty(articleTitle) || string.IsNullOrEmpty(articleContent))
             {
                 ModelState.AddModelError("", "標題和內容不能為空");
-                return View();
+                return View("Index");
             }
 
             var articleLocation = await _context.ArticleGroups
@@ -102,7 +99,7 @@ namespace FinalProject_GameForum.Controllers
             if (articleLocation == null)
             {
                 ModelState.AddModelError("", "指定的版或文章群組不存在");
-                return View();
+                return View("Index");
             }
 
             // 處理封面圖片 (如果有上傳)
@@ -121,11 +118,12 @@ namespace FinalProject_GameForum.Controllers
             // 創建回文（Article）
             var article = new Article
             {
-                UserId = "User001",
+                UserId = userId,
                 ArticleGroupId = articleGroupId,
                 ArticleContent = articleContent,
                 PostDate = DateTime.Now,
-                Status = "回文"
+                EditDate = null,
+                Status = "存活"
             };
 
             // 存入資料庫
@@ -133,7 +131,7 @@ namespace FinalProject_GameForum.Controllers
             await _context.SaveChangesAsync();
 
             // 重定向到該文章群組的頁面（假設有個顯示頁面）
-            return RedirectToAction("_ArticleList", "Discussion", new { id = articleGroupId });
+            return RedirectToAction("Index", "Article", new { id = articleGroupId });
         }
     }
 }
