@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using NuGet.Versioning;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -19,6 +20,7 @@ namespace FinalProject_GameForum.Controllers
     {
         private readonly GameForumContext _context;
 
+
         public SettingController(GameForumContext context)
         {
             _context = context;
@@ -26,42 +28,13 @@ namespace FinalProject_GameForum.Controllers
         [Authorize]
         public IActionResult Setting()
         {
-            
+            var userinfo = this.GetUserInfo(_context);
 
-            
-            Debug.WriteLine(this.GetUserId());
-            // userlogin的取得id方法
-            var userID = this.GetUserId();
-            //存cookie
-            Response.Cookies.Append("OriginalUserId", userID, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true, // 根據你的環境決定是否設置
-                Expires = DateTimeOffset.UtcNow.AddMinutes(10) // 設定適當的過期時間
-            });
+            Debug.WriteLine(userinfo);
+            return View(userinfo);
 
 
-            var userdb = _context.Users.FirstOrDefault(u => u.UserId == userID);
-            if(userdb != null)
-            {
-                var userinfo = new User()
-                {
-                    Nickname = userdb.Nickname,
-                    Email = userdb.Email,
-                    PhotoUrl = userdb.PhotoUrl,
-                    Gender = userdb.Gender,
-                    Birthdate = userdb.Birthdate,
-                    Address = userdb.Address,
-                    Phone = userdb.Phone
-                };
 
-                return View(userinfo);
-            }
-            else
-            {
-                return NotFound();
-            }
-           
         }
 
 
@@ -151,16 +124,22 @@ namespace FinalProject_GameForum.Controllers
             }
                
         }
-
+        [Authorize]
         public IActionResult Permissions()
         {
-
-            return View();
+            var userinfo = this.GetUserInfo(_context);
+            return View(userinfo);
         }
 
         [HttpGet]
         public IActionResult BindThirdLogin(string provider, string returnURL = "/" )
         {
+            var NowuserId = this.GetUserInfo(_context).UserId;
+            
+            TempData["userid"] = NowuserId;
+            TempData["provider"] = provider;
+            
+
             var redirectUrl = Url.Action("BindThirdLoginCallback", "Setting", new {returnURL});
             var properties = new AuthenticationProperties
             {
@@ -171,7 +150,14 @@ namespace FinalProject_GameForum.Controllers
         [HttpGet]
         public async Task<IActionResult> BindThirdLoginCallBack(string returnURL = "/")
         {
-           
+            //取得使用者用什麼綁定
+            var userid = TempData["userid"] as string;
+            var provider = TempData["provider"] as string;
+       
+         
+
+
+
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             if (!result.Succeeded)
             {
@@ -191,7 +177,7 @@ namespace FinalProject_GameForum.Controllers
                 return RedirectToAction("Permissions");
             }
             //取得目前登入使用者
-            var userid = this.GetUserId();
+        
             var user = _context.Users.FirstOrDefault(u => u.UserId == userid);
             if (user == null)
             {
@@ -200,23 +186,47 @@ namespace FinalProject_GameForum.Controllers
             }
             //目前第三方登入的帳號是否已經被綁定
             var existUser = _context.Users.FirstOrDefault(u =>  u.ProviderId == providerID);
-            if (existUser != null && existUser.UserId != user.UserId)
+            if (existUser != null && existUser.UserId != user.UserId && user.ProviderId != null)
             {
-                TempData["Error"] = "此帳號已經被綁定!";
+                TempData["Error"] = "此帳號已經綁定過囉!";
                 return RedirectToAction("Permissions");
             }
 
-            
+            user.Provider = provider;
             user.ProviderId = providerID;
             _context.SaveChanges();
 
+
+
+            var newclaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.UserId),
+                new Claim(ClaimTypes.Name, user.Nickname),
+                new Claim("name", user.Nickname),
+                new Claim(ClaimTypes.Email, user.Email!),
+                new Claim("photo", user.PhotoUrl ?? "/img/Login/headphoto.jpg"),
+                new Claim("provider", user.Provider!),
+                new Claim("providerid", user.ProviderId)
+            };
+
+
+            var claimsIdentity = new ClaimsIdentity(newclaims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties { IsPersistent = true };
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+
             TempData["Success"] = "綁定成功!";
-
-
-
             return RedirectToAction("Permissions");
+        }
 
-
+        public IActionResult UnbindThirdLogin()
+        {
+            var user = this.GetUserInfo(_context);
+            user.Provider = null;
+            user.ProviderId = null;
+            _context.SaveChanges();
+            TempData["Success"] = "解除綁定成功!";
+            return RedirectToAction("Permissions");
         }
 
     }

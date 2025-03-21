@@ -13,12 +13,13 @@ namespace FinalProject_GameForum.Controllers
             _context = context;
         }
 
+
         // 討論區 看板列表
         public IActionResult Index(string? category, string? search)
         {
             var discussions = _context.Discussions.AsQueryable();
 
-            // 按分類顯示看板
+            // 按分類顯示看板，並依人氣排序
             if (!string.IsNullOrEmpty(category))
             {
                 discussions = discussions.Where(d => d.Category == category);
@@ -30,10 +31,11 @@ namespace FinalProject_GameForum.Controllers
                 discussions = discussions.Where(d => d.DiscussionName.Contains(search));
             }
 
+            // 最終結果都要按照人氣降序排序
+            discussions = discussions.OrderByDescending(d => d.Views ?? 0);
+
             return View(discussions.ToList());
         }
-
-
 
 
         // 討論區首頁
@@ -55,27 +57,36 @@ namespace FinalProject_GameForum.Controllers
         // 加載文章列表（按看板ID）
         public IActionResult LoadArticleList(int discussionId, string? category, string? search)
         {
-            var articles = _context.Articles
+            // 先取出所有屬於該討論版且狀態為 "存在" 的文章
+            var articlesQuery = _context.Articles
                 .Include(a => a.User)
-                .Include(a => a.ArticleGroup)  // 包含 ArticleGroup，才能訪問其中的屬性
-                .Where(a => a.ArticleGroup.DiscussionId == discussionId);
+                .Include(a => a.ArticleGroup)
+                .Where(a => a.ArticleGroup.DiscussionId == discussionId && a.Status == "存在");
 
-            // 按分類顯示文章
+            // 按 ArticleGroup 的分類篩選
             if (!string.IsNullOrEmpty(category))
             {
-                articles = articles.Where(a => a.ArticleGroup.Category == category);
+                articlesQuery = articlesQuery.Where(a => a.ArticleGroup.Category == category);
             }
 
-            // 按標題搜尋文章（標題包含關鍵字）
+            // 按 ArticleGroup 的標題搜尋
             if (!string.IsNullOrEmpty(search))
             {
-                articles = articles.Where(a => a.ArticleGroup.ArticleTitle.Contains(search));
+                articlesQuery = articlesQuery.Where(a => a.ArticleGroup.ArticleTitle.Contains(search));
             }
 
-            var articleList = articles.OrderByDescending(a => a.PostDate).ToList();
+            // 依據 ArticleGroupID 分組，並從每個群組中取最新一筆文章
+            var groupedArticles = articlesQuery
+                .AsEnumerable()  // 轉到記憶體分組，因為 SQL Server 不支援某些 group by LINQ 語法
+                .GroupBy(a => a.ArticleGroup.ArticleGroupId)
+                .Select(g => g.OrderByDescending(a => a.PostDate).First())
+                .OrderByDescending(a => a.PostDate)
+                .ToList();
 
-            return PartialView("_ArticleList", articleList);
+            return PartialView("_ArticleList", groupedArticles);
         }
+
+
 
 
 
