@@ -45,11 +45,11 @@
 
                         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                             <div class="navbar-nav">
-                                <a class="nav-link active" aria-current="page" href="#">個人首頁</a>
-                                <a class="nav-link" href="#">文章收藏</a>
-                                <a class="nav-link" href="#">個人日誌</a>
-                                <a class="nav-link" href="#">好友圈</a>
-                                <a class="nav-link" href="#">會員資訊</a>
+                                <a class="nav-link active" aria-current="page" asp-action="Personal">個人首頁</a>
+                                <a class="nav-link" asp-action="Collect">文章收藏</a>
+                                <a class="nav-link" asp-action="Log">個人日誌</a>
+                                <a class="nav-link" asp-action="Friends">好友圈</a>
+                                <a class="nav-link" asp-controller="Setting" asp-action="Setting">會員資訊</a>
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
             </div>
 
         </div>
-
+        </div>
 </body>
 
 </html>

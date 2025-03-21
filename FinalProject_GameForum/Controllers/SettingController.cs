@@ -124,7 +124,7 @@ namespace FinalProject_GameForum.Controllers
             }
                
         }
-
+        [Authorize]
         public IActionResult Permissions()
         {
             var userinfo = this.GetUserInfo(_context);

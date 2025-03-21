@@ -12,7 +12,12 @@ namespace FinalProject_GameForum.Models
         // 取得現在登入中的使用者資訊
         public static User GetUserInfo(this Controller controller, GameForumContext context)
         {
+            if (controller.HttpContext.User.Identity!.IsAuthenticated == false)
+            {
+                return null!;
+            }
             var userID = controller.HttpContext.User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier)!.Value;
+            
             var userdb = context.Users.FirstOrDefault(u => u.UserId == userID);
             if (userdb != null)
             {
