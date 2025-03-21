@@ -56,9 +56,9 @@
 
 
 			<!-- 分頁按鈕 -->
-			<div>
-				<button class="btn btn-outline-secondary">« Previous</button>
-				<button class="btn btn-outline-secondary">Next »</button>
+			<div id="pagination-container">
+				<button id="prevPageBtn" class="btn btn-outline-secondary">« Previous</button>
+				<button id="nextPageBtn" class="btn btn-outline-secondary">Next »</button>
 			</div>
 		</div>
 
@@ -150,7 +150,6 @@
 			}
 		</script>
 
-
 	</div>
 </div>
 
@@ -161,35 +160,66 @@
 		let articleListContainer = document.getElementById("article-list-container");
 		let mainContent = document.getElementById("main-content");
 
+		let currentPage = 1; // 目前頁碼
+		let totalPages = 1;  // 總頁數，初始值
+
 		// 監聽文章列表按鈕
 		document.getElementById("article-list-btn").addEventListener("click", function (event) {
 			event.preventDefault();
-
 			mainContent.style.display = "none";
 			articleListContainer.style.display = "block";
-
-			// 預設載入所有文章（不帶 category）
-			loadArticleList("");
+			currentPage = 1; // 重置頁碼
+			loadArticleList("", currentPage);
 		});
 
 		// 監聽分類按鈕點擊
 		document.querySelectorAll(".category-btn").forEach(button => {
 			button.addEventListener("click", function () {
 				let category = this.getAttribute("data-category");
-				loadArticleList(category);
+				currentPage = 1; // 切換分類時重置頁碼
+				loadArticleList(category, currentPage);
 			});
 		});
 
-		// 載入文章列表（可帶入分類）
-		function loadArticleList(category) {
-			fetch(`/Discussion/LoadArticleList?discussionId=${discussionId}&category=${category}`)
+		// 載入文章列表（含分類與分頁）
+		function loadArticleList(category, page) {
+			fetch(`/Discussion/LoadArticleList?discussionId=${discussionId}&category=${category}&page=${page}`)
 				.then(response => response.text())
 				.then(html => {
 					document.getElementById("articleList").innerHTML = html;
+					updatePaginationButtons();
 				})
 				.catch(error => console.error("載入文章列表失敗:", error));
 		}
+
+		// 分頁按鈕事件（請先給按鈕加上專屬 id）
+		document.getElementById("prevPageBtn").addEventListener("click", function () {
+			if (currentPage > 1) {
+				currentPage--;
+				let activeCategory = document.querySelector(".category-btn.btn-primary")?.getAttribute("data-category") || "";
+				loadArticleList(activeCategory, currentPage);
+			}
+		});
+		document.getElementById("nextPageBtn").addEventListener("click", function () {
+			if (currentPage < totalPages) {
+				currentPage++;
+				let activeCategory = document.querySelector(".category-btn.btn-primary")?.getAttribute("data-category") || "";
+				loadArticleList(activeCategory, currentPage);
+			}
+		});
+
+		// 更新分頁按鈕狀態
+		function updatePaginationButtons() {
+			// 從 _ArticleList 中的 articles-container 讀取 data-total-pages
+			let articlesContainer = document.getElementById("articles-container");
+			totalPages = parseInt(articlesContainer.getAttribute("data-total-pages")) || 1;
+			document.getElementById("prevPageBtn").disabled = (currentPage <= 1);
+			document.getElementById("nextPageBtn").disabled = (currentPage >= totalPages);
+		}
 	});
 </script>
+
+
+
 
 
