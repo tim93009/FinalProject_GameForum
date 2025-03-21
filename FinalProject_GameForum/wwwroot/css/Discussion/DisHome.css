@@ -80,6 +80,7 @@
     padding: 15px;
     border: 1px solid #ccc;
     box-sizing: border-box; /* 包括內邊距和邊框在內 */
+    z-index: 9999; /* 確保在最上層 */
 }
 
 /* 聊天容器 */
