@@ -75,23 +75,17 @@ namespace FinalProject_GameForum.Controllers
                 articlesQuery = articlesQuery.Where(a => a.ArticleGroup.ArticleTitle.Contains(search));
             }
 
-            // 依據 ArticleGroupID 分組，並從每個群組中取最新一筆文章
+            // 取最早一筆文章作為樓主
             var groupedArticles = articlesQuery
-                .AsEnumerable()  // 轉到記憶體分組，因為 SQL Server 不支援某些 group by LINQ 語法
+                .AsEnumerable() 
                 .GroupBy(a => a.ArticleGroup.ArticleGroupId)
-                .Select(g => g.OrderByDescending(a => a.PostDate).First())
+                .Select(g => g.OrderBy(a => a.PostDate).First())
                 .OrderByDescending(a => a.PostDate)
                 .ToList();
 
             return PartialView("_ArticleList", groupedArticles);
         }
-
-
-
-
-
-
-
+        
 
 
     }
