@@ -2,7 +2,10 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+	
+	
 }
+@model User
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,9 +48,23 @@
 								<div class="d-flex align-items-center">
 									<img src="~/img/Login/web_light_rd_na@1x.png" width="30" class="me-2">
 									<span class="fs-5">Google</span>
-									<span class="fs-6 ms-2 text-secondary">(未綁定)</span>
+									<span class="fs-6 ms-2 text-secondary">@(Model.Provider == "Google" ? "(已綁定)" : ("未綁定"))</span>
 								</div>
-								<a href="/Setting/BindThirdLogin?provider=Google" type="button" class="btn btn-primary btn-sm">進行綁定</a>
+								@if (Model.Provider == "Google")
+								{
+									<a href="/Setting/UnbindThirdLogin"
+									   onclick="return confirm('確定要解除綁定 Google 嗎？');"
+									   type="button" class="btn btn-sm btn-danger">
+										解除綁定
+									</a>
+								}
+								else
+								{
+									<a href="@(Model.Provider != "Google"  && Model.Provider   != null ? "#" : "/Setting/BindThirdLogin?provider=Google")"
+									   type="button" class="btn btn-sm  @(Model.Provider != "Google" && Model.Provider   != null ? "btn-secondary  disabled"  : "btn-primary")">
+										進行綁定
+									</a>
+								}
 							</div>
 
 							<!-- Facebook -->
@@ -55,9 +72,23 @@
 								<div class="d-flex align-items-center">
 									<img src="~/img/Login/icons8-facebook-48.png" width="30" class="me-2">
 									<span class="fs-5">Facebook</span>
-									<span class="fs-6 ms-2 text-secondary">(未綁定)</span>
+									<span class="fs-6 ms-2 text-secondary">@(Model.Provider == "Facebook" ? "(已綁定)" : ("未綁定"))</span>
 								</div>
-								<button class="btn btn-primary btn-sm">進行綁定</button>
+								@if (Model.Provider == "Facebook")
+								{
+									<a href="/Setting/UnbindThirdLogin"
+									   onclick="return confirm('確定要解除綁定 Google 嗎？');"
+									   type="button" class="btn btn-sm btn-danger">
+										解除綁定
+									</a>
+								}
+								else
+								{
+									<a href="@(Model.Provider != "Facebook"  && Model.Provider   != null ? "#" : "/Setting/BindThirdLogin?provider=Facebook")"
+									   type="button" class="btn btn-sm  @(Model.Provider != "Facebook" && Model.Provider   != null ? "btn-secondary  disabled"  : "btn-primary")">
+										進行綁定
+									</a>
+								}
 							</div>
 
 							<!-- Microsoft -->
@@ -65,9 +96,23 @@
 								<div class="d-flex align-items-center">
 									<img src="~/img/Login/Microsoft.png" width="30" class="me-2">
 									<span class="fs-5">Microsoft</span>
-									<span class="fs-6 ms-2 text-secondary">(未綁定)</span>
+									<span class="fs-6 ms-2 text-secondary">@(Model.Provider == "Microsoft" ? "(已綁定)" : ("未綁定"))</span>
 								</div>
-								<button class="btn btn-primary btn-sm">進行綁定</button>
+								@if (Model.Provider == "Microsoft")
+								{
+									<a href="/Setting/UnbindThirdLogin"
+									   onclick="return confirm('確定要解除綁定 Google 嗎？');"
+									   type="button" class="btn btn-sm btn-danger">
+										解除綁定
+									</a>
+								}
+								else
+								{
+									<a href="@(Model.Provider != "Microsoft"  && Model.Provider   != null ? "#" : "/Setting/BindThirdLogin?provider=Microsoft")"
+									   type="button" class="btn btn-sm  @(Model.Provider != "Microsoft" && Model.Provider   != null ? "btn-secondary  disabled"  : "btn-primary")">
+										進行綁定
+									</a>
+								}
 							</div>
 						</div>
 					</div>
@@ -123,7 +168,7 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="errorModalLabel">錯誤</h5>
+						<h5 class="modal-title" id="errorModalLabel">正確</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
