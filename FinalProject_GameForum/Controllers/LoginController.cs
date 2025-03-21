@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using BCrypt.Net;
 using Microsoft.CodeAnalysis.Scripting;
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace FinalProject_GameForum.Controllers
 {
@@ -97,6 +99,16 @@ namespace FinalProject_GameForum.Controllers
 
         public IActionResult Register(string user_id, string pswd, string nkname, string email)
         {
+
+            string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+            var realemail = Regex.IsMatch(email, emailPattern);
+
+            if (realemail == false)
+            {
+                TempData["Error"] = "信箱格式錯誤，請重新輸入!";
+                return RedirectToAction("Register");
+            }
+
             var TrueUser = _context.Users.FirstOrDefault(u => u.UserId == user_id);
             var TrueNickname = _context.Users.FirstOrDefault(u => u.Nickname == nkname);
             var TrueEmail = _context.Users.FirstOrDefault(u => u.Email == email);
