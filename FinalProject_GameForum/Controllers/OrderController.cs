@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using FinalProject_GameForum.Models;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Security.Claims; 
+using System.Security.Claims;
 
 namespace FinalProject_GameForum.Controllers
 {
@@ -16,30 +16,28 @@ namespace FinalProject_GameForum.Controllers
             _context = context;
         }
 
-        // 訂單列表
+        // 訂單列表：只讀取目前登入用戶的訂單
         public async Task<IActionResult> Index()
         {
-            // 取得目前登入使用者的ID
             string currentUserId = HttpContext.User.FindFirst("UserID")?.Value;
             if (string.IsNullOrEmpty(currentUserId))
             {
-                // 若未登入則導向登入頁面
                 return RedirectToAction("Login", "Login");
             }
 
             var orders = await _context.Orders
                 .Include(o => o.Product)
-                .ThenInclude(p => p.ProductCategory)
+                    .ThenInclude(p => p.ProductCategory)
                 .Include(o => o.OrderStatus)
-                .Where(o => o.UserId == currentUserId) // 根據登入用戶篩選訂單
+                .Where(o => o.UserId == currentUserId)
                 .ToListAsync();
+
             return View(orders);
         }
 
-        // 訂單詳情
+        // 訂單詳情：確認訂單屬於目前用戶
         public async Task<IActionResult> Details(int id)
         {
-            // 取得目前登入使用者的ID
             string currentUserId = HttpContext.User.FindFirst("UserID")?.Value;
             if (string.IsNullOrEmpty(currentUserId))
             {
@@ -48,9 +46,9 @@ namespace FinalProject_GameForum.Controllers
 
             var order = await _context.Orders
                 .Include(o => o.Product)
-                .ThenInclude(p => p.ProductCategory)
+                    .ThenInclude(p => p.ProductCategory)
                 .Include(o => o.OrderStatus)
-                .FirstOrDefaultAsync(o => o.OrderId == id && o.UserId == currentUserId); // 驗證訂單是否屬於目前用戶
+                .FirstOrDefaultAsync(o => o.OrderId == id && o.UserId == currentUserId);
 
             if (order == null)
             {
@@ -60,10 +58,9 @@ namespace FinalProject_GameForum.Controllers
             return View(order);
         }
 
-        // 訂單編號查詢
+        // 訂單搜尋：依訂單編號搜尋，目前僅顯示登入用戶的訂單
         public async Task<IActionResult> Search(string? searchOrderId)
         {
-            // 取得目前登入使用者的ID
             string currentUserId = HttpContext.User.FindFirst("UserID")?.Value;
             if (string.IsNullOrEmpty(currentUserId))
             {
@@ -72,9 +69,9 @@ namespace FinalProject_GameForum.Controllers
 
             var orders = _context.Orders
                 .Include(o => o.Product)
-                .ThenInclude(p => p.ProductCategory)
+                    .ThenInclude(p => p.ProductCategory)
                 .Include(o => o.OrderStatus)
-                .Where(o => o.UserId == currentUserId) // 只查詢目前用戶的訂單
+                .Where(o => o.UserId == currentUserId)
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(searchOrderId))
@@ -83,6 +80,30 @@ namespace FinalProject_GameForum.Controllers
             }
 
             return View("Index", await orders.ToListAsync());
+        }
+
+        // 取消訂單：僅當訂單屬於目前用戶且狀態為 1 時可取消
+        [HttpPost]
+        public async Task<IActionResult> CancelOrder(int id)
+        {
+            string currentUserId = HttpContext.User.FindFirst("UserID")?.Value;
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                return Json(new { success = false, message = "未登入" });
+            }
+
+            var order = await _context.Orders.FirstOrDefaultAsync(o =>
+                o.OrderId == id && o.UserId == currentUserId && o.OrderStatusId == 1);
+
+            if (order == null)
+            {
+                return Json(new { success = false, message = "找不到該訂單或該訂單無法取消" });
+            }
+
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true });
         }
     }
 }
