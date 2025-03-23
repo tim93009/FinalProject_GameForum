@@ -4,7 +4,7 @@
     ViewBag.Title = "Home Page";
 }
 
-    <!--側邊選單-->
+<!--側邊選單-->
 <h2>最新消息</h2>
 
 <div class="home-container">
@@ -26,10 +26,14 @@
                 <img src="~/img/layout/request.png" style="width:25px" alt="客服中心">
                 <span>客服中心</span>
             </a>
-            <a href="/Setting/Permissions" class="list-group-item list-group-item-action">
-                <img src="~/img/layout/configuration.png" style="width:25px" alt="設置">
-                <span>設置</span>
-            </a>
+            @if (User.Identity!.IsAuthenticated)
+            {
+                <a href="/Setting/Permissions" class="list-group-item list-group-item-action">
+                    <img src="~/img/layout/configuration.png" style="width:25px" alt="設置">
+                    <span>設置</span>
+                </a>
+            }
+            
         </div>
     </div>
     @* 熱門新聞 *@

@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Newtonsoft.Json;
 using NuGet.Versioning;
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
@@ -82,6 +84,15 @@ namespace FinalProject_GameForum.Controllers
         [HttpPost]
         public  IActionResult SettingUser(string Email, string Gender, DateTime Birthdate, string Address, string Phone)
         {
+            string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+            var realemail = Regex.IsMatch(Email, emailPattern);
+
+            if (realemail == false)
+            {
+                TempData["Error"] = "信箱格式錯誤，請重新輸入!";
+                return RedirectToAction("Register");
+            }
+
             var TrueUserId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
             var userEntity = _context.Users.Find(TrueUserId);
             Phone = Phone.Replace("-", "").Trim();
@@ -124,7 +135,7 @@ namespace FinalProject_GameForum.Controllers
             }
                
         }
-
+        [Authorize]
         public IActionResult Permissions()
         {
             var userinfo = this.GetUserInfo(_context);

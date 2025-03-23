@@ -1,12 +1,14 @@
 ﻿using FinalProject_GameForum.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace FinalProject_GameForum.Controllers
 {
     public class DiscussionController : Controller
     {
         private readonly GameForumContext _context;
+        private const int PageSize = 1; // 每頁顯示文章數量
 
         public DiscussionController(GameForumContext context)
         {
@@ -18,7 +20,7 @@ namespace FinalProject_GameForum.Controllers
         {
             var discussions = _context.Discussions.AsQueryable();
 
-            // 按分類顯示看板
+            // 按分類顯示看板，並依人氣排序
             if (!string.IsNullOrEmpty(category))
             {
                 discussions = discussions.Where(d => d.Category == category);
@@ -30,11 +32,11 @@ namespace FinalProject_GameForum.Controllers
                 discussions = discussions.Where(d => d.DiscussionName.Contains(search));
             }
 
+            // 最終結果都要按照人氣降序排序
+            discussions = discussions.OrderByDescending(d => d.Views ?? 0);
+
             return View(discussions.ToList());
         }
-
-
-
 
         // 討論區首頁
         public IActionResult DisHome(int id)
@@ -50,38 +52,46 @@ namespace FinalProject_GameForum.Controllers
             return View(discussion);  // 傳遞 Discussion 模型到 View
         }
 
-
-
         // 加載文章列表（按看板ID）
-        public IActionResult LoadArticleList(int discussionId, string? category, string? search)
+        public IActionResult LoadArticleList(int discussionId, string? category, string? search, int page = 1)
         {
-            var articles = _context.Articles
+            // 先取出所有屬於該討論版且狀態為 "存在" 的文章
+            var articlesQuery = _context.Articles
                 .Include(a => a.User)
-                .Include(a => a.ArticleGroup)  // 包含 ArticleGroup，才能訪問其中的屬性
-                .Where(a => a.ArticleGroup.DiscussionId == discussionId);
+                .Include(a => a.ArticleGroup)
+                .Where(a => a.ArticleGroup.DiscussionId == discussionId && a.Status == "存在");
 
-            // 按分類顯示文章
+            // 按 ArticleGroup 的分類篩選
             if (!string.IsNullOrEmpty(category))
             {
-                articles = articles.Where(a => a.ArticleGroup.Category == category);
+                articlesQuery = articlesQuery.Where(a => a.ArticleGroup.Category == category);
             }
 
-            // 按標題搜尋文章（標題包含關鍵字）
+            // 按 ArticleGroup 的標題搜尋
             if (!string.IsNullOrEmpty(search))
             {
-                articles = articles.Where(a => a.ArticleGroup.ArticleTitle.Contains(search));
+                articlesQuery = articlesQuery.Where(a => a.ArticleGroup.ArticleTitle.Contains(search));
             }
 
-            var articleList = articles.OrderByDescending(a => a.PostDate).ToList();
+            // 取最早一筆文章作為樓主
+            var groupedArticles = articlesQuery
+                .AsEnumerable()
+                .GroupBy(a => a.ArticleGroup.ArticleGroupId)
+                .Select(g => g.OrderBy(a => a.PostDate).First())
+                .OrderByDescending(a => a.PostDate);
 
-            return PartialView("_ArticleList", articleList);
+            // 分頁邏輯：跳過 (page-1)*PageSize 筆，取 PageSize 筆
+            var pagedArticles = groupedArticles
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize)
+                .ToList();
+
+            // 如果需要回傳總頁數，可在ViewBag中傳遞
+            int totalArticles = groupedArticles.Count();
+            ViewBag.TotalPages = (int)System.Math.Ceiling(totalArticles / (double)PageSize);
+            ViewBag.CurrentPage = page;
+
+            return PartialView("_ArticleList", pagedArticles);
         }
-
-
-
-
-
-
-
     }
 }
