@@ -55,11 +55,11 @@
                 if (response.success) {
                     if (newQuantity <= 0) {
                         $row.remove();
-                        showMessage('已移除商品', true);
+                        //showMessage('已移除商品', true);
                     } else {
                         $quantity.text(response.newQuantity);
-                        $row.find('.subtotal').text('NT$' + (response.newQuantity * price));
-                        showMessage('數量更新成功', true);
+                        $row.find('.subtotal').text('NT$' + (response.newQuantity * response.price));
+                        //showMessage('數量更新成功', true);
                     }
                 } else {
                     showMessage(response.message || '操作失敗', false);

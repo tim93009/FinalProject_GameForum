@@ -5,6 +5,8 @@
 }
 .cart-container {
     margin: 20px;
+    background-color:white;
+    padding:20px;
 }
 
 .table {
@@ -72,9 +74,10 @@
 
 /* 右下角按鈕容器 */
 .cart-actions {
-    position: fixed;
+    /*    position: fixed;*/
+    justify-content: flex-end; /* 靠右對齊 */
     bottom: 20px;
-    right: 320px;
+    right: 20px;
     display: flex;
     gap: 10px; /* 按鈕間距 */
 }
