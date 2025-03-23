@@ -1,6 +1,9 @@
 ﻿$(document).ready(function () {
-    // 當帶有 data-check-login 屬性的按鈕被點擊時執行
-    $("button[data-check-login]").on("click", function (e) {
+
+    // 當帶有 data-check-login 屬性的button被點擊時執行
+    //$("button[data-check-login]").on("click", function (e) {
+
+    $(document).on("click", "[data-check-login]", function (e) {  //所有帶有屬性的都能觸發
         e.preventDefault(); // 阻止原本按鈕的預設行為
         var targetUrl = $(this).attr("data-target-url"); // 取得原本應該導向的網址
 
