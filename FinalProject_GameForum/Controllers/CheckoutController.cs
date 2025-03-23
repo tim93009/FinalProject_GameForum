@@ -14,8 +14,7 @@ namespace FinalProject_GameForum.Controllers
         }
         public IActionResult Index()
         {
-            // 假設使用當前登入用戶的 UserId 來查詢購物車
-            //string userId = User.Identity?.Name ?? "defaultUser"; // 若未登入，使用預設值
+            // 使用當前登入用戶的 UserId 來查詢購物車            
             string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var cartItems = _db.ShoppingCarts
@@ -61,9 +60,10 @@ namespace FinalProject_GameForum.Controllers
             bool sendSms = form["usms"] == "on";
 
             // 獲取當前用戶的購物車項目
-            string userId = User.Identity?.Name ?? "defaultUser";
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var cartItems = _db.ShoppingCarts
                 .Include(c => c.Product)
+                .Include(c => c.User) // 添加這行以載入 User 資料
                 .Where(c => c.UserId == userId)
                 .ToList();
 
@@ -94,7 +94,7 @@ namespace FinalProject_GameForum.Controllers
                     Quantity = quantity,
                     OrderDate = DateTime.Now,
                     OrderStatusId = 1, // 假設 1 表示 "待處理" 狀態，需根據實際 OrderStatus 表調整
-                    ShippingAddress = $"{postalCode} {address}"
+                    ShippingAddress = cartItem.User != null ? cartItem.User.Address : "未提供地址" // 防禦性處理
                 };
 
                 _db.Orders.Add(order);
@@ -104,7 +104,8 @@ namespace FinalProject_GameForum.Controllers
             _db.ShoppingCarts.RemoveRange(cartItems);
             _db.SaveChanges();
 
-            return RedirectToAction("OrderSuccess");
+            // 跳轉到 OrderController 的 Index
+            return RedirectToAction("Index", "Order");
         }
 
         // GET: /Checkout/OrderSuccess

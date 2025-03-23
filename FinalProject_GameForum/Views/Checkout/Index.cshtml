@@ -8,16 +8,6 @@
 
 @model List<FinalProject_GameForum.Models.ShoppingCart>
 
-<!-- 調試資訊 -->
-<div style="background-color:yellow; padding:60px">
-    <p>Model 是否為空: @(Model == null ? "是" : "否")</p>
-    <p>購物車項目數量: @(Model?.Count ?? 0)</p>
-    @if (Model != null && Model.Any())
-    {
-        <p>第一個項目的產品名稱: @Model.First().Product.ProductName</p>
-    }
-</div>
-
 <form id="checkoutForm" method="post" asp-action="SubmitOrder" asp-controller="Checkout">
     <div class="row g-0">
         <div class="col-sm-12">
@@ -134,6 +124,16 @@
                     <h2>收件人資訊</h2>
                     <span id="js-recipients-edit"></span>
                     <div id="js-recipients" class="checkout-products-main-block">
+                        <!-- 添加勾選框 -->
+                        <div class="row g-0">
+                            <div class="col-sm-12">
+                                <label>
+                                    <input type="checkbox" id="useUserInfo" name="useUserInfo">
+                                    使用我的個人資訊
+                                </label>
+                            </div>
+                        </div>
+                        <br />
                         <div class="row g-0">
                             <div class="col-sm-6">
                                 <div class="recive-name-area">
@@ -217,8 +217,20 @@
     </div>
 </form>
 
+<!-- 定義全局 userInfo -->
+<script>
+    window.userInfo = {
+        Name: "@Html.Raw(Model != null && Model.Any() ? Model.First().User.Nickname : "")",
+        Phone: "@Html.Raw(Model != null && Model.Any() ? Model.First().User.Phone ?? "" : "")",
+        Email: "@Html.Raw(Model != null && Model.Any() ? Model.First().User.Email ?? "" : "")",
+        Address: "@Html.Raw(Model != null && Model.Any() ? Model.First().User.Address ?? "" : "")"
+    };
+    console.log("User Address: " + window.userInfo.Address); // 調試輸出
+</script>
+
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" asp-append-version="true"></script>
 <script src="~/js/checkout/Checkout.js" asp-append-version="true"></script>
+<script src="~/js/checkout/UserInfoFill.js" asp-append-version="true"></script>
 
