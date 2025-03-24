@@ -21,8 +21,8 @@
 
             <!-- 搜尋框置中 -->
             <div class="d-flex justify-content-center w-100 my-2 my-lg-0 order-lg-1 flex-grow-1">
-                <form class="d-flex" style="max-width: 500px; width: 100%;">
-                    <input class="form-control me-3" type="search" placeholder="搜尋想要的商品或遊戲..." aria-label="Search" style="width: 100%;">
+                <form class="d-flex" style="max-width: 500px; width: 100%;" asp-action="Search" asp-controller="ShoppingMall" method="get">
+                    <input class="form-control me-3" type="search" name="searchTerm" placeholder="搜尋想要的商品或遊戲..." aria-label="Search" style="width: 100%;">
                     <button class="btn btn-outline-success" type="submit">
                         <img src="~/img/share/magnifying-glass.png" class="d-block" style="max-height: 3rem; width: auto; object-fit: contain;" alt="...">
                     </button>
@@ -50,6 +50,6 @@
         </div>
     </nav>
 }
-<div class="shoppingMall">
+<div class="shoppingMall" style="padding-top: 50px;">
     @RenderBody()
 </div>

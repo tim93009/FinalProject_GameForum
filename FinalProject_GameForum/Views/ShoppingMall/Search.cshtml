@@ -1,0 +1,41 @@
+﻿@model List<FinalProject_GameForum.Models.Product>
+
+<link rel="stylesheet" href="~/css/ShoppingMall/Search.css" asp-append-version="true" />
+
+@{
+    ViewData["Title"] = "搜尋結果";
+
+    <!-- 嵌入商城導覽列 -->
+    Layout = "~/Views/Shared/ShoppingMall_Nav.cshtml";
+}
+
+<div class="search-container">
+    <h2 class="search-title">搜尋結果</h2>
+
+    @if (Model.Any())
+    {
+        @foreach (var product in Model)
+        {
+            <div class="product-card">
+                @if (!string.IsNullOrEmpty(product.MainImageUrl))
+                {
+                    <img src="@product.MainImageUrl" class="product-image" alt="@product.ProductName">
+                }
+                else
+                {
+                    <img src="~/img/placeholder.jpg" class="product-image" alt="無圖片">
+                }
+                <div class="product-details">
+                    <h5 class="product-name">@product.ProductName</h5>
+                    <p class="product-description">@product.ProductDescription</p>
+                    <p class="product-price">價格: $@product.Price</p>
+                    <a asp-controller="Product" asp-action="Index" asp-route-productId="@product.ProductId" class="btn-details">查看詳情</a>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="no-results">找不到符合搜尋條件的商品</p>
+    }
+</div>

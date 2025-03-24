@@ -28,6 +28,22 @@ namespace iSpan_MSIT62_Final_Project.Controllers
 
             return View(viewData);
         }
+
+        //商城導覽列搜尋商品功能
+        public IActionResult Search(string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return RedirectToAction("Index");
+            }
+
+            var products = _db.Products
+                .Where(p => p.ProductName.Contains(searchTerm) ||
+                           (p.ProductDescription != null && p.ProductDescription.Contains(searchTerm)))
+                .ToList();
+
+            return View(products);
+        }
     }
 
     // 數據容器類
