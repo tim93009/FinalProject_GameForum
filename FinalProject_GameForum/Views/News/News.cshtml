@@ -52,12 +52,19 @@
 		</div>
 	</div>
 </div>
-<div class="text-container">
-    <form action="@Url.Action("News", "News", new { id = Model.NewsDetail.FirstOrDefault()?.NewsId })" method="post" id="commentForm">
-		<textarea id="text" name="messageContent" placeholder="留言..." maxlength="80"></textarea>
-		<button class="send" type="submit">送出</button>		
-	</form>
-</div>
+@if (ViewBag.IsAuthenticated == true)
+{
+	<div class="text-container">
+		<form action="@Url.Action("News", "News", new { id = Model.NewsDetail.FirstOrDefault()?.NewsId })" method="post" id="commentForm" data-authenticated="@ViewBag.IsAuthenticated">
+			<textarea id="text" name="messageContent" placeholder="留言..." maxlength="80"></textarea>
+			<button class="send" type="submit">送出</button>		
+		</form>
+	</div>
+}
+else
+{
+	<button class="send" onclick="window.location.href='/Login/Login'">登入</button>
+}
 
 <div class="others-container">
 	<div class="others">
