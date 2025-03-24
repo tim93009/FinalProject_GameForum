@@ -15,20 +15,25 @@
 		<h3>熱門文章</h3>
 		<div class="hot-dis">
 			<ul>
-				<li>
-					<h5>【攻略】畫面卡住 重新開機 閃退 [可能可行]的解決方法</h5>
-					<h6>...<a href="#">繼續閱讀</a></h6>
-				</li>
-				<li>
-					<h5>【討論】荒野太刀</h5>
-					<h6>...<a href="#">繼續閱讀</a></h6>
-				</li>
-				<li>
-					<h5>【密技】釣大魚成就跟帶卵魚刷法</h5>
-					<h6>...<a href="#">繼續閱讀</a></h6>
-				</li>
+				@if (ViewBag.HotArticles != null)
+				{
+					foreach (var hot in ViewBag.HotArticles)
+					{
+						<li>
+							<h5>【@hot.Category】@hot.ArticleTitle</h5>
+							<h6>
+								...<a href="@Url.Action("Index", "Article", new { id = hot.ArticleGroupId })">繼續閱讀</a>
+							</h6>
+						</li>
+					}
+				}
+				else
+				{
+					<li>暫時沒有熱門文章哦～</li>
+				}
 			</ul>
 		</div>
+
 
 		<h3>公告</h3>
 		<h4>
@@ -54,12 +59,11 @@
 				<button class="btn btn-outline-primary category-btn" data-category="問題">問題</button>
 			</div>
 
-
 			<!-- 分頁按鈕 -->
 			<div id="pagination-container">
-				<button id="prevPageBtn" class="btn btn-outline-secondary">« Previous</button>
+				<button id="prevPageBtn" class="btn btn-outline-secondary">« 上一頁</button>
 				<span id="pageNumbers"></span>
-				<button id="nextPageBtn" class="btn btn-outline-secondary">Next »</button>
+				<button id="nextPageBtn" class="btn btn-outline-secondary">下一頁 »</button>
 			</div>
 		</div>
 
@@ -156,13 +160,14 @@
 
 <!-- JavaScript 控制切換 -->
 <script>
-	document.addEventListener("DOMContentLoaded", function () {
+		document.addEventListener("DOMContentLoaded", function () {
 		let discussionId = @Model.DiscussionId;
 		let articleListContainer = document.getElementById("article-list-container");
 		let mainContent = document.getElementById("main-content");
 
 		let currentPage = 1; // 目前頁碼
-		let totalPages = 1;  // 總頁數，初始值
+		let totalPages = 1;  // 總頁數
+		let activeCategory = ""; // 存儲目前的篩選條件
 
 		// 監聽文章列表按鈕
 		document.getElementById("article-list-btn").addEventListener("click", function (event) {
@@ -170,15 +175,23 @@
 			mainContent.style.display = "none";
 			articleListContainer.style.display = "block";
 			currentPage = 1; // 重置頁碼
-			loadArticleList("", currentPage);
+			loadArticleList(activeCategory, currentPage);
 		});
 
 		// 監聽分類按鈕點擊
 		document.querySelectorAll(".category-btn").forEach(button => {
 			button.addEventListener("click", function () {
-				let category = this.getAttribute("data-category");
+				activeCategory = this.getAttribute("data-category"); // 存起來
+				// 更新按鈕樣式，確保只有當前按鈕是 btn-primary
+				document.querySelectorAll(".category-btn").forEach(b => {
+					b.classList.remove("btn-primary");
+					b.classList.add("btn-outline-primary");
+				});
+				this.classList.remove("btn-outline-primary");
+				this.classList.add("btn-primary");
+
 				currentPage = 1; // 切換分類時重置頁碼
-				loadArticleList(category, currentPage);
+				loadArticleList(activeCategory, currentPage);
 			});
 		});
 
@@ -197,14 +210,12 @@
 		document.getElementById("prevPageBtn").addEventListener("click", function () {
 			if (currentPage > 1) {
 				currentPage--;
-				let activeCategory = document.querySelector(".category-btn.btn-primary")?.getAttribute("data-category") || "";
 				loadArticleList(activeCategory, currentPage);
 			}
 		});
 		document.getElementById("nextPageBtn").addEventListener("click", function () {
 			if (currentPage < totalPages) {
 				currentPage++;
-				let activeCategory = document.querySelector(".category-btn.btn-primary")?.getAttribute("data-category") || "";
 				loadArticleList(activeCategory, currentPage);
 			}
 		});
@@ -221,22 +232,18 @@
 			let pageNumbersContainer = document.getElementById("pageNumbers");
 			pageNumbersContainer.innerHTML = ""; // 先清空內容
 
-			// 全部顯示，如果頁數很多可以做分段顯示
 			for (let i = 1; i <= totalPages; i++) {
 				let pageLink = document.createElement("a");
 				pageLink.href = "#";
 				pageLink.textContent = i;
 				pageLink.style.margin = "0 5px";
 				if (i === currentPage) {
-					// 當前頁面標示醒目點
 					pageLink.style.fontWeight = "bold";
 					pageLink.style.textDecoration = "underline";
 				}
-				// 綁定點擊事件
 				pageLink.addEventListener("click", function (e) {
 					e.preventDefault();
 					currentPage = i;
-					let activeCategory = document.querySelector(".category-btn.btn-primary")?.getAttribute("data-category") || "";
 					loadArticleList(activeCategory, currentPage);
 				});
 				pageNumbersContainer.appendChild(pageLink);

@@ -9,38 +9,91 @@
 		@foreach (var discussion in Model)
 		{
 			<div class="dis-list">
-				<a href="/Discussion/DisHome/@discussion.DiscussionId" class="card-image">
+				<a href="/Discussion/DisHome/@discussion.DiscussionId"
+				   class="card-image"
+				   onclick="saveViewedDiscussion(@discussion.DiscussionId, '@discussion.DiscussionName')">
 					<img src="~/img/@(discussion.ImageUrl ?? "default.jpg")" />
 				</a>
 				<div class="discussion-card">
-					<a href="/Discussion/DisHome/@discussion.DiscussionId"><h3>@discussion.DiscussionName</h3></a>
+					<a href="/Discussion/DisHome/@discussion.DiscussionId"
+					   onclick="saveViewedDiscussion(@discussion.DiscussionId, '@discussion.DiscussionName')">
+						<h3>@discussion.DiscussionName</h3>
+					</a>
 					<h6>人氣: @(discussion.Views ?? 0)</h6>
 				</div>
 			</div>
+		}
 		}
 	</div>
 
 	<div class="right-list">
 		<h5>最近瀏覽看板</h5>
 		<div class="viewed-list">
-			<ul>
-				<li><a href="">魔物獵人 系列</a></li>
-				<li><a href="">寶可夢 系列</a></li>
-				<li><a href="">新楓之谷</a></li>
-				<li><a href="">神魔之塔</a></li>
-				<li><a href="">崩壞：星穹鐵道</a></li>
+			<ul id="recent-discussions">
+				<!-- JavaScript 動態插入這裡 -->
 			</ul>
 		</div>
+
+		<br />
 
 		<h5>最新成立看板</h5>
 		<div class="viewed-list">
 			<ul>
-				<li><a href="">魔物獵人 系列</a></li>
-				<li><a href="">寶可夢 系列</a></li>
-				<li><a href="">新楓之谷</a></li>
-				<li><a href="">神魔之塔</a></li>
-				<li><a href="">崩壞：星穹鐵道</a></li>
+				<li><a href="/Discussion/DisHome/4">魔物獵人</a></li>
+				<li><a href="/Discussion/DisHome/10">Pokemon GO</a></li>
+				<li><a href="/Discussion/DisHome/11">新楓之谷</a></li>
+				<li><a href="/Discussion/DisHome/6">神魔之塔</a></li>
+				<li><a href="/Discussion/DisHome/8">崩壞：星穹鐵道</a></li>
 			</ul>
 		</div>
 	</div>
 </div>
+
+
+@* JavaScript 儲存 & 讀取 LocalStorage *@
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		loadViewedDiscussions();
+	});
+
+	function saveViewedDiscussion(id, name) {
+		let history = JSON.parse(localStorage.getItem("viewedDiscussions")) || [];
+
+		// 檢查是否已存在，若存在則移除舊的
+		history = history.filter(item => item.id !== id);
+
+		// 新增到最前面
+		history.unshift({ id: id, name: name });
+
+		// 限制最多 5 筆
+		if (history.length > 5) {
+			history.pop();
+		}
+
+		// 存入 LocalStorage
+		localStorage.setItem("viewedDiscussions", JSON.stringify(history));
+	}
+
+	function loadViewedDiscussions() {
+		let history = JSON.parse(localStorage.getItem("viewedDiscussions")) || [];
+		let listContainer = document.getElementById("recent-discussions");
+
+		// 清空舊內容
+		listContainer.innerHTML = "";
+
+		if (history.length === 0) {
+			listContainer.innerHTML = "<li>尚無瀏覽紀錄</li>";
+			return;
+		}
+
+		// 動態加入最近瀏覽
+		history.forEach(discussion => {
+			let li = document.createElement("li");
+			let a = document.createElement("a");
+			a.href = `/Discussion/DisHome/${discussion.id}`;
+			a.textContent = discussion.name;
+			li.appendChild(a);
+			listContainer.appendChild(li);
+		});
+	}
+</script>
