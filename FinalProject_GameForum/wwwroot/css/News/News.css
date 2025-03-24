@@ -106,7 +106,7 @@ textarea {
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 .send{
-    margin-left:11%;
+    margin-left:10%;
     margin-top:8px;
     background-color:green;
     color:white;

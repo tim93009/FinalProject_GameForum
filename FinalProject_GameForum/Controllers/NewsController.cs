@@ -1,4 +1,5 @@
-﻿using FinalProject_GameForum.Models;
+﻿using FinalProject_GameForum.Filters;
+using FinalProject_GameForum.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -37,65 +38,55 @@ namespace FinalProject_GameForum.Controllers
         }
         public async Task<IActionResult> News(int id, string messageContent)
         {
-            var userId = User.Identity?.IsAuthenticated == true ? User.Identity.Name : null;
+            var userId = User.Identity?.IsAuthenticated == true 
+                ? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value 
+                : null;
+
             ViewBag.IsAuthenticated = User.Identity?.IsAuthenticated == true;
 
-            if (userId == null)
-            {
-                ModelState.AddModelError(string.Empty, "請先登入!!");
 
                 var newsDetail = await _context.News
                     .Include(n => n.NewsImages)
                     .Include(n => n.NewsMessages)
+                    .ThenInclude(m => m.User)
                     .FirstOrDefaultAsync(n => n.NewsId == id);
 
-                ViewBag.NewsMessages = newsDetail?.NewsMessages != null
-                ? newsDetail.NewsMessages.OrderByDescending(m => m.EditDate)
-                .ToList() : new List<NewsMessage>();
+            ViewBag.NewsMessages = newsDetail?.NewsMessages != null
+                ? newsDetail.NewsMessages.OrderByDescending(m => m.EditDate).ToList() 
+                : new List<NewsMessage>();
 
-                ViewBag.RelatedNews = await _context.News
+            ViewBag.RelatedNews = await _context.News
                 .Where(n => n.NewsId != id)  
                 .OrderByDescending(n => n.EditDate)
                 .Take(3)
                 .ToListAsync();
 
-                var model = new NewsViewModel
-                {
-                    NewsDetail = newsDetail != null ? new List<News> { newsDetail } : new List<News>(),
-                    NewsHome = await _context.News
-                        .OrderByDescending(n => n.EditDate)
-                        .Take(5)
-                        .ToListAsync()
-                };
+            var model = new NewsViewModel
+            {
+                NewsDetail = newsDetail != null ? new List<News> { newsDetail } : new List<News>(),
+                NewsHome = await _context.News
+                    .OrderByDescending(n => n.EditDate)
+                    .Take(5)
+                    .ToListAsync()
+            };
 
+            if (userId == null)
+            {
+                ModelState.AddModelError(string.Empty, "請先登入!!");
                 return View(model);
             }
 
             if (string.IsNullOrWhiteSpace(messageContent))
             {
                 ModelState.AddModelError("messageContent", "留言內容不能為空。");
+                return View(model);
+            }
 
-                var newsDetail = await _context.News
-                    .Include(n => n.NewsImages)
-                    .Include(n => n.NewsMessages)
-                    .FirstOrDefaultAsync(n => n.NewsId == id);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
 
-                ViewBag.NewsMessages = newsDetail?.NewsMessages != null
-                ? newsDetail.NewsMessages.OrderByDescending(m => m.EditDate)
-                .ToList() : new List<NewsMessage>();
-
-                ViewBag.RelatedNews = await _context.News
-                .Where(n => n.NewsId != id)
-                .OrderByDescending(n => n.EditDate)
-                .Take(3)
-                .ToListAsync();
-
-                var model = new NewsViewModel
-                {
-                    NewsDetail = newsDetail != null ? new List<News> { newsDetail } : new List<News>(),
-                    NewsHome = await _context.News.OrderByDescending(n => n.EditDate).Take(5).ToListAsync()
-                };
-
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "用戶不存在");
                 return View(model);
             }
 
@@ -104,7 +95,8 @@ namespace FinalProject_GameForum.Controllers
                 NewsId = id,
                 MessageContent = messageContent,
                 UserId = userId,
-                EditDate = DateTime.UtcNow
+                EditDate = DateTime.UtcNow,
+                User = user
             };
 
             _context.NewsMessages.Add(newMessage);

@@ -12,18 +12,21 @@ namespace FinalProject_GameForum.Controllers
         {
             _context = context;
         }
-        
-        public async Task<IActionResult> Personal(string ownerid )
+
+        public async Task<IActionResult> Personal(string ownerid)
         {
-            if(string.IsNullOrEmpty(ownerid))
+            if (string.IsNullOrEmpty(ownerid) && User.Identity!.IsAuthenticated)
+            {
+                ownerid = this.GetUserInfo(_context).UserId;
+            }
+            else
             {
                 return RedirectToAction("Login", "Login");
-                
             }
             if (User.Identity!.IsAuthenticated)
             {
                 var viewid = this.GetUserInfo(_context).UserId;
-                if(viewid != ownerid)
+                if (viewid != ownerid)
                 {
                     var today = DateTime.Today;
                     var tomorrow = today.AddDays(1);
@@ -57,7 +60,7 @@ namespace FinalProject_GameForum.Controllers
                 .OrderByDescending(x => x.VisitTime)
                 .ToList();
 
-            var friends = _context.Relationships.Where( x => x.PersonAid == ownerid && x.RelationshipType == "Accepted").ToList();
+            var friends = _context.Relationships.Where(x => x.PersonAid == ownerid && x.RelationshipType == "Accepted").ToList();
 
 
 
@@ -78,7 +81,7 @@ namespace FinalProject_GameForum.Controllers
                 visitors = visitors,
                 viewuser = viewuserinfo,
                 friends = friends
-                
+
             };
 
 
@@ -93,22 +96,49 @@ namespace FinalProject_GameForum.Controllers
         {
             return View();
         }
-        public IActionResult Friends(string ownerid)
+        public IActionResult Friends(string ownerid, string status)
         {
-            if (!User.Identity!.IsAuthenticated)
-            {
-                return RedirectToAction("Login", "Login");
-            }
-            else
-            {
-                var friends = _context.Relationships.Where(x => x.PersonAid == ownerid && x.RelationshipType == "Accepted").ToList();
-                var followers = _context.Relationships.Where(x => x.PersonAid == ownerid && x.RelationshipType == "Following").ToList(); ;
-                var requests =  _context.Relationships.Where(x => x.PersonAid == ownerid && x.RelationshipType == "Request").ToList(); ;
+            string? currentUserId = null;
+            bool isOwner = false;
 
-                
-
+            if (User.Identity.IsAuthenticated) // 確保使用者有登入
+            {
+                currentUserId = this.GetUserInfo(_context).UserId; // 取得目前登入使用者的 ID
+                isOwner = (currentUserId == ownerid); // 判斷是否為本人的頁面
             }
-            return View();
+
+
+
+
+            var friends = _context.Relationships
+                .Where(x => x.PersonAid == ownerid && x.RelationshipType == "Accepted")
+                .ToList();
+
+            var followers = _context.Relationships
+                .Where(x => x.PersonAid == ownerid && x.RelationshipType == "Following")
+                .ToList();
+
+            var requests = _context.Relationships
+                .Where(x => x.PersonAid == ownerid && x.RelationshipType == "Request")
+                .ToList();
+
+
+            var viewModel = new PersonalView
+            {
+                Isowner = isOwner,
+                Friends = friends,
+                Followers = followers,
+                Requests = requests
+            };
+
+            return View(viewModel);
+
+
+
+
+
+
+
         }
     }
 }
