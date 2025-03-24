@@ -1,13 +1,12 @@
 ﻿<link rel="stylesheet" href="~/css/Product/ProductInfo.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/Product/AddedToCart.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/Product/Product.css" asp-append-version="true" />
 
 <!-- 嵌入商城導覽列 -->
 @{
     Layout = "~/Views/Shared/ShoppingMall_Nav.cshtml";
 }
 @model Product
-
-<p>這裡是商品頁面</p>
 
 <!-- 商品資訊 -->
 <div class="row g-0">
@@ -83,6 +82,69 @@
                     }
                 </div>
             </a>
+        </div>
+    </div>
+</div>
+
+<!-- 相關商品 -->
+<div class="section bg-warning">
+    <h2>相關商品</h2>
+    <div class="products-card-scroll">
+        <div class="products-card-control">
+            <div class="products-cards-area">
+                <div class="row">
+                    @foreach (var obj in ViewBag.RelatedProducts)
+                    {
+                        <div class="col-2">
+                            <div class="products-card">
+                                @* 商品圖 *@
+                                <a asp-controller="Product" asp-action="Index" asp-route-productId="@obj.ProductId" class="products-card-img">
+                                    <img src="@obj.MainImageUrl" alt="@obj.ProductName" class="pic-products">
+                                </a>                                
+
+                                @* 購買按鈕 *@
+                                <a class="btn-buy-now" asp-controller="Product" asp-action="Index" asp-route-productId="@obj.ProductId">
+                                    前往購買
+                                </a>
+                            </div>
+                        </div>                        
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 瀏覽紀錄 -->
+<div class="section bg-info">
+    <h2>瀏覽紀錄</h2>
+    <div class="products-card-scroll">
+        <div class="products-card-control">
+            <div class="products-cards-area">
+                <div class="row">
+                    @if (ViewBag.ViewHistory != null && ViewBag.ViewHistory.Count > 0)
+                    {
+                        @foreach (var obj in ViewBag.ViewHistory)
+                        {
+                            <div class="col-2">
+                                <div class="products-card">
+                                    <a asp-controller="Product" asp-action="Index" asp-route-productId="@obj.ProductId" class="products-card-img">
+                                        <img src="@obj.MainImageUrl" alt="@obj.ProductName" class="pic-products">
+                                    </a>
+                                    
+                                    <a class="btn-buy-now" asp-controller="Product" asp-action="Index" asp-route-productId="@obj.ProductId">
+                                        前往購買
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>尚無瀏覽紀錄</p>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </div>

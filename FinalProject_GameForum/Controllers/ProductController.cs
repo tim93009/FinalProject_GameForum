@@ -33,6 +33,48 @@ namespace FinalProject_GameForum.Controllers
                 return NotFound("找不到指定的商品");
             }
 
+            // 取得相關商品（相同類別的其他商品，排除當前商品）
+            var relatedProducts = _db.Products
+                .Where(p => p.ProductCategoryId == product.ProductCategoryId && p.ProductId != productId)
+                .Take(5) // 限制顯示數量，例如 5 個
+                .ToList();
+
+            // 取得當前使用者的瀏覽紀錄
+            string userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var viewHistory = new List<Product>();
+            if (!string.IsNullOrEmpty(userId))
+            {
+                viewHistory = _db.ViewHistories
+                    .Where(vh => vh.UserId == userId)
+                    .Include(vh => vh.Product)
+                    .OrderByDescending(vh => vh.ViewDate) // 按瀏覽時間排序
+                    .Take(5) // 限制顯示數量，例如 5 個
+                    .Select(vh => vh.Product)
+                    .ToList();
+
+                // 記錄當前瀏覽
+                var existingHistory = _db.ViewHistories
+                    .FirstOrDefault(vh => vh.UserId == userId && vh.ProductId == productId);
+                if (existingHistory == null)
+                {
+                    _db.ViewHistories.Add(new ViewHistory
+                    {
+                        UserId = userId,
+                        ProductId = (int)productId,
+                        ViewDate = DateTime.Now
+                    });
+                }
+                else
+                {
+                    existingHistory.ViewDate = DateTime.Now; // 更新瀏覽時間
+                }
+                _db.SaveChanges();
+            }
+
+            // 使用 ViewBag 或 ViewModel 傳遞資料
+            ViewBag.RelatedProducts = relatedProducts;
+            ViewBag.ViewHistory = viewHistory;
+
             return View(product);
         }
 

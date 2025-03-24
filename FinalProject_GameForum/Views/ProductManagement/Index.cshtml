@@ -1,0 +1,47 @@
+﻿
+
+<link rel="stylesheet" href="~/css/ProductManagement/ProductManagement.css" asp-append-version="true" />
+
+@model List<Product>
+
+<h2>商品管理</h2>
+<a asp-action="Edit" class="btn btn-primary mb-3">新增商品</a>
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="@product.MainImageUrl" class="card-img-top" alt="@product.ProductName" style="height: 200px; object-fit: contain;">
+                <div class="card-body">
+                    <h5 class="card-title">@product.ProductName</h5>
+                    <p class="card-text">@product.ProductDescription</p>
+                    <p class="card-text">價格: $@product.Price</p>
+                    <p class="card-text">庫存: @product.Stock</p>
+                    @if (product.ProductAdditionalImages.Any())
+                    {
+                        <div class="d-flex flex-wrap">
+                            @foreach (var img in product.ProductAdditionalImages)
+                            {
+                                <img src="@img.AdditionalImageUrl" alt="補充圖片" class="img-thumbnail me-2 mb-2" style="width: 80px; height: 80px; object-fit: contain;">
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <a asp-action="Edit" asp-route-id="@product.ProductId" class="btn btn-outline-primary">編輯</a>
+                    <form asp-action="Delete" asp-route-id="@product.ProductId" method="post" onsubmit="return confirm('確定要刪除此商品嗎？');">
+                        <button type="submit" class="btn btn-outline-danger">刪除</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+}
+

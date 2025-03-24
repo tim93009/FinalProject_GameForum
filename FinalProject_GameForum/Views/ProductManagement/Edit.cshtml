@@ -1,0 +1,56 @@
+﻿
+
+@model Product
+
+<h2>@(Model.ProductId == 0 ? "新增商品" : "編輯商品")</h2>
+
+<form asp-action="Edit" enctype="multipart/form-data" method="post">
+    <input type="hidden" asp-for="ProductId" />
+    <div class="form-group mb-3">
+        <label asp-for="ProductName" class="form-label">產品名稱</label>
+        <input asp-for="ProductName" class="form-control" />
+        <span asp-validation-for="ProductName" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="ProductDescription" class="form-label">產品描述</label>
+        <textarea asp-for="ProductDescription" class="form-control" rows="3"></textarea>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Price" class="form-label">產品價格</label>
+        <input asp-for="Price" class="form-control" type="number" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Stock" class="form-label">產品庫存</label>
+        <input asp-for="Stock" class="form-control" type="number" />
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="MainImageUrl" class="form-label">主要圖片</label>
+        <input type="file" name="mainImage" class="form-control" />
+        @if (!string.IsNullOrEmpty(Model.MainImageUrl))
+        {
+            <img src="@Model.MainImageUrl" class="img-thumbnail mt-2" style="object-fit:contain" />
+        }
+    </div>
+    <div class="form-group mb-3">
+        <label class="form-label">補充圖片</label>
+        <input type="file" name="additionalImages" multiple class="form-control" />
+        @if (Model.ProductAdditionalImages.Any())
+        {
+            <div class="mt-2 d-flex flex-wrap">
+                @foreach (var img in Model.ProductAdditionalImages)
+                {
+                    <img src="@img.AdditionalImageUrl" class="img-thumbnail me-2 mb-2" style="max-width: 100px;" />
+                }
+            </div>
+        }
+    </div>
+    <button type="submit" class="btn btn-success">儲存</button>
+    <a asp-action="Index" class="btn btn-secondary">返回</a>
+</form>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+}
