@@ -4,6 +4,7 @@
 <div class="myContainer">
 	<form id="editorForm" method="post" enctype="multipart/form-data" asp-action="Submit">
 		@Html.AntiForgeryToken()
+		<input type="hidden" name="discussionId" value="@ViewBag.DiscussionId" />
 		<div class="row p-1">
 			<label for="type">
 				<h5>文章分類: </h5>
@@ -130,7 +131,7 @@
 					</div>
 					<h5 class="m-1 text-center">上傳封面</h5>
 				</label>
-				<input type="file" id="imgFile" class="form-control mt-2" accept="image/gif, image/jpeg, image/png" />
+				<input type="file" id="imgFile" class="form-control mt-2" name="imgFile" accept="image/gif, image/jpeg, image/png" />
 			</div>
 			<div class="col-3 text-end">
 				<button type="submit" class="btn btn-outline-success w-100 mb-2">儲存草稿</button>

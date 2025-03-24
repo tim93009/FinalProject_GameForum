@@ -59,7 +59,7 @@
 										data-product-name="@order.Product.ProductName"
 										data-quantity="@order.Quantity"
 										data-total-price="@(order.Product.Price * order.Quantity)"
-										data-order-date="@order.OrderDate?.ToString("yyyy/MM/dd")"
+										data-order-date="@order.OrderDate?.ToString("yyyy/MM/dd tt hh:mm:ss")"
 										data-shipping-address="@order.ShippingAddress"
 										data-order-status="@order.OrderStatus.Status"
 										data-order-status-id="@order.OrderStatusId"
@@ -81,7 +81,11 @@
 												</div>
 											</div>
 											<br />
-											<p style="padding-right:75%"><strong>03/17 20:25</strong></p>
+											<p style="padding-right:75%">
+												<strong>
+													@order.OrderDate?.ToString("yyyy/MM/dd tt hh:mm")
+												</strong>
+											</p>
 										}
 										@if (order.OrderStatusId == 2)
 										{
@@ -91,7 +95,11 @@
 												</div>
 											</div>
 											<br />
-											<p style="padding-right:50%;"><strong>03/18 14:56</strong></p>
+											<p style="padding-right:50%;">
+												<strong>
+													@order.OrderDate?.ToString("yyyy/MM/dd tt hh:mm")
+												</strong>
+											</p>
 										}
 										@if (order.OrderStatusId == 3)
 										{
@@ -101,7 +109,11 @@
 												</div>
 											</div>
 											<br />
-											<p style="padding-right:25%"><strong>03/19 18:42</strong></p>
+											<p style="padding-right:25%">
+												<strong>
+													@order.OrderDate?.ToString("yyyy/MM/dd tt hh:mm")
+												</strong>
+											</p>
 										}
 										@if (order.OrderStatusId == 4)
 										{
@@ -111,7 +123,11 @@
 												</div>
 											</div>
 											<br />
-											<p style="padding-right:0%"><strong>03/20 06:38</strong></p>
+											<p style="padding-right:0%">
+												<strong>
+													@order.OrderDate?.ToString("yyyy/MM/dd tt hh:mm")
+												</strong>
+											</p>
 										}
 									</div>
 								</div>
@@ -143,7 +159,7 @@
 				<p><strong>商品名稱：</strong> <span id="modalProductName"></span></p>
 				<p><strong>數量：</strong> <span id="modalQuantity"></span></p>
 				<p><strong>總價：</strong> <span id="modalTotalPrice"></span> 元</p>
-				<p><strong>日期：</strong> <span id="modalOrderDate"></span></p>
+				<p><strong>時間：</strong> <span id="modalOrderDate"></span></p>
 				<p><strong>收件地址：</strong> <span id="modalShippingAddress"></span></p>
 				<p><strong>訂單狀態：</strong> <span id="modalOrderStatus"></span></p>
 			</div>
