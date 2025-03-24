@@ -1,170 +1,236 @@
 ﻿<link rel="stylesheet" href="~/css/Checkout/Checkout.css" asp-append-version="true" />
 
 <!-- 嵌入商城導覽列 -->
-@await Html.PartialAsync("ShoppingMall_Nav")
+@{
+    Layout = "~/Views/Shared/ShoppingMall_Nav.cshtml";
+    ViewData["Title"] = "結帳頁面";
+}
 
-<p>這裡是結帳頁面</p>
+@model List<FinalProject_GameForum.Models.ShoppingCart>
 
-<div class="row g-0">
-	<div class="col-sm-12">
-		@* 訂單明細 *@
-		<!-- 區塊 2 -->
-		<div class="section bg-success">
-			<div class="checkout-products-info-area">
-				<h2>訂單明細</h2>
-				<div class="products-detail-main-block order-detail">
-					<div class="products-info-title">
-						<div class="row g-0">
-							<div class="col-sm-2">
-								<div class="checkout-title-name">平台</div>
-							</div>
-							<div class="col-sm-2">
-								<div class="checkout-title-game-name">品名</div>
-							</div>
-							<div class="col-sm-2">
-								<div class="checkout-title-price">單價</div>
-							</div>
-							<div class="col-sm-2">
-								<div class="checkout-title-number">數量</div>
-							</div>
-							<div class="col-sm-2">
-								<div class="checkout-title-note">小計</div>
-							</div>
-							<div class="col-sm-2">
-								<div class="checkout-title-space"></div>
-							</div>
-						</div>
-					</div>
-					<div class="products-info-list-area">
-						<div id="row38576" data-sn="38576" class="products-info-list">
-							<div class="row g-0">
-								<div class="col-sm-2">
-									<div class="list-name">PlayStation5</div>
-								</div>
-								<div class="col-sm-2">
-									<div class="list-gamename">
-										<p>《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）</p>
-									</div>
-								</div>
-								<div class="col-sm-2">
-									<div class="list-price">2550元</div>
-								</div>
-								<div class="col-sm-2">
-									<div class="list-number" name="itemList" data-title="《潛龍諜影 Delta：食蛇者》中文戰術版（附贈預購特典）" data-platform="PlayStation5" data-shipway="7" data-sn="38576">
-										<div class="btn-reduce-products-number">
-											<p>-</p>
-										</div>
-										<input type="number" class="product-num" data-limited="1" data-sn="38576" data-price="2550" value="1" min="1" max="999">
-										<div class="btn-add-products-number">
-											<p>＋</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-2">
-									<div id="subtotal38576" class="list-note">2550元</div>
-								</div>
-								<div class="col-sm-2">
-									<div class="btn-products-delete">刪除</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="products-info-bonus-area">						
-						<div class="row g-0">
-							<div class="col-sm-12">
-								<div class="total-cost-block">
-									<p>付款金額</p>
-									<span id="amountpaid" data-grandtotal="2550">2550</span>
-									<p>元</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+<form id="checkoutForm" method="post" asp-action="SubmitOrder" asp-controller="Checkout">
+    <div class="row g-0">
+        <div class="col-sm-12">
+            @* 訂單明細 *@
+            <div class="section bg-success">
+                <div class="checkout-products-info-area">
+                    <h2>訂單明細</h2>
+                    <div class="products-detail-main-block order-detail">
+                        <div class="products-info-title">
+                            <div class="row g-0">
+                                <div class="col-sm-2">
+                                    <div class="checkout-title-name">類別</div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="checkout-title-game-name">品名</div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="checkout-title-price">單價</div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="checkout-title-number">數量</div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="checkout-title-note">小計</div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="checkout-title-space"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="products-info-list-area">
+                            @if (Model != null && Model.Any())
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <div id="row@(item.ShoppingCartId)" data-sn="@item.ShoppingCartId" class="products-info-list">
+                                        <div class="row g-0">
+                                            <div class="col-sm-2">
+                                                <div class="list-name">
+                                                    @(item.Product.ProductCategory?.Category ?? "未分類")
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="list-gamename">
+                                                    <p>@item.Product.ProductName</p>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="list-price">@item.Product.Price 元</div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="list-number" name="itemList"
+                                                     data-title="@item.Product.ProductName"
+                                                     data-category="@(item.Product.ProductCategoryId.HasValue ? item.Product.ProductCategoryId.ToString() : "未分類")"
+                                                     data-shipway="7"
+                                                     data-sn="@item.ShoppingCartId">
+                                                    <div class="btn-reduce-products-number">
+                                                        <p>-</p>
+                                                    </div>
+                                                    <input type="number" class="product-num"
+                                                           name="quantity[@item.ShoppingCartId]"
+                                                           data-limited="1"
+                                                           data-sn="@item.ShoppingCartId"
+                                                           data-price="@item.Product.Price"
+                                                           value="@item.Quantity"
+                                                           min="1"
+                                                           max="@(item.Product.Stock ?? 999)">
+                                                    <div class="btn-add-products-number">
+                                                        <p>＋</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div id="subtotal@(item.ShoppingCartId)" class="list-note">@(item.Product.Price * item.Quantity)元</div>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <div class="btn-products-delete"
+                                                     data-sn="@item.ShoppingCartId"
+                                                     onclick="removeItem(@item.ShoppingCartId)">
+                                                    刪除
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>購物車目前是空的。</p>
+                            }
+                        </div>
+                        <div class="products-info-bonus-area">
+                            <div class="row g-0">
+                                <div class="col-sm-12">
+                                    <div class="total-cost-block">
+                                        <p>付款金額</p>
+                                        <span id="amountpaid" data-grandtotal="@(Model?.Sum(item => item.Product.Price * item.Quantity) ?? 0)">
+                                            @(Model?.Sum(item => item.Product.Price * item.Quantity) ?? 0)
+                                        </span>
+                                        <p>元</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-		<br />
+            <br />
 
-		@* 收件人資訊 *@
-		<!-- 區塊 3 -->
-		<div class="section bg-danger">
-			<div class="checkout-products-recipient-area">
-				<h2>收件人資訊</h2>
-				<span id="js-recipients-edit"></span>
-				<div id="js-recipients" class="checkout-products-main-block">
-					<div class="row g-0">
-						<div class="col-sm-6">
-							<div class="recive-name-area">
-								<div class="recive-name-title">姓名</div>
-								<input type="text" class="input-name" name="uname" value="" placeholder="請填寫真實姓名">
-							</div>
-						</div>
-						<div class="col-sm-6">
-							<div class="cellphone-area">
-								<div class="cellphone-title">手機</div>
-								<div class="cellphone-block">
-									<input type="text" class="input-cellphone-num" name="ucell" value="" placeholder="限填數字" maxlength="10">
-									<label class="cellphone-send-mes-block">
-										<input type="checkbox" checked="" name="usms">
-										<p>到貨簡訊通知</p>
-									</label>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row g-0">
-						<div class="col-sm-6">
-							<div class="phone-area">
-								<div class="phone-title">電話</div>
-								<div class="phone-input-area">
-									<div class="col-sm-2">
-										<input type="text" class="input-front-phone" name="ucity" value="" maxlength="2">
-									</div>
-									<div class="col-sm-10">
-										<input type="text" class="input-main-phone" name="utel" value="" placeholder="限填數字" maxlength="8">
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-6">
-							<div class="email-area">
-								<div class="email-title">Email</div>
-								<input type="text" class="input-email" name="uemail" value="">
-							</div>
-						</div>
-					</div>
-					<div class="row g-0">
-						<div class="col-sm-6">
-							<div class="address-area">
-								<div class="address-title">寄件地址</div>
-								<div class="address-input-area">
-									<div class="col-sm-3">
-										<input type="text" class="input-postal-code" name="upostal" value="" placeholder="郵遞區號" maxlength="5">
-									</div>
-									<div class="col-sm-9">
-										<input type="text" class="input-address" name="uaddress" value="" placeholder="請輸入完整地址">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+            @* 收件人資訊 *@
+            <div class="section bg-danger">
+                <div class="checkout-products-recipient-area">
+                    <h2>收件人資訊</h2>
+                    <span id="js-recipients-edit"></span>
+                    <div id="js-recipients" class="checkout-products-main-block">
+                        <!-- 添加勾選框 -->
+                        <div class="row g-0">
+                            <div class="col-sm-12">
+                                <label>
+                                    <input type="checkbox" id="useUserInfo" name="useUserInfo">
+                                    使用我的個人資訊
+                                </label>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row g-0">
+                            <div class="col-sm-6">
+                                <div class="recive-name-area">
+                                    <div class="recive-name-title">姓名 *</div>
+                                    <input type="text" class="input-name" name="uname"
+                                           value=""
+                                           placeholder="請填寫真實姓名" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="cellphone-area">
+                                    <div class="cellphone-title">手機 *</div>
+                                    <div class="cellphone-block">
+                                        <input type="text" class="input-cellphone-num" name="ucell"
+                                               value=""
+                                               placeholder="限填數字" maxlength="10" required>
+                                        <label class="cellphone-send-mes-block">
+                                            <input type="checkbox" checked name="usms">
+                                            <p>到貨簡訊通知</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-0">
+                            <div class="col-sm-6">
+                                <div class="phone-area">
+                                    <div class="phone-title">電話</div>
+                                    <div class="phone-input-area">
+                                        <div class="col-sm-2">
+                                            <input type="text" class="input-front-phone" name="ucity"
+                                                   value="" maxlength="2">
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="input-main-phone" name="utel"
+                                                   value="" placeholder="限填數字" maxlength="8">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="email-area">
+                                    <div class="email-title">Email *</div>
+                                    <input type="email" class="input-email" name="uemail"
+                                           value="" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-0">
+                            <div class="col-sm-6">
+                                <div class="address-area">
+                                    <div class="address-title">寄件地址 *</div>
+                                    <div class="address-input-area">
+                                        <div class="col-sm-3">
+                                            <input type="text" class="input-postal-code" name="upostal"
+                                                   value="" placeholder="郵遞區號" maxlength="5" required>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="input-address" name="uaddress"
+                                                   value="" placeholder="請輸入完整地址" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-		<br />		
-	</div>
-</div>
+            <br />
+        </div>
+    </div>
 
-<div class="row g-0">
-	<div class="col-sm-12">
-		<!-- 送出訂單按鈕 -->
-		<div class="submit-button-area">
-			<button type="submit" class="btn-submit-order">送出訂單</button>
-		</div>
-	</div>
-</div>
+    <div class="row g-0">
+        <div class="col-sm-12">
+            <!-- 送出訂單按鈕 -->
+            <div class="submit-button-area">
+                <button type="submit" class="btn-submit-order">送出訂單</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- 定義全局 userInfo -->
+<script>
+    window.userInfo = {
+        Name: "@Html.Raw(Model != null && Model.Any() ? Model.First().User.Nickname : "")",
+        Phone: "@Html.Raw(Model != null && Model.Any() ? Model.First().User.Phone ?? "" : "")",
+        Email: "@Html.Raw(Model != null && Model.Any() ? Model.First().User.Email ?? "" : "")",
+        Address: "@Html.Raw(Model != null && Model.Any() ? Model.First().User.Address ?? "" : "")"
+    };
+    console.log("User Address: " + window.userInfo.Address); // 調試輸出
+</script>
 
 
-<script src="~/js/checkout/AdjustCheckoutQuantity.js" asp-append-version="true"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" asp-append-version="true"></script>
+<script src="~/js/checkout/Checkout.js" asp-append-version="true"></script>
+<script src="~/js/checkout/UserInfoFill.js" asp-append-version="true"></script>
+

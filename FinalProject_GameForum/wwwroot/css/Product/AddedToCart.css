@@ -1,7 +1,7 @@
 ﻿/* 提示訊息容器基本樣式 */
 .cart-message {
     position: fixed;
-    top: 20px; /* 距離頂部 200px */
+    top: 40vh; /* 距離頂部多遠 */
     left: 50%;
     transform: translateX(-50%); /* 水平置中 */
     padding: 60px 120px; /* 增大內邊距，讓容器更大 */
