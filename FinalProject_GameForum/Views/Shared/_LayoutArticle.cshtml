@@ -16,10 +16,14 @@
 				<div class="col-xxl-4 ">
 				</div>
 				<div class="col-xxl-4 col-lg-6">
-					<button class="btn btn-outline-info" onclick="location.href='@Url.Action("Index", "Discussion")'">訂閱</button>
+					<a asp-controller="Discussion" asp-action="Index" class="btn btn-outline-primary">
+						訂閱
+					</a>
 				</div>
 				<div class="col-xxl-4 col-lg-6">
-					<button class="btn btn-outline-info" onclick="location.href='@Url.Action("Reply", "ArticleEdit", new { articleGroupId = ViewBag.ArticleGroupId })'">回覆</button>
+					<a asp-controller="ArticleEdit" asp-action="Reply" asp-route-articleGroupId="@ViewBag.ArticleGroupId" class="btn btn-outline-primary">
+						回覆
+					</a>
 				</div>
 			</div>
 		</div>
@@ -47,5 +51,6 @@
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="/Views/Shared/_Layout.cshtml.js" asp-append-version="true"></script>
+	<script src="~/js/articleEdit/SafeArticle.js" asp-append-version="true"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
