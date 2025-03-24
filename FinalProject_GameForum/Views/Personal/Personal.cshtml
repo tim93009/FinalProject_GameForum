@@ -32,7 +32,7 @@
                                 <a class="nav-link active" asp-action="Personal">個人首頁</a>
                                 <a class="nav-link" asp-action="Collect">文章收藏</a>
                                 <a class="nav-link" asp-action="Log">個人日誌</a>
-                                <a class="nav-link" href="/Personal/Friends/ownerid=@Model.owner.UserId?">好友圈</a>
+                                <a class="nav-link" href="/Personal/Friends?ownerid=@Model.owner.UserId&status=Friends">好友圈</a>
                                 <a class="nav-link" asp-controller="Setting" asp-action="Setting">會員資訊</a>
                             </div>
                         </div>

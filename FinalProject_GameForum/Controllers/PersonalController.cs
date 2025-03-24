@@ -19,10 +19,7 @@ namespace FinalProject_GameForum.Controllers
             {
                 ownerid = this.GetUserInfo(_context).UserId;
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            
             if (User.Identity!.IsAuthenticated)
             {
                 var viewid = this.GetUserInfo(_context).UserId;
@@ -98,6 +95,8 @@ namespace FinalProject_GameForum.Controllers
         }
         public IActionResult Friends(string ownerid, string status)
         {
+
+           
             string? currentUserId = null;
             bool isOwner = false;
 
@@ -107,28 +106,81 @@ namespace FinalProject_GameForum.Controllers
                 isOwner = (currentUserId == ownerid); // 判斷是否為本人的頁面
             }
 
+            var ownerinfo = _context.Users.Find(ownerid);
+            if (ownerinfo == null)
+            {
+                return NotFound("找不到使用者");
+            }
+
+
+            List<Relationship> friends = new List<Relationship>();
+
+            switch (status)
+            {
+                case "Friends":
+                    friends = _context.Relationships
+                        .Where(x => (x.PersonAid == ownerid || x.PersonBid == ownerid) && x.RelationshipType == "Accepted")
+                        .ToList();
+                    break;
+                case "Followers":
+                    friends = _context.Relationships
+                        .Where(x => x.PersonBid == ownerid && x.RelationshipType == "Following")
+                        .ToList();
+                    break;
+                case "Followings":
+                    friends = _context.Relationships
+                        .Where(x => x.PersonAid == ownerid && x.RelationshipType == "Following")
+                        .ToList();
+                    break;
+                case "Requests":
+                    friends = _context.Relationships
+                        .Where(x => x.PersonBid == ownerid && x.RelationshipType == "Request")
+                        .ToList();
+                    break;
+            }
+
+            List<User> FriendBInfo = new List<User>();
+
+            if (status == "Followers" || status == "Requests")
+            {
+                  FriendBInfo = friends.Select(x =>
+                {
+                    var user = _context.Users.Find(x.PersonAid);
+                    return new User
+                    {
+                        UserId = user.UserId,
+                        Nickname = user.Nickname,
+                        PhotoUrl = user.PhotoUrl
+                    };
+                }).ToList();
+            }
+            else
+            {
+                FriendBInfo = friends.Select(x =>
+                {
+                    var user = _context.Users.Find(x.PersonBid);
+                    return new User
+                    {
+                        UserId = user.UserId,
+                        Nickname = user.Nickname,
+                        PhotoUrl = user.PhotoUrl
+                    };
+                }).ToList();
+            }
 
 
 
-            var friends = _context.Relationships
-                .Where(x => x.PersonAid == ownerid && x.RelationshipType == "Accepted")
-                .ToList();
 
-            var followers = _context.Relationships
-                .Where(x => x.PersonAid == ownerid && x.RelationshipType == "Following")
-                .ToList();
-
-            var requests = _context.Relationships
-                .Where(x => x.PersonAid == ownerid && x.RelationshipType == "Request")
-                .ToList();
 
 
             var viewModel = new PersonalView
             {
+                owner = ownerinfo,
+                viewuser = FriendBInfo,
                 Isowner = isOwner,
-                Friends = friends,
-                Followers = followers,
-                Requests = requests
+                friends = friends,
+                status = status
+
             };
 
             return View(viewModel);

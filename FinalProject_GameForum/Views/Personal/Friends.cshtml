@@ -2,7 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    
+    var user = Model.owner.UserId;
 }
 @model PersonalView
 <!DOCTYPE html>
@@ -34,8 +34,10 @@
         }
 
         th {
-        text-align: center
+        text-align: center 
         }
+
+
     </style>
 </head>
 
@@ -52,7 +54,7 @@
                                 <a class="nav-link active" aria-current="page" asp-action="Personal">個人首頁</a>
                                 <a class="nav-link" asp-action="Collect">文章收藏</a>
                                 <a class="nav-link" asp-action="Log">個人日誌</a>
-                                <a class="nav-link" asp-action="Friends">好友圈</a>
+                                <a class="nav-link " href="/Personal/Friends?ownerid=@user&status=Friends">好友圈</a>
                                 <a class="nav-link" asp-controller="Setting" asp-action="Setting">會員資訊</a>
                             </div>
                         </div>
@@ -65,14 +67,72 @@
                         </div>
                         <div class="container mt-3">
                             <div class="btn-group ms-2">
-                                <a href="#" class="btn btn-primary active" id="btn-friends" aria-current="page">好友</a>
-                             
-                                <a href="#" class="btn btn-primary" id="btn-pending">待確認</a>
-                                <a href="#" class="btn btn-primary" id="btn-following">追蹤</a>
-                                <a href="#" class="btn btn-primary" id="btn-followers">追蹤者</a>
+                                <a href="/Personal/Friends?ownerid=@user&status=Friends" class="btn btn-primary active" id="btn-friends">好友</a>
+
+                                <a href="/Personal/Friends?ownerid=@user&status=Requests" class="btn btn-primary" id="btn-pending">待確認</a>
+                                <a href="/Personal/Friends?ownerid=@user&status=Followings" class="btn btn-primary" id="btn-following">追蹤</a>
+                                <a href="/Personal/Friends?ownerid=@user&status=Followers" class="btn btn-primary" id="btn-followers">追蹤者</a>
                             </div>
                             <input type="text" class="form-control m-2" placeholder="🔍 搜尋好友">
-                            <div id="friendContainer" class="friend-list"></div>
+                            <div id="friendContainer" class="friend-list justify-content-between">
+
+                                @if(Model.friends != null && Model.friends.Any()){
+                                    if (Model.status == "Followers" || Model.status == "Requests")
+                                    {
+                                        @foreach (var friend in Model.friends)
+                                        {
+                                            var Friendsinfo = Model.viewuser.FirstOrDefault(f => f.UserId == friend.PersonAid);
+                                            <div class="friend-item  align-items-center  justify-content-between p-2 border-bottom d-flex justify-content-between">
+                                                <div class=" mt-2 ">
+                                                    <a href="/Personal/Personal?ownerid=@friend.PersonAid" class="m-2" style="text-decoration:none">
+                                                        <img src="@(Friendsinfo.PhotoUrl ?? "/img/Login/headphoto.jpg")" width="50" height="50" class="rounded-circle">
+                                                    </a>
+                                                    <span class="m-2">@Friendsinfo.Nickname</span>
+
+                                                </div>
+                                                @if (Model.status == "Requests")
+                                                {
+                                                    <div>
+                                                        <a href="/Personal/AcceptFriend?requestId=@friend.PersonAid" class="btn btn-success btn-sm">接受</a>
+                                                        <a href="/Personal/RejectFriend?requestId=@friend.PersonAid" class="btn btn-danger btn-sm">拒絕</a>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <button class="btn btn-danger btn-sm ">刪除</button>
+                                                }
+                                                
+                                            </div>
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @foreach (var friend in Model.friends)
+                                        {
+                                            var Friendsinfo = Model.viewuser.FirstOrDefault(f => f.UserId == friend.PersonBid);
+                                            <div class="friend-item  align-items-center  justify-content-between p-2 border-bottom d-flex justify-content-between">
+                                                <div class=" mt-2 ">
+                                                    <a href="/Personal/Personal?ownerid=@friend.PersonBid" class="m-2" style="text-decoration:none">
+                                                        <img src="@(Friendsinfo.PhotoUrl ?? "/img/Login/headphoto.jpg")" width="50" height="50" class="rounded-circle">
+                                                    </a>
+                                                    <span class="m-2">@Friendsinfo.Nickname</span>
+
+                                                </div>
+                                                <button class="btn btn-danger btn-sm ">刪除</button>
+                                            </div>
+
+                                        }
+                                    }
+                                    
+
+                                }
+                                else
+                                {
+                                    <p class="text-muted">無好友</p>
+                                }
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -83,10 +143,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <div>
-                                    <img src="btn_base.png" class="d-block mx-auto">
-                                    <p class="mt-2"><strong>帳號:</strong></p>
-                                    <p><strong>暱稱:</strong></p>
-                                    <p><strong>好友數:</strong></p>
+                                    <img src="@(Model.owner.PhotoUrl ?? "/img/Login/headphoto.jpg")" class="rounded-circle" height="50" width="50">
+                                    <p class="mt-2"><strong>帳號:</strong> @Model.owner.UserId</p>
+                                    <p><strong>暱稱:</strong> @Model.owner.Nickname</p>
+                                    <p><strong>好友數:</strong> @Model.friends.Count</p>
                                 </div>
                                 <!-- 這邊放置右側卡片內容 -->
                             </div>
@@ -107,7 +167,7 @@
             const buttons = document.querySelectorAll(".btn-group .btn")
             buttons.forEach(button => {
                 button.addEventListener("click", function (event) {
-                    event.preventDefault(); // 防止跳轉
+                    // 防止跳轉
 
                     // 先移除所有按鈕的 active
                     buttons.forEach(btn => {
