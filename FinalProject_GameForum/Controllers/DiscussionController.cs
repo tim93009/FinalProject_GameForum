@@ -8,7 +8,7 @@ namespace FinalProject_GameForum.Controllers
     public class DiscussionController : Controller
     {
         private readonly GameForumContext _context;
-        private const int PageSize = 1; // 每頁顯示文章數量
+        private const int PageSize = 5; // 每頁顯示文章數量
 
         public DiscussionController(GameForumContext context)
         {
@@ -38,19 +38,28 @@ namespace FinalProject_GameForum.Controllers
             return View(discussions.ToList());
         }
 
+
         // 討論區首頁
         public IActionResult DisHome(int id)
         {
             var discussion = _context.Discussions
                 .FirstOrDefault(d => d.DiscussionId == id);
-
             if (discussion == null)
             {
                 return NotFound();  // 如果沒有這個看板，回傳 404
             }
 
-            return View(discussion);  // 傳遞 Discussion 模型到 View
+            // 查詢該看板下 Views 最高的 3 筆文章（依 ArticleGroup 計算）
+            var hotArticles = _context.ArticleGroups
+                .Where(ag => ag.DiscussionId == id && !string.IsNullOrEmpty(ag.ArticleTitle))
+                .OrderByDescending(ag => ag.Views ?? 0)
+                .Take(3)
+                .ToList();
+            ViewBag.HotArticles = hotArticles;
+
+            return View(discussion);
         }
+
 
         // 加載文章列表（按看板ID）
         public IActionResult LoadArticleList(int discussionId, string? category, string? search, int page = 1)
