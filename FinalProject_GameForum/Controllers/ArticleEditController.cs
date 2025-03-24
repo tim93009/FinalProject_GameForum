@@ -8,6 +8,7 @@ using System.Security.Claims;
 
 namespace FinalProject_GameForum.Controllers
 {
+    [Authorize]
     public class ArticleEditController : Controller
     {
         private readonly GameForumContext _context;
@@ -19,7 +20,6 @@ namespace FinalProject_GameForum.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Index(int? id)
         {
             var articleGroup = await _context.Discussions
@@ -35,7 +35,6 @@ namespace FinalProject_GameForum.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Reply(int? articleGroupId)
         {
             var articleGroup = await _context.ArticleGroups

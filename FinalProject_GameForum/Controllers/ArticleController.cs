@@ -1,4 +1,5 @@
-﻿using FinalProject_GameForum.Models;
+﻿using System.Security.Claims;
+using FinalProject_GameForum.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,7 @@ namespace FinalProject_GameForum.Controllers
     public class ArticleController : Controller
     {
         private readonly GameForumContext _context;
+        private string userId => User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty; // 取得登入使用者 ID
 
         public ArticleController(GameForumContext context)
         {
@@ -26,6 +28,30 @@ namespace FinalProject_GameForum.Controllers
 
             ViewBag.ArticleGroupId = id;
             return View(articles);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MessageSubmit(string messageContent, int articleId)
+        {
+            var articleLocation = await _context.Articles
+            .FirstOrDefaultAsync(a => a.ArticleId == articleId);
+            
+
+            var message = new ArticleMessage()
+            {
+                UserId = userId,
+                ArticleId = articleId,
+                MessageContent = messageContent,
+                EditDate = DateTime.Now,
+            };
+
+            // 存入資料庫
+            _context.ArticleMessages.Add(message);
+            await _context.SaveChangesAsync();
+
+            // 重定向到該文章群組的頁面（假設有個顯示頁面）
+            return RedirectToAction("Index", "Article");
         }
     }
 }
