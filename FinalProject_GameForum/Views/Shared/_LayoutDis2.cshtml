@@ -87,3 +87,22 @@
 		});
 	});
 </script>
+
+@section Scripts {
+	<script>
+		window.onload = function () {
+			const urlParams = new URLSearchParams(window.location.search);
+			const trigger = urlParams.get("trigger");
+			if (trigger === "article-list") {
+				const articleListBtn = document.getElementById("article-list-btn");
+				if (articleListBtn) {
+					articleListBtn.click();
+				}
+			}
+		};
+
+		document.getElementById("article-list-btn")?.addEventListener("click", function () {
+			console.log("Article list button clicked!");
+		});
+	</script>
+}
