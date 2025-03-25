@@ -20,7 +20,7 @@
 					foreach (var hot in ViewBag.HotArticles)
 					{
 						<li>
-							<h5>【@hot.Category】@hot.ArticleTitle</h5>
+							<h5><b>【@hot.Category】@hot.ArticleTitle</b></h5>
 							<h6>
 								...<a href="@Url.Action("Index", "Article", new { id = hot.ArticleGroupId })">繼續閱讀</a>
 							</h6>
