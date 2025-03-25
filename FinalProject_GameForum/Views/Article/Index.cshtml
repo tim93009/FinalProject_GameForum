@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<FinalProject_GameForum.Models.Article>
 @{
 	Layout = "_LayoutArticle";
-	int floor = 1;
+	int floor = (ViewBag.Page - 1) * ViewBag.PageSize + 1;
 	ViewBag.DiscussionId = Model.FirstOrDefault()?.ArticleGroup?.DiscussionId;
 }
 

@@ -84,6 +84,7 @@ namespace FinalProject_GameForum.Controllers
 
             ViewBag.ArticleGroupId = id;
             ViewBag.RelatedArticles = relatedArticles;
+            ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
             ViewBag.TotalPages = totalPages;
 
