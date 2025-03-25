@@ -1,22 +1,7 @@
-﻿/* 整體樣式 */
-.section {
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 8px;
-}
-
-.bg-warning {
-    background-color: #fff3cd;
-}
-
-.bg-info {
-    background-color: #cce5ff;
-}
-
-h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
+﻿.container {
+    width: 100%;
+    height: auto;
+    margin-top: 100px;
 }
 
 /* 商品卡片滑動區 */
@@ -101,18 +86,6 @@ h2 {
     border-radius: 10px;
 }
 
-/* 價格區域 */
-.products-price-area {
-    margin: 10px 0;
-}
-
-.products-price {
-    font-size: 16px;
-    color: #dc3545;
-    font-weight: bold;
-    margin: 0;
-}
-
 /* 購買按鈕 */
 .btn-buy-now {
     display: block;
@@ -133,13 +106,7 @@ h2 {
         color: white;
     }
 
-/* 無紀錄提示 */
-.section p {
-    text-align: center;
-    color: #666;
-    font-size: 16px;
-    padding: 20px;
-}
+
 
 /* 響應式設計 */
 @media (max-width: 768px) {

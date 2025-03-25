@@ -9,9 +9,9 @@
 @model Product
 
 <!-- 商品資訊 -->
-<div class="row g-0">
+<div class="row g-0 bg-white">
     <div class="col-sm-4">
-        <div class="section bg-success">
+        <div class="section bg-white">
             @* 商品主要圖片 *@
             <a href="" class="detail-img-block">
                 <span class="img-color-ns">@(Model.ProductCategory?.Category ?? "NS")</span>
@@ -68,7 +68,7 @@
         </div>
     </div>
     <div class="col-sm-8">
-        <div class="section bg-black">
+        <div class="section bg-white">
             @* 商品補充圖片 *@
             <a href="" class="detail-img-block">
                 <span class="img-color-ns">@(Model.ProductCategory?.Category ?? "NS")</span>
@@ -86,8 +86,10 @@
     </div>
 </div>
 
+<br />
+
 <!-- 相關商品 -->
-<div class="section bg-warning">
+<div class="section bg-white">
     <h2>相關商品</h2>
     <div class="products-card-scroll">
         <div class="products-card-control">
@@ -115,8 +117,10 @@
     </div>
 </div>
 
+<br />
+
 <!-- 瀏覽紀錄 -->
-<div class="section bg-info">
+<div class="section bg-white">
     <h2>瀏覽紀錄</h2>
     <div class="products-card-scroll">
         <div class="products-card-control">

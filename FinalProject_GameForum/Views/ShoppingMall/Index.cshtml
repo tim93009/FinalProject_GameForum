@@ -10,14 +10,12 @@
 
 <div class="row g-0">
 	<div class="col-sm-12">
-		@* 商品輪播圖 *@
 		<!-- 區塊 1 -->
 		<div class="section bg-white">
-			@* 輪播圖 *@
 			<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-				@* 指示器 *@
+				<!-- 指示器 -->
 				<div class="carousel-indicators">
-					@for (int i = 0; i < Math.Min(Model.Products.OrderByDescending(p => p.Sold ?? 0).Take(5).Count(), 5); i++)
+					@for (int i = 0; i < Math.Ceiling(Model.Products.OrderByDescending(p => p.Sold ?? 0).Take(9).Count() / 3.0); i++)
 					{
 						<button type="button" data-bs-target="#carouselExampleIndicators"
 								data-bs-slide-to="@i"
@@ -26,25 +24,32 @@
 								aria-label="Slide @(i + 1)"></button>
 					}
 				</div>
-				@* 圖片 *@
+				<!-- 圖片 -->
 				<div class="carousel-inner">
 					@{
-						var carouselProducts = Model.Products.OrderByDescending(p => p.Sold ?? 0).Take(5).ToList();
-						for (int i = 0; i < carouselProducts.Count; i++)
+						var carouselProducts = Model.Products.OrderByDescending(p => p.Sold ?? 0).Take(9).ToList(); // 取9張
+						for (int i = 0; i < carouselProducts.Count; i += 3) // 每次顯示3張
 						{
-							var product = carouselProducts[i];
 							<div class="carousel-item @(i == 0 ? "active" : "")">
-								<a asp-controller="Product" asp-action="Index" asp-route-productId="@product.ProductId">
-									<img src="@product.MainImageUrl"
-										 class="d-block w-100"
-										 style="object-fit: contain; height: 40vh;"
-										 alt="@product.ProductName">
-								</a>
+								<div class="row">
+									@for (int j = i; j < Math.Min(i + 3, carouselProducts.Count); j++)
+									{
+										var product = carouselProducts[j];
+										<div class="col-4">
+											<a asp-controller="Product" asp-action="Index" asp-route-productId="@product.ProductId">
+												<img src="@product.MainImageUrl"
+													 class="d-block w-100"
+													 style="object-fit: contain; height: 40vh;"
+													 alt="@product.ProductName">
+											</a>
+										</div>
+									}
+								</div>
 							</div>
 						}
 					}
 				</div>
-				@* 前後按鈕 *@
+				<!-- 前後按鈕 -->
 				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
 					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 					<span class="visually-hidden">Previous</span>

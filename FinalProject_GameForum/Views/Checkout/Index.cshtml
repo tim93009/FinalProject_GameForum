@@ -8,11 +8,11 @@
 
 @model List<FinalProject_GameForum.Models.ShoppingCart>
 
-<form id="checkoutForm" method="post" asp-action="SubmitOrder" asp-controller="Checkout">
+<form id="checkoutForm" method="post" asp-action="SubmitOrder" asp-controller="Checkout">    
     <div class="row g-0">
         <div class="col-sm-12">
             @* 訂單明細 *@
-            <div class="section bg-success">
+            <div class="section bg-white">
                 <div class="checkout-products-info-area">
                     <h2>訂單明細</h2>
                     <div class="products-detail-main-block order-detail">
@@ -119,7 +119,7 @@
             <br />
 
             @* 收件人資訊 *@
-            <div class="section bg-danger">
+            <div class="section">
                 <div class="checkout-products-recipient-area">
                     <h2>收件人資訊</h2>
                     <span id="js-recipients-edit"></span>
