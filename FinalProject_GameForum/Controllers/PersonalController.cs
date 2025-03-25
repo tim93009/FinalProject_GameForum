@@ -69,6 +69,15 @@ namespace FinalProject_GameForum.Controllers
 
             var friends = _context.Relationships.Where(x => (x.PersonAid == ownerid || x.PersonBid == ownerid) && x.RelationshipType == "Accepted").ToList();
 
+            // **檢查是否已經是好友**
+            bool isFriend = _context.Relationships.Any(x =>
+                (x.PersonAid == currentUserId && x.PersonBid == ownerid ||
+                 x.PersonBid == currentUserId && x.PersonAid == ownerid) &&
+                x.RelationshipType == "Accepted");
+
+            // **檢查是否已經送出請求**
+            bool IsFollow = _context.Relationships.Any(x =>
+                x.PersonAid == currentUserId && x.PersonBid == ownerid && x.RelationshipType == "Following");
 
 
             var viewuserinfo = visitors.Select(x =>
@@ -88,7 +97,9 @@ namespace FinalProject_GameForum.Controllers
                 owner = ownerinfo,
                 visitors = visitors,
                 viewuser = viewuserinfo,
-                friends = friends
+                friends = friends,
+                Isfriend = isFriend,
+                IsFollow = IsFollow
 
             };
 
@@ -254,7 +265,66 @@ namespace FinalProject_GameForum.Controllers
 
         public IActionResult AddFriend(string requestid)
         {
-            return View();
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+            //當前使用者id
+            var ownerid =  this.GetUserInfo(_context).UserId;
+            var TrueRequest = _context.Relationships.FirstOrDefault(x => x.PersonAid == ownerid 
+                && x.PersonBid == requestid 
+                && x.RelationshipType == "Accepted" 
+                || x.RelationshipType == "Request");
+            if(TrueRequest == null)
+            {
+                var NewRequest = new Relationship
+                {
+                    PersonAid = ownerid,
+                    PersonBid = requestid,
+                    RelationshipType = "Request"
+                };
+
+                _context.Relationships.Add(NewRequest);
+                _context.SaveChanges();
+            }
+            else
+            {
+                TempData["Error"] = "已經送出過好友請求";
+            }
+
+
+                return RedirectToAction("Personal", new { ownerid = requestid });
+        }
+        public IActionResult AddFollow(string requestid)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+            //當前使用者id
+            var ownerid = this.GetUserInfo(_context).UserId;
+            var TrueRequest = _context.Relationships.FirstOrDefault(x => x.PersonAid == ownerid
+                && x.PersonBid == requestid
+                && x.RelationshipType == "Following");
+            if (TrueRequest == null)
+            {
+                var NewRequest = new Relationship
+                {
+                    PersonAid = ownerid,
+                    PersonBid = requestid,
+                    RelationshipType = "Following"
+                };
+
+                _context.Relationships.Add(NewRequest);
+                _context.SaveChanges();
+            }
+            else
+            {
+                TempData["Error"] = "正在追蹤";
+            }
+
+
+            return RedirectToAction("Personal", new { ownerid = requestid });
         }
     }
 }
