@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using FinalProject_GameForum.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,13 +32,14 @@ namespace FinalProject_GameForum.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> MessageSubmit(string messageContent, int articleId)
+        public async Task<IActionResult> MessageSubmit(string messageContent, int articleId, int articleGroupId)
         {
-            var articleLocation = await _context.Articles
+            Article? articleLocation = await _context.Articles
             .FirstOrDefaultAsync(a => a.ArticleId == articleId);
-            
 
+            // 創建留言
             var message = new ArticleMessage()
             {
                 UserId = userId,
@@ -50,8 +52,8 @@ namespace FinalProject_GameForum.Controllers
             _context.ArticleMessages.Add(message);
             await _context.SaveChangesAsync();
 
-            // 重定向到該文章群組的頁面（假設有個顯示頁面）
-            return RedirectToAction("Index", "Article");
+            // 重定向到該文章群組的頁面
+            return RedirectToAction("Index", "Article", new { id = articleGroupId });
         }
     }
 }
