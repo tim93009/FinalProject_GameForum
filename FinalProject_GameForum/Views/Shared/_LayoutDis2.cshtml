@@ -4,14 +4,12 @@
 @section ExtraNavbar{
 	<nav class="extra-navbar">
 		<div class="container-fluid">
-			<div>
-				<ul>
-					<li><a href="/Discussion/Index">討論區</a></li>
-					<li><a href="/Discussion/DisHome/@Model.DiscussionId">看板首頁</a></li>
-					<li><a href="#" id="article-list-btn">文章列表</a></li>
-					@* <li><a href="#">板規</a></li> *@
-				</ul>
-			</div>
+			<ul>
+				<li><a href="/Discussion/Index">討論區</a></li>
+				<li><a href="/Discussion/DisHome/@Model.DiscussionId">看板首頁</a></li>
+				<li><a href="#" id="article-list-btn">文章列表</a></li>
+				<li><a href="#">板規</a></li>
+			</ul>
 			<div class="search-container" style="flex: 1; display: flex; justify-content: center;">
 				<form class="search" id="searchForm" action="#" method="get">
 					<input type="text" id="searchInput" placeholder="搜尋文章標題" name="search">
