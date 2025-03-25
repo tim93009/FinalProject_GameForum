@@ -3,7 +3,7 @@
 }
 .container-fluid {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-evenly;
     align-items: center;
     background-color: blue;
 }
@@ -49,4 +49,16 @@ form.search button {
     border-left: none; /* Prevent double borders */
     cursor: pointer;
     margin-left: -51px;
+}
+.search-container {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    margin-left:10%;
+}
+.btn-container {
+    margin-right: 20%;
+}
+.btn-container button{
+    margin-right:20px;
 }
