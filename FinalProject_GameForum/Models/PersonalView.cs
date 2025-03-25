@@ -12,7 +12,8 @@
 
         public string? status { get; set; }
 
+        public bool Isfriend { get; set; }
+        public bool IsFollow { get; set; }   
 
-       
     }
 }
