@@ -8,15 +8,17 @@
 				<li><a href="/Discussion/Index">討論區</a></li>
 				<li><a href="/Discussion/DisHome/@Model.DiscussionId">看板首頁</a></li>
 				<li><a href="#" id="article-list-btn">文章列表</a></li>
-				<li><a href="#">板規</a></li>
+				@* <li><a href="#">板規</a></li> *@
 			</ul>
-			<div class="search-container" style="flex: 1; display: flex; justify-content: center;">
+			<div class="search-container">
 				<form class="search" id="searchForm" action="#" method="get">
 					<input type="text" id="searchInput" placeholder="搜尋文章標題" name="search">
 					<button type="submit"><i class="fa fa-search"></i></button>
 				</form>
-				@* <button class="btn btn-primary" style="margin-left:300px;" data-check-login data-target-url="#">訂閱</button> *@
-				<button class="btn btn-primary" style="margin-left:20px;" data-check-login data-target-url="/ArticleEdit/Index/@Model.DiscussionId">發文</button>
+			</div>
+			<div class="btn-container">
+				@* <button class="btn btn-primary" data-check-login data-target-url="#">訂閱</button> *@
+				<button class="btn btn-primary" data-check-login data-target-url="/ArticleEdit/Index/@Model.DiscussionId">發文</button>
 			</div>
 		</div>
 	</nav>
@@ -87,3 +89,22 @@
 		});
 	});
 </script>
+
+@section Scripts {
+	<script>
+		window.onload = function () {
+			const urlParams = new URLSearchParams(window.location.search);
+			const trigger = urlParams.get("trigger");
+			if (trigger === "article-list") {
+				const articleListBtn = document.getElementById("article-list-btn");
+				if (articleListBtn) {
+					articleListBtn.click();
+				}
+			}
+		};
+
+		document.getElementById("article-list-btn")?.addEventListener("click", function () {
+			console.log("Article list button clicked!");
+		});
+	</script>
+}
