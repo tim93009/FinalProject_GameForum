@@ -1,7 +1,7 @@
 ﻿.container {
     width: 100%;
     height: auto;
-    margin-top: 200px;
+    margin-top: 150px;
 }
 .rank-row {
     display: flex;
@@ -337,4 +337,6 @@
     color: white; /* 保持文字白色 */
     text-decoration: none; /* 確保懸停時無下劃線 */
 }
+
+
 

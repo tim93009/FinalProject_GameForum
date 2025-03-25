@@ -12,7 +12,7 @@
 	<div class="col-sm-12">
 		@* 商品輪播圖 *@
 		<!-- 區塊 1 -->
-		<div class="section bg-primary text-white">
+		<div class="section bg-white">
 			@* 輪播圖 *@
 			<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 				@* 指示器 *@
@@ -37,7 +37,7 @@
 								<a asp-controller="Product" asp-action="Index" asp-route-productId="@product.ProductId">
 									<img src="@product.MainImageUrl"
 										 class="d-block w-100"
-										 style="object-fit: contain; height: 20vh;"
+										 style="object-fit: contain; height: 40vh;"
 										 alt="@product.ProductName">
 								</a>
 							</div>
@@ -60,11 +60,11 @@
 </div>
 
 
-<div class="row g-0">
+<div class="row g-0 bg-white">
 	<div class="col-sm-10">
 		@* 排行榜 *@
 		<!-- 區塊 2 -->
-		<div class="section bg-success">
+		<div class="section bg-white">
 			<h2>商城排行榜</h2>
 			<!-- 整體排行榜容器 -->
 			<div class="rank-list">
@@ -125,7 +125,7 @@
 
 		@* 商品區 *@
 		<!-- 區塊 3 -->
-		<div class="section bg-danger">
+		<div class="section bg-white">
 			<h2>實體商品</h2>			
 
 			<div class="products-card-scroll">
@@ -175,14 +175,14 @@
 	</div>
 
 	@* 廣告側邊欄 *@
-	<div class="col-sm-2 bg-warning">
+	<div class="col-sm-2 bg-white">
 		<div class="sidebar">
 			<h3>廣告</h3>
 			@foreach (var ad in Model.Advertisements)
 			{
 				<a href="@ad.HyperUrl" target="_blank">
 					<img src="@ad.ImageUrl"
-						 class="d-block w-100 mb-3"
+						 class="d-block w-100 mb-5"
 						 style="object-fit: contain; height: 100px;"
 						 alt="@ad.AdvertisementName">
 				</a>
