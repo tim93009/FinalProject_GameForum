@@ -5,7 +5,7 @@
     margin-bottom:100px;
 }
 h2 {
-    margin-top:120px;
+    margin-top:60px;
     color: forestgreen;
     text-transform: uppercase;
     text-align: center;
@@ -14,21 +14,23 @@ h2 {
 
 /* 側邊選單 */
 .list-group {
-    margin-top:5%;
+    margin-top: 5%;
     float: left;
     border-radius: 5px;
+    width: 130px;
 }
 .list-group-item {
     background-color: bisque;
     font-weight:bold;
 }
-
-
+.list-group a img {
+    width: 25px;
+}
 /* 最新消息 */
 .news-container {
-    margin-left: 160px;
+    margin:50px 140px 0 160px;
     padding: 20px;
-    margin-right: 40px
+    background-color: white;
 }
 
 .newsList {
@@ -45,14 +47,21 @@ h2 {
     text-align: center;
     overflow: hidden;
 }
-
+    .News:hover h6 a {
+        text-decoration: underline;
+        color: blue;
+    }
     .News img {
         width: 220px;
         height: 220px;
         object-fit: cover;
         border-radius: 8px;
     }
-
+        .News img:hover {
+            transform: scale(1.1);
+            transition: all 0.3s
+        }
+         
     .News h6 {
         font-size: 16px;
         margin-top: 15px;
@@ -62,6 +71,8 @@ h2 {
             text-decoration: none;
             color: black;
         }
+
+
 /* 廣告 */
 .ad-container{
     position:fixed;
@@ -81,34 +92,51 @@ h2 {
     line-height: 200px;
     font-size: 48px;
 }
-
-/* 熱門商品 */
-.products-wrapper {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
-    padding: 10px;
+.ad img:hover{
+    opacity:0.6;
 }
 
-.share-products-card {
-    text-decoration: none;
-    color: inherit;
-    width: 200px; /* 固定卡片寬度，圖片和標籤將適應此寬度 */
-    flex-shrink: 0;
+/* 熱門商品 */
+.shop-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    background-color: white;
+    margin-top: 40px;
+}
+
+.shop-card {
+    display: flex;
+    gap: 20px;
+    padding: 0 10px;
+}
+
+.shop-card-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 70%;
     text-align: center;
 }
 
-.products-card-block {
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch; /* 確保子元素拉伸填滿寬度 */
+.shop-card-block a{
+    color:black;
+    text-decoration:none;
+}
+.shop-card-block:hover h6 a{
+    color:blue;
+    text-decoration: underline;
 }
 
+
 .share-products-img {
-    width: 100%;
-    height: auto;
-    display: block;
+    width: 200px;
+    height: 250px;
+    object-fit: cover;
 }
 
 .img-color-NS {
@@ -133,11 +161,11 @@ h2 {
     text-align: center; /* 文字居中 */
 }
 
-.products-name-content {
-    font-size: 14px;
-    margin: 0;
-    white-space: normal;
+.shop-card-block h6 {
+    font-size: 16px;
+    margin-top: 15px;
 }
+
 
 /* 熱門看板 */
 .discussion-container {
@@ -161,14 +189,21 @@ h2 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width:45%;
     text-align:center;
-
 }
+.discussion-card a{
+    color:black;
+    text-decoration:none;
+}
+.discussion-card:hover h6 a {
+    color:blue;
+    text-decoration: underline;
+}
+
 .discussion-card  img{
-    margin:70px 0 0 70px;
-    width:80%;
+    margin-top:30px;
+    width:90%;
 }
 .discussion-card h6{
-    color:red;
     font-size:20px;
     margin-top:10px;
 }

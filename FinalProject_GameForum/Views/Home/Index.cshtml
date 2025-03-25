@@ -3,115 +3,86 @@
 @{
     ViewBag.Title = "Home Page";
 }
-
 <!--側邊選單-->
 <h2>最新消息</h2>
+<div class="side-menu">
+    <div class="list-group">
+        <a href="/News/Index" class="list-group-item list-group-item-action">
+            <img src="~/img/layout/newspaper.png" alt="新聞區">
+            <span>新聞區</span>
+        </a>
+        <a href="/Discussion/Index" class="list-group-item list-group-item-action">
+            <img src="~/img/layout/discussion.png" alt="討論區">
+            <span>討論區</span>
+        </a>
+        <a href="/ShoppingMall/Index" class="list-group-item list-group-item-action">
+            <img src="~/img/layout/shop.png" alt="商城">
+            <span>商城</span>
+        </a>
+        <a href="/CustomerServiceIssues/Index" class="list-group-item list-group-item-action">
+            <img src="~/img/layout/request.png" alt="客服中心">
+            <span>客服中心</span>
+        </a>
+        @if (User.Identity!.IsAuthenticated)
+        {
+            <a href="/Setting/Permissions" class="list-group-item list-group-item-action">
+                <img src="~/img/layout/configuration.png"  alt="設置">
+                <span>設置</span>
+            </a>
+        }
 
-<div class="home-container">
-    <div class="side-menu">
-        <div class="list-group " style="width:130px;" >
-            <a href="/News/Index" class="list-group-item list-group-item-action">
-                <img src="~/img/layout/newspaper.png" style="width:25px" alt="新聞區">
-                <span>新聞區</span>
-            </a>
-            <a href="/Discussion/Index" class="list-group-item list-group-item-action">
-                <img src="~/img/layout/discussion.png" style="width:25px" alt="討論區">
-                <span>討論區</span>
-            </a>
-            <a href="/ShoppingMall/Index" class="list-group-item list-group-item-action">
-                <img src="~/img/layout/shop.png" style="width:25px" alt="商城">
-                <span>商城</span>
-            </a>
-            <a href="/CustomerServiceIssues/Index" class="list-group-item list-group-item-action">
-                <img src="~/img/layout/request.png" style="width:25px" alt="客服中心">
-                <span>客服中心</span>
-            </a>
-            @if (User.Identity!.IsAuthenticated)
-            {
-                <a href="/Setting/Permissions" class="list-group-item list-group-item-action">
-                    <img src="~/img/layout/configuration.png" style="width:25px" alt="設置">
-                    <span>設置</span>
+    </div>
+</div>
+@* 熱門新聞 *@
+
+<div class="news-container">
+
+    <div class="newsList">
+        @foreach (var news in ViewBag.news) {
+            <div class="News">
+                <a href="@Url.Action("News", "News", new { id = news.NewsId })">
+                    <img src="@news.ImageUrl" alt="" />
                 </a>
-            }
-
-        </div>
+                <h6><a href=" @Url.Action("News", "News", new { id = news.NewsId })">
+                        @news.NewsTitle</a></h6>
+            </div>
+        }
     </div>
-    @* 熱門新聞 *@
+</div>
 
-    <div class="news-container">
-
-        <div class="newsList">
-            @foreach (var news in ViewBag.news) {
-                <div class="News">
-                    <a href="@Url.Action("News", "News", new { id = news.NewsId })">
-                        <img src="@news.ImageUrl" alt="MHN Image" style="width:220px;height:220px" />
-                    </a>
-                    <h6><a href=" @Url.Action("News", "News", new { id = news.NewsId })">
-                            @news.NewsTitle</a></h6>
-                </div>
-            }
+@* 廣告 *@
+<div class="ad-container">
+    @foreach (var ad in ViewBag.ad)
+    {
+        <div class="ad" data-product-id ="@ad.ProductId">
+            <a href="@Url.Action("Index", "Product", new { productId = ad.ProductId })" alt="" title="@ad.ProductName">
+                <img src="@ad.MainImageUrl" />
+            </a>
         </div>
-    </div>
-
-    @* 廣告 *@
-    <div class="ad-container">
-        <div class="ad">
-            <a href="/Product/Index" alt"廣告"><img src="~/img/product/17de292a8fb7805796cf99d3001p39z5.jpg" /></a>
-        </div>
-        <div class="ad">
-            <a href="/ShoppingMall/Index" alt"廣告"><img src="~/img/Home/ad01.jpg" /></a>
-        </div>
-    </div>
+    }
+</div>
 
     @* 熱門商品 *@
-    <div class="section">
         <h2>熱門商品</h2>
-        <a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">商品連結</a>
-
-        <div class="scroll-container">
-            <div class="products-wrapper">
-                <a href="https://buy.gamer.com.tw/atmItem.php?sn=38422" class="share-products-card">
-                    <div class="products-card-block">
+        <div class="shop-container">
+            <div class="shop-card">
+            @foreach (var product in ViewBag.product) 
+            {
+                <div class="shop-card-block">
                         <span class="img-color-NS">NS</span>
-                        <img src="https://p2.bahamut.com.tw/B/2KU/12/a886730ae8958241f1d73731b41sshs5.JPG" alt="" class="share-products-img">
-                    </div>
-                    <p class="products-name-content">《符文工廠 龍之天地》中日英文版（附贈預購特典）</p>
-                </a>
-
-                <a href="https://buy.gamer.com.tw/atmItem.php?sn=37750" class="share-products-card">
-                    <div class="products-card-block">
-                        <span class="img-color-NS">NS</span>
-                        <img src="https://p2.bahamut.com.tw/B/2KU/78/737dd50ad7f40513e81ff4d1041s05e5.JPG" alt="" class="share-products-img">
-                    </div>
-                    <p class="products-name-content">《異度神劍 X 終極版》中日英文版（附贈預購特典）</p>
-                </a>
-
-                <a href="https://buy.gamer.com.tw/atmItem.php?sn=38471" class="share-products-card">
-                    <div class="products-card-block">
-                        <span class="img-color-PS5">PlayStation5</span>
-                        <img src="https://p2.bahamut.com.tw/B/2KU/06/acdaeb3cd25442dc8d50f686ee1sxnq5.JPG" alt="" class="share-products-img">
-                    </div>
-                    <p class="products-name-content">《空之軌跡 the 1st》中文一般版</p>
-                </a>
-
-                <a href="https://buy.gamer.com.tw/atmItem.php?sn=38472" class="share-products-card">
-                    <div class="products-card-block">
-                        <span class="img-color-NS">NS</span>
-                        <img src="https://p2.bahamut.com.tw/B/2KU/09/6495aab10dab517b9483a4f9621sxnt5.JPG" alt="" class="share-products-img">
-                    </div>
-                    <p class="products-name-content">《空之軌跡 the 1st》中文一般版</p>
-                </a>
-
-                <a href="https://buy.gamer.com.tw/atmItem.php?sn=38575" class="share-products-card">
-                    <div class="products-card-block">
-                        <span class="img-color-PS5">PlayStation5</span>
-                        <img src="https://p2.bahamut.com.tw/B/2KU/41/5f92d783d47a3962df60d85aeb1t5k15.JPG" alt="" class="share-products-img">
-                    </div>
-                    <p class="products-name-content">《潛龍諜影 Delta：食蛇者》中文一般版（附贈預購特典）</p>
-                </a>
+                    <a href="@Url.Action("Index", "Product", new { productId = product.ProductId })">
+                        <img src="@product.MainImageUrl" alt="" class="share-products-img">
+                    </a>
+                    <h6>
+                    <a href="@Url.Action("Index", "Product", new { productId = product.ProductId })">
+                        @product.ProductName
+                    </a>
+                    </h6>
+                </div>                
+            }
             </div>
         </div>
-    </div>
+
 
     @* 熱門看板 *@
     <h2>熱門看板</h2>
@@ -120,14 +91,19 @@
         @foreach (var dis in ViewBag.dis) 
         {
             <div class="discussion-card">
-                <a href="@Url.Action("Discussion", "Index", new { id = dis.DiscussionId })">
+            <a href="@Url.Action("DisHome", "Discussion", new { id = dis.DiscussionId })">
                     <img src="~/img/@(dis.ImageUrl ?? "default.jpg")" />
                 </a>
-                <h6> <a href="@Url.Action("Discussion", "Index", new { id = dis.DiscussionId })">
+            <h6>
+                <a href="@Url.Action("DisHome", "Discussion", new { id = dis.DiscussionId })">
                         @dis.DiscussionName</a></h6>
             </div>
         }
     </div>
-</div>
 
 
+<script src="~/js/Home/Home.js"></script>
+<script>
+    window.getRandomAdUrl = '@Url.Action("GetRandomAD", "Home")';
+    window.productIndexUrl = '@Url.Action("Index", "Product")';
+</script>
