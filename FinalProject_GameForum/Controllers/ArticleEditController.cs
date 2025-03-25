@@ -134,7 +134,7 @@ namespace FinalProject_GameForum.Controllers
                 ArticleContent = articleContent,
                 PostDate = DateTime.Now,
                 EditDate = null,
-                Status = "存活",
+                Status = "存在",
                 ArticleGroupId = articleGroup.ArticleGroupId // 這裡使用自動產生的 ArticleGroupId
             };
 

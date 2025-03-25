@@ -8,8 +8,8 @@
 			<div class="col-lg-2"></div>
 			<div class="col-lg-8">
 				<div class="title-content">
-					<a class="m-3" asp-action="Index" asp-controller="Discussion">版面</a>
-					<a class="m-3" asp-action="Index" asp-controller="Discussion">文章列表</a>
+					<a class="m-3" href="@Url.Action("Index", "Discussion")">看版</a>
+					<a class="m-3" href="@Url.Action("DisHome", "Discussion", new { id = ViewBag.DiscussionId, trigger = "article-list" })">文章列表</a>
 				</div>
 			</div>
 			<div class="row col-lg-2">
@@ -37,20 +37,12 @@
 
 	<div class="selectFloor">
 		<p>前往樓層</p>
-		<input type="number" placeholder="?樓" style="width:50px;" />
+	<input type="number" id="floorInput" min="1" placeholder="?樓" style="width:50px;" />
 	</div>
-
-
-	<footer class="border-top footer text-muted">
-		<div class="container">
-			&copy; 2025 - FinalProject_GameForum - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-		</div>
-	</footer>
 
 	<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="/Views/Shared/_Layout.cshtml.js" asp-append-version="true"></script>
-	<script src="~/js/articleEdit/SafeArticle.js" asp-append-version="true"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>	
+	<script src="~/js/article/article.js" asp-append-version="true"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
