@@ -21,10 +21,18 @@ namespace FinalProject_GameForum.Controllers
 		public IActionResult Index()
         {
             var newsList = _context.News
-				.OrderBy(n => n.NewsId)
+                .OrderByDescending(n => n.EditDate)
 				.Take(6)
 				.ToList();
-			return View(newsList);
+
+            var views = _context.Discussions
+                .OrderByDescending(v => v.Views)
+                .Take(6)
+                .ToList();
+
+            ViewBag.news = newsList;
+            ViewBag.dis = views;
+            return View(views);
         }
 
         public IActionResult Privacy()

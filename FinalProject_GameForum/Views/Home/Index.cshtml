@@ -33,7 +33,7 @@
                     <span>設置</span>
                 </a>
             }
-            
+
         </div>
     </div>
     @* 熱門新聞 *@
@@ -41,25 +41,25 @@
     <div class="news-container">
 
         <div class="newsList">
-            @foreach (var news in Model) {
+            @foreach (var news in ViewBag.news) {
                 <div class="News">
                     <a href="@Url.Action("News", "News", new { id = news.NewsId })">
                         <img src="@news.ImageUrl" alt="MHN Image" style="width:220px;height:220px" />
                     </a>
                     <h6><a href=" @Url.Action("News", "News", new { id = news.NewsId })">
-                        @news.NewsTitle</a></h6>
-            </div>
+                            @news.NewsTitle</a></h6>
+                </div>
             }
         </div>
     </div>
-    
+
     @* 廣告 *@
     <div class="ad-container">
         <div class="ad">
-			<a href="/Product/Index" alt"廣告"><img src="~/img/product/17de292a8fb7805796cf99d3001p39z5.jpg" /></a>
+            <a href="/Product/Index" alt"廣告"><img src="~/img/product/17de292a8fb7805796cf99d3001p39z5.jpg" /></a>
         </div>
         <div class="ad">
-			<a href="/ShoppingMall/Index" alt"廣告"><img src="~/img/Home/ad01.jpg" /></a>
+            <a href="/ShoppingMall/Index" alt"廣告"><img src="~/img/Home/ad01.jpg" /></a>
         </div>
     </div>
 
@@ -117,30 +117,16 @@
     <h2>熱門看板</h2>
 
     <div class="discussion-container">
-        <div class="discussion-card">
-		    <a href="/Discussion/DisHome"><img src="~/img/home/test.jpg" /></a>
-            <h6>魔物獵人 - 系列</h6>
-        </div>
-        <div class="discussion-card">
-            <a href=""><img src="~/img/home/test02.jpg" /></a>
-            <h6>崩壞：星穹鐵道</h6>
-        </div>
-        <div class="discussion-card">
-            <a href=""><img src="~/img/home/test03.jpg" /></a>
-            <h6>新楓之谷</h6>
-        </div>
-        <div class="discussion-card">
-            <a href=""><img src="~/img/home/test04.jpg" /></a>
-            <h6>神魔之塔</h6>
-        </div>
-        <div class="discussion-card">
-            <a href=""><img src="~/img/home/test05.jpg" /></a>
-            <h6>貓咪大戰爭</h6>
-        </div>
-        <div class="discussion-card">
-            <a href=""><img src="~/img/home/test06.jpg" /></a>
-            <h6>英雄聯盟</h6>
-        </div>
+        @foreach (var dis in ViewBag.dis) 
+        {
+            <div class="discussion-card">
+                <a href="@Url.Action("Discussion", "Index", new { id = dis.DiscussionId })">
+                    <img src="~/img/@(dis.ImageUrl ?? "default.jpg")" />
+                </a>
+                <h6> <a href="@Url.Action("Discussion", "Index", new { id = dis.DiscussionId })">
+                        @dis.DiscussionName</a></h6>
+            </div>
+        }
     </div>
 </div>
 
