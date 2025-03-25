@@ -17,7 +17,7 @@ namespace FinalProject_GameForum.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int id)
+        public IActionResult Index(int id, int page = 1, int pageSize = 1)
         {
             // 查詢當前文章群組
             ArticleGroup? currentArticleGroup = _context.ArticleGroups
@@ -29,14 +29,23 @@ namespace FinalProject_GameForum.Controllers
                 return NotFound();
             }
 
-            // 查詢當前文章群組的文章
+            // 計算總數
+            int totalArticles = _context.Articles.Count(a => a.ArticleGroupId == id);
+
+            // 查詢當前文章群組的文章（分頁處理）
             List<Article> articles = _context.Articles
-           .Include(a => a.ArticleGroup)
-           .Include(a => a.User)
-           .Include(a => a.ArticleMessages)
-               .ThenInclude(am => am.User)
-           .Where(a => a.ArticleGroupId == id)
-           .ToList();
+                .Include(a => a.ArticleGroup)
+                .Include(a => a.User)
+                .Include(a => a.ArticleMessages)
+                    .ThenInclude(am => am.User)
+                .Where(a => a.ArticleGroupId == id)
+                .OrderBy(a => a.PostDate)
+                .Skip((page - 1) * pageSize) // 跳過前面 (page-1) * pageSize 篇文章
+                .Take(pageSize) // 取 pageSize 篇文章
+                .ToList();
+
+            // 計算總頁數
+            int totalPages = (int)Math.Ceiling(totalArticles / (double)pageSize);
 
             // 查詢同看板同類別的其他文章（延伸閱讀）
             var relatedArticles = _context.Articles
@@ -75,6 +84,9 @@ namespace FinalProject_GameForum.Controllers
 
             ViewBag.ArticleGroupId = id;
             ViewBag.RelatedArticles = relatedArticles;
+            ViewBag.Page = page;
+            ViewBag.TotalPages = totalPages;
+
             return View(articles);
         }
 
