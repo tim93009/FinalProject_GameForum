@@ -28,6 +28,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 {
     //未登入時自動移轉到此網址
     option.LoginPath = new PathString("/Home/Index");
+    option.ExpireTimeSpan = TimeSpan.FromDays(1);
+    option.SlidingExpiration = true;
 }).AddFacebook(options =>
 {
     options.ClientId = "610374368493483";

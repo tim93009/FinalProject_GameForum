@@ -57,7 +57,7 @@ namespace FinalProject_GameForum.Controllers
                 .OrderByDescending(x => x.VisitTime)
                 .ToList();
 
-            var friends = _context.Relationships.Where(x => x.PersonAid == ownerid && x.RelationshipType == "Accepted").ToList();
+            var friends = _context.Relationships.Where(x => (x.PersonAid == ownerid || x.PersonBid == ownerid) && x.RelationshipType == "Accepted").ToList();
 
 
 
@@ -93,6 +93,7 @@ namespace FinalProject_GameForum.Controllers
         {
             return View();
         }
+        //CRUD好友
         public IActionResult Friends(string ownerid, string status)
         {
 
@@ -158,7 +159,7 @@ namespace FinalProject_GameForum.Controllers
             {
                 FriendBInfo = friends.Select(x =>
                 {
-                    var user = _context.Users.Find(x.PersonBid);
+                    var user = _context.Users.Find(ownerid == x.PersonBid ? x.PersonAid : x.PersonBid);
                     return new User
                     {
                         UserId = user.UserId,
@@ -167,11 +168,6 @@ namespace FinalProject_GameForum.Controllers
                     };
                 }).ToList();
             }
-
-
-
-
-
 
             var viewModel = new PersonalView
             {
@@ -184,12 +180,62 @@ namespace FinalProject_GameForum.Controllers
             };
 
             return View(viewModel);
+        }
 
-
-
-
-
-
+      
+        public IActionResult AcceptFriend(string requestid)
+        {
+            var FriendRequest = _context.Relationships.FirstOrDefault(x => x.PersonAid == requestid && x.RelationshipType == "Request");
+            if (FriendRequest != null && FriendRequest.RelationshipType == "Request")
+            {
+                FriendRequest.PersonAid = FriendRequest.PersonBid;
+                FriendRequest.PersonBid = requestid;
+               FriendRequest.RelationshipType = "Accepted";
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Friends", new { ownerid = this.GetUserInfo(_context).UserId, status = "Requests" });
+        }
+        public IActionResult RemoveFriend(string requestid)
+        {
+            var FriendRequest = _context.Relationships.FirstOrDefault(x => x.PersonAid == requestid && x.RelationshipType == "Request");
+            if (FriendRequest != null && FriendRequest.RelationshipType == "Request")
+            {
+                _context.Relationships.Remove(FriendRequest);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Friends", new { ownerid = this.GetUserInfo(_context).UserId, status = "Requests" });
+        }
+        public IActionResult DeleteFriend(string requestid,string status )
+        {
+            if(status == "Friends")
+            {
+                var friend = _context.Relationships.FirstOrDefault(x => x.PersonBid == requestid && x.RelationshipType == "Accepted");
+                if(friend != null)
+                {
+                    _context.Relationships.Remove(friend);
+                    _context.SaveChanges();
+                    return RedirectToAction("Friends", new { ownerid = this.GetUserInfo(_context).UserId, status = "Accepted" });
+                }
+            }else if (status == "Followers")
+            {
+                var follower = _context.Relationships.FirstOrDefault(x => x.PersonAid == requestid && x.RelationshipType == "Following");
+                if(follower != null)
+                {
+                    _context.Relationships.Remove(follower);
+                    _context.SaveChanges();
+                    return RedirectToAction("Friends", new { ownerid = this.GetUserInfo(_context).UserId, status = "Followers" });
+                }
+            }else if (status == "Followings")
+            {
+                var following = _context.Relationships.FirstOrDefault(x => x.PersonBid == requestid && x.RelationshipType == "Following");
+                if (following != null)
+                {
+                    _context.Relationships.Remove(following);
+                    _context.SaveChanges();
+                    return RedirectToAction("Friends", new { ownerid = this.GetUserInfo(_context).UserId, status = "Followings" });
+                }
+            }
+            return RedirectToAction("Friends", new { ownerid = this.GetUserInfo(_context).UserId, status = "Accepted" });
 
         }
     }

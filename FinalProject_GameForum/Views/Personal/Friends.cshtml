@@ -81,6 +81,9 @@
                                     {
                                         @foreach (var friend in Model.friends)
                                         {
+
+
+
                                             var Friendsinfo = Model.viewuser.FirstOrDefault(f => f.UserId == friend.PersonAid);
                                             <div class="friend-item  align-items-center  justify-content-between p-2 border-bottom d-flex justify-content-between">
                                                 <div class=" mt-2 ">
@@ -94,32 +97,49 @@
                                                 {
                                                     <div>
                                                         <a href="/Personal/AcceptFriend?requestId=@friend.PersonAid" class="btn btn-success btn-sm">接受</a>
-                                                        <a href="/Personal/RejectFriend?requestId=@friend.PersonAid" class="btn btn-danger btn-sm">拒絕</a>
+                                                        <a href="/Personal/RemoveFriend?requestId=@friend.PersonAid" class="btn btn-danger btn-sm">拒絕</a>
                                                     </div>
                                                 }
+                                                //Followers
                                                 else
                                                 {
-                                                    <button class="btn btn-danger btn-sm ">刪除</button>
+                                                    <a href="/Personal/DeleteFriend?requestId=@friend.PersonAid&status=@Model.status" class="btn btn-danger btn-sm">刪除</a>
                                                 }
-                                                
+
                                             </div>
 
                                         }
                                     }
+                                    //Accept,Following
                                     else
                                     {
                                         @foreach (var friend in Model.friends)
                                         {
-                                            var Friendsinfo = Model.viewuser.FirstOrDefault(f => f.UserId == friend.PersonBid);
+                                            var friendid = (friend.PersonAid == Model.owner.UserId) ? friend.PersonBid : friend.PersonAid;
+
+                                            // 明確判斷應該從哪個欄位抓取 Friendsinfo
+                                            User? Friendsinfo = null;
+                                            if (friendid == friend.PersonAid)
+                                            {
+                                                Friendsinfo = Model.viewuser?.FirstOrDefault(f => f.UserId == friend.PersonAid);
+                                            }
+                                            else
+                                            {
+                                                Friendsinfo = Model.viewuser?.FirstOrDefault(f => f.UserId == friend.PersonBid);
+                                            }
+
+                                            // 如果 Friendsinfo 仍然是 null，則回傳 owner 作為後備方案
+                                            Friendsinfo ??= Model.owner;
+                                             
                                             <div class="friend-item  align-items-center  justify-content-between p-2 border-bottom d-flex justify-content-between">
                                                 <div class=" mt-2 ">
-                                                    <a href="/Personal/Personal?ownerid=@friend.PersonBid" class="m-2" style="text-decoration:none">
+                                                    <a href="/Personal/Personal?ownerid=@friendid" class="m-2" style="text-decoration:none">
                                                         <img src="@(Friendsinfo.PhotoUrl ?? "/img/Login/headphoto.jpg")" width="50" height="50" class="rounded-circle">
                                                     </a>
                                                     <span class="m-2">@Friendsinfo.Nickname</span>
 
                                                 </div>
-                                                <button class="btn btn-danger btn-sm ">刪除</button>
+                                                <a href="/Personal/DeleteFriend?requestId=@friendid&status=@Model.status" class="btn btn-danger btn-sm">刪除</a>
                                             </div>
 
                                         }
@@ -146,7 +166,7 @@
                                     <img src="@(Model.owner.PhotoUrl ?? "/img/Login/headphoto.jpg")" class="rounded-circle" height="50" width="50">
                                     <p class="mt-2"><strong>帳號:</strong> @Model.owner.UserId</p>
                                     <p><strong>暱稱:</strong> @Model.owner.Nickname</p>
-                                    <p><strong>好友數:</strong> @Model.friends.Count</p>
+                     
                                 </div>
                                 <!-- 這邊放置右側卡片內容 -->
                             </div>
@@ -180,6 +200,8 @@
                     this.setAttribute("aria-current", "page");
                 });
             });
+
+               
         </script>
 </body>
 
