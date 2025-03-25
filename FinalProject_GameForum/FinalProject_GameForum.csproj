@@ -16,6 +16,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\img\Home\" />
     <Folder Include="wwwroot\img\share\" />
+    <Folder Include="wwwroot\tempcontent\" />
   </ItemGroup>
 
   <ItemGroup>

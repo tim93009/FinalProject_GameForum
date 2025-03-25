@@ -17,17 +17,76 @@ namespace FinalProject_GameForum.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int id)
+        public IActionResult Index(int id, int page = 1, int pageSize = 1)
         {
+            // 查詢當前文章群組
+            ArticleGroup? currentArticleGroup = _context.ArticleGroups
+            .Include(ag => ag.Articles)
+            .FirstOrDefault(ag => ag.ArticleGroupId == id);
+
+            if (currentArticleGroup == null)
+            {
+                return NotFound();
+            }
+
+            // 計算總數
+            int totalArticles = _context.Articles.Count(a => a.ArticleGroupId == id);
+
+            // 查詢當前文章群組的文章（分頁處理）
             List<Article> articles = _context.Articles
-           .Include(a => a.ArticleGroup)
-           .Include(a => a.User)
-           .Include(a => a.ArticleMessages)
-               .ThenInclude(m => m.User)
-           .Where(a => a.ArticleGroupId == id)
-           .ToList();
+                .Include(a => a.ArticleGroup)
+                .Include(a => a.User)
+                .Include(a => a.ArticleMessages)
+                    .ThenInclude(am => am.User)
+                .Where(a => a.ArticleGroupId == id)
+                .OrderBy(a => a.PostDate)
+                .Skip((page - 1) * pageSize) // 跳過前面 (page-1) * pageSize 篇文章
+                .Take(pageSize) // 取 pageSize 篇文章
+                .ToList();
+
+            // 計算總頁數
+            int totalPages = (int)Math.Ceiling(totalArticles / (double)pageSize);
+
+            // 查詢同看板同類別的其他文章（延伸閱讀）
+            var relatedArticles = _context.Articles
+                .Where(a => a.ArticleGroup!.DiscussionId == currentArticleGroup.DiscussionId
+                         && a.ArticleGroup.Category == currentArticleGroup.Category
+                         && a.ArticleGroupId != id) // 排除當前文章群組
+                .Take(4) // 限制為 4 篇
+                .Select(a => new
+                {
+                    a.ArticleGroupId,
+                    Title = a.ArticleGroup!.ArticleTitle,
+                    Image = a.ArticleGroup.CoverImage != null
+                        ? $"data:image/jpeg;base64,{Convert.ToBase64String(a.ArticleGroup.CoverImage)}"
+                        : null
+                })
+                .ToList();
+
+            // 不足四篇的情況 
+            if (relatedArticles.Count < 4)
+            {
+                var additionalArticles = _context.Articles
+                    .Where(a => a.ArticleGroup!.DiscussionId == currentArticleGroup.DiscussionId
+                             && a.ArticleGroupId != id)
+                    .Take(4 - relatedArticles.Count)
+                    .Select(a => new
+                    {
+                        a.ArticleGroupId,
+                        Title = a.ArticleGroup!.ArticleTitle,
+                        Image = a.ArticleGroup.CoverImage != null 
+                        ? $"data:image/jpeg;base64,{Convert.ToBase64String(a.ArticleGroup.CoverImage)}" 
+                        : null
+                    })
+                    .ToList();
+                relatedArticles.AddRange(additionalArticles);
+            }
 
             ViewBag.ArticleGroupId = id;
+            ViewBag.RelatedArticles = relatedArticles;
+            ViewBag.Page = page;
+            ViewBag.TotalPages = totalPages;
+
             return View(articles);
         }
 
@@ -38,6 +97,11 @@ namespace FinalProject_GameForum.Controllers
         {
             Article? articleLocation = await _context.Articles
             .FirstOrDefaultAsync(a => a.ArticleId == articleId);
+
+            if (articleLocation == null)
+            {
+                return NotFound();
+            }
 
             // 創建留言
             var message = new ArticleMessage()
