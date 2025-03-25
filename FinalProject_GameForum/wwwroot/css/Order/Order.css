@@ -1,10 +1,11 @@
 ﻿body {
 }
+
 .container {
     width: 100%;
     height: auto;
-    margin-top: 200px;
 }
+
 .order-container {
     width: 100%;
     min-height: 600px;
@@ -26,7 +27,7 @@
 }
 
 .row {
-   padding-top:3%;
+    padding-top: 3%;
     align-items: center;
 }
 
@@ -108,5 +109,3 @@
         .order-table td:nth-child(9) {
             width: 8%; /* 操作 */
         }
-
-
