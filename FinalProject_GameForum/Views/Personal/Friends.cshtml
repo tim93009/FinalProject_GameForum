@@ -68,9 +68,12 @@
                         <div class="container mt-3">
                             <div class="btn-group ms-2">
                                 <a href="/Personal/Friends?ownerid=@user&status=Friends" class="btn btn-primary active" id="btn-friends">好友</a>
+                                @if (Model.Isowner)
+                                {
+                                    <a href="/Personal/Friends?ownerid=@user&status=Requests" class="btn btn-primary" id="btn-pending">待確認</a>
+                                    <a href="/Personal/Friends?ownerid=@user&status=Followings" class="btn btn-primary" id="btn-following">追蹤</a>
+                                }
 
-                                <a href="/Personal/Friends?ownerid=@user&status=Requests" class="btn btn-primary" id="btn-pending">待確認</a>
-                                <a href="/Personal/Friends?ownerid=@user&status=Followings" class="btn btn-primary" id="btn-following">追蹤</a>
                                 <a href="/Personal/Friends?ownerid=@user&status=Followers" class="btn btn-primary" id="btn-followers">追蹤者</a>
                             </div>
                             <input type="text" class="form-control m-2" placeholder="🔍 搜尋好友">
@@ -130,7 +133,7 @@
 
                                             // 如果 Friendsinfo 仍然是 null，則回傳 owner 作為後備方案
                                             Friendsinfo ??= Model.owner;
-                                             
+
                                             <div class="friend-item  align-items-center  justify-content-between p-2 border-bottom d-flex justify-content-between">
                                                 <div class=" mt-2 ">
                                                     <a href="/Personal/Personal?ownerid=@friendid" class="m-2" style="text-decoration:none">
@@ -144,7 +147,7 @@
 
                                         }
                                     }
-                                    
+
 
                                 }
                                 else
@@ -166,16 +169,24 @@
                                     <img src="@(Model.owner.PhotoUrl ?? "/img/Login/headphoto.jpg")" class="rounded-circle" height="50" width="50">
                                     <p class="mt-2"><strong>帳號:</strong> @Model.owner.UserId</p>
                                     <p><strong>暱稱:</strong> @Model.owner.Nickname</p>
-                     
+
                                 </div>
                                 <!-- 這邊放置右側卡片內容 -->
                             </div>
                         </div>
                         <div class="mt-3 ms-4">
-                            <button class="me-4 btn btn-success btn-sm"> 追蹤</button>
-                            <button class="btn btn-success btn-sm"> 加好友</button>
-                            <button class="me-4 mt-2 btn btn-success btn-sm"> 私訊</button>
-                            <button class=" mt-2 btn btn-success btn-sm"> 留言板</button>
+                            @if (Model.Isowner)
+                            {
+                                <a href="/Personal/Friends?ownerid=@user&status=Followings" class="btn btn-success" id="btn-following">追蹤管理</a>
+                                <a href="/Personal/Friends?ownerid=@user&status=Friends" class="btn btn-success active" id="btn-friends">好友圈</a>
+                            }
+                            else
+                            {
+                                <button class="me-4 btn btn-success btn-sm"> 追蹤</button>
+                                <button class="btn btn-success btn-sm"> 加好友</button>
+                            }
+                           
+                   
                         </div>
                     </div>
                 </div>

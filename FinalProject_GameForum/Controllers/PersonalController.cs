@@ -15,6 +15,16 @@ namespace FinalProject_GameForum.Controllers
 
         public async Task<IActionResult> Personal(string ownerid)
         {
+            string? currentUserId = null;
+            bool isOwner = false;
+
+            if (User.Identity.IsAuthenticated) // 確保使用者有登入
+            {
+                currentUserId = this.GetUserInfo(_context).UserId; // 取得目前登入使用者的 ID
+                isOwner = (currentUserId == ownerid); // 判斷是否為本人的頁面
+            }
+
+
             if (string.IsNullOrEmpty(ownerid) && User.Identity!.IsAuthenticated)
             {
                 ownerid = this.GetUserInfo(_context).UserId;
@@ -74,6 +84,7 @@ namespace FinalProject_GameForum.Controllers
 
             var viewinfo = new PersonalView
             {
+                Isowner = isOwner,
                 owner = ownerinfo,
                 visitors = visitors,
                 viewuser = viewuserinfo,
@@ -106,14 +117,14 @@ namespace FinalProject_GameForum.Controllers
                 currentUserId = this.GetUserInfo(_context).UserId; // 取得目前登入使用者的 ID
                 isOwner = (currentUserId == ownerid); // 判斷是否為本人的頁面
             }
-
+            //尋找擁有者id
             var ownerinfo = _context.Users.Find(ownerid);
             if (ownerinfo == null)
             {
                 return NotFound("找不到使用者");
             }
 
-
+            //創一個清單存放好友狀態是哪個就抓哪個
             List<Relationship> friends = new List<Relationship>();
 
             switch (status)
@@ -139,7 +150,7 @@ namespace FinalProject_GameForum.Controllers
                         .ToList();
                     break;
             }
-
+            //若狀態擁有者是被動的狀態就將對方的資料存入清單
             List<User> FriendBInfo = new List<User>();
 
             if (status == "Followers" || status == "Requests")
@@ -182,7 +193,7 @@ namespace FinalProject_GameForum.Controllers
             return View(viewModel);
         }
 
-      
+      //接受好友
         public IActionResult AcceptFriend(string requestid)
         {
             var FriendRequest = _context.Relationships.FirstOrDefault(x => x.PersonAid == requestid && x.RelationshipType == "Request");
@@ -195,6 +206,7 @@ namespace FinalProject_GameForum.Controllers
             }
             return RedirectToAction("Friends", new { ownerid = this.GetUserInfo(_context).UserId, status = "Requests" });
         }
+        // 拒絕請求當好友
         public IActionResult RemoveFriend(string requestid)
         {
             var FriendRequest = _context.Relationships.FirstOrDefault(x => x.PersonAid == requestid && x.RelationshipType == "Request");
@@ -205,6 +217,7 @@ namespace FinalProject_GameForum.Controllers
             }
             return RedirectToAction("Friends", new { ownerid = this.GetUserInfo(_context).UserId, status = "Requests" });
         }
+        //移除接受、追蹤、被追蹤的好友
         public IActionResult DeleteFriend(string requestid,string status )
         {
             if(status == "Friends")
@@ -237,6 +250,11 @@ namespace FinalProject_GameForum.Controllers
             }
             return RedirectToAction("Friends", new { ownerid = this.GetUserInfo(_context).UserId, status = "Accepted" });
 
+        }
+
+        public IActionResult AddFriend(string requestid)
+        {
+            return View();
         }
     }
 }

@@ -4,6 +4,7 @@ using FinalProject_GameForum.Hubs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using FinalProject_GameForum.Filters;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +29,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 {
     //未登入時自動移轉到此網址
     option.LoginPath = new PathString("/Home/Index");
-    option.ExpireTimeSpan = TimeSpan.FromDays(1);
+    option.ExpireTimeSpan = TimeSpan.FromDays(1); // 僅在 IsPersistent=true 時生效
     option.SlidingExpiration = true;
+    option.Cookie.SameSite = SameSiteMode.Strict;
+
+
 }).AddFacebook(options =>
 {
     options.ClientId = "610374368493483";

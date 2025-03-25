@@ -35,7 +35,7 @@
 							var userid = User.Claims.FirstOrDefault(u => u.Type == "UserID")?.Value;
 
 						}
-						<a href="/Personal/Personal" style="text-decoration:none" ><img src="@photourl" width="50" height="50" style="border-radius:50%"> </a>
+						<a href="/Personal/Personal?ownerid=@userid" style="text-decoration:none" ><img src="@photourl" width="50" height="50" style="border-radius:50%"> </a>
 						<!--登入註冊-->
 						@if (User.Identity!.IsAuthenticated)
 						{
