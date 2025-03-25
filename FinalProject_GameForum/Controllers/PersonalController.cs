@@ -107,13 +107,83 @@ namespace FinalProject_GameForum.Controllers
 
             return View(viewinfo);
         }
-        public IActionResult Collect()
+        public IActionResult Collect(string ownerid)
         {
-            return View();
+            string? currentUserId = null;
+            bool isOwner = false;
+
+            if (User.Identity.IsAuthenticated) // 確保使用者有登入
+            {
+                currentUserId = this.GetUserInfo(_context).UserId; // 取得目前登入使用者的 ID
+                isOwner = (currentUserId == ownerid); // 判斷是否為本人的頁面
+            }
+
+            var ownerinfo = _context.Users.Find(ownerid);
+            if (ownerinfo == null)
+            {
+                return NotFound("找不到使用者");
+            }
+            var friends = _context.Relationships.Where(x => (x.PersonAid == ownerid || x.PersonBid == ownerid) && x.RelationshipType == "Accepted").ToList();
+
+            // **檢查是否已經是好友**
+            bool isFriend = _context.Relationships.Any(x =>
+                (x.PersonAid == currentUserId && x.PersonBid == ownerid ||
+                 x.PersonBid == currentUserId && x.PersonAid == ownerid) &&
+                x.RelationshipType == "Accepted");
+
+            // **檢查是否已經送出請求**
+            bool IsFollow = _context.Relationships.Any(x =>
+                x.PersonAid == currentUserId && x.PersonBid == ownerid && x.RelationshipType == "Following");
+            var viewinfo = new PersonalView
+            {
+                Isowner = isOwner,
+                owner = ownerinfo,
+                friends = friends,
+                Isfriend = isFriend,
+                IsFollow = IsFollow
+
+            };
+
+            return View(viewinfo);
         }
-        public IActionResult Log()
+        public IActionResult Log(string ownerid)
         {
-            return View();
+            string? currentUserId = null;
+            bool isOwner = false;
+
+            if (User.Identity.IsAuthenticated) // 確保使用者有登入
+            {
+                currentUserId = this.GetUserInfo(_context).UserId; // 取得目前登入使用者的 ID
+                isOwner = (currentUserId == ownerid); // 判斷是否為本人的頁面
+            }
+
+            var ownerinfo = _context.Users.Find(ownerid);
+            if (ownerinfo == null)
+            {
+                return NotFound("找不到使用者");
+            }
+            var friends = _context.Relationships.Where(x => (x.PersonAid == ownerid || x.PersonBid == ownerid) && x.RelationshipType == "Accepted").ToList();
+
+            // **檢查是否已經是好友**
+            bool isFriend = _context.Relationships.Any(x =>
+                (x.PersonAid == currentUserId && x.PersonBid == ownerid ||
+                 x.PersonBid == currentUserId && x.PersonAid == ownerid) &&
+                x.RelationshipType == "Accepted");
+
+            // **檢查是否已經送出請求**
+            bool IsFollow = _context.Relationships.Any(x =>
+                x.PersonAid == currentUserId && x.PersonBid == ownerid && x.RelationshipType == "Following");
+            var viewinfo = new PersonalView
+            {
+                Isowner = isOwner,
+                owner = ownerinfo,
+                friends = friends,
+                Isfriend = isFriend,
+                IsFollow = IsFollow
+
+            };
+
+            return View(viewinfo);
         }
         //CRUD好友
         public IActionResult Friends(string ownerid, string status)
@@ -191,13 +261,26 @@ namespace FinalProject_GameForum.Controllers
                 }).ToList();
             }
 
+
+            // **檢查是否已經是好友**
+            bool isFriend = _context.Relationships.Any(x =>
+                (x.PersonAid == currentUserId && x.PersonBid == ownerid ||
+                 x.PersonBid == currentUserId && x.PersonAid == ownerid) &&
+                x.RelationshipType == "Accepted");
+
+            // **檢查是否已經送出請求**
+            bool IsFollow = _context.Relationships.Any(x =>
+                x.PersonAid == currentUserId && x.PersonBid == ownerid && x.RelationshipType == "Following");
+
             var viewModel = new PersonalView
             {
                 owner = ownerinfo,
                 viewuser = FriendBInfo,
                 Isowner = isOwner,
                 friends = friends,
-                status = status
+                status = status,
+                Isfriend = isFriend,
+                IsFollow = IsFollow
 
             };
 
