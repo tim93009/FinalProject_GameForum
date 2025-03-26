@@ -1,4 +1,5 @@
 ﻿@model FaqData
+@await Html.PartialAsync("_ErrorModal")
 
 <h1 class="text-center m-3">客服問題</h1>
 <!-- 帳號問題 -->
@@ -56,7 +57,8 @@
 
 		<div class="mb-3">
 			<label for="questionDescription" class="form-label">描述您的問題</label>
-			<textarea class="form-control" name="questionDescription" rows="3" required></textarea>
+			<textarea class="form-control" name="questionDescription" rows="5" maxlength="250" required 
+				style="resize: none; overflow-y: hidden;"></textarea>
 		</div>
 
 		<div class="mb-3">

@@ -36,6 +36,15 @@ namespace FinalProject_GameForum.Controllers
         {
             byte[]? imageData = null;
 
+            var checkUserId = _context.Users
+                .FirstOrDefault(u => u.UserId == userId);
+
+            if (checkUserId == null)
+            {
+                TempData["ErrorMessage"] = "查無此用戶 ID，請重新輸入。";
+                return RedirectToAction("Index");
+            }
+
             if (image != null && image.Length > 0)
             {
                 using (MemoryStream memoryStream = new MemoryStream())
