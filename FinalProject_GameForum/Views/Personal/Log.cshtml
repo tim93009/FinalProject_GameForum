@@ -10,26 +10,26 @@
 
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"></script>
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+    crossorigin="anonymous"></script>
     <style>
         table, td, th {
-            border: 1px solid gainsboro;
-            height: 50px;
+        border: 1px solid gainsboro;
+        height: 50px;
         }
 
-            td:first-child {
-                text-align: center;
-            }
+        td:first-child {
+        text-align: center;
+        }
 
-            td:last-child {
-                text-align: center;
-            }
+        td:last-child {
+        text-align: center;
+        }
 
         th {
-            text-align: center
+        text-align: center
         }
     </style>
     <link rel="stylesheet" href="~/css/Personal/Personal.css" asp-append-version="true" />
@@ -65,12 +65,30 @@
                                 <th>標題</th>
                                 <th>發表時間</th>
                             </tr>
+                           
+                            @if (Model.Isowner)
+                            {
                             <tr>
                                 <td>1</td>
                                 <td><a href="#" class="Log">【問題】同樣情境(演算、選題)，手動能過，自動應該能過啊，是AI太弱還是要自動玩家加好加滿？</a></td>
-
-                                <td>2025-03-11</td>
+                                <td>2025-02-11</td>
                             </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><a href="#" class="Log">【閒聊】【純閒聊】這套遺器終將迎來真正的主人</a></td>
+                                <td>2025-03-01</td>
+                            </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                <td>1</td>
+                                <td><a href="#" class="Log">【心得】鳴潮 任務道具&紀念品一覽｜持續更新</a></td>
+                                <td>2025-01-28</td>
+                                </tr>
+                            }
+                               
+                            
                         </table>
                     </div>
                 </div>
