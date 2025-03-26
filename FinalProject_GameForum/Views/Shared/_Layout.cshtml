@@ -19,7 +19,7 @@
 				</a>
 
 				<!-- 搜索列 -->
-				<div class="search-container" >
+				<div class="search-container">
 					<form class="search" action="">
 						<input type="text" placeholder="Searching.." name="search">
 						<button type="submit"><i class="fa fa-search"></i></button>
@@ -35,7 +35,7 @@
 							var userid = User.Claims.FirstOrDefault(u => u.Type == "UserID")?.Value;
 
 						}
-						<a href="/Personal/Personal?ownerid=@userid" style="text-decoration:none" ><img src="@photourl" width="50" height="50" style="border-radius:50%"> </a>
+						<a href="/Personal/Personal?ownerid=@userid" style="text-decoration:none"><img src="@photourl" width="50" height="50" style="border-radius:50%"> </a>
 						<!--登入註冊-->
 						@if (User.Identity!.IsAuthenticated)
 						{
@@ -81,13 +81,13 @@
 							<a href="/CustomerServiceIssues/Index"><img src="~/img/Layout/request.png" alt="圖片4"></a>
 							<p>客服中心</p>
 						</li>
-						
+
 						<li class="image-text-item">
 							<a href="/Setting/Setting"><img src="~/img/Layout/configuration.png" alt="圖片5"></a>
 							<p>設置</p>
 						</li>
-						
-						
+
+
 					</ul>
 				</div>
 			</div>
@@ -110,11 +110,14 @@
 		</a>
 	</div>
 
-	<footer class="footer text-muted">
-		<div class="container">
-			&copy; 2025 - FinalProject_GameForum - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-		</div>
-	</footer>
+	@if (!(ViewData["HideFooter"] as bool? ?? false))
+	{
+		<footer class="footer text-muted">
+			<div class="container">
+				&copy; 2025 - FinalProject_GameForum - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+			</div>
+		</footer>
+	}
 
 	<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
