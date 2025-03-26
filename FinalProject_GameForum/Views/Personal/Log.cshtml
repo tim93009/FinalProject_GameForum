@@ -2,7 +2,9 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    var user = Model.owner.UserId;
 }
+@model PersonalView
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,10 +47,10 @@
 
                         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                             <div class="navbar-nav">
-                                <a class="nav-link active" aria-current="page" asp-action="Personal">個人首頁</a>
-                                <a class="nav-link" asp-action="Collect">文章收藏</a>
-                                <a class="nav-link" asp-action="Log">個人日誌</a>
-                                <a class="nav-link" asp-action="Friends">好友圈</a>
+                                <a class="nav-link active" href="/Personal/Personal?ownerid=@user">個人首頁</a>
+                                <a class="nav-link" href="/Personal/Collect?ownerid=@user">文章收藏</a>
+                                <a class="nav-link" href="/Personal/Log?ownerid=@user">個人日誌</a>
+                                <a class="nav-link" href="/Personal/Friends?ownerid=@user&status=Friends">好友圈</a>
                                 <a class="nav-link" asp-controller="Setting" asp-action="Setting">會員資訊</a>
                             </div>
                         </div>
@@ -67,7 +69,7 @@
                             </tr>
                             <tr>
                                 <td>1</td>
-                                <td>《夢幻龍族》最快明年 2 月在台封測 感受 Q 版龍族魅力</td>
+                                <td>【問題】同樣情境(演算、選題)，手動能過，自動應該能過啊，是AI太弱還是要自動玩家加好加滿？</td>
 
                                 <td>2025-03-11</td>
                             </tr>
@@ -80,20 +82,47 @@
                     <div class="row">
                         <div class="card">
                             <div class="card-body">
-                                <div>
-                                    <img src="btn_base.png" class="d-block mx-auto">
-                                    <p class="mt-2"><strong>帳號:</strong></p>
-                                    <p><strong>暱稱:</strong></p>
-                                    <p><strong>好友數:</strong></p>
+                                <div >
+                                    <img src="@(Model.owner.PhotoUrl ?? "/img/Login/headphoto.jpg")" class="rounded-circle" height="50px" width="50px">
+                                    <p class="mt-2"><strong>帳號:</strong> @user</p>
+                                    <p><strong>暱稱:</strong> @Model.owner.Nickname</p>
+                                    <p><strong>好友數:</strong> @Model.friends.Count</p>
                                 </div>
                                 <!-- 這邊放置右側卡片內容 -->
                             </div>
                         </div>
                         <div class="mt-3 ms-4">
-                            <button class="me-4 btn btn-success btn-sm"> 追蹤</button>
-                            <button class="btn btn-success btn-sm"> 加好友</button>
-                            <button class="me-4 mt-2 btn btn-success btn-sm"> 私訊</button>
-                            <button class=" mt-2 btn btn-success btn-sm"> 留言板</button>
+                            @if (Model.Isowner)
+                            {
+                                <a href="/Personal/Friends?ownerid=@user&status=Followings" class="btn btn-success" id="btn-following">追蹤管理</a>
+                                <a href="/Personal/Friends?ownerid=@user&status=Friends" class="btn btn-success active" id="btn-friends">好友圈</a>
+                            }
+                            else
+                            {
+                                if (Model.Isfriend)
+                                {
+                                    <button class="btn btn-success btn-sm" disabled> 已是好友</button>
+                                }
+                                else
+                                {
+                                    <a href="/Personal/AddFriend?requestid=@user" class="me-4 btn btn-success btn-sm">加好友</a>
+                                }
+
+
+                                if (Model.IsFollow)
+                                {
+                                    <button class="me-4 btn btn-success btn-sm" disabled> 已追蹤</button>
+                                }
+                                else
+                                {
+                                    <a href="/Personal/AddFollow?requestid=@user" class="me-4 btn btn-success btn-sm"> 追蹤</a>
+                                }
+
+
+
+                            }
+
+
                         </div>
                     </div>
                 </div>

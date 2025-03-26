@@ -50,10 +50,13 @@
     }
 
     <!-- 右下角按鈕 -->
-    <div class="cart-actions">
-        <a asp-controller="Checkout" asp-action="Index" class="btn-checkout">結帳</a>
-        <button class="btn-clear-cart">清空購物車</button>
-    </div>
+    @if (Model.Any())
+    {
+        <div class="cart-actions">
+            <a asp-controller="Checkout" asp-action="Index" class="btn-checkout">結帳</a>
+            <button class="btn-clear-cart">清空購物車</button>
+        </div>
+    }    
 </div>
 
 

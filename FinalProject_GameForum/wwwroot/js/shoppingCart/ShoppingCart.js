@@ -56,6 +56,12 @@
                     if (newQuantity <= 0) {
                         $row.remove();
                         //showMessage('已移除商品', true);
+
+                        // 檢查購物車是否為空，若為空則隱藏按鈕並更新顯示
+                        if (!$('tbody tr').length) {
+                            $('.cart-container').html('<p>您的購物車是空的。</p>');
+                            $('.cart-actions').hide();
+                        }
                     } else {
                         $quantity.text(response.newQuantity);
                         $row.find('.subtotal').text('NT$' + (response.newQuantity * response.price));

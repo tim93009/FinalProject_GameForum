@@ -79,7 +79,8 @@ namespace FinalProject_GameForum.Controllers
                 //依據使用者決定是否勾選[記住我]
                 var authProperties = new AuthenticationProperties
                 {
-                    IsPersistent = loginPost.Rememberme
+                    IsPersistent = loginPost.Rememberme,
+                    ExpiresUtc = loginPost.Rememberme ? DateTimeOffset.UtcNow.AddDays(1) : null
                 };
                 //執行ClaimsIdentity Cookie 用戶驗證物件的操作登入動作(使用Cookie操作內部驗證狀態控管與流程執行)
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,

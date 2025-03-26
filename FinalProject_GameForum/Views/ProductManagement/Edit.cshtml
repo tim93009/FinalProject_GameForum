@@ -1,4 +1,7 @@
-﻿
+﻿<!-- 嵌入商城導覽列 -->
+@{
+    Layout = "~/Views/Shared/ShoppingMall_Nav.cshtml";
+}
 
 @model Product
 
@@ -49,8 +52,8 @@
     <a asp-action="Index" class="btn btn-secondary">返回</a>
 </form>
 
-@section Scripts {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
-}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+
