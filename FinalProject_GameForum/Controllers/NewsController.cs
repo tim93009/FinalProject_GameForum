@@ -52,7 +52,7 @@ namespace FinalProject_GameForum.Controllers
                     .FirstOrDefaultAsync(n => n.NewsId == id);
 
             ViewBag.NewsMessages = newsDetail?.NewsMessages != null
-                ? newsDetail.NewsMessages.OrderByDescending(m => m.EditDate).ToList() 
+                ? newsDetail.NewsMessages.OrderBy(m => m.EditDate).ToList() 
                 : new List<NewsMessage>();
 
             ViewBag.RelatedNews = await _context.News

@@ -62,37 +62,62 @@
     }
 /* 留言板 */
 .message-container {
+    width:100%;
     display: flex;
+    flex-direction:column;
     align-items: center;
     justify-content: center;
+}
+.messageList{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .message {
     display: flex;
     width: 80%;
-    height: 300px;
+    min-height: 100px;
     border: 1px solid black;
     border-radius: 4px;
     padding:15px;
 }
+.comment-item {
+    width: 100%;
+    position: relative;
+    padding: 10px;
+    word-wrap: break-word;
+    margin-top: 20px;
+    border-bottom: 1px dotted rgba(128, 128, 128, 0.3);
+}
+.comment-item:last-child{
+    margin-bottom: 20px;
+    border-bottom: none;
+}
 .comment-item h4 {
     color: blue;
     font-size: 16px;
-    margin-top: 15px;
+    margin: 0;
 }
 .comment-item h5 {
     color:black;
-    font-size: 20px;
-    margin-top: 15px;
+    font-size: 22px;
+    margin-left:2em;
+    margin-top: 10px;
 }
 .comment-item h6 {
     color: gray;
-    font-size: 14px;
-    margin-top: 10px;
+    font-size: 12px;
+    margin: 0;
     opacity:0.5;
 }
 .text-container{
     display:flex;
     flex-direction:column;
+    width: 100%;
+    align-items: center;
+}
+form {
+    width:100%;
 }
 textarea {
     margin: 10px 0 0 10%;
@@ -113,6 +138,7 @@ textarea {
     border:1px solid black;
     border-radius:5px;
 }
+
 
 /* 相關新聞 */
 .others-container{

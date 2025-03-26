@@ -93,6 +93,14 @@ app.MapControllerRoute(
     pattern: "{controller=Personal}/{action=Friends}/{ownerid?}/{status?}");
 
 app.MapControllerRoute(
+    name: "AddFriends",
+    pattern: "{controller=Personal}/{action=AddFriend}/{requestid?}");
+
+app.MapControllerRoute(
+    name: "AddFollow",
+    pattern: "{controller=Personal}/{action=AddFollow}/{requestid?}");
+
+app.MapControllerRoute(
     name: "Article",
     pattern: "{controller=Aritcle}/{action=Index}/{discussion?}/{Article?}");
 

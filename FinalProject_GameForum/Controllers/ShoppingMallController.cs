@@ -22,7 +22,7 @@ namespace iSpan_MSIT62_Final_Project.Controllers
                     .Include(p => p.ProductCategory)
                     .ToListAsync(),
                 Advertisements = await _db.Advertisements
-                    .Take(3) // 假設顯示 3 個廣告，可根據需求調整
+                    .Take(5) // 假設顯示 3 個廣告，可根據需求調整
                     .ToListAsync()
             };
 
