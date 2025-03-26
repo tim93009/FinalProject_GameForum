@@ -54,7 +54,7 @@
 							<td>@order.OrderStatus.Status</td>
 							<td>
 								@* 將訂單明細資料放入 data-* 屬性中，並加入 OrderStatusId *@
-								<button class="btn btn-primary btn-view-detail"
+								<button class="btn btn-success btn-view-detail"
 										data-order-id="@order.OrderId"
 										data-product-name="@order.Product.ProductName"
 										data-quantity="@order.Quantity"
@@ -76,7 +76,7 @@
 										@if (order.OrderStatusId == 1)
 										{
 											<div class="progress">
-												<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%">
+												<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%">
 													<strong>收到訂單</strong>
 												</div>
 											</div>
@@ -90,7 +90,7 @@
 										@if (order.OrderStatusId == 2)
 										{
 											<div class="progress">
-												<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+												<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
 													<strong>確認付款</strong>
 												</div>
 											</div>
@@ -104,7 +104,7 @@
 										@if (order.OrderStatusId == 3)
 										{
 											<div class="progress">
-												<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">
+												<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">
 													<strong>出貨</strong>
 												</div>
 											</div>
@@ -118,7 +118,7 @@
 										@if (order.OrderStatusId == 4)
 										{
 											<div class="progress">
-												<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+												<div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
 													<strong>已完成</strong>
 												</div>
 											</div>
