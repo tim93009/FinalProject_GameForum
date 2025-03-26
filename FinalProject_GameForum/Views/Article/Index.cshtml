@@ -50,7 +50,7 @@
 						<div class="comment-section">
 							@foreach (var message in item.ArticleMessages)
 							{
-								<div class="row p-3">
+								<div class="row p-3 message-list">
 									<div class="col-1">
 										<img src="@(@message.User?.PhotoUrl ?? Url.Content("~/img/Login/headphoto.jpg"))" alt="user" class="img-fluid" style="width: 50px;height: 50px; object-fit: cover;">
 									</div>
@@ -66,9 +66,10 @@
 									<input type="hidden" name="articleId" value="@item.ArticleId" />
 									<input type="hidden" name="articleGroupId" value="@item.ArticleGroupId" />
 									<div class="mb-3">
-										<textarea class="form-control" name="messageContent" rows="3" placeholder="輸入您的留言..."></textarea>
+										<textarea class="form-control" name="messageContent" maxlength="125" rows="3" placeholder="輸入您的留言..."
+												  style="resize: none; overflow-y: hidden;"></textarea>
 									</div>
-									<button type="submit" class="btn btn-primary">送出留言</button>
+									<button type="submit" class="btn btn-outline-dark">送出留言</button>
 								</form>
 							}
 						</div>

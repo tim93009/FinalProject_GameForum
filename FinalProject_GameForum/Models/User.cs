@@ -41,5 +41,9 @@ public partial class User
 
     public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; } = new List<ShoppingCart>();
 
+    public virtual ICollection<SubscribedArticle> SubscribedArticles { get; set; } = new List<SubscribedArticle>();
+
+    public virtual ICollection<SubscribedDiscussion> SubscribedDiscussions { get; set; } = new List<SubscribedDiscussion>();
+
     public virtual ICollection<ViewHistory> ViewHistories { get; set; } = new List<ViewHistory>();
 }

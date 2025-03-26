@@ -12,8 +12,12 @@ $(document).ready(function () {
     }, 100));
 
     // 點擊返回頂部
-    $jqGoTopButton.click(function (e) {
-        window.scrollTo(0, 0); // 瞬間到頂
+    $jqGoTopButton.on('click', function (e) {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     });
 });
 
