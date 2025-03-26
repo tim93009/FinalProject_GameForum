@@ -1,15 +1,38 @@
-﻿function alertComment() {
-    var message = document.getElementById("text").value; // 注意這裡改成 "text"，與 textarea 的 id 對應
+﻿document.getElementById("text").addEventListener("input", function () {
+    var message = this.value
+    var textarea = this;
+    var error = document.getElementById("error-message");
+    var counter = document.getElementById("char-count");
+
+    textarea.classList.remove("error");
+    if (error) {
+        error.remove();
+    }
+
+    if (!counter) {
+        counter = document.createElement("span");
+        counter.id = "char-count";
+        textarea.parentElement.appendChild(counter);
+    }
+    counter.innerText = `${message.length} / 80`;
+
+    if (message.length > 80) {
+        this.value = message.substring(0, 80);
+        counter.innerText = "80 / 80";
+        textarea.classList.add("error");
+    }
+    else {
+        textarea.classList.remove("error");
+    }
+});
+function alertComment() {
+
+    var message = document.getElementById("text").value;
 
     if (!message.trim()) {
         alert("留言內容不能空白!!");
         return false;
-    }
-
-    if (message.length > 80) {
-        alert("不能超過80個字!!");
-        return false;
-    }
-
+    }   
+    
     return true;
 }
