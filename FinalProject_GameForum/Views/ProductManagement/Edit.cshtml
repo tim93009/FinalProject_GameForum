@@ -5,6 +5,8 @@
 
 @model Product
 
+<br />
+
 <h2>@(Model.ProductId == 0 ? "新增商品" : "編輯商品")</h2>
 
 <form asp-action="Edit" enctype="multipart/form-data" method="post">
