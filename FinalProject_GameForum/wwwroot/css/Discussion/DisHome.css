@@ -8,6 +8,11 @@
     object-fit: contain;
 }
 
+/* 文章列表 標題超連結顏色 */
+.card-title a:hover {
+    color: dodgerblue !important; /* !important 強制覆蓋 */
+}
+
 .container {
     width: 100%;
     height: auto;
@@ -44,8 +49,8 @@
 .dis-container h3 {
     font-size: 24px;
     font-weight: bold;
-    color: black;
-    background-color: aqua;
+    color: white;
+    background-color: black;
     margin-top: 20px;
     margin-bottom: 20px;
     text-align: center;
