@@ -8,15 +8,18 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\content\**" />
+    <Compile Remove="wwwroot\tempcontent\**" />
     <Content Remove="wwwroot\content\**" />
+    <Content Remove="wwwroot\tempcontent\**" />
     <EmbeddedResource Remove="wwwroot\content\**" />
+    <EmbeddedResource Remove="wwwroot\tempcontent\**" />
     <None Remove="wwwroot\content\**" />
+    <None Remove="wwwroot\tempcontent\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\img\Home\" />
     <Folder Include="wwwroot\img\share\" />
-    <Folder Include="wwwroot\tempcontent\" />
   </ItemGroup>
 
   <ItemGroup>
