@@ -49,6 +49,7 @@ namespace FinalProject_GameForum.Controllers
 
             // 查詢同看板同類別的其他文章（延伸閱讀）
             var relatedArticles = _context.Articles
+                .Include(a => a.ArticleGroup)
                 .Where(a => a.ArticleGroup!.DiscussionId == currentArticleGroup.DiscussionId
                          && a.ArticleGroup.Category == currentArticleGroup.Category
                          && a.ArticleGroupId != id) // 排除當前文章群組
@@ -66,22 +67,29 @@ namespace FinalProject_GameForum.Controllers
             // 不足四篇的情況 
             if (relatedArticles.Count < 4)
             {
+                var existingIds = relatedArticles.Select(a => a.ArticleGroupId).ToHashSet(); // 使用 HashSet 提高查找效率
                 var additionalArticles = _context.Articles
+                    .Include(a => a.ArticleGroup)
                     .Where(a => a.ArticleGroup!.DiscussionId == currentArticleGroup.DiscussionId
-                             && a.ArticleGroupId != id)
+                             && a.ArticleGroupId != id
+                             && !existingIds.Contains(a.ArticleGroupId)) // 排除已選取的文章
+                    .GroupBy(a => a.ArticleGroupId) // 按 ArticleGroupId 分組，避免重複
+                    .Select(g => g.First()) // 每組取第一篇
                     .Take(4 - relatedArticles.Count)
+                    .AsEnumerable() // 切換到客戶端處理
                     .Select(a => new
                     {
                         a.ArticleGroupId,
                         Title = a.ArticleGroup!.ArticleTitle,
-                        Image = a.ArticleGroup.CoverImage != null 
-                        ? $"data:image/jpeg;base64,{Convert.ToBase64String(a.ArticleGroup.CoverImage)}" 
-                        : null
+                        Image = a.ArticleGroup.CoverImage != null
+                            ? $"data:image/jpeg;base64,{Convert.ToBase64String(a.ArticleGroup.CoverImage)}"
+                            : null
                     })
                     .ToList();
                 relatedArticles.AddRange(additionalArticles);
             }
 
+            ViewBag.UserId = userId;
             ViewBag.ArticleGroupId = id;
             ViewBag.RelatedArticles = relatedArticles;
             ViewBag.PageSize = pageSize;

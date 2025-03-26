@@ -60,14 +60,17 @@
 									</div>
 								</div>
 							}
-							<form method="post" enctype="multipart/form-data" asp-action="MessageSubmit">
-								<input type="hidden" name="articleId" value="@item.ArticleId" />
-								<input type="hidden" name="articleGroupId" value="@item.ArticleGroupId" />
-								<div class="mb-3">
-									<textarea class="form-control" name="messageContent" rows="3" placeholder="輸入您的留言..."></textarea>
-								</div>
-								<button type="submit" class="btn btn-primary">送出留言</button>
-							</form>
+							@if (ViewBag.UserId != "")
+							{
+								<form method="post" enctype="multipart/form-data" asp-action="MessageSubmit">
+									<input type="hidden" name="articleId" value="@item.ArticleId" />
+									<input type="hidden" name="articleGroupId" value="@item.ArticleGroupId" />
+									<div class="mb-3">
+										<textarea class="form-control" name="messageContent" rows="3" placeholder="輸入您的留言..."></textarea>
+									</div>
+									<button type="submit" class="btn btn-primary">送出留言</button>
+								</form>
+							}
 						</div>
 					</div>
 				</div>
@@ -172,4 +175,3 @@
 	</nav>
 
 </div>
-
