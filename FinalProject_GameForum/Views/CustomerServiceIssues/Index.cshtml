@@ -1,62 +1,39 @@
-﻿@{
-	List<(string question, string answer)> accountFaqList = new List<(string question, string answer)>
-	{
-		("01. 我的信箱收不到系統通知信", "<p>所有系統信件均由系統自動發送，請先確認您的信箱是否有將系統信件誤判為垃圾郵件，建議至「垃圾信件匣」或「廣告郵件」中查找。若仍未收到，請確認您的信箱設定是否有攔截特定寄件人的功能，或更換信箱後重新嘗試。</p>"),
-		("02. 我忘記密碼了，該怎麼辦？", "<p>您可以使用 <b><span style='color: rgb(230, 0, 0)'>忘記密碼</span></b> 功能，輸入註冊時的電子郵件地址，系統將會發送密碼重設信件至您的信箱，請依照信內指示進行密碼重設。</p>"),
-		("03. 帳密打錯太多次被鎖住而無法登入？", "<p>為了帳號安全，系統會在短時間內多次輸入錯誤密碼時暫時鎖定帳號。請稍候 30 分鐘後再試，或使用<b><span style='color: rgb(230, 0, 0)'>忘記密碼</span></b>功能來重設密碼。</p>"),
-		("04. 為什麼我的帳號被封鎖？", "<p>帳號封鎖可能的原因包括違反網站使用規範、惡意行為或其他違規事項。若您認為帳號被誤封，請聯繫客服，並提供相關資訊以便查詢。</p>")
-	};
-
-	List<(string question, string answer)> shopFaqList = new List<(string question, string answer)>
-	{
-		("01. 取貨方式及付款方式說明", "<h5>7-11、全家超商取貨</h5><p>商品送達指定超商後，請於 7 天內前往取貨。取貨時請告知店員要領取「網路購物商品」，並提供手機末三碼確認取件資訊。店員掃描條碼後，將向您收取商品費用，付款完成後即可領取商品。</p><h5>黑貓宅急便配送到府</h5><p>配送人員會在商品送達前以電話聯繫您，請準備好現金（請自備零錢，無法刷卡）。若當時無法取貨，可與配送人員協調適合的時間，宅配人員會在 7 天內進行多次配送。</p>"),
-		("02. 訂單查詢說明", "<p>您可以在<b><span style='color: rgb(230, 0, 0)'>訂單查詢</span></b>頁面輸入訂單編號，查看訂單處理進度及物流資訊。</p>"),
-		("03. 訂購之後，何時可以收到商品呢？", "<h5>超商取貨</h5><p>下單後約 2-4 個工作天送達指定門市。</p><h5>宅配到府</h5><p>下單後約 1-3 個工作天送達指定地址（偏遠地區可能會多 1-2 天）。</p><h3>實際配送時間可能受天候、物流狀況影響，請依物流通知為準。</h3>"),
-		("04. 我需要負擔多少的運費？", "<p>運費依據配送方式計算，詳細費用請參考<b><span style='color: rgb(230, 0, 0)'>運費說明</span></b>頁面。部分活動可能享有免運優惠，請以結帳頁面顯示為準。</p>"),
-		("05. 我可以取消訂單嗎？","<p>若訂單尚未進入出貨流程，可至<b><span style='color: rgb(230, 0, 0)'>訂單查詢</span></b>頁面進行取消申請。若訂單已出貨，則無法取消，請於商品送達後辦理退貨。詳細退貨規則請參考<b><span style='color: rgb(230, 0, 0)'>退貨說明</span></b>。</p>")
-	};
-}
+﻿@model FaqData
 
 <h1 class="text-center m-3">客服問題</h1>
+<!-- 帳號問題 -->
 <div class="accordion m-3" id="accordionExample">
-	@for (int i = 0; i < accountFaqList.Count; i++)
+	@for (int i = 0; i < Model.AccountFaqList.Count; i++)
 	{
-		(string question, string answer) item = accountFaqList[i];
-		string collapseId = "collapse" + i;
-		string headingId = "heading" + i;
-		string collapsedClass = (i == 0) ? "" : "collapsed";
-
+		var item = Model.AccountFaqList[i];
 		<div class="accordion-item">
-			<h2 class="accordion-header" id="@headingId">
-				<button class="accordion-button @collapsedClass" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="@(i == 0 ? "true" : "false")" aria-controls="@collapseId">
-					@item.question
+			<h2 class="accordion-header" id="headingA_@i">
+				<button class="accordion-button @(i == 0 ? "" : "collapsed")" type="button" data-bs-toggle="collapse" data-bs-target="#collapseA_@i">
+					@item.Question
 				</button>
 			</h2>
-			<div id="@collapseId" class="accordion-collapse collapse" aria-labelledby="@headingId" data-bs-parent="#accordionExample">
+			<div id="collapseA_@i" class="accordion-collapse collapse @(i == 0 ? "show" : "")">
 				<div class="accordion-body">
-					@Html.Raw(item.answer)
+					@Html.Raw(item.Answer)
 				</div>
 			</div>
 		</div>
 	}
 </div>
-<div class="accordion m-3" id="accordionExample">
-	@for (int i = 0; i < shopFaqList.Count; i++)
+<!-- 商城問題 -->
+<div class="accordion m-3" id="shopFaq">
+	@for (int i = 0; i < Model.ShopFaqList.Count; i++)
 	{
-		(string question, string answer) item = shopFaqList[i];
-		string collapseId = "collapse2" + i;
-		string headingId = "heading2" + i;
-		string collapsedClass = (i == 0) ? "" : "collapsed";
-
+		var item = Model.ShopFaqList[i];
 		<div class="accordion-item">
-			<h2 class="accordion-header" id="@headingId">
-				<button class="accordion-button @collapsedClass" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="@(i == 0 ? "true" : "false")" aria-controls="@collapseId">
-					@item.question
+			<h2 class="accordion-header" id="headingS_@i">
+				<button class="accordion-button @(i == 0 ? "" : "collapsed")" type="button" data-bs-toggle="collapse" data-bs-target="#collapseS_@i">
+					@item.Question
 				</button>
 			</h2>
-			<div id="@collapseId" class="accordion-collapse collapse" aria-labelledby="@headingId" data-bs-parent="#accordionExample">
+			<div id="collapseS_@i" class="accordion-collapse collapse @(i == 0 ? "show" : "")">
 				<div class="accordion-body">
-					@Html.Raw(item.answer)
+					@Html.Raw(item.Answer)
 				</div>
 			</div>
 		</div>

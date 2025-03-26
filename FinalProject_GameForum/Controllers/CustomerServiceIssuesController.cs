@@ -1,4 +1,5 @@
 ﻿using FinalProject_GameForum.Models;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject_GameForum.Controllers
@@ -6,16 +7,28 @@ namespace FinalProject_GameForum.Controllers
     public class CustomerServiceIssuesController : Controller
     {
         private readonly GameForumContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public CustomerServiceIssuesController(GameForumContext context)
+        public CustomerServiceIssuesController(GameForumContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
-        
+
         public IActionResult Index()
         {
-            return View();
+            string jsonFilePath = Path.Combine(_env.WebRootPath, "data", "faq.json");
+
+            if (!System.IO.File.Exists(jsonFilePath))
+            {
+                return NotFound("FAQ 資料不存在");
+            }
+
+            string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
+            var faqData = JsonSerializer.Deserialize<FaqData>(jsonContent);
+
+            return View(faqData);
         }
 
         [HttpPost]
