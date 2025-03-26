@@ -52,17 +52,18 @@ h2 {
         color: blue;
     }
     .News img {
-        width: 220px;
-        height: 220px;
-        object-fit: cover;
+        width: 90%;
+        height: auto;
+        object-fit: contain;
         border-radius: 8px;
     }
         .News img:hover {
             transform: scale(1.1);
             transition: all 0.3s
         }
-         
+
     .News h6 {
+        padding: 10px;
         font-size: 16px;
         margin-top: 15px;
     }
@@ -108,18 +109,20 @@ h2 {
 
 .shop-card {
     display: flex;
-    gap: 20px;
-    padding: 0 10px;
+    gap: 25px;
+    padding: 0 15px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .shop-card-block {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: space-evenly;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 70%;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    width: 200px;
     text-align: center;
 }
 
@@ -164,6 +167,9 @@ h2 {
 .shop-card-block h6 {
     font-size: 16px;
     margin-top: 15px;
+    padding-bottom: 10px;
+    line-height: 1.4;
+    height: 48px;
 }
 
 

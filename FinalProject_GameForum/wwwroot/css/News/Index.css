@@ -3,6 +3,9 @@
     height: auto;
     margin-top: 200px;
 }
+.btn-container {
+    display: none !important;
+}
 a{
     text-decoration: none
 }

@@ -105,7 +105,10 @@ namespace FinalProject_GameForum.Controllers
             return RedirectToAction("News", new { id });
 
         }
-
-    }
-
+        public class NewsViewModel
+        {
+            public List<News> NewsHome { get; set; } = new List<News>();
+            public List<News> NewsDetail { get; set; } = new List<News>();
+        }
+    }    
 }

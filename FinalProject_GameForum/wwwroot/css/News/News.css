@@ -60,6 +60,7 @@
     .category-btn.手機 {
         background-color: yellow;
     }
+
 /* 留言板 */
 .message-container {
     width:100%;
@@ -123,13 +124,26 @@ textarea {
     margin: 10px 0 0 10%;
     width: 80%;
     height: 80px;
-    border: 1px solid black;
+    border: 2px solid black;
     border-radius: 4px;
     font-size: 18px;
     color: black;
     opacity: 0.5;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: box-shadow 0.15s ease-in-out;
 }
+    textarea:focus {
+        border: 2px solid rgba(0, 123, 255, 0.5);
+        box-shadow: 0 0 5px 3px rgba(0, 123, 255, 0.5);
+        outline: none;
+    }
+    textarea.error {
+        border: 2px solid red;
+        box-shadow: 0 0 10px 3px red;
+    }
+        textarea.error:focus {
+            box-shadow: 0 0 10px 5px red;
+            outline: none;
+        }
 .send{
     margin-left:10%;
     margin-top:8px;
@@ -190,3 +204,7 @@ textarea {
             text-decoration: none;
             color:black;
         }
+
+#message{
+    overflow:visible;
+}
