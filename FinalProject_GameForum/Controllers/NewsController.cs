@@ -15,15 +15,23 @@ namespace FinalProject_GameForum.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? category, string? search)
         {
             var NewsHome = await _context.News
-                .OrderByDescending(n => n.EditDate)
+                .OrderBy(n => n.EditDate)
                 .Take(3)
                 .ToListAsync();
 
-            var NewsDetail = await _context.News
-                .OrderByDescending(n => n.EditDate)
+                
+            var NewsDetailQuery = _context.News.AsQueryable();
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                NewsDetailQuery = NewsDetailQuery.Where(n => n.Category != null && n.Category == category);
+            }
+
+            var NewsDetail = await NewsDetailQuery
+                .OrderBy(n => n.EditDate)
                 .Include(n => n.NewsImages)
                 .Include(n => n.NewsMessages)
                 .Take(8)
@@ -34,8 +42,8 @@ namespace FinalProject_GameForum.Controllers
                 NewsHome = NewsHome,
                 NewsDetail = NewsDetail
             };
-            return View(model);
-        }
+            return View(model);}
+        
         public async Task<IActionResult> News(int id, string messageContent)
         {
             var userId = User.Identity?.IsAuthenticated == true 
