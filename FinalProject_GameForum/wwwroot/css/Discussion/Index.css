@@ -34,6 +34,7 @@
     display: block;
     width: 45%;
     margin-right: 20px;
+    margin-bottom: 10px;
 }
 
     .card-image img {
@@ -48,10 +49,11 @@
     width: 55%;
 }
 
+    /* 看板標題 */
     .discussion-card h3 {
         font-size: 28px;
         margin: 10px 0;
-        padding-top: 10px;
+        padding-top: 15px;
     }
 
     .discussion-card h5 {
@@ -92,19 +94,26 @@
 }
 
     .right-list h5 {
-/*        background-color: aqua;*/
+        /*        background-color: aqua;*/
         margin-top: 5px;
     }
 
 .viewed-list {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
 }
 
     .viewed-list li {
-        margin-bottom: 8px;
-        color: fuchsia;
+        margin-top: 10px;
+        margin-bottom: 6px;
+        color: black;
     }
 
         .viewed-list li a {
             color: green;
         }
+
+            .viewed-list li a:hover {
+                color: dodgerblue;
+                text-decoration: none;
+            }
