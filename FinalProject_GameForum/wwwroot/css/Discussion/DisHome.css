@@ -41,20 +41,22 @@
 .dis-container img {
     width: 100%;
     height: auto;
-    border-radius: 8px;
+/*    border-radius: 8px;*/
     align-items: center;
     justify-content: center;
     transition: transform 0.3s ease;
 }
 
 .dis-container h3 {
+    height: 50px;
     font-size: 24px;
     font-weight: bold;
     color: white;
     background-color: black;
-    margin-top: 20px;
+/*    margin-top: 20px;*/
     margin-bottom: 20px;
     text-align: center;
+    padding-top: 11px;
 }
 
 .hot-dis ul {
