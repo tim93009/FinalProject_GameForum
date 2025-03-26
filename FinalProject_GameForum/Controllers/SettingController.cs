@@ -1,4 +1,5 @@
-﻿using FinalProject_GameForum.Models;
+﻿using BCrypt.Net;
+using FinalProject_GameForum.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -77,37 +78,55 @@ namespace FinalProject_GameForum.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsidentity));
 
-
+            
             return View(userEntity);
         }
 
         [HttpPost]
-        public  IActionResult SettingUser(string Email, string Gender, DateTime Birthdate, string Address, string Phone)
+        public  IActionResult SettingUser(string Email, string Gender, DateTime? Birthdate, string Address, string Phone)
         {
-            string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
-            var realemail = Regex.IsMatch(Email, emailPattern);
+            var realemail = false;
 
-            if (realemail == false)
+            if (string.IsNullOrWhiteSpace(Email))
             {
-                TempData["Error"] = "信箱格式錯誤，請重新輸入!";
-                return RedirectToAction("Register");
+                TempData["SettingError"] = "信箱不能為空，請重新輸入!";
+                return RedirectToAction("Setting");
+            }
+
+            string emailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+            realemail = Regex.IsMatch(Email, emailPattern);
+
+           
+
+
+            if (!realemail )
+            {
+                TempData["SettingError"] = "信箱格式錯誤，請重新輸入!";
+                return RedirectToAction("Setting");
             }
 
             var TrueUserId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value;
             var userEntity = _context.Users.Find(TrueUserId);
-            Phone = Phone.Replace("-", "").Trim();
+            if (!string.IsNullOrWhiteSpace(Phone) )
+            {
+                Phone = Phone.Replace("-", "").Trim();
+            }
+           
             if (userEntity == null)
             {
                 return NotFound();
             }
+
+
   
             userEntity.Email = Email;
-            userEntity.Gender = Gender;
-            userEntity.Birthdate = Birthdate;
-            userEntity.Address = Address;
-            userEntity.Phone = Phone;
+            userEntity.Gender = !string.IsNullOrWhiteSpace(Gender)?  Gender : userEntity.Gender;
+            userEntity.Birthdate = Birthdate ?? userEntity.Birthdate;
+            userEntity.Address = !string.IsNullOrWhiteSpace(Address) ? Address : userEntity.Address;
+            userEntity.Phone = !string.IsNullOrWhiteSpace(Phone) ? Phone : userEntity.Phone;
 
             _context.SaveChanges();
+            TempData["SetSuccess"] = "更新成功!";
             return RedirectToAction("Setting");
         }
 
@@ -120,17 +139,17 @@ namespace FinalProject_GameForum.Controllers
             {
                 return NotFound();
             }
-            if (userEntity.Password != OldPW)
+            if (!BCrypt.Net.BCrypt.Verify(OldPW,userEntity.Password))
             {
-                TempData["Error"] = "舊密碼錯誤，更改失敗!";
+                TempData["SettingError"] = "舊密碼錯誤，更改失敗!";
                 return RedirectToAction("Setting");
             }
             else
             {
                 
-                userEntity.Password = NewPW;
+                userEntity.Password = BCrypt.Net.BCrypt.HashPassword(NewPW);
                 _context.SaveChanges();
-                TempData["Success"] = "密碼更新成功!";
+                TempData["SetSuccess"] = "密碼更新成功!";
                 return RedirectToAction("Setting");
             }
                
@@ -172,7 +191,7 @@ namespace FinalProject_GameForum.Controllers
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             if (!result.Succeeded)
             {
-                TempData["Error"] = "綁定失敗，請再試一次!";
+                TempData["SettingError"] = "綁定失敗，請再試一次!";
                 return RedirectToAction("Permissions");
             }
 
@@ -184,7 +203,7 @@ namespace FinalProject_GameForum.Controllers
 
             if (email == null ||   providerID == null)
             {
-                TempData["Error"] = "綁定失敗，請使用其他方式!";
+                TempData["SettingError"] = "綁定失敗，請使用其他方式!";
                 return RedirectToAction("Permissions");
             }
             //取得目前登入使用者
@@ -192,14 +211,14 @@ namespace FinalProject_GameForum.Controllers
             var user = _context.Users.FirstOrDefault(u => u.UserId == userid);
             if (user == null)
             {
-                TempData["Error"] = "綁定失敗，請重新登入!";
+                TempData["SettingError"] = "綁定失敗，請重新登入!";
                 return RedirectToAction("Login");
             }
             //目前第三方登入的帳號是否已經被綁定
             var existUser = _context.Users.FirstOrDefault(u =>  u.ProviderId == providerID);
             if (existUser != null && existUser.UserId != user.UserId && user.ProviderId != null)
             {
-                TempData["Error"] = "此帳號已經綁定過囉!";
+                TempData["SettingError"] = "此帳號已經綁定過囉!";
                 return RedirectToAction("Permissions");
             }
 
@@ -226,7 +245,7 @@ namespace FinalProject_GameForum.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 
 
-            TempData["Success"] = "綁定成功!";
+            TempData["SetSuccess"] = "綁定成功!";
             return RedirectToAction("Permissions");
         }
 
@@ -236,7 +255,7 @@ namespace FinalProject_GameForum.Controllers
             user.Provider = null;
             user.ProviderId = null;
             _context.SaveChanges();
-            TempData["Success"] = "解除綁定成功!";
+            TempData["SetSuccess"] = "解除綁定成功!";
             return RedirectToAction("Permissions");
         }
 

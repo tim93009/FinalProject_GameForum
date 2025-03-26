@@ -42,7 +42,7 @@ namespace FinalProject_GameForum.Controllers
                 : _context.Users.SingleOrDefault(u => u.UserId == loginPost.Account);
 
 
-            if (user == null || loginPost.Password_P != user.Password)
+            if (user == null || !BCrypt.Net.BCrypt.Verify(loginPost.Password_P,user.Password))
             {
                 TempData["Error"] = "帳號密碼錯誤，請修改!";
                 return RedirectToAction("Login");
@@ -133,13 +133,13 @@ namespace FinalProject_GameForum.Controllers
             }
 
 
-
+            string hashpassword = BCrypt.Net.BCrypt.HashPassword(pswd);
 
 
             User newUser = new User
             {
                 UserId = user_id,
-                Password = pswd,
+                Password = hashpassword,
                 Nickname = nkname,
                 Email = email,
             };

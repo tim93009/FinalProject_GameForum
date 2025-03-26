@@ -1,4 +1,5 @@
-﻿//確認密碼
+﻿
+//確認密碼
 function Password() {
     let OldPassword = document.getElementById("OldPassword").value;
     let NewPassword = document.getElementById("NewPassword").value;
@@ -39,7 +40,6 @@ function MemberEdit(isEditing) {
 
 function saveMember() {
     /*上傳資料*/
-    alert("上傳成功!")
     MemberEdit(false)
 }
 
