@@ -1,5 +1,6 @@
 ﻿@{
 	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["HideFooter"] = true;
 }
 <link rel="stylesheet" href="~/css/Article/Article.css" asp-append-version="true" />
 @section ExtraNavbar{
@@ -16,12 +17,12 @@
 				<div class="col-xxl-4 ">
 				</div>
 				<div class="col-xxl-4 col-lg-6">
-					<a asp-controller="Discussion" asp-action="Index" class="btn btn-outline-primary">
+					<a asp-controller="Discussion" asp-action="Index" class="btn btn-outline-dark">
 						訂閱
 					</a>
 				</div>
 				<div class="col-xxl-4 col-lg-6">
-					<a asp-controller="ArticleEdit" asp-action="Reply" asp-route-articleGroupId="@ViewBag.ArticleGroupId" class="btn btn-outline-primary">
+					<a asp-controller="ArticleEdit" asp-action="Reply" asp-route-articleGroupId="@ViewBag.ArticleGroupId" class="btn btn-outline-dark">
 						回覆
 					</a>
 				</div>

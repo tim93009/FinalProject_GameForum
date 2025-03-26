@@ -17,7 +17,7 @@ namespace FinalProject_GameForum.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int id, int page = 1, int pageSize = 1)
+        public IActionResult Index(int id, int page = 1, int pageSize = 10)
         {
             // 查詢當前文章群組
             ArticleGroup? currentArticleGroup = _context.ArticleGroups

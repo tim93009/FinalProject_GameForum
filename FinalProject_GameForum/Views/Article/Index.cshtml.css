@@ -48,6 +48,7 @@
     border: 1px solid #ddd;
     height: 50px;
     padding: 4px;
+    margin: 0px;
 }
 
 .article-row-2 {
@@ -62,6 +63,13 @@
     position: sticky;
     top: 180px;
     height: fit-content;
+}
+
+.message-list {
+    border: 1px solid #ddd;
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-bottom: 4px;
 }
 
 .further-reading-block {
@@ -90,3 +98,9 @@
     .button-return:hover {
         background-color: lightseagreen;
     }
+
+p {
+    word-break: break-word; /* 讓長字串能自動換行 */
+    overflow-wrap: break-word; /* 另一種方式，確保單字也會換行 */
+    white-space: normal; /* 確保不會強制單行顯示 */
+}

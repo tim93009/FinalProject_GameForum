@@ -20,4 +20,6 @@ public partial class ArticleGroup
     public virtual ICollection<Article> Articles { get; set; } = new List<Article>();
 
     public virtual Discussion Discussion { get; set; } = null!;
+
+    public virtual ICollection<SubscribedArticle> SubscribedArticles { get; set; } = new List<SubscribedArticle>();
 }
