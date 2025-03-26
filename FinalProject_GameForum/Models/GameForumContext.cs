@@ -274,9 +274,6 @@ public partial class GameForumContext : DbContext
             entity.Property(e => e.RecipientName)
                 .HasMaxLength(50)
                 .IsFixedLength();
-            entity.Property(e => e.SendSms)
-                .HasMaxLength(10)
-                .IsUnicode(false);
             entity.Property(e => e.ShippingAddress).HasMaxLength(100);
             entity.Property(e => e.Telephone)
                 .HasMaxLength(20)

@@ -19,17 +19,17 @@ public partial class Order
 
     public string ShippingAddress { get; set; } = null!;
 
-    public string? RecipientName { get; set; }
+    public string RecipientName { get; set; } = null!;
 
-    public string? Cellphone { get; set; }
+    public string Cellphone { get; set; } = null!;
 
-    public string TelephoneCityCode { get; set; } = null!;
+    public string? TelephoneCityCode { get; set; }
 
-    public string Telephone { get; set; } = null!;
+    public string? Telephone { get; set; }
 
     public string Email { get; set; } = null!;
 
-    public string? SendSms { get; set; }
+    public bool? SendSms { get; set; }
 
     public virtual OrderStatus OrderStatus { get; set; } = null!;
 
