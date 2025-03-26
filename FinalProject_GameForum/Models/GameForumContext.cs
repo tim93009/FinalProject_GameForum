@@ -53,12 +53,15 @@ public partial class GameForumContext : DbContext
 
     public virtual DbSet<ViewHistory> ViewHistories { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=GameForum;Integrated Security=True;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Advertisement>(entity =>
         {
-            entity.HasKey(e => e.AdvertisementId).HasName("PK__Advertis__C4C7F42DA2E4224F");
+            entity.HasKey(e => e.AdvertisementId).HasName("PK__Advertis__C4C7F42D027ABD6B");
 
             entity.ToTable("Advertisement");
 
@@ -122,7 +125,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<ArticleMessage>(entity =>
         {
-            entity.HasKey(e => e.ArticleMessageId).HasName("PK__ArticleM__1AF9C29884126579");
+            entity.HasKey(e => e.ArticleMessageId).HasName("PK__ArticleM__1AF9C29849736554");
 
             entity.ToTable("ArticleMessage");
 
@@ -195,7 +198,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<News>(entity =>
         {
-            entity.HasKey(e => e.NewsId).HasName("PK__News__954EBDD3CF163516");
+            entity.HasKey(e => e.NewsId).HasName("PK__News__954EBDD35879DE4F");
 
             entity.Property(e => e.NewsId).HasColumnName("NewsID");
             entity.Property(e => e.Category).HasMaxLength(24);
@@ -208,7 +211,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<NewsImage>(entity =>
         {
-            entity.HasKey(e => e.NewsImageId).HasName("PK__NewsImag__E8D22582D7D2C1D6");
+            entity.HasKey(e => e.NewsImageId).HasName("PK__NewsImag__E8D22582DD65A3B6");
 
             entity.ToTable("NewsImage");
 
@@ -224,7 +227,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<NewsMessage>(entity =>
         {
-            entity.HasKey(e => e.NewsMessageId).HasName("PK__NewsMess__FAB86F19A1775B01");
+            entity.HasKey(e => e.NewsMessageId).HasName("PK__NewsMess__FAB86F1985C612F2");
 
             entity.ToTable("NewsMessage");
 
@@ -252,17 +255,32 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BAFEE779751");
+            entity.HasKey(e => e.OrderId).HasName("PK__Order__C3905BAFC72C609A");
 
             entity.ToTable("Order");
 
             entity.Property(e => e.OrderId).HasColumnName("OrderID");
+            entity.Property(e => e.Cellphone)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.Email)
+                .HasMaxLength(100)
+                .IsUnicode(false);
             entity.Property(e => e.OrderDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.OrderStatusId).HasColumnName("OrderStatusID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
+            entity.Property(e => e.RecipientName)
+                .HasMaxLength(50)
+                .IsFixedLength();
             entity.Property(e => e.ShippingAddress).HasMaxLength(100);
+            entity.Property(e => e.Telephone)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.TelephoneCityCode)
+                .HasMaxLength(10)
+                .IsUnicode(false);
             entity.Property(e => e.UserId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -286,7 +304,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<OrderStatus>(entity =>
         {
-            entity.HasKey(e => e.OrderStatusId).HasName("PK__OrderSta__BC674F410D38EBBB");
+            entity.HasKey(e => e.OrderStatusId).HasName("PK__OrderSta__BC674F416D5CF23B");
 
             entity.ToTable("OrderStatus");
 
@@ -296,7 +314,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Product__B40CC6EDF65D6812");
+            entity.HasKey(e => e.ProductId).HasName("PK__Product__B40CC6EDEF73D1ED");
 
             entity.ToTable("Product");
 
@@ -316,7 +334,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<ProductAdditionalImage>(entity =>
         {
-            entity.HasKey(e => e.ProductAdditionalImageId).HasName("PK__ProductA__EE272CE4EE37EFB7");
+            entity.HasKey(e => e.ProductAdditionalImageId).HasName("PK__ProductA__EE272CE459D32344");
 
             entity.ToTable("ProductAdditionalImage");
 
@@ -332,7 +350,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<ProductCategory>(entity =>
         {
-            entity.HasKey(e => e.ProductCategoryId).HasName("PK__ProductC__3224ECEE41B74B98");
+            entity.HasKey(e => e.ProductCategoryId).HasName("PK__ProductC__3224ECEE84E32DF4");
 
             entity.ToTable("ProductCategory");
 
@@ -356,7 +374,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<ShoppingCart>(entity =>
         {
-            entity.HasKey(e => e.ShoppingCartId).HasName("PK__Shopping__7A789A847A7DBE68");
+            entity.HasKey(e => e.ShoppingCartId).HasName("PK__Shopping__7A789A846999409B");
 
             entity.ToTable("ShoppingCart");
 
@@ -417,7 +435,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<ViewHistory>(entity =>
         {
-            entity.HasKey(e => e.ViewHistoryId).HasName("PK__ViewHist__55D4BB138B97D204");
+            entity.HasKey(e => e.ViewHistoryId).HasName("PK__ViewHist__55D4BB13553D69A5");
 
             entity.ToTable("ViewHistory");
 
