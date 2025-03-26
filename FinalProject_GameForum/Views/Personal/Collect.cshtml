@@ -31,6 +31,7 @@
 			text-align: center;
 		}
 	</style>
+	<link rel="stylesheet" href="~/css/Personal/Personal.css" asp-append-version="true" />
 </head>
 
 <body>
@@ -64,26 +65,25 @@
 							</tr>
 							<tr>
 								<td>1</td>
-								<td>【繪圖】[羅吉's 繪圖] 一飛沖天!!!</td>
+								<td><a href="#" class="Log">【繪圖】[羅吉's 繪圖] 一飛沖天!!!</a></td>
 							</tr>
 							<tr>
 								<td>2</td>
-								<td>【討論】目前鏡流1魂跟緹寶1魂疑似衝突的情況</td>
+								<td><a href="#" class="Log">【討論】目前鏡流1魂跟緹寶1魂疑似衝突的情況</a></td>
 							</tr>
 							<tr>
 								<td>3</td>
-								<td>【閒聊】差分宇宙不好玩</td>
+								<td><a href="#" class="Log">【閒聊】差分宇宙不好玩</a></td>
 							</tr>
 						</table>
 					</div>
 				</div>
 			</div>
 			<div class="col-2">
-				<div class="container-md">
-					<div class="row">
+				
 						<div class="card">
 							<div class="card-body">
-								<div>
+						<div class="text-center">
 									<img src="@(Model.owner.PhotoUrl ?? "/img/Login/headphoto.jpg")" class="rounded-circle" height="50px" width="50px">
 									<p class="mt-2"><strong>帳號:</strong> @user</p>
 									<p><strong>暱稱:</strong> @Model.owner.Nickname</p>
@@ -96,7 +96,7 @@
 							@if (Model.Isowner)
 							{
 								<a href="/Personal/Friends?ownerid=@user&status=Followings" class="btn btn-success" id="btn-following">追蹤管理</a>
-								<a href="/Personal/Friends?ownerid=@user&status=Friends" class="btn btn-success active" id="btn-friends">好友圈</a>
+								<a href="/Personal/Friends?ownerid=@user&status=Friends" class="btn btn-success " id="btn-friends">好友圈</a>
 							}
 							else
 							{
@@ -129,8 +129,7 @@
 				</div>
 			</div>
 
-		</div>
-	</div>
+	
 </body>
 
 </html>
