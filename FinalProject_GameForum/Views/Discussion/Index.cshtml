@@ -17,7 +17,7 @@
 				<div class="discussion-card">
 					<a href="/Discussion/DisHome/@discussion.DiscussionId"
 					   onclick="saveViewedDiscussion(@discussion.DiscussionId, '@discussion.DiscussionName')">
-						<h3>@discussion.DiscussionName</h3>
+						<h3><b>@discussion.DiscussionName</b></h3>
 					</a>
 					<h6>人氣: @(discussion.Views ?? 0)</h6>
 				</div>
@@ -27,7 +27,7 @@
 	</div>
 
 	<div class="right-list">
-		<h5>最近瀏覽看板</h5>
+		<h5><b>最近瀏覽看板</b></h5>
 		<div class="viewed-list">
 			<ul id="recent-discussions">
 				<!-- JavaScript 動態插入這裡 -->
@@ -36,7 +36,7 @@
 
 		<br />
 
-		<h5>最新成立看板</h5>
+		<h5><b>最新成立看板</b></h5>
 		<div class="viewed-list">
 			<ul>
 				<li><a href="/Discussion/DisHome/4">魔物獵人</a></li>
