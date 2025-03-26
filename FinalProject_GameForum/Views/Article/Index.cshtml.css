@@ -32,6 +32,10 @@
     margin-left: 10px;
 }
 
+    .article-border:hover {
+        background-color: lightseagreen;
+    }
+
 .comment-section {
     padding: 20px;
     background-color: #f8f9fa;

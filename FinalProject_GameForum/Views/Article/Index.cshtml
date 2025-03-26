@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<FinalProject_GameForum.Models.Article>
 @{
 	Layout = "_LayoutArticle";
-	int floor = 1;
+	int floor = (ViewBag.Page - 1) * ViewBag.PageSize + 1;
 	ViewBag.DiscussionId = Model.FirstOrDefault()?.ArticleGroup?.DiscussionId;
 }
 
@@ -60,14 +60,17 @@
 									</div>
 								</div>
 							}
-							<form method="post" enctype="multipart/form-data" asp-action="MessageSubmit">
-								<input type="hidden" name="articleId" value="@item.ArticleId" />
-								<input type="hidden" name="articleGroupId" value="@item.ArticleGroupId" />
-								<div class="mb-3">
-									<textarea class="form-control" name="messageContent" rows="3" placeholder="輸入您的留言..."></textarea>
-								</div>
-								<button type="submit" class="btn btn-primary">送出留言</button>
-							</form>
+							@if (ViewBag.UserId != "")
+							{
+								<form method="post" enctype="multipart/form-data" asp-action="MessageSubmit">
+									<input type="hidden" name="articleId" value="@item.ArticleId" />
+									<input type="hidden" name="articleGroupId" value="@item.ArticleGroupId" />
+									<div class="mb-3">
+										<textarea class="form-control" name="messageContent" rows="3" placeholder="輸入您的留言..."></textarea>
+									</div>
+									<button type="submit" class="btn btn-primary">送出留言</button>
+								</form>
+							}
 						</div>
 					</div>
 				</div>
@@ -101,7 +104,7 @@
 			{
 				<li class="page-item">
 					<a class="page-link" href="@Url.Action("Index", new { id = ViewBag.ArticleGroupId, page = ViewBag.Page - 1 })" title="上一頁">
-						<span aria-hidden="true">&raquo;</span>
+						<span aria-hidden="true">&laquo;</span>
 					</a>
 				</li>
 			}
@@ -117,7 +120,7 @@
 			{
 				<li class="page-item">
 					<a class="page-link" href="@Url.Action("Index", new { id = ViewBag.ArticleGroupId, page = ViewBag.Page - 10 })" title="前十頁">
-						<span aria-hidden="true">&raquo;&raquo;</span>
+						<span aria-hidden="true">&laquo;&laquo;</span>
 					</a>
 				</li>
 			}
@@ -172,4 +175,3 @@
 	</nav>
 
 </div>
-
