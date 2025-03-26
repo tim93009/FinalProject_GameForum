@@ -1,11 +1,11 @@
 ﻿.shoppingMall-nav {
-    width: 150px;
+    width: 100px;
     height: 60px;
     font-size: 30px;
     display: flex;
     justify-content: center; /* 水平置中 */
     align-items: center; /* 垂直置中 */
-    transition: all 0.3s ease; /* 過渡動畫，0.3秒，平滑效果 */
+    transition: all 0.3s ease; /* 過渡動畫，0.3秒，平滑效果 */    
 }
 
 .shoppingMall-nav:hover {    
