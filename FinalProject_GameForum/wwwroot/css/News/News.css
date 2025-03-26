@@ -50,7 +50,7 @@
     }
 
     .category-btn.pc {
-        background-color: cornflowerblue;
+        background-color: lightpink;
     }
 
     .category-btn.tv {
@@ -118,18 +118,22 @@
     align-items: center;
 }
 form {
-    width:100%;
+    width: 100%;
+    margin-top: 15px;
 }
 textarea {
-    margin: 10px 0 0 10%;
-    width: 80%;
+    width: 100%;
     height: 80px;
+    padding: 10px;
     border: 2px solid black;
     border-radius: 4px;
     font-size: 18px;
     color: black;
-    opacity: 0.5;
+    opacity: 0.6;
     transition: box-shadow 0.15s ease-in-out;
+    background: transparent;
+    box-sizing: border-box;
+    resize: none;
 }
     textarea:focus {
         border: 2px solid rgba(0, 123, 255, 0.5);
@@ -152,7 +156,19 @@ textarea {
     border:1px solid black;
     border-radius:5px;
 }
-
+.text-area {
+    position: relative;
+    display: inline-block;
+    width: 80%;
+    margin: 10px 0 0 10%;
+}
+#char-count {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    opacity: 0.4;
+    pointer-events: none;
+}
 
 /* 相關新聞 */
 .others-container{

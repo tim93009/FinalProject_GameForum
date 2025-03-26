@@ -14,7 +14,26 @@
 	</div>
 	<br />
 	<p>
-		<button href="" class="category-btn @news?.Category?.ToLower()">@news?.Category</button>
+		<button href="" class="category-btn @news?.Category?.ToLower()">
+			@switch (news?.Category?.ToLower())
+			{
+				case "手機":
+					<img src="~/img/News/mobile-game.png" alt="mobile-game" />
+					break;
+				case "pc":
+					<img src="~/img/News/computer-game.png" alt="pc" />
+					break;
+				case "tv":
+					<img src="~/img/News/tv-game.png" alt="tv" />
+					break;
+				case "電競":
+					<img src="~/img/News/e-sport.png" alt="e-sport" />
+					break;
+				default:
+					break;
+			}
+			@news?.Category
+		</button>
 		<time >@news?.EditDate?.ToString("yyyy-MM-dd HH:mm")</time>
 	</p>
 	<ul>
@@ -59,7 +78,10 @@
 	<div id="message" class=" text-container" >
 		<form action="@Url.Action("News", "News", new { id = Model.NewsDetail.FirstOrDefault()?.NewsId })" 
 		method="post" id="commentForm" data-authenticated="@ViewBag.IsAuthenticated" onsubmit="return alertComment()">
+		<div class="text-area">
 			<textarea id="text" placeholder="留言..."></textarea>
+				<span class="char-count"></span>
+		</div>
 			<button class="send" type="submit">送出</button>		
 		</form>
 	</div>
