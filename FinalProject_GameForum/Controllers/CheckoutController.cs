@@ -47,66 +47,66 @@ namespace FinalProject_GameForum.Controllers
         // POST: /Checkout/SubmitOrder
         // 處理訂單提交
         [HttpPost]
-        public IActionResult SubmitOrder(IFormCollection form)
+public IActionResult SubmitOrder(IFormCollection form)
+{
+    // 從表單中獲取收件人資訊
+    string userName = form["uname"];
+    string cellphone = form["ucell"];
+    string email = form["uemail"];
+    string cityCode = form["ucity"];
+    string telephone = form["utel"];
+    string address = form["uaddress"];
+    bool sendSms = form["usms"] == "on";
+
+    // 獲取當前用戶的購物車項目
+    string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    var cartItems = _db.ShoppingCarts
+        .Include(c => c.Product)
+        .Include(c => c.User)
+        .Where(c => c.UserId == userId)
+        .ToList();
+
+    if (!cartItems.Any())
+    {
+        return Json(new { success = false, message = "購物車是空的" });
+    }
+
+    // 為每個購物車項目創建獨立的 Order
+    foreach (var cartItem in cartItems)
+    {
+        string quantityKey = $"quantity[{cartItem.ShoppingCartId}]";
+        int quantity = cartItem.Quantity;
+        if (form.ContainsKey(quantityKey) && int.TryParse(form[quantityKey], out int formQuantity) && formQuantity > 0)
         {
-            // 從表單中獲取收件人資訊
-            string userName = form["uname"];
-            string cellphone = form["ucell"];
-            string email = form["uemail"];
-            string postalCode = form["upostal"];
-            string address = form["uaddress"];
-            string cityCode = form["ucity"];
-            string telephone = form["utel"];
-            bool sendSms = form["usms"] == "on";
-
-            // 獲取當前用戶的購物車項目
-            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var cartItems = _db.ShoppingCarts
-                .Include(c => c.Product)
-                .Include(c => c.User) // 添加這行以載入 User 資料
-                .Where(c => c.UserId == userId)
-                .ToList();
-
-            if (!cartItems.Any())
-            {
-                return Json(new { success = false, message = "購物車是空的" });
-            }
-
-            // 為每個購物車項目創建獨立的 Order
-            foreach (var cartItem in cartItems)
-            {
-                // 更新數量（從表單中獲取）
-                string quantityKey = $"quantity[{cartItem.ShoppingCartId}]";
-                int quantity = cartItem.Quantity; // 預設使用購物車中的數量
-                if (form.ContainsKey(quantityKey))
-                {
-                    if (int.TryParse(form[quantityKey], out int formQuantity) && formQuantity > 0)
-                    {
-                        quantity = formQuantity;
-                    }
-                }
-
-                // 創建 Order 實例
-                var order = new Order
-                {
-                    UserId = userId,
-                    ProductId = cartItem.ProductId,
-                    Quantity = quantity,
-                    OrderDate = DateTime.Now,
-                    OrderStatusId = 1, // 假設 1 表示 "待處理" 狀態，需根據實際 OrderStatus 表調整
-                    ShippingAddress = cartItem.User != null ? cartItem.User.Address : "未提供地址" // 防禦性處理
-                };
-
-                _db.Orders.Add(order);
-            }
-
-            // 清空購物車
-            _db.ShoppingCarts.RemoveRange(cartItems);
-            _db.SaveChanges();
-
-            // 跳轉到 OrderController 的 Index
-            return RedirectToAction("Index", "Order");
+            quantity = formQuantity;
         }
+
+        var order = new Order
+        {
+            UserId = userId,
+            ProductId = cartItem.ProductId,
+            Quantity = quantity,
+            OrderDate = DateTime.Now,
+            OrderStatusId = 1, // 假設 1 表示 "待處理" 狀態
+            ShippingAddress = address,
+            RecipientName = userName,
+            Cellphone = cellphone,
+            TelephoneCityCode = cityCode,
+            Telephone = telephone,
+            Email = email,
+            SendSms = sendSms
+        };
+
+        _db.Orders.Add(order);
+    }
+
+    // 清空購物車
+    _db.ShoppingCarts.RemoveRange(cartItems);
+    _db.SaveChanges();
+
+    // 跳轉到 OrderController 的 Index
+    return RedirectToAction("Index", "Order");
+}
 
         // GET: /Checkout/OrderSuccess
         // 訂單提交成功後的頁面

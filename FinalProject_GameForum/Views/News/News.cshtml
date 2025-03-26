@@ -3,8 +3,9 @@
 	Layout = "_LayoutNews";
 	var news = Model.NewsDetail.FirstOrDefault();
 }
-@model FinalProject_GameForum.Models.NewsViewModel
+@model FinalProject_GameForum.Controllers.NewsController.NewsViewModel
 
+<!-- 新聞內容 -->
 <div class="myContainer">
 	<div>
 		<h2>
@@ -14,7 +15,7 @@
 	<br />
 	<p>
 		<button href="" class="category-btn @news?.Category?.ToLower()">@news?.Category</button>
-		<time>@news?.EditDate?.ToString("yyyy-MM-dd HH:mm")</time>
+		<time >@news?.EditDate?.ToString("yyyy-MM-dd HH:mm")</time>
 	</p>
 	<ul>
 		@foreach (var image in news?.NewsImages ?? Enumerable.Empty<NewsImage>())
@@ -31,7 +32,8 @@
 	</div>
 </div>
 
-<div class="message-container">
+<!-- 留言板 -->
+<div class="message-container" >
 	<div class="message">
 		<div class="messageList">
 			@if (ViewBag.NewsMessages is List<FinalProject_GameForum.Models.NewsMessage> messages && messages.Any())
@@ -54,10 +56,10 @@
 </div>
 @if (ViewBag.IsAuthenticated == true)
 {
-	<div class="text-container">
+	<div id="message" class=" text-container" >
 		<form action="@Url.Action("News", "News", new { id = Model.NewsDetail.FirstOrDefault()?.NewsId })" 
-		method="post" id="commentForm" data-authenticated="@ViewBag.IsAuthenticated" onsubmit="return alertCommment()">
-			<textarea id="text" name="messageContent" placeholder="留言..." maxlength="80"></textarea>
+		method="post" id="commentForm" data-authenticated="@ViewBag.IsAuthenticated" onsubmit="return alertComment()">
+			<textarea id="text" placeholder="留言..."></textarea>
 			<button class="send" type="submit">送出</button>		
 		</form>
 	</div>
@@ -67,6 +69,7 @@ else
 	<button class="send" onclick="window.location.href='/Login/Login'">登入</button>
 }
 
+<!-- 相關新聞 -->
 <div class="others-container">
 	<div class="others">
 		<h3>相關新聞</h3>
@@ -86,4 +89,4 @@ else
 	</div>
 </div>
 
-<script src="~/js/news/News.js" asp-append-version="true"></script>
+<script src="~/js/News/News.js" asp-append-version="true"></script>

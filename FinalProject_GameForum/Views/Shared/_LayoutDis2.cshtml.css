@@ -1,6 +1,7 @@
 ﻿.search form {
     width: 300px; /* Adjust width for medium screens */
 }
+
 .container-fluid {
     display: flex;
     justify-content: space-evenly;
@@ -8,24 +9,25 @@
     background-color: black;
 }
 
-.container-fluid ul {
-    display: flex;
-    padding-left: 2rem;
-    color: white;
-    font-size: 18px;
-    text-decoration: none;
-    list-style-type: none;
-    margin-left: 14%;
-}
+    .container-fluid ul {
+        display: flex;
+        padding-left: 2rem;
+        color: white;
+        font-size: 18px;
+        text-decoration: none;
+        list-style-type: none;
+        margin-left: 14%;
+    }
 
-.container-fluid li {
-    margin-right: 20px;
-}
+    .container-fluid li {
+        margin-right: 20px;
+    }
 
-.container-fluid a {
-    color: inherit;
-    text-decoration: none;
-}
+    .container-fluid a {
+        color: inherit;
+        text-decoration: none;
+    }
+
 form.search input[type=text] {
     padding: 5px;
     font-size: 17px;
@@ -42,6 +44,7 @@ form.search button {
     width: 50px;
     padding: 5px;
     background: #2196F3;
+    background-color: #198754;
     color: white;
     font-size: 17px;
     border: 1px solid grey;
@@ -50,15 +53,18 @@ form.search button {
     cursor: pointer;
     margin-left: -51px;
 }
+
 .search-container {
     flex: 1;
     display: flex;
     justify-content: flex-start;
-    margin-left:10%;
+    margin-left: 13%;
 }
+
 .btn-container {
-    margin-right: 20%;
+    margin-right: 15%;
 }
-.btn-container button{
-    margin-right:20px;
-}
+
+    .btn-container button {
+        margin-right: 20px;
+    }
