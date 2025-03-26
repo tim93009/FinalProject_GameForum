@@ -90,10 +90,10 @@ namespace FinalProject_GameForum.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Submit(int discussionId, string articleTitle, string articleContent, IFormFile imgFile, string articleType)
+        public async Task<IActionResult> Submit(int discussionId, string articleTitle, string articleContent, IFormFile imgFile, string articleType, string action)
         {
             // 驗證輸入
-            if (string.IsNullOrEmpty(articleTitle) || string.IsNullOrEmpty(articleContent))
+            if (action == "publish" && (string.IsNullOrEmpty(articleTitle) || string.IsNullOrEmpty(articleContent)))
             {
                 ModelState.AddModelError("", "標題和內容不能為空");
                 return View("Index");
@@ -115,6 +115,9 @@ namespace FinalProject_GameForum.Controllers
                 } 
             }
 
+            // 判斷是否是儲存草稿
+            bool isDraft = action == "saveDraft";
+
             var articleGroup = new ArticleGroup
             {
                 DiscussionId = discussionId,
@@ -134,7 +137,7 @@ namespace FinalProject_GameForum.Controllers
                 ArticleContent = articleContent,
                 PostDate = DateTime.Now,
                 EditDate = null,
-                Status = "存在",
+                Status = isDraft ? "草稿" : "存在",
                 ArticleGroupId = articleGroup.ArticleGroupId // 這裡使用自動產生的 ArticleGroupId
             };
 
@@ -142,8 +145,15 @@ namespace FinalProject_GameForum.Controllers
             _context.Articles.Add(article);
             await _context.SaveChangesAsync();
 
-            // 重定向到該文章群組的頁面（假設有個顯示頁面）
-            return RedirectToAction("Index", "Article", new { id = articleGroup.ArticleGroupId });
+            // 根據狀態選擇跳轉頁面
+            if (isDraft)
+            {
+                return RedirectToAction("Index", "Article");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Article", new { id = articleGroup.ArticleGroupId });
+            }
         }
 
         [HttpPost]
