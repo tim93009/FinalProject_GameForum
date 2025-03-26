@@ -1,12 +1,14 @@
 ﻿<!-- 嵌入商城導覽列 -->
 @{
     Layout = "~/Views/Shared/ShoppingMall_Nav.cshtml";
+    ViewData["HideFooter"] = true;
 }
 
 <link rel="stylesheet" href="~/css/ProductManagement/ProductManagement.css" asp-append-version="true" />
 
 @model List<Product>
 
+<br />
 <h2>商品管理</h2>
 <a asp-action="Edit" class="btn btn-primary mb-3">新增商品</a>
 

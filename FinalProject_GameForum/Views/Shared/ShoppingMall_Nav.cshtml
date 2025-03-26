@@ -2,12 +2,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section ExtraNavbar {
+    <link rel="stylesheet" href="~/css/ShoppingMall_Nav/ShoppingMall_Nav.css" asp-append-version="true" />
+
     <nav class="extra-navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid d-flex flex-column flex-lg-row align-items-center">
             <!-- Logo 和漢堡選單在小螢幕時同一行 -->
             <div class="d-flex justify-content-between align-items-center w-100 d-lg-none">
                 <a class="nav-link text-white" asp-area="" asp-controller="ShoppingMall" asp-action="Index">
-                    <img src="~/img/shoppingMall/baha_shopping_logo.png" class="d-block" style="max-height: 3rem; width: auto; object-fit: contain;" alt="...">
+                    <div class="shoppingMall-nav">
+                        商城
+                    </div>
+                @* <img src="~/img/shoppingMall/backpack.png" class="d-block" style="max-height: 3rem; width: auto; " alt="..."> *@
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -16,7 +21,10 @@
 
             <!-- 大螢幕時的 Logo（單獨顯示） -->
             <a class="nav-link text-white d-none d-lg-block" asp-area="" asp-controller="ShoppingMall" asp-action="Index">
-                <img src="~/img/shoppingMall/baha_shopping_logo.png" class="d-block" style="max-height: 3rem; width: auto; object-fit: contain;" alt="...">
+                <div class="shoppingMall-nav">
+                    商城
+                </div> 
+                @* <img src="~/img/shoppingMall/backpack.png" class="d-block" style="max-height: 3rem; width: auto; object-fit: contain;" alt="..."> *@
             </a>
 
             <!-- 搜尋框置中 -->
@@ -33,19 +41,19 @@
             <div class="collapse navbar-collapse order-lg-2" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 flex-lg-row">
                     <li class="nav-item">                        
-                        <a class="nav-link" href="javascript:void(0);" data-check-login data-target-url="/ProductManagement/Index">商品管理</a>
-                    </li>
-                    <li class="nav-item">                        
-                        <a class="nav-link" href="javascript:void(0);" data-check-login data-target-url="/ShoppingCart/Index">購物車</a>
+                        <a style="font-size:20px;" class="nav-link" href="javascript:void(0);" data-check-login data-target-url="/ProductManagement/Index">商品管理</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0);" data-check-login data-target-url="/Order/Index">我的訂單</a>
+                        <a style="font-size:20px;" class="nav-link" href="javascript:void(0);" data-check-login data-target-url="/ShoppingCart/Index">購物車</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/CustomerServiceIssues/Index">客服中心</a>
+                        <a style="font-size:20px;" class="nav-link" href="javascript:void(0);" data-check-login data-target-url="/Order/Index">我的訂單</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">公告</a>
+                        <a style="font-size:20px;" class="nav-link" href="/CustomerServiceIssues/Index">客服中心</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="font-size:20px;" class="nav-link" href="#">公告</a>
                     </li>
                 </ul>
             </div>

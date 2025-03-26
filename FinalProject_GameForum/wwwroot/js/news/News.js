@@ -16,7 +16,7 @@
     }
     counter.innerText = `${message.length} / 80`;
 
-    if (message.length > 80) {
+    if (message.length > 79) {
         this.value = message.substring(0, 80);
         counter.innerText = "80 / 80";
         textarea.classList.add("error");

@@ -18,4 +18,6 @@ public partial class Discussion
     public string? Category { get; set; }
 
     public virtual ICollection<ArticleGroup> ArticleGroups { get; set; } = new List<ArticleGroup>();
+
+    public virtual ICollection<SubscribedDiscussion> SubscribedDiscussions { get; set; } = new List<SubscribedDiscussion>();
 }
