@@ -75,6 +75,9 @@ namespace FinalProject_GameForum.Controllers
                  x.PersonBid == currentUserId && x.PersonAid == ownerid) &&
                 x.RelationshipType == "Accepted");
 
+            //檢查是否送出好友請求
+            bool isRequest = _context.Relationships.Any(x => x.PersonAid == currentUserId && x.PersonBid == ownerid && x.RelationshipType == "Request");
+
             // **檢查是否已經送出請求**
             bool IsFollow = _context.Relationships.Any(x =>
                 x.PersonAid == currentUserId && x.PersonBid == ownerid && x.RelationshipType == "Following");
@@ -99,7 +102,8 @@ namespace FinalProject_GameForum.Controllers
                 viewuser = viewuserinfo,
                 friends = friends,
                 Isfriend = isFriend,
-                IsFollow = IsFollow
+                IsFollow = IsFollow,
+                IsRequest = isRequest
 
             };
 
@@ -131,6 +135,9 @@ namespace FinalProject_GameForum.Controllers
                  x.PersonBid == currentUserId && x.PersonAid == ownerid) &&
                 x.RelationshipType == "Accepted");
 
+            //檢查是否送出好友請求
+            bool isRequest = _context.Relationships.Any(x => x.PersonAid == currentUserId && x.PersonBid == ownerid && x.RelationshipType == "Request");
+
             // **檢查是否已經送出請求**
             bool IsFollow = _context.Relationships.Any(x =>
                 x.PersonAid == currentUserId && x.PersonBid == ownerid && x.RelationshipType == "Following");
@@ -140,7 +147,8 @@ namespace FinalProject_GameForum.Controllers
                 owner = ownerinfo,
                 friends = friends,
                 Isfriend = isFriend,
-                IsFollow = IsFollow
+                IsFollow = IsFollow,
+                IsRequest = isRequest
 
             };
 
@@ -169,8 +177,11 @@ namespace FinalProject_GameForum.Controllers
                 (x.PersonAid == currentUserId && x.PersonBid == ownerid ||
                  x.PersonBid == currentUserId && x.PersonAid == ownerid) &&
                 x.RelationshipType == "Accepted");
+            //檢查是否已經送出好友請求
+            bool isRequest = _context.Relationships.Any(x => x.PersonAid == currentUserId && x.PersonBid == ownerid && x.RelationshipType == "Request");
 
-            // **檢查是否已經送出請求**
+
+            // **檢查是否已經追蹤**
             bool IsFollow = _context.Relationships.Any(x =>
                 x.PersonAid == currentUserId && x.PersonBid == ownerid && x.RelationshipType == "Following");
             var viewinfo = new PersonalView
@@ -179,7 +190,9 @@ namespace FinalProject_GameForum.Controllers
                 owner = ownerinfo,
                 friends = friends,
                 Isfriend = isFriend,
-                IsFollow = IsFollow
+                IsFollow = IsFollow,
+                IsRequest = isRequest
+
 
             };
 
@@ -267,8 +280,10 @@ namespace FinalProject_GameForum.Controllers
                 (x.PersonAid == currentUserId && x.PersonBid == ownerid ||
                  x.PersonBid == currentUserId && x.PersonAid == ownerid) &&
                 x.RelationshipType == "Accepted");
+            //檢查是否送出好友請求
+            bool isRequest = _context.Relationships.Any(x => x.PersonAid == currentUserId && x.PersonBid == ownerid && x.RelationshipType == "Request");
 
-            // **檢查是否已經送出請求**
+            // **檢查是否已經追蹤**
             bool IsFollow = _context.Relationships.Any(x =>
                 x.PersonAid == currentUserId && x.PersonBid == ownerid && x.RelationshipType == "Following");
 
@@ -280,7 +295,8 @@ namespace FinalProject_GameForum.Controllers
                 friends = friends,
                 status = status,
                 Isfriend = isFriend,
-                IsFollow = IsFollow
+                IsFollow = IsFollow,
+                IsRequest = isRequest
 
             };
 

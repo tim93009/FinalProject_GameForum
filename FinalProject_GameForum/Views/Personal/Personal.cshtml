@@ -201,19 +201,24 @@
                         {
                             <button class="btn btn-success btn-sm" disabled> 已是好友</button>
                         }
+                        else if (Model.IsRequest)
+                        {
+                            <a class="me-3 btn btn-success btn-sm" disabled>已發送請求</a>
+                        }
                         else
                         {
-                            <a href="/Personal/AddFriend?requestid=@user" class="me-4 btn btn-success btn-sm">加好友</a>
+                            <a href="/Personal/AddFriend?requestid=@user" class="me-3 btn btn-success btn-sm">加好友</a>
+
                         }
 
 
                         if (Model.IsFollow)
                         {
-                            <button class="me-4 btn btn-success btn-sm" disabled> 已追蹤</button>
+                            <button class="me-3 btn btn-success btn-sm" disabled> 已追蹤</button>
                         }
                         else
                         {
-                            <a href="/Personal/AddFollow?requestid=@user" class="me-4 btn btn-success btn-sm"> 追蹤</a>
+                            <a href="/Personal/AddFollow?requestid=@user" class="me-3 btn btn-success btn-sm"> 追蹤</a>
                         }
 
 
