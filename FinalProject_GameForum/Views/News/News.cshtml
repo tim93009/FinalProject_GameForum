@@ -93,10 +93,10 @@
 @if (ViewBag.IsAuthenticated == true)
 {
 	<div id="message" class=" text-container" >
-		<form action="@Url.Action("News", "News", new { id = Model.NewsDetail.FirstOrDefault()?.NewsId })" 
-		method="post" id="message" data-authenticated="@ViewBag.IsAuthenticated" onsubmit="return alertComment()">
+		<form action="@Url.Action("News", "News", new { id = Model.NewsDetail.FirstOrDefault()?.NewsId })"
+			  method="post" id="commentForm" data-authenticated="@ViewBag.IsAuthenticated" onsubmit="return alertComment()">
 		<div class="text-area">
-			<textarea id="text" placeholder="留言..."></textarea>
+				<textarea id="text" name="messageContent" placeholder="留言..."></textarea>
 				<span class="char-count"></span>
 		</div>
 			<button class="send" type="submit">送出</button>		
