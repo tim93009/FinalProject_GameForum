@@ -3,6 +3,18 @@
     height: auto;
     margin-top: 200px;
 }
+
+a {
+    text-decoration: none; /* 移除下劃線 */
+    color: inherit;
+    outline: none; /* 移除點擊時的輪廓 */
+}
+
+    a:hover, a:active, a:focus {
+        text-decoration: none; /* 懸停、點擊時也不要有下劃線 */
+        color: inherit;
+    }
+
 .title-content a {
     position: relative;
     text-decoration: none;
