@@ -107,7 +107,7 @@ namespace FinalProject_GameForum.Controllers
                 Isfriend = isFriend,
                 IsFollow = IsFollow,
                 IsRequest = isRequest,
-                UserArticle = UserArticle!
+                
 
             };
 

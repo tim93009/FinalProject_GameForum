@@ -16,7 +16,7 @@
         public bool IsFollow { get; set; }   
         public bool IsRequest { get; set; }
         
-        public List<string>? UserArticle { get; set; }
+     
 
     }
 }
