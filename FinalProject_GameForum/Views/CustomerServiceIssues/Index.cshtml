@@ -40,13 +40,12 @@
 		</div>
 	}
 </div>
-<form method="post" enctype="multipart/form-data" asp-action="Submit">
+<form id="uploadForm" method="post" enctype="multipart/form-data" asp-action="Submit">
 	<div class="p-3">
 		<div class="mb-3">
 			<label for="userId">使用者 ID</label>
 			<input class="form-control" type="text" name="userId" required>
 		</div>
-
 		<div class="mb-3">
 			<label for="questionType">問題類型</label>
 			<select class="form-control" name="questionType">
@@ -54,18 +53,17 @@
 				<option value="帳號問題">帳號問題</option>
 			</select>
 		</div>
-
 		<div class="mb-3">
 			<label for="questionDescription" class="form-label">描述您的問題</label>
 			<textarea class="form-control" name="questionDescription" rows="5" maxlength="250" required 
 				style="resize: none; overflow-y: hidden;"></textarea>
 		</div>
-
 		<div class="mb-3">
-			<label for="image" class="form-label">上傳圖片 (選填)</label>
-			<input class="form-control" type="file" name="image">
+			<label for="image" class="form-label">上傳圖片(選填)</label>
+			<input class="form-control" type="file" name="image" id="image" accept="image/*">
 		</div>
-
+		<div id="error-message" class="text-danger mb-2" style="display: none;"></div>
 		<button type="submit" class="btn btn-primary">送出</button>
 	</div>
 </form>
+<script src="~/js/customerProblem/problem.js"></script>

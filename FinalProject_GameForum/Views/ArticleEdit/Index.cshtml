@@ -1,4 +1,7 @@
-﻿<link rel="stylesheet" href="~/lib/quill/quill.snow.css">
+﻿@{
+	ViewData["HideFooter"] = true;
+}
+<link rel="stylesheet" href="~/lib/quill/quill.snow.css">
 
 <div class="myContainer">
 	<form id="editorForm" method="post" enctype="multipart/form-data" asp-action="Submit">
@@ -133,8 +136,8 @@
 				<input type="file" id="imgFile" class="form-control mt-2" name="imgFile" accept="image/gif, image/jpeg, image/png" />
 			</div>
 			<div class="col-3 text-end">
-				<button type="submit" class="btn btn-outline-success w-100 mb-2">儲存草稿</button>
-				<button type="submit" class="btn btn-outline-primary w-100">發表文章</button>
+				<button type="submit" class="btn btn-outline-success w-100 mb-2" name="action" value="saveDraft">儲存草稿</button>
+				<button type="submit" class="btn btn-outline-primary w-100" name="action" value="publish">發表文章</button>
 			</div>
 		</div>
 	</form>
