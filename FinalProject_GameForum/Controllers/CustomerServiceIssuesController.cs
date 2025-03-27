@@ -1,6 +1,8 @@
 ﻿using FinalProject_GameForum.Models;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinalProject_GameForum.Controllers
 {
@@ -18,7 +20,7 @@ namespace FinalProject_GameForum.Controllers
 
         public IActionResult Index()
         {
-            string jsonFilePath = Path.Combine(_env.WebRootPath, "data", "faq.json");
+            string jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "App_Data", "faq.json");
 
             if (!System.IO.File.Exists(jsonFilePath))
             {
@@ -29,6 +31,24 @@ namespace FinalProject_GameForum.Controllers
             var faqData = JsonSerializer.Deserialize<FaqData>(jsonContent);
 
             return View(faqData);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ViewProblem()
+        {
+            var customerProblems = await _context.CustomerProblems
+                .Include(cp => cp.User)
+                .ToListAsync();
+
+            // 轉換 byte[] 圖片為 Base64 字串
+            foreach (var problem in customerProblems)
+            {
+                if (problem.Image != null)
+                {
+                    problem.ImageBase64 = Convert.ToBase64String(problem.Image);
+                }
+            }
+            return View(customerProblems);
         }
 
         [HttpPost]
