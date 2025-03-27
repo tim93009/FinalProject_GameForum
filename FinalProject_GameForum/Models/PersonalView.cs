@@ -15,6 +15,8 @@
         public bool Isfriend { get; set; }
         public bool IsFollow { get; set; }   
         public bool IsRequest { get; set; }
+        
+     
 
     }
 }

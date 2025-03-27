@@ -27,3 +27,19 @@ document.getElementById("floorInput").addEventListener("keypress", function (eve
         goToFloor();
     }
 });
+
+$(function () {
+    $("#subscribeBtn").on("click", function () {
+        var articleGroupId = $(this).data("article-group-id");
+
+        $.post("/Article/Subscribe", { articleGroupId: articleGroupId }, function (response) {
+            alert(response.message);
+
+            if (response.isSubscribed) {
+                $("#subscribeBtn").text("取消訂閱");
+            } else {
+                $("#subscribeBtn").text("訂閱");
+            }
+        });
+    });
+});
