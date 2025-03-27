@@ -173,7 +173,7 @@ namespace FinalProject_GameForum.Controllers
                 ArticleContent = articleContent,
                 PostDate = DateTime.Now,
                 EditDate = null,
-                Status = "存活"
+                Status = "存在"
             };
 
             // 存入資料庫
