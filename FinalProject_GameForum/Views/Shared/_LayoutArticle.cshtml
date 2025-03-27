@@ -6,26 +6,20 @@
 @section ExtraNavbar{
 	<nav class="navbar p-0 extra-navbar">
 		<div class="container-fluid">
-			<div class="col-lg-2"></div>
+			<div class="col-lg-1"></div>
 			<div class="col-lg-8">
 				<div class="title-content">
 					<a class="m-3" href="@Url.Action("Index", "Discussion")">看版</a>
 					<a class="m-3" href="@Url.Action("DisHome", "Discussion", new { id = ViewBag.DiscussionId, trigger = "article-list" })">文章列表</a>
 				</div>
 			</div>
-			<div class="row col-lg-2">
-				<div class="col-xxl-4 ">
-				</div>
-				<div class="col-xxl-4 col-lg-6">
-					<a asp-controller="Discussion" asp-action="Index" class="btn btn-outline-dark">
-						訂閱
-					</a>
-				</div>
-				<div class="col-xxl-4 col-lg-6">
-					<a asp-controller="ArticleEdit" asp-action="Reply" asp-route-articleGroupId="@ViewBag.ArticleGroupId" class="btn btn-outline-dark">
-						回覆
-					</a>
-				</div>
+			<div class="d-flex gap-3 flex-wrap justify-content-center">
+				<a id="subscribeBtn" class="btn btn-outline-dark flex-grow-1 text-nowrap" style="min-width: 80px;" data-article-group-id="@ViewBag.ArticleGroupId">
+					訂閱
+				</a>
+				<a asp-controller="ArticleEdit" asp-action="Reply" asp-route-articleGroupId="@ViewBag.ArticleGroupId" class="btn btn-outline-dark flex-grow-1 text-nowrap" style="min-width: 80px;">
+					回覆
+				</a>
 			</div>
 		</div>
 	</nav>
