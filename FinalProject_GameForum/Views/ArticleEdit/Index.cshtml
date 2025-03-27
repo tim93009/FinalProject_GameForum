@@ -1,4 +1,7 @@
-﻿<link rel="stylesheet" href="~/lib/quill/quill.snow.css">
+﻿@{
+	ViewData["HideFooter"] = true;
+}
+<link rel="stylesheet" href="~/lib/quill/quill.snow.css">
 
 <div class="myContainer">
 	<form id="editorForm" method="post" enctype="multipart/form-data" asp-action="Submit">
