@@ -41,7 +41,7 @@
                 <a href="@Url.Action("News", "News", new { id = news.NewsId })"><img src="@Url.Content(news.ImageUrl)" style="width:216px" /></a>
             </div>
             <div>
-                <button href="" class="category-btn @news.Category?.ToLower()">                    
+                <button onclick="window.location.href='/News/Index?category=@news?.Category'" class="category-btn @news.Category?.ToLower()">
                     @switch (news.Category?.ToLower())
                     {
                         case "手機":
