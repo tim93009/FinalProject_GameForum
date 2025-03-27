@@ -24,7 +24,9 @@
 				<div class="d-flex mb-5 article-block" id="floor-@floor">
 					<div class="member-block me-lg-3 row-gap-3">
 						<div class="p-2 g-col-6">
-							<img src="@(item.User?.PhotoUrl ?? Url.Content("~/img/Login/headphoto.jpg"))" alt="Usuer" style="width: 140px;height: 200px; object-fit: cover;">
+							<a href="@Url.Action("Personal", "Personal", new { ownerid = item.UserId })">
+								<img src="@(item.User?.PhotoUrl ?? Url.Content("~/img/Login/headphoto.jpg"))" alt="Usuer" style="width: 140px;height: 200px; object-fit: cover;">
+							</a>
 						</div>
 						<div class="p-2 g-col">名字: @item.User?.UserId</div>
 						<div class="p-2 g-col">暱稱: @item.User?.Nickname</div>
@@ -39,8 +41,16 @@
 										</text>
 									</div>
 								</div>
-								<div class="col-2">@item.User?.UserId</div>
-								<div class="col-2">@item.User?.Nickname</div>
+								<div class="col-2">
+									<a href="@Url.Action("Personal", "Personal", new { ownerid = item.UserId })">
+										@item.User?.UserId
+									</a>
+								</div>
+								<div class="col-2">
+									<a href="@Url.Action("Personal", "Personal", new { ownerid = item.UserId })">
+										@item.User?.Nickname
+									</a>
+								</div>
 								<div class="col-7 text-end">@item.PostDate</div>
 							</div>
 							<div class="article-row-2">
@@ -52,7 +62,9 @@
 							{
 								<div class="row p-3 message-list">
 									<div class="col-1">
-										<img src="@(@message.User?.PhotoUrl ?? Url.Content("~/img/Login/headphoto.jpg"))" alt="user" class="img-fluid" style="width: 50px;height: 50px; object-fit: cover;">
+										<a href="@Url.Action("Personal", "Personal", new { ownerid = item.UserId })">
+											<img src="@(@message.User?.PhotoUrl ?? Url.Content("~/img/Login/headphoto.jpg"))" alt="user" class="img-fluid" style="width: 50px;height: 50px; object-fit: cover;">
+										</a>
 									</div>
 									<div class="col">
 										<span><b>@message.UserId</b></span>
