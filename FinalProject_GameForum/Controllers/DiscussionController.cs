@@ -1,7 +1,9 @@
 ﻿using FinalProject_GameForum.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Security.Claims;
 
 namespace FinalProject_GameForum.Controllers
 {
@@ -101,6 +103,42 @@ namespace FinalProject_GameForum.Controllers
             ViewBag.CurrentPage = page;
 
             return PartialView("_ArticleList", pagedArticles);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Subscribe(int discussionId)
+        {
+            string UserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+
+            // 查詢是否已經訂閱
+            var existingSubscription = _context.SubscribedDiscussions
+                .FirstOrDefault(s => s.UserId == UserId && s.SubscribedDiscussionId == discussionId);
+
+            if (existingSubscription == null)
+            {
+                // 如果還沒訂閱，則新增
+                var newSubscription = new SubscribedDiscussion
+                {
+                    UserId = UserId,
+                    DiscussionId = discussionId,
+                    IsSubscribed = true
+                };
+
+                _context.SubscribedDiscussions.Add(newSubscription);
+                _context.SaveChanges();
+
+                return Json(new { success = true, message = "訂閱成功！", isSubscribed = true });
+            }
+            else
+            {
+                // 如果已經訂閱，則取消訂閱
+                existingSubscription.IsSubscribed = !existingSubscription.IsSubscribed;
+                _context.SaveChanges();
+
+                string message = (existingSubscription.IsSubscribed ?? false) ? "訂閱成功！" : "已取消訂閱。";
+                return Json(new { success = true, message, isSubscribed = existingSubscription.IsSubscribed });
+            }
         }
     }
 }

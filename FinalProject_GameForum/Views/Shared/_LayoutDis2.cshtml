@@ -17,7 +17,7 @@
 				</form>
 			</div>
 			<div class="btn-container">
-				@* <button class="btn btn-primary" data-check-login data-target-url="#">訂閱</button> *@
+				<button class="btn btn-primary" id="subscribeBtn" data-check-login data-discussion-id="@ViewBag.DiscussionId">訂閱</button>
 				<button class="btn btn-success" data-check-login data-target-url="/ArticleEdit/Index/@Model.DiscussionId"><b>發文</b></button>
 			</div>
 		</div>
@@ -105,6 +105,22 @@
 
 		document.getElementById("article-list-btn")?.addEventListener("click", function () {
 			console.log("Article list button clicked!");
+		});
+
+		$(function () {
+			$("#subscribeBtn").on("click", function () {
+				var discussionId = $(this).data("discussion-id");
+
+				$.post("/Discussion/Subscribe", { discussionId: discussionId }, function (response) {
+					alert(response.message);
+
+					if (response.isSubscribed) {
+						$("#subscribeBtn").text("取消訂閱");
+					} else {
+						$("#subscribeBtn").text("訂閱");
+					}
+				});
+			});
 		});
 	</script>
 }
