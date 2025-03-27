@@ -41,8 +41,16 @@
 										</text>
 									</div>
 								</div>
-								<div class="col-2">@item.User?.UserId</div>
-								<div class="col-2">@item.User?.Nickname</div>
+								<div class="col-2">
+									<a href="@Url.Action("Personal", "Personal", new { ownerid = item.UserId })">
+										@item.User?.UserId
+									</a>
+								</div>
+								<div class="col-2">
+									<a href="@Url.Action("Personal", "Personal", new { ownerid = item.UserId })">
+										@item.User?.Nickname
+									</a>
+								</div>
 								<div class="col-7 text-end">@item.PostDate</div>
 							</div>
 							<div class="article-row-2">

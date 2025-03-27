@@ -9,7 +9,7 @@ namespace FinalProject_GameForum.Controllers
     public class ArticleController : Controller
     {
         private readonly GameForumContext _context;
-        private string userId => User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty; // 取得登入使用者 ID
+        private string UserId => User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty; // 取得登入使用者 ID
 
         public ArticleController(GameForumContext context)
         {
@@ -91,7 +91,7 @@ namespace FinalProject_GameForum.Controllers
                 relatedArticles.AddRange(additionalArticles);
             }
 
-            ViewBag.UserId = userId;
+            ViewBag.UserId = UserId;
             ViewBag.ArticleGroupId = id;
             ViewBag.RelatedArticles = relatedArticles;
             ViewBag.PageSize = pageSize;
@@ -117,7 +117,7 @@ namespace FinalProject_GameForum.Controllers
             // 創建留言
             var message = new ArticleMessage()
             {
-                UserId = userId,
+                UserId = UserId,
                 ArticleId = articleId,
                 MessageContent = messageContent,
                 EditDate = DateTime.Now,
@@ -129,6 +129,40 @@ namespace FinalProject_GameForum.Controllers
 
             // 重定向到該文章群組的頁面
             return RedirectToAction("Index", "Article", new { id = articleGroupId });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Subscribe(int articleGroupId)
+        {
+            // 查詢是否已經訂閱
+            var existingSubscription = _context.SubscribedArticles
+                .FirstOrDefault(s => s.UserId == UserId && s.ArticleGroupId == articleGroupId);
+
+            if (existingSubscription == null)
+            {
+                // 如果還沒訂閱，則新增
+                var newSubscription = new SubscribedArticle
+                {
+                    UserId = UserId,
+                    ArticleGroupId = articleGroupId,
+                    IsSubscribed = true
+                };
+
+                _context.SubscribedArticles.Add(newSubscription);
+                _context.SaveChanges();
+
+                return Json(new { success = true, message = "訂閱成功！", isSubscribed = true });
+            }
+            else
+            {
+                // 如果已經訂閱，則取消訂閱
+                existingSubscription.IsSubscribed = !existingSubscription.IsSubscribed;
+                _context.SaveChanges();
+
+                string message = (existingSubscription.IsSubscribed ?? false) ? "訂閱成功！" : "已取消訂閱。";
+                return Json(new { success = true, message, isSubscribed = existingSubscription.IsSubscribed });
+            }
         }
     }
 }
