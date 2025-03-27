@@ -1,0 +1,30 @@
+﻿@model IEnumerable<FinalProject_GameForum.Models.CustomerProblem>
+
+<h1>Customer Problems</h1>
+
+<table class="table align-middle">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.QuestionType)</th>
+            <th>@Html.DisplayNameFor(model => model.QuestionDescription)</th>
+            <th>@Html.DisplayNameFor(model => model.Image)</th>
+            <th>@Html.DisplayNameFor(model => model.User.UserId)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.QuestionType)</td>
+                <td>@Html.DisplayFor(modelItem => item.QuestionDescription)</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ImageBase64))
+                    {
+                        <img src="data:image/png;base64,@item.ImageBase64" alt="Image" width="160" height="90" />
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.User.UserId)</td>
+            </tr>
+        }
+    </tbody>
+</table>

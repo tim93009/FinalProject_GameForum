@@ -38,7 +38,7 @@ namespace FinalProject_GameForum.Controllers
                 .Include(a => a.User)
                 .Include(a => a.ArticleMessages)
                     .ThenInclude(am => am.User)
-                .Where(a => a.ArticleGroupId == id)
+                .Where(a => a.ArticleGroupId == id && a.Status == "存在")
                 .OrderBy(a => a.PostDate)
                 .Skip((page - 1) * pageSize) // 跳過前面 (page-1) * pageSize 篇文章
                 .Take(pageSize) // 取 pageSize 篇文章
