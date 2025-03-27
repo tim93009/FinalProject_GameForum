@@ -14,7 +14,7 @@
 	</div>
 	<br />
 	<p>
-		<button href="" class="category-btn @news?.Category?.ToLower()">
+		<button onclick="window.location.href='/News/Index?category=@news?.Category'" class="category-btn @news?.Category?.ToLower()">
 			@switch (news?.Category?.ToLower())
 			{
 				case "手機":
@@ -38,10 +38,10 @@
 	</p>
 	<div class="news-content">
 		@{
-			var newsImages = news.NewsImages.OrderBy(ni => ni.NewsImageId).ToList() ?? new List<NewsImage>();
+			var newsImages = news?.NewsImages.OrderBy(ni => ni.NewsImageId).ToList() ?? new List<NewsImage>();
 			int imageIndex = 0;
 
-			var paragraphs = news.NewsContent?.Split(new[] { "</h5>", "<h5>" }, StringSplitOptions.RemoveEmptyEntries)
+			var paragraphs = news?.NewsContent?.Split(new[] { "</h5>", "<h5>" }, StringSplitOptions.RemoveEmptyEntries)
 			.Where(p => !string.IsNullOrWhiteSpace(p.Trim()))
 			.ToList() ?? new List<string>();
 
@@ -94,7 +94,7 @@
 {
 	<div id="message" class=" text-container" >
 		<form action="@Url.Action("News", "News", new { id = Model.NewsDetail.FirstOrDefault()?.NewsId })" 
-		method="post" id="commentForm" data-authenticated="@ViewBag.IsAuthenticated" onsubmit="return alertComment()">
+		method="post" id="message" data-authenticated="@ViewBag.IsAuthenticated" onsubmit="return alertComment()">
 		<div class="text-area">
 			<textarea id="text" placeholder="留言..."></textarea>
 				<span class="char-count"></span>
