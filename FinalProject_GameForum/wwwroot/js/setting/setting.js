@@ -92,3 +92,11 @@ function previewImage(event) {
         reader.readAsDataURL(input.files[0])
     }
 }
+
+document.getElementById('Infocancel').addEventListener('click', function () {
+    document.getElementById('InfoForm').reset()
+})
+
+document.getElementById('Namecancel').addEventListener('click', function () {
+    document.getElementById('NameForm').reset()
+})

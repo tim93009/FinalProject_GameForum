@@ -63,7 +63,7 @@ namespace FinalProject_GameForum.Controllers
             {
                 return NotFound("找不到使用者");
             }
-            var visitors = _context.HistoricalVisitors.Where(x => x.OwnerId == ownerid)
+            var visitors = _context.HistoricalVisitors.Where(x => x.OwnerId == ownerid && x.VisitTime >= DateTime.Today && x.VisitTime < DateTime.Today.AddDays(1))
                 .OrderByDescending(x => x.VisitTime)
                 .ToList();
 

@@ -1,7 +1,11 @@
-﻿/* 新聞內容 */
+﻿form{
+   margin:0 !important;
+}
+/* 新聞內容 */
 .myContainer{
     padding:30px 80px;
 }
+
 .myContainer h2 {
     font-weight: bold;
     padding:30px;
@@ -14,28 +18,48 @@
     border-bottom: 1px solid #c9cacb;
     margin-bottom: 15px;
 }
-.myContainer ul {
-    display: flex !important;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 0px;
-}
-.myContainer li {
-    list-style: none;
-}
-.myContainer li img{
-    width:100%;
-}
+
 .news-content {
     padding: 50px;
     margin-bottom: 10px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.news-content h5 {
-    padding: 10px 0;
-    line-height: 2em;
-    margin-top: 20px;
-}
+    .news-content h4 {
+        padding: 10px 30px;
+        line-height: 2em;
+        margin-top: 20px;
+        text-indent: 2em;
+        font-size: 1.25rem
+    }
+    .news-content h5 {
+        padding: 10px 30px;
+        line-height: 2em;
+        margin-top: 40px;
+        text-indent: 2em;
+    }
+    .news-content h6 {
+        padding: 10px 30px;
+        line-height: 2em;
+        margin-left: 2em;
+        font-size: 1rem
+    }
+.news-content img {
+        display: block;
+        max-width: 90%;
+        height: auto;
+        margin: 20px auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+.news-content iframe {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        margin: 20px 0;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 .category-btn {
     font-size: 16px;
     color: red;
@@ -50,7 +74,7 @@
     }
 
     .category-btn.pc {
-        background-color: cornflowerblue;
+        background-color: lightpink;
     }
 
     .category-btn.tv {
@@ -59,6 +83,10 @@
 
     .category-btn.手機 {
         background-color: yellow;
+    }
+    .category-btn img{
+        display:inline;
+        margin: 0;
     }
 
 /* 留言板 */
@@ -104,6 +132,7 @@
     font-size: 22px;
     margin-left:2em;
     margin-top: 10px;
+    text-indent: 0;
 }
 .comment-item h6 {
     color: gray;
@@ -117,19 +146,23 @@
     width: 100%;
     align-items: center;
 }
-form {
-    width:100%;
+.text-container form {
+    width: 100%;
+    margin-top: 15px;
 }
 textarea {
-    margin: 10px 0 0 10%;
-    width: 80%;
+    width: 100%;
     height: 80px;
+    padding: 10px;
     border: 2px solid black;
     border-radius: 4px;
     font-size: 18px;
     color: black;
-    opacity: 0.5;
+    opacity: 0.6;
     transition: box-shadow 0.15s ease-in-out;
+    background: transparent;
+    box-sizing: border-box;
+    resize: none;
 }
     textarea:focus {
         border: 2px solid rgba(0, 123, 255, 0.5);
@@ -152,7 +185,19 @@ textarea {
     border:1px solid black;
     border-radius:5px;
 }
-
+.text-area {
+    position: relative;
+    display: inline-block;
+    width: 80%;
+    margin: 10px 0 0 10%;
+}
+#char-count {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    opacity: 0.4;
+    pointer-events: none;
+}
 
 /* 相關新聞 */
 .others-container{
@@ -187,17 +232,20 @@ textarea {
     text-align: center;
     overflow: hidden;
 }
-
     .otherNews img {
         width: 220px;
         height: 220px;
         object-fit:cover;
         border-radius: 8px;
+        margin: auto;
     }
 
     .otherNews h6 {
         font-size: 14px;
         margin-top: 15px;
+        margin-left: 0;
+        line-height: normal;
+        padding: 0;
     }
 
         .otherNews h6 a {

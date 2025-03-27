@@ -13,24 +13,25 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-		  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-			crossorigin="anonymous"></script>
+	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+	crossorigin="anonymous"></script>
 	<style>
 		table, td, th {
-			border: 1px solid gainsboro;
-			height: 50px;
+		border: 1px solid gainsboro;
+		height: 50px;
 		}
 
-			td:first-child {
-				text-align: center;
-			}
+		td:first-child {
+		text-align: center;
+		}
 
 		th {
-			text-align: center;
+		text-align: center;
 		}
 	</style>
+	<link rel="stylesheet" href="~/css/Personal/Personal.css" asp-append-version="true" />
 </head>
 
 <body>
@@ -44,10 +45,10 @@
 						<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 							<div class="navbar-nav">
 								<a class="nav-link active" href="/Personal/Personal?ownerid=@user">個人首頁</a>
-                                <a class="nav-link" href="/Personal/Collect?ownerid=@user">文章收藏</a>
-                                <a class="nav-link" href="/Personal/Log?ownerid=@user">個人日誌</a>
-                                <a class="nav-link" href="/Personal/Friends?ownerid=@user&status=Friends">好友圈</a>
-                                <a class="nav-link" asp-controller="Setting" asp-action="Setting">會員資訊</a>
+								<a class="nav-link" href="/Personal/Collect?ownerid=@user">文章收藏</a>
+								<a class="nav-link" href="/Personal/Log?ownerid=@user">個人日誌</a>
+								<a class="nav-link" href="/Personal/Friends?ownerid=@user&status=Friends">好友圈</a>
+								<a class="nav-link" asp-controller="Setting" asp-action="Setting">會員資訊</a>
 							</div>
 						</div>
 					</div>
@@ -62,28 +63,46 @@
 								<th>No.</th>
 								<th>收藏文章</th>
 							</tr>
-							<tr>
-								<td>1</td>
-								<td>【繪圖】[羅吉's 繪圖] 一飛沖天!!!</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>【討論】目前鏡流1魂跟緹寶1魂疑似衝突的情況</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>【閒聊】差分宇宙不好玩</td>
-							</tr>
+							@if (Model.Isowner)
+							{
+								<tr>
+									<td>1</td>
+									<td><a href="#" class="Log">【繪圖】[羅吉's 繪圖] 一飛沖天!!!</a></td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td><a href="#" class="Log">【討論】目前鏡流1魂跟緹寶1魂疑似衝突的情況</a></td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td><a href="#" class="Log">【閒聊】差分宇宙不好玩</a></td>
+								</tr>
+							}
+							else
+							{
+								<tr>
+									<td>1</td>
+									<td><a href="#" class="Log">【情報】版本資訊｜2.2版本「真偽倒懸於高塔」</a></td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td><a href="#" class="Log">【攻略】【V2.2】最高可得136抽限定角色喚取！|鳴潮2.2版本星聲福利匯總</a></td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td><a href="#" class="Log">【情報】「全像戰略·嘆息古龍」 挑戰即將更新！</a></td>
+								</tr>
+							}
+							
 						</table>
 					</div>
 				</div>
 			</div>
 			<div class="col-2">
-				<div class="container-md">
-					<div class="row">
+				
 						<div class="card">
 							<div class="card-body">
-								<div>
+						<div class="text-center">
 									<img src="@(Model.owner.PhotoUrl ?? "/img/Login/headphoto.jpg")" class="rounded-circle" height="50px" width="50px">
 									<p class="mt-2"><strong>帳號:</strong> @user</p>
 									<p><strong>暱稱:</strong> @Model.owner.Nickname</p>
@@ -96,7 +115,7 @@
 							@if (Model.Isowner)
 							{
 								<a href="/Personal/Friends?ownerid=@user&status=Followings" class="btn btn-success" id="btn-following">追蹤管理</a>
-								<a href="/Personal/Friends?ownerid=@user&status=Friends" class="btn btn-success active" id="btn-friends">好友圈</a>
+								<a href="/Personal/Friends?ownerid=@user&status=Friends" class="btn btn-success " id="btn-friends">好友圈</a>
 							}
 							else
 							{
@@ -129,8 +148,7 @@
 				</div>
 			</div>
 
-		</div>
-	</div>
+	
 </body>
 
 </html>

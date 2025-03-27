@@ -41,7 +41,26 @@
                 <a href="@Url.Action("News", "News", new { id = news.NewsId })"><img src="@Url.Content(news.ImageUrl)" style="width:216px" /></a>
             </div>
             <div>
-                <button href="" class="category-btn @news.Category?.ToLower()">@news.Category</button>
+                <button href="" class="category-btn @news.Category?.ToLower()">                    
+                    @switch (news.Category?.ToLower())
+                    {
+                        case "手機":
+                            <img src="~/img/News/mobile-game.png" alt="mobile-game" />                            
+                            break;
+                        case "pc":
+                            <img src="~/img/News/computer-game.png" alt="pc" />
+                            break;
+                        case "tv":
+                            <img src="~/img/News/tv-game.png" alt="tv" />
+                            break;
+                        case "電競":
+                            <img src="~/img/News/e-sport.png" alt="e-sport" />
+                            break;
+                        default:
+                        break;
+                    }
+                    @news.Category
+                </button>
 
                 <h1>
                     <a href="@Url.Action("News", "News", new { id = news.NewsId })">@news.NewsTitle</a>

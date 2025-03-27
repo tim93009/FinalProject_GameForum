@@ -195,7 +195,7 @@ body {
 
 
 
-.footer {
+.footer-container {
     display: block;
     position: relative;
     bottom: 0;
@@ -203,7 +203,7 @@ body {
     white-space: nowrap;
     line-height: 50px;
     margin-top: 30px;
-    padding:10px;
+    padding: 10px;
 }
 
 
@@ -293,7 +293,6 @@ form.search:after {
         border-radius: 5px;
         border-left: none; /* Prevent double borders */
         cursor: pointer;
-        margin-left: -51px;
     }
 }
 
