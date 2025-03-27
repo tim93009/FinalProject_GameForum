@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace FinalProject_GameForum.Controllers
 {
@@ -10,6 +11,7 @@ namespace FinalProject_GameForum.Controllers
     {
         private readonly GameForumContext _context;
         private readonly IWebHostEnvironment _env;
+        private string userId => User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty; // 取得登入使用者 ID
 
         public CustomerServiceIssuesController(GameForumContext context, IWebHostEnvironment env)
         {
@@ -30,6 +32,7 @@ namespace FinalProject_GameForum.Controllers
             string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
             var faqData = JsonSerializer.Deserialize<FaqData>(jsonContent);
 
+            ViewBag.UserID = userId;
             return View(faqData);
         }
 
