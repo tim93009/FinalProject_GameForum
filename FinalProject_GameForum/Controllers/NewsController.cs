@@ -69,9 +69,6 @@ namespace FinalProject_GameForum.Controllers
                 .Take(3)
                 .ToListAsync();
 
-            System.Diagnostics.Debug.WriteLine($"NewsMessages Count: {ViewBag.NewsMessages.Count}");
-            System.Diagnostics.Debug.WriteLine($"RelatedNews Count: {ViewBag.RelatedNews.Count}");
-
             var model = new NewsViewModel
             {
                 NewsDetail = newsDetail != null ? new List<News> { newsDetail } : new List<News>(),

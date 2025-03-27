@@ -1,8 +1,8 @@
-﻿var textarea = document.getElementById("text");
-if (textarea) {
-    textarea.addEventListener("input", function () {
-        var message = this.value;
-        var counter = document.getElementById("char-count");
+﻿document.getElementById("text").addEventListener("input", function () {
+    var message = this.value
+    var textarea = this;
+    var error = document.getElementById("error-message");
+    var counter = document.getElementById("char-count");
 
         textarea.classList.remove("error");
         if (error) {
@@ -24,7 +24,7 @@ if (textarea) {
             textarea.classList.remove("error");
         }
     });
-}
+
 function alertComment() {
 
     var message = document.getElementById("text").value;
