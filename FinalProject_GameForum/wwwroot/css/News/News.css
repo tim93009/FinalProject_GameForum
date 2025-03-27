@@ -122,15 +122,30 @@
     margin-bottom: 20px;
     border-bottom: none;
 }
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+    .comment-item img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin: 0;
+        margin-right: 10px;
+    }
 .comment-item h4 {
+    padding: 0;
     color: blue;
     font-size: 16px;
+    text-indent: 0;
     margin: 0;
 }
 .comment-item h5 {
-    color:black;
+    padding: 0;
+    color: black;
     font-size: 22px;
-    margin-left:2em;
+    margin-left: 2em;
     margin-top: 10px;
     text-indent: 0;
 }

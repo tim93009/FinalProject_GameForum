@@ -28,7 +28,8 @@ h2 {
 }
 /* 最新消息 */
 .news-container {
-    margin:50px 140px 0 160px;
+    width:100%;
+    margin:50px 0 0 0;
     padding: 20px;
     background-color: white;
 }

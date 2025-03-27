@@ -35,45 +35,43 @@ namespace FinalProject_GameForum.Controllers
                 .Take(6)
                 .ToList();
 
-            var adProduct = _context.Products
-                .Where(a => a.MainImageUrl != null)
-                .OrderBy(x => Guid.NewGuid())
-                .Take(2)
-                .Select(a => new 
-                {
-                    MainImageUrl = a.MainImageUrl,
-                    ProductId = a.ProductId,
-                    ProductName = a.ProductName
-                })
+            var allProduct = _context.Products
+                .OrderBy(a => a.ProductId)
                 .ToList();
+            
+                int halfCount = allProduct.Count / 2;
+                var firstHalfAds = allProduct.Take(halfCount).ToList();
+                var secondHalfAds = allProduct.Skip(halfCount).ToList();
 
+                var random = new Random();
+                var randomFirstAd = firstHalfAds.OrderBy(x => random.Next()).Take(1).ToList();
+                var randomSecondAd = secondHalfAds
+                    .Where(x => x.ProductId != randomFirstAd[0].ProductId)
+                    .OrderBy(x => random.Next())
+                    .Take(1)
+                    .ToList();
+
+            
             ViewBag.news = newsList;
             ViewBag.product = productList;
             ViewBag.dis = viewsList;
-            ViewBag.ad = adProduct;
+            ViewBag.RandomFirstAd = randomFirstAd;
+            ViewBag.RandomSecondAd = randomSecondAd;
             return View();
         }
-        public IActionResult GetRandomAD ()
+        
+        [HttpGet]
+        public IActionResult GetRandomAd()
         {
-            var adProduct = _context.Products
-                    .Where(a => a.MainImageUrl != null)
-                    .OrderBy(x => Guid.NewGuid())
-                    .Take(1)
-                    .Select(a => new
-                    {
-                        MainImageUrl = Url.Content(a.MainImageUrl),
-                        ProductId = a.ProductId
-                    })
-                    .FirstOrDefault();
-            _logger.LogInformation("Random AD: ProductId={0}, ImageUrl={1}",
-                    adProduct?.ProductId, adProduct?.MainImageUrl);
-
-            if (adProduct == null)
+            var allProducts = _context.Products.ToList();
+            var random = new Random();
+            var randomAd = allProducts.OrderBy(x => random.Next()).First();
+            return Json(new
             {
-                return NotFound();
-            }
-
-            return Json(adProduct);
+                ProductId = randomAd.ProductId,
+                MainImageUrl = randomAd.MainImageUrl,
+                ProductName = randomAd.ProductName
+            });
         }
         public IActionResult Privacy()
         {

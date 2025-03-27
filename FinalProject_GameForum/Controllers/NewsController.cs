@@ -63,11 +63,12 @@ namespace FinalProject_GameForum.Controllers
                 ? newsDetail.NewsMessages.OrderBy(m => m.EditDate).ToList() 
                 : new List<NewsMessage>();
 
-            ViewBag.RelatedNews = await _context.News
-                .Where(n => n.NewsId != id)  
+            ViewBag.RelatedNews = newsDetail?.NewsMessages != null ? await _context.News
+                .Where(n => n.Category == newsDetail.Category && n.NewsId != id)  
                 .OrderByDescending(n => n.EditDate)
                 .Take(3)
-                .ToListAsync();
+                .ToListAsync()
+                : new List<News>(); 
 
             var model = new NewsViewModel
             {

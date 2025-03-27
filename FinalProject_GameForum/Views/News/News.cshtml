@@ -77,7 +77,10 @@
                 foreach (var message in messages)
                 {
                     <div class="comment-item">
+						<div class="user-info">
+						<img src="@(message.User?.PhotoUrl ?? Url.Content("~/img/Login/headphoto.jpg"))" alt="User Photo" class="user-photo" />
                         <h4>@(message.User?.UserId ?? "匿名")</h4>
+						</div>
                         <h5>@message.MessageContent</h5>						
                         <h6>@(message.EditDate?.ToString("yyyy-MM-dd HH:mm") ?? "")</h6>
                     </div>

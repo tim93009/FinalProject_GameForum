@@ -4,9 +4,9 @@ body {
     background-position: left top, center;
 }
 
-
-
-
+main {
+    width: 100%;
+}
 
 .navbar {
     position: fixed;

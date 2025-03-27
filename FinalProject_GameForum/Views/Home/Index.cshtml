@@ -52,9 +52,18 @@
 
 @* 廣告 *@
 <div class="ad-container">
-    @foreach (var ad in ViewBag.ad)
+    @foreach (var ad in ViewBag.RandomFirstAd)
     {
-        <div class="ad" data-product-id ="@ad.ProductId">
+        <div class="ad first-half" data-product-id="@ad.ProductId">
+            <a href="@Url.Action("Index", "Product", new { productId = ad.ProductId })" alt="" title="@ad.ProductName">
+                <img src="@ad.MainImageUrl" />
+            </a>
+        </div>
+    }
+
+    @foreach (var ad in ViewBag.RandomSecondAd)
+    {
+        <div class="ad second-half" data-product-id="@ad.ProductId">
             <a href="@Url.Action("Index", "Product", new { productId = ad.ProductId })" alt="" title="@ad.ProductName">
                 <img src="@ad.MainImageUrl" />
             </a>
@@ -104,6 +113,6 @@
 
 <script src="~/js/Home/Home.js"></script>
 <script>
-    window.getRandomAdUrl = '@Url.Action("GetRandomAD", "Home")';
+    window.getRandomAdUrl = '@Url.Action("GetRandomAd", "Home")';
     window.productIndexUrl = '@Url.Action("Index", "Product")';
 </script>
