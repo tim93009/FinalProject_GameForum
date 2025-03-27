@@ -82,9 +82,7 @@ namespace FinalProject_GameForum.Controllers
             bool IsFollow = _context.Relationships.Any(x =>
                 x.PersonAid == currentUserId && x.PersonBid == ownerid && x.RelationshipType == "Following");
 
-            var Article = _context.Articles.Where(x => x.UserId == ownerid && x.Status == "存在")
-                .Select(x=> x.ArticleGroupId).ToList();
-            var UserArticle = _context.ArticleGroups.Where(x => Article.Contains(x.ArticleGroupId)).Select(x => x.ArticleTitle).ToList();
+           
             
             var viewuserinfo = visitors.Select(x =>
             {
@@ -110,7 +108,19 @@ namespace FinalProject_GameForum.Controllers
                 
 
             };
+            var Article = (from a in _context.ArticleGroups
+                          join b in _context.Articles
+                          on a.ArticleGroupId equals b.ArticleGroupId
+                          where b.UserId == ownerid
+                          select new
+                          {
+                              a.ArticleGroupId,
+                              a.CoverImage,
+                              a.ArticleTitle,
+                              b.ArticleContent
+                          }).ToList();
 
+            ViewBag.Article = Article;
 
 
             return View(viewinfo);
@@ -156,6 +166,8 @@ namespace FinalProject_GameForum.Controllers
 
             };
 
+
+           
             return View(viewinfo);
         }
         public IActionResult Log(string ownerid)
