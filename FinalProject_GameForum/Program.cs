@@ -59,7 +59,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddControllersWithViews();
 
 // 監聽所有可用的網絡介面
-builder.WebHost.UseUrls("http://0.0.0.0:7281", "https://0.0.0.0:7282");
+//builder.WebHost.UseUrls("http://0.0.0.0:7281", "https://0.0.0.0:7282");
 
 var app = builder.Build();
 
