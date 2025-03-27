@@ -43,8 +43,15 @@
 <form id="uploadForm" method="post" enctype="multipart/form-data" asp-action="Submit">
 	<div class="p-3">
 		<div class="mb-3">
-			<label for="userId">使用者 ID</label>
-			<input class="form-control" type="text" name="userId" required>
+			@if (ViewBag.UserID == null)
+			{
+				<label for="userId">使用者 ID</label>
+				<input class="form-control" type="text" name="userId" required>
+			}
+			else
+			{
+				<input type="hidden" value="@ViewBag.UserID" name="userId"/>
+			}
 		</div>
 		<div class="mb-3">
 			<label for="questionType">問題類型</label>
