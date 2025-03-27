@@ -65,79 +65,80 @@
                                 <th>標題</th>
                                 <th>發表時間</th>
                             </tr>
-                           
+
                             @if (Model.Isowner)
                             {
-                            <tr>
-                                <td>1</td>
-                                <td><a href="#" class="Log">【問題】同樣情境(演算、選題)，手動能過，自動應該能過啊，是AI太弱還是要自動玩家加好加滿？</a></td>
-                                <td>2025-02-11</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><a href="#" class="Log">【閒聊】【純閒聊】這套遺器終將迎來真正的主人</a></td>
-                                <td>2025-03-01</td>
-                            </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td><a href="#" class="Log">【問題】同樣情境(演算、選題)，手動能過，自動應該能過啊，是AI太弱還是要自動玩家加好加滿？</a></td>
+                                    <td>2025-02-11</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td><a href="#" class="Log">【閒聊】【純閒聊】這套遺器終將迎來真正的主人</a></td>
+                                    <td>2025-03-01</td>
+                                </tr>
                             }
                             else
                             {
                                 <tr>
-                                <td>1</td>
-                                <td><a href="#" class="Log">【心得】鳴潮 任務道具&紀念品一覽｜持續更新</a></td>
-                                <td>2025-01-28</td>
+                                    <td>1</td>
+                                    <td><a href="#" class="Log">【心得】鳴潮 任務道具&紀念品一覽｜持續更新</a></td>
+                                    <td>2025-01-28</td>
                                 </tr>
                             }
-                               
-                            
+
+
                         </table>
                     </div>
                 </div>
             </div>
             <div class="col-2">
-                
-                        <div class="card">
-                            <div class="card-body">
+
+                <div class="card">
+                    <div class="card-body">
                         <div class="text-center">
-                                    <img src="@(Model.owner.PhotoUrl ?? "/img/Login/headphoto.jpg")" class="rounded-circle" height="50px" width="50px">
-                                    <p class="mt-2"><strong>帳號:</strong> @user</p>
-                                    <p><strong>暱稱:</strong> @Model.owner.Nickname</p>
-                                    <p><strong>好友數:</strong> @Model.friends.Count</p>
-                                </div>
-                                <!-- 這邊放置右側卡片內容 -->
-                            </div>
+                            <img src="@(Model.owner.PhotoUrl ?? "/img/Login/headphoto.jpg")" class="rounded-circle" height="50px" width="50px">
+                            <p class="mt-2"><strong>帳號:</strong> @user</p>
+                            <p><strong>暱稱:</strong> @Model.owner.Nickname</p>
+                            <p><strong>好友數:</strong> @Model.friends.Count</p>
                         </div>
-                        <div class="mt-3 ms-2">
-                            @if (Model.Isowner)
-                            {
-                                <a href="/Personal/Friends?ownerid=@user&status=Followings" class="btn btn-success" id="btn-following">追蹤管理</a>
-                                <a href="/Personal/Friends?ownerid=@user&status=Friends" class="btn btn-success " id="btn-friends">好友圈</a>
-                            }
-                            else
-                            {
-                                if (Model.Isfriend)
-                                {
-                                    <button class="btn btn-success btn-sm" disabled> 已是好友</button>
-                                }
-                                else
-                                {
-                                    <a href="/Personal/AddFriend?requestid=@user" class="me-4 btn btn-success btn-sm">加好友</a>
-                                }
+                        <!-- 這邊放置右側卡片內容 -->
+                    </div>
+                </div>
+                <div class="mt-3 ms-2">
+                    @if (Model.Isowner)
+                    {
+                        <a href="/Personal/Friends?ownerid=@user&status=Followings" class="btn btn-success" id="btn-following">追蹤管理</a>
+                        <a href="/Personal/Friends?ownerid=@user&status=Friends" class="btn btn-success " id="btn-friends">好友圈</a>
+                    }
+                    else
+                    {
+                        if (Model.Isfriend)
+                        {
+
+                            <button class="btn btn-success btn-sm" disabled> 已是好友</button>
+                        }
+                        else if(Model.IsRequest)
+                        {
+                            <a  class="me-3 btn btn-success btn-sm" disabled>已發送請求</a>
+                        }
+                        else
+                        {
+                            <a href="/Personal/AddFriend?requestid=@user" class="me-3 btn btn-success btn-sm" >加好友</a>
+                            
+                        }
 
 
-                                if (Model.IsFollow)
-                                {
-                                    <button class="me-4 btn btn-success btn-sm" disabled> 已追蹤</button>
-                                }
-                                else
-                                {
-                                    <a href="/Personal/AddFollow?requestid=@user" class="me-4 btn btn-success btn-sm"> 追蹤</a>
-                                }
-
-
-
-                            }
-
-
+                        if (Model.IsFollow)
+                        {
+                            <button class="me-3 btn btn-success btn-sm" disabled> 已追蹤</button>
+                        }
+                        else
+                        {
+                            <a href="/Personal/AddFollow?requestid=@user" class="me-3 btn btn-success btn-sm"> 追蹤</a>
+                        }
+                    }
                         </div>
                     </div>
                 </div>
