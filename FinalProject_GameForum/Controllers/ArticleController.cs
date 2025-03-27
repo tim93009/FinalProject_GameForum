@@ -52,7 +52,8 @@ namespace FinalProject_GameForum.Controllers
                 .Include(a => a.ArticleGroup)
                 .Where(a => a.ArticleGroup!.DiscussionId == currentArticleGroup.DiscussionId
                          && a.ArticleGroup.Category == currentArticleGroup.Category
-                         && a.ArticleGroupId != id) // 排除當前文章群組
+                         && a.ArticleGroupId != id
+                         && a.Status == "存在") // 排除當前文章群組
                 .Take(4) // 限制為 4 篇
                 .Select(a => new
                 {
@@ -72,7 +73,8 @@ namespace FinalProject_GameForum.Controllers
                     .Include(a => a.ArticleGroup)
                     .Where(a => a.ArticleGroup!.DiscussionId == currentArticleGroup.DiscussionId
                              && a.ArticleGroupId != id
-                             && !existingIds.Contains(a.ArticleGroupId)) // 排除已選取的文章
+                             && !existingIds.Contains(a.ArticleGroupId)
+                             && a.Status == "存在") // 排除已選取的文章
                     .GroupBy(a => a.ArticleGroupId) // 按 ArticleGroupId 分組，避免重複
                     .Select(g => g.First()) // 每組取第一篇
                     .Take(4 - relatedArticles.Count)

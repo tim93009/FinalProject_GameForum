@@ -204,7 +204,8 @@ namespace FinalProject_GameForum.Controllers
         public IActionResult ReSetPw(string email, string NewPw)
         {
             var user = _context.Users.FirstOrDefault(e => e.Email == email);
-            user!.Password = NewPw;
+            string hashpassword = BCrypt.Net.BCrypt.HashPassword(NewPw);
+            user!.Password = hashpassword;
             _context.SaveChanges();
 
             TempData["Asept"] = "密碼重設成功! 請重新登入!";
