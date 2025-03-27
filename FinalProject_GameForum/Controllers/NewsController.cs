@@ -18,7 +18,7 @@ namespace FinalProject_GameForum.Controllers
         public async Task<IActionResult> Index(string? category, string? search)
         {
             var NewsHome = await _context.News
-                .OrderBy(n => n.EditDate)
+                .OrderByDescending(n => n.EditDate)
                 .Take(3)
                 .ToListAsync();
 
@@ -31,7 +31,7 @@ namespace FinalProject_GameForum.Controllers
             }
 
             var NewsDetail = await NewsDetailQuery
-                .OrderBy(n => n.EditDate)
+                .OrderByDescending(n => n.EditDate)
                 .Include(n => n.NewsImages)
                 .Include(n => n.NewsMessages)
                 .Take(8)

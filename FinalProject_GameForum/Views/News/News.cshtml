@@ -36,42 +36,59 @@
 		</button>
 		<time >@news?.EditDate?.ToString("yyyy-MM-dd HH:mm")</time>
 	</p>
-	<ul>
-		@foreach (var image in news?.NewsImages ?? Enumerable.Empty<NewsImage>())
-		{
-			<li><img src="@image.ImageUrl"></li>
-		}
-	</ul>
-
 	<div class="news-content">
-		@foreach (var paragraph in news?.NewsContent.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries) ?? Enumerable.Empty<string>())
-		{
-			<h5>@paragraph</h5>
+		@{
+			var newsImages = news.NewsImages.OrderBy(ni => ni.NewsImageId).ToList() ?? new List<NewsImage>();
+			int imageIndex = 0;
+
+			var paragraphs = news.NewsContent?.Split(new[] { "</h5>", "<h5>" }, StringSplitOptions.RemoveEmptyEntries)
+			.Where(p => !string.IsNullOrWhiteSpace(p.Trim()))
+			.ToList() ?? new List<string>();
+
+			int totalParagraphs = paragraphs.Count;
+
+			for (int i = 0; i < totalParagraphs; i++)
+			{
+				string cleanedParagraph = paragraphs[i].Trim();
+				if (!cleanedParagraph.StartsWith("<") && !cleanedParagraph.EndsWith(">"))
+				{
+					cleanedParagraph = $"<h5>{cleanedParagraph}</h5>";
+				}
+
+				// 只有在非最後一段時插入圖片
+				if (i < totalParagraphs - 1 && imageIndex < newsImages.Count)
+				{
+					<img src="@newsImages[imageIndex].ImageUrl" alt="News Image" class="news-paragraph-image" />
+					imageIndex++;
+				}
+
+				@Html.Raw(cleanedParagraph)
+			}
 		}
 	</div>
 </div>
 
 <!-- 留言板 -->
-<div class="message-container" >
-	<div class="message">
-		<div class="messageList">
-			@if (ViewBag.NewsMessages is List<FinalProject_GameForum.Models.NewsMessage> messages && messages.Any())
-			{
-				foreach (var message in messages)
-				{
-					<div class="comment-item">
-						<h4>@(message.User != null ? message.User.UserId : "匿名")</h4>
-						<h5>@message.MessageContent</h5>						
-						<h6>@(message.EditDate?.ToString("yyyy-MM-dd HH:mm") ?? "")</h6>
-					</div>
-				}
-			}
-			else
-			{
-				<p>目前沒有留言。</p>
-			}
-		</div>
-	</div>
+<div class="message-container">
+    <div class="message">
+        <div class="messageList">
+            @if (ViewBag.NewsMessages is List<FinalProject_GameForum.Models.NewsMessage> messages && messages.Any())
+            {
+                foreach (var message in messages)
+                {
+                    <div class="comment-item">
+                        <h4>@(message.User?.UserId ?? "匿名")</h4>
+                        <h5>@message.MessageContent</h5>						
+                        <h6>@(message.EditDate?.ToString("yyyy-MM-dd HH:mm") ?? "")</h6>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>目前沒有留言。</p>
+            }
+        </div>
+    </div>
 </div>
 @if (ViewBag.IsAuthenticated == true)
 {
@@ -93,22 +110,22 @@ else
 
 <!-- 相關新聞 -->
 <div class="others-container">
-	<div class="others">
-		<h3>相關新聞</h3>
-		<div class="newsList">
-			@if(ViewBag.RelatedNews is List<FinalProject_GameForum.Models.News>relatedNewsList && relatedNewsList.Any())
-			{
-				foreach (var relatedNews in relatedNewsList)
-				{
-					<div class="otherNews">
-						<a href="@Url.Action("News","News",new {id = relatedNews.NewsId})">
-							<img src="@relatedNews.ImageUrl" alt="MHN Image" style="width:220px;height:220px" /></a>
-						<h6><a href="@Url.Action("News","News",new {id = relatedNews.NewsId})">@relatedNews.NewsTitle</a></h6>
-					</div>
-				}
-			}
-		</div>		
-	</div>
+    <div class="others">
+        <h3>相關新聞</h3>
+      <div class="newsList">
+            @if (ViewBag.RelatedNews is List<FinalProject_GameForum.Models.News> relatedNewsList && relatedNewsList.Any())
+            {
+                foreach (var relatedNews in relatedNewsList)
+                {
+                    <div class="otherNews">
+                        <a href="@Url.Action("News", "News", new { id = relatedNews.NewsId })">
+                            <img src="@relatedNews.ImageUrl" alt="" /></a>
+                        <h6><a href="@Url.Action("News", "News", new { id = relatedNews.NewsId })">@relatedNews.NewsTitle</a></h6>
+                    </div>
+                }
+            }
+        </div>		
+    </div>
 </div>
 
 <script src="~/js/News/News.js" asp-append-version="true"></script>

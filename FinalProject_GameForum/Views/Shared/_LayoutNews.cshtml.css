@@ -52,7 +52,7 @@ form.search button {
     font-size: 17px;
     border: 1px solid grey;
     border-radius: 5px;
-    border-left: none; /* Prevent double borders */
+    border-left: none;
     cursor: pointer;
     margin-left: -51px;
 }
