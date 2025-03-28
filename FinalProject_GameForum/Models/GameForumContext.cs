@@ -57,12 +57,15 @@ public partial class GameForumContext : DbContext
 
     public virtual DbSet<ViewHistory> ViewHistories { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=GameForum;Integrated Security=True;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Advertisement>(entity =>
         {
-            entity.HasKey(e => e.AdvertisementId).HasName("PK__Advertis__C4C7F42D4D3DA161");
+            entity.HasKey(e => e.AdvertisementId).HasName("PK__Advertis__C4C7F42DDBADE868");
 
             entity.ToTable("Advertisement");
 
@@ -126,7 +129,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<ArticleMessage>(entity =>
         {
-            entity.HasKey(e => e.ArticleMessageId).HasName("PK__ArticleM__1AF9C2988E963744");
+            entity.HasKey(e => e.ArticleMessageId).HasName("PK__ArticleM__1AF9C29861A7D83E");
 
             entity.ToTable("ArticleMessage");
 
@@ -199,7 +202,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<News>(entity =>
         {
-            entity.HasKey(e => e.NewsId).HasName("PK__News__954EBDD3851303FD");
+            entity.HasKey(e => e.NewsId).HasName("PK__News__954EBDD389FF62E3");
 
             entity.Property(e => e.NewsId).HasColumnName("NewsID");
             entity.Property(e => e.Category).HasMaxLength(24);
@@ -212,7 +215,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<NewsImage>(entity =>
         {
-            entity.HasKey(e => e.NewsImageId).HasName("PK__NewsImag__E8D22582210FCF43");
+            entity.HasKey(e => e.NewsImageId).HasName("PK__NewsImag__E8D225825BC578BD");
 
             entity.ToTable("NewsImage");
 
@@ -223,12 +226,12 @@ public partial class GameForumContext : DbContext
             entity.HasOne(d => d.News).WithMany(p => p.NewsImages)
                 .HasForeignKey(d => d.NewsId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__NewsImage__NewsI__6C190EBB");
+                .HasConstraintName("FK__NewsImage__NewsI__6FE99F9F");
         });
 
         modelBuilder.Entity<NewsMessage>(entity =>
         {
-            entity.HasKey(e => e.NewsMessageId).HasName("PK__NewsMess__FAB86F19B10D6530");
+            entity.HasKey(e => e.NewsMessageId).HasName("PK__NewsMess__FAB86F1997B81A93");
 
             entity.ToTable("NewsMessage");
 
@@ -246,7 +249,7 @@ public partial class GameForumContext : DbContext
             entity.HasOne(d => d.News).WithMany(p => p.NewsMessages)
                 .HasForeignKey(d => d.NewsId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__NewsMessa__NewsI__6D0D32F4");
+                .HasConstraintName("FK__NewsMessa__NewsI__71D1E811");
 
             entity.HasOne(d => d.User).WithMany(p => p.NewsMessages)
                 .HasForeignKey(d => d.UserId)
@@ -305,7 +308,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<OrderStatus>(entity =>
         {
-            entity.HasKey(e => e.OrderStatusId).HasName("PK__OrderSta__BC674F411C97A0CE");
+            entity.HasKey(e => e.OrderStatusId).HasName("PK__OrderSta__BC674F4160BE0DF2");
 
             entity.ToTable("OrderStatus");
 
@@ -315,7 +318,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Product__B40CC6EDAB979497");
+            entity.HasKey(e => e.ProductId).HasName("PK__Product__B40CC6ED3A7D2108");
 
             entity.ToTable("Product");
 
@@ -330,12 +333,12 @@ public partial class GameForumContext : DbContext
 
             entity.HasOne(d => d.ProductCategory).WithMany(p => p.Products)
                 .HasForeignKey(d => d.ProductCategoryId)
-                .HasConstraintName("FK__Product__Product__71D1E811");
+                .HasConstraintName("FK__Product__Product__778AC167");
         });
 
         modelBuilder.Entity<ProductAdditionalImage>(entity =>
         {
-            entity.HasKey(e => e.ProductAdditionalImageId).HasName("PK__ProductA__EE272CE4A9FE2C06");
+            entity.HasKey(e => e.ProductAdditionalImageId).HasName("PK__ProductA__EE272CE43A01BA38");
 
             entity.ToTable("ProductAdditionalImage");
 
@@ -346,12 +349,12 @@ public partial class GameForumContext : DbContext
             entity.HasOne(d => d.Product).WithMany(p => p.ProductAdditionalImages)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ProductAd__Produ__72C60C4A");
+                .HasConstraintName("FK__ProductAd__Produ__797309D9");
         });
 
         modelBuilder.Entity<ProductCategory>(entity =>
         {
-            entity.HasKey(e => e.ProductCategoryId).HasName("PK__ProductC__3224ECEEC935A3E1");
+            entity.HasKey(e => e.ProductCategoryId).HasName("PK__ProductC__3224ECEE212A35A0");
 
             entity.ToTable("ProductCategory");
 
@@ -375,7 +378,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<ShoppingCart>(entity =>
         {
-            entity.HasKey(e => e.ShoppingCartId).HasName("PK__Shopping__7A789A8400340829");
+            entity.HasKey(e => e.ShoppingCartId).HasName("PK__Shopping__7A789A841B823F84");
 
             entity.ToTable("ShoppingCart");
 
@@ -389,7 +392,7 @@ public partial class GameForumContext : DbContext
             entity.HasOne(d => d.Product).WithMany(p => p.ShoppingCarts)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ShoppingC__Produ__73BA3083");
+                .HasConstraintName("FK__ShoppingC__Produ__7B5B524B");
 
             entity.HasOne(d => d.User).WithMany(p => p.ShoppingCarts)
                 .HasForeignKey(d => d.UserId)
@@ -480,7 +483,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<ViewHistory>(entity =>
         {
-            entity.HasKey(e => e.ViewHistoryId).HasName("PK__ViewHist__55D4BB137E34B44C");
+            entity.HasKey(e => e.ViewHistoryId).HasName("PK__ViewHist__55D4BB13D6B6CD1E");
 
             entity.ToTable("ViewHistory");
 
@@ -497,7 +500,7 @@ public partial class GameForumContext : DbContext
             entity.HasOne(d => d.Product).WithMany(p => p.ViewHistories)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ViewHisto__Produ__75A278F5");
+                .HasConstraintName("FK__ViewHisto__Produ__02084FDA");
 
             entity.HasOne(d => d.User).WithMany(p => p.ViewHistories)
                 .HasForeignKey(d => d.UserId)

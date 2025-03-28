@@ -34,7 +34,7 @@ namespace FinalProject_GameForum.Controllers
                 .OrderByDescending(n => n.EditDate)
                 .Include(n => n.NewsImages)
                 .Include(n => n.NewsMessages)
-                .Take(8)
+                .Take(10)
                 .ToListAsync();
 
             var model = new NewsViewModel
