@@ -52,3 +52,13 @@ a {
 /*    .title-content a:first-child::before {
         display: none; 
     }*/
+
+.custom-image-class {
+    width: 480px;
+    height: 270px;
+}
+
+.ql-video {
+    width: 480px;
+    height: 270px;
+}

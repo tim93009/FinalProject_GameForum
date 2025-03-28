@@ -28,12 +28,12 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr data-cart-id="@item.ShoppingCartId">
+                    <tr data-cart-id="@item.ShoppingCartId" data-stock="@item.Product.Stock">
                         <td>@item.Product.ProductName</td>
                         <td>NT$@item.Product.Price</td>
                         <td>
                             <button class="btn-reduce" data-cart-id="@item.ShoppingCartId">-</button>
-                            <span class="quantity">@item.Quantity</span>
+                            <input type="number" class="quantity-input" data-cart-id="@item.ShoppingCartId" value="@item.Quantity" min="0" step="1" />
                             <button class="btn-increase" data-cart-id="@item.ShoppingCartId">+</button>
                         </td>
                         <td class="subtotal">NT$@(item.Product.Price * item.Quantity)</td>

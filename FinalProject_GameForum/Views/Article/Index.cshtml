@@ -15,7 +15,7 @@
 					</svg>
 				</a>
 				<h2>
-					[@Model.FirstOrDefault()?.ArticleGroup?.Category] @Model.FirstOrDefault()?.ArticleGroup?.ArticleTitle
+					【@Model.FirstOrDefault()?.ArticleGroup?.Category】 @Model.FirstOrDefault()?.ArticleGroup?.ArticleTitle
 				</h2>
 			</div>
 
@@ -46,12 +46,12 @@
 										@item.User?.UserId
 									</a>
 								</div>
-								<div class="col-2">
+								<div class="col-6">
 									<a href="@Url.Action("Personal", "Personal", new { ownerid = item.UserId })">
 										@item.User?.Nickname
 									</a>
 								</div>
-								<div class="col-7 text-end">@item.PostDate</div>
+								<div class="col-3 text-end">@item.PostDate</div>
 							</div>
 							<div class="article-row-2">
 								<p class="text-break">@Html.Raw(item.ArticleContent)</p>
@@ -103,7 +103,7 @@
 									<img src="@(article.Image ?? Url.Content("~/img/article/th.jfif"))" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" />
 								</a>
 							</div>
-							<h6>@article.Title</h6>
+							<h6>【@article.Category】@article.Title</h6>
 						</div>
 					}
 				</div>

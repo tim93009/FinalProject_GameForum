@@ -55,23 +55,30 @@ namespace FinalProject_GameForum.Controllers
             if (quantity <= 0)
             {
                 _db.ShoppingCarts.Remove(cartItem);
+                _db.SaveChanges();
+                return Json(new { success = true, removed = true });
             }
             else if (cartItem.Product.Stock < quantity)
             {
-                return Json(new { success = false, message = "庫存不足" });
+                return Json(new
+                {
+                    success = false,
+                    message = $"庫存不足，僅剩 {cartItem.Product.Stock} 件",
+                    stock = cartItem.Product.Stock // 返回當前庫存
+                });
             }
             else
             {
                 cartItem.Quantity = quantity;
+                _db.SaveChanges();
+                return Json(new
+                {
+                    success = true,
+                    newQuantity = cartItem.Quantity,
+                    price = cartItem.Product.Price,
+                    stock = cartItem.Product.Stock // 返回庫存資訊
+                });
             }
-
-            _db.SaveChanges();
-            return Json(new
-            {
-                success = true,
-                newQuantity = cartItem?.Quantity ?? 0,
-                price = cartItem?.Product.Price ?? 0 // 新增價格回傳
-            });
         }
 
         [HttpPost]

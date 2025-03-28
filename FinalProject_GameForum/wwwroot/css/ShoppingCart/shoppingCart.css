@@ -20,8 +20,16 @@
         border-bottom: 1px solid #ddd;
     }
 
-.btn-reduce, .btn-increase, .btn-remove {
+.btn-remove {
     padding: 5px 10px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.btn-reduce, .btn-increase {
+    padding: 1px 6px;
     cursor: pointer;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
@@ -31,6 +39,15 @@
     .btn-reduce:hover, .btn-increase:hover, .btn-remove:hover {
         background-color: #e0e0e0;
     }
+
+.quantity-input {
+    width: 70px;
+    text-align: center;
+    margin: 0 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
 /* 提示訊息樣式（沿用之前的設計） */
 .cart-message {
