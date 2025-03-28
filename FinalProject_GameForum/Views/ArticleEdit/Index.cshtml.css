@@ -6,6 +6,13 @@
     border: 1px solid #ccc;
 }
 
+.articleText {
+    width: 100px;
+    background: azure;
+    font-size: 20px;
+    font-weight:700;
+}
+
 .myContainer {
     background-color: lightblue;
     padding: 20px;
@@ -57,4 +64,16 @@
     width: 500px;
     margin-top: 10px;
     object-fit: cover;
+}
+
+.ql-size-small {
+    font-size: .75em
+}
+
+.ql-size-large {
+    font-size: 1.25em
+}
+
+.ql-size-huge {
+    font-size: 1.5em
 }

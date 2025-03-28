@@ -41,7 +41,7 @@
                 <a href="@Url.Action("News", "News", new { id = news.NewsId })"><img src="@Url.Content(news.ImageUrl)" style="width:216px" /></a>
             </div>
             <div>
-                <button onclick="window.location.href='/News/Index?category=@news?.Category'" class="category-btn @news.Category?.ToLower()">
+                <button onclick="window.location.href='/News/Index?category=@news.Category'" class="category-btn @news.Category?.ToLower()">
                     @switch (news.Category?.ToLower())
                     {
                         case "手機":
@@ -66,8 +66,13 @@
                     <a href="@Url.Action("News", "News", new { id = news.NewsId })">@news.NewsTitle</a>
                 </h1>
                 <p>
-                    @news.NewsContent.Substring(0, Math.Min(news.NewsContent.Length, 100))...
-                    <a href="@Url.Action("News", "News", new { id = news.NewsId })">繼續閱讀</a>
+                    @{
+                        string content = news.NewsContent ?? "";
+                        string plainText = System.Text.RegularExpressions.Regex.Replace(content, "<.*?>", "");
+                        string preview = plainText.Length > 100 ? plainText.Substring(0, 100) + "..." : plainText;
+                    }
+                    @preview
+                    <a href="@Url.Action("News", "News", new { id = news.NewsId })"><span>繼續閱讀</span></a>
                 </p>
             </div>
         </div>

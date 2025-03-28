@@ -56,7 +56,7 @@
 				}
 
 				// 只有在非最後一段時插入圖片
-				if (i < totalParagraphs - 1 && imageIndex < newsImages.Count)
+				if (i < totalParagraphs - 1 && imageIndex < newsImages.Count && !cleanedParagraph.Contains("<h3>"))
 				{
 					<img src="@newsImages[imageIndex].ImageUrl" alt="News Image" class="news-paragraph-image" />
 					imageIndex++;
@@ -88,7 +88,7 @@
             }
             else
             {
-                <p>目前沒有留言。</p>
+                <p>歡迎留言！</p>
             }
         </div>
     </div>

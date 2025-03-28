@@ -57,12 +57,15 @@ public partial class GameForumContext : DbContext
 
     public virtual DbSet<ViewHistory> ViewHistories { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=GameForum;Integrated Security=True;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Advertisement>(entity =>
         {
-            entity.HasKey(e => e.AdvertisementId).HasName("PK__Advertis__C4C7F42D4D3DA161");
+            entity.HasKey(e => e.AdvertisementId).HasName("PK__Advertis__C4C7F42D39A3C861");
 
             entity.ToTable("Advertisement");
 
@@ -126,7 +129,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<ArticleMessage>(entity =>
         {
-            entity.HasKey(e => e.ArticleMessageId).HasName("PK__ArticleM__1AF9C2988E963744");
+            entity.HasKey(e => e.ArticleMessageId).HasName("PK__ArticleM__1AF9C298A9AE2640");
 
             entity.ToTable("ArticleMessage");
 
@@ -195,11 +198,16 @@ public partial class GameForumContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("VisitorID");
+
+            entity.HasOne(d => d.Owner).WithMany(p => p.HistoricalVisitors)
+                .HasForeignKey(d => d.OwnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_HistoricalVisitors_User");
         });
 
         modelBuilder.Entity<News>(entity =>
         {
-            entity.HasKey(e => e.NewsId).HasName("PK__News__954EBDD3851303FD");
+            entity.HasKey(e => e.NewsId).HasName("PK__News__954EBDD396C8DDCD");
 
             entity.Property(e => e.NewsId).HasColumnName("NewsID");
             entity.Property(e => e.Category).HasMaxLength(24);
@@ -212,7 +220,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<NewsImage>(entity =>
         {
-            entity.HasKey(e => e.NewsImageId).HasName("PK__NewsImag__E8D22582210FCF43");
+            entity.HasKey(e => e.NewsImageId).HasName("PK__NewsImag__E8D225826D192AF0");
 
             entity.ToTable("NewsImage");
 
@@ -223,12 +231,12 @@ public partial class GameForumContext : DbContext
             entity.HasOne(d => d.News).WithMany(p => p.NewsImages)
                 .HasForeignKey(d => d.NewsId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__NewsImage__NewsI__6C190EBB");
+                .HasConstraintName("FK__NewsImage__NewsI__6FE99F9F");
         });
 
         modelBuilder.Entity<NewsMessage>(entity =>
         {
-            entity.HasKey(e => e.NewsMessageId).HasName("PK__NewsMess__FAB86F19B10D6530");
+            entity.HasKey(e => e.NewsMessageId).HasName("PK__NewsMess__FAB86F1921170E1B");
 
             entity.ToTable("NewsMessage");
 
@@ -246,7 +254,7 @@ public partial class GameForumContext : DbContext
             entity.HasOne(d => d.News).WithMany(p => p.NewsMessages)
                 .HasForeignKey(d => d.NewsId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__NewsMessa__NewsI__6D0D32F4");
+                .HasConstraintName("FK__NewsMessa__NewsI__70DDC3D8");
 
             entity.HasOne(d => d.User).WithMany(p => p.NewsMessages)
                 .HasForeignKey(d => d.UserId)
@@ -305,7 +313,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<OrderStatus>(entity =>
         {
-            entity.HasKey(e => e.OrderStatusId).HasName("PK__OrderSta__BC674F411C97A0CE");
+            entity.HasKey(e => e.OrderStatusId).HasName("PK__OrderSta__BC674F410CE9712C");
 
             entity.ToTable("OrderStatus");
 
@@ -315,7 +323,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Product__B40CC6EDAB979497");
+            entity.HasKey(e => e.ProductId).HasName("PK__Product__B40CC6EDC341A61D");
 
             entity.ToTable("Product");
 
@@ -330,12 +338,12 @@ public partial class GameForumContext : DbContext
 
             entity.HasOne(d => d.ProductCategory).WithMany(p => p.Products)
                 .HasForeignKey(d => d.ProductCategoryId)
-                .HasConstraintName("FK__Product__Product__71D1E811");
+                .HasConstraintName("FK__Product__Product__75A278F5");
         });
 
         modelBuilder.Entity<ProductAdditionalImage>(entity =>
         {
-            entity.HasKey(e => e.ProductAdditionalImageId).HasName("PK__ProductA__EE272CE4A9FE2C06");
+            entity.HasKey(e => e.ProductAdditionalImageId).HasName("PK__ProductA__EE272CE43758FC64");
 
             entity.ToTable("ProductAdditionalImage");
 
@@ -346,12 +354,12 @@ public partial class GameForumContext : DbContext
             entity.HasOne(d => d.Product).WithMany(p => p.ProductAdditionalImages)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ProductAd__Produ__72C60C4A");
+                .HasConstraintName("FK__ProductAd__Produ__76969D2E");
         });
 
         modelBuilder.Entity<ProductCategory>(entity =>
         {
-            entity.HasKey(e => e.ProductCategoryId).HasName("PK__ProductC__3224ECEEC935A3E1");
+            entity.HasKey(e => e.ProductCategoryId).HasName("PK__ProductC__3224ECEE2F815137");
 
             entity.ToTable("ProductCategory");
 
@@ -371,11 +379,16 @@ public partial class GameForumContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("PersonBID");
             entity.Property(e => e.RelationshipType).HasMaxLength(50);
+
+            entity.HasOne(d => d.PersonA).WithMany(p => p.Relationships)
+                .HasForeignKey(d => d.PersonAid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Relationships_User");
         });
 
         modelBuilder.Entity<ShoppingCart>(entity =>
         {
-            entity.HasKey(e => e.ShoppingCartId).HasName("PK__Shopping__7A789A8400340829");
+            entity.HasKey(e => e.ShoppingCartId).HasName("PK__Shopping__7A789A84E0703A96");
 
             entity.ToTable("ShoppingCart");
 
@@ -389,7 +402,7 @@ public partial class GameForumContext : DbContext
             entity.HasOne(d => d.Product).WithMany(p => p.ShoppingCarts)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ShoppingC__Produ__73BA3083");
+                .HasConstraintName("FK__ShoppingC__Produ__778AC167");
 
             entity.HasOne(d => d.User).WithMany(p => p.ShoppingCarts)
                 .HasForeignKey(d => d.UserId)
@@ -480,7 +493,7 @@ public partial class GameForumContext : DbContext
 
         modelBuilder.Entity<ViewHistory>(entity =>
         {
-            entity.HasKey(e => e.ViewHistoryId).HasName("PK__ViewHist__55D4BB137E34B44C");
+            entity.HasKey(e => e.ViewHistoryId).HasName("PK__ViewHist__55D4BB1348B2FEC4");
 
             entity.ToTable("ViewHistory");
 
@@ -497,7 +510,7 @@ public partial class GameForumContext : DbContext
             entity.HasOne(d => d.Product).WithMany(p => p.ViewHistories)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ViewHisto__Produ__75A278F5");
+                .HasConstraintName("FK__ViewHisto__Produ__7D439ABD");
 
             entity.HasOne(d => d.User).WithMany(p => p.ViewHistories)
                 .HasForeignKey(d => d.UserId)
