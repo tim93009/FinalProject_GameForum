@@ -168,7 +168,7 @@ namespace FinalProject_GameForum.Controllers
             
             TempData["userid"] = NowuserId;
             TempData["provider"] = provider;
-            
+           
 
             var redirectUrl = Url.Action("BindThirdLoginCallback", "Setting", new {returnURL});
             var properties = new AuthenticationProperties
@@ -191,19 +191,19 @@ namespace FinalProject_GameForum.Controllers
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             if (!result.Succeeded)
             {
-                TempData["SettingError"] = "綁定失敗，請再試一次!";
+                TempData["ThirdError"] = "綁定失敗，請再試一次!";
                 return RedirectToAction("Permissions");
             }
-
             
+
             //取得第三方登入者的資料
-            var oldclaims = result.Principal.Identities.FirstOrDefault()?.Claims; 
-            var email = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-            var providerID = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var Thirdclaims = result.Principal.Identities.FirstOrDefault()?.Claims; 
+            var email = Thirdclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            var providerID = Thirdclaims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             if (email == null ||   providerID == null)
             {
-                TempData["SettingError"] = "綁定失敗，請使用其他方式!";
+                TempData["ThirdError"] = "綁定失敗，請使用其他方式!";
                 return RedirectToAction("Permissions");
             }
             //取得目前登入使用者
@@ -211,14 +211,34 @@ namespace FinalProject_GameForum.Controllers
             var user = _context.Users.FirstOrDefault(u => u.UserId == userid);
             if (user == null)
             {
-                TempData["SettingError"] = "綁定失敗，請重新登入!";
+                TempData["ThirdError"] = "綁定失敗，請重新登入!";
                 return RedirectToAction("Login");
             }
+            //若信箱不同則跳回原本的頁面 登入自己原本的帳號
+            if (user.Email != email)
+            {
+                TempData["ThirdError"] = "綁定失敗，信箱不同!";
+                
+                var OldClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.UserId),
+                new Claim(ClaimTypes.Name, user.Nickname),
+                new Claim("name", user.Nickname),
+                new Claim(ClaimTypes.Email, user.Email!),
+                new Claim("photo", user.PhotoUrl ?? "/img/Login/headphoto.jpg"),
+                
+            };
+                var ClaimsIdentity = new ClaimsIdentity(OldClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var AuthProperties = new AuthenticationProperties { IsPersistent = true };
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(ClaimsIdentity), AuthProperties);
+                return RedirectToAction("Permissions");
+            }
+
             //目前第三方登入的帳號是否已經被綁定
             var existUser = _context.Users.FirstOrDefault(u =>  u.ProviderId == providerID);
             if (existUser != null && existUser.UserId != user.UserId && user.ProviderId != null)
             {
-                TempData["SettingError"] = "此帳號已經綁定過囉!";
+                TempData["ThirdError"] = "此帳號已經綁定過囉!";
                 return RedirectToAction("Permissions");
             }
 
@@ -245,7 +265,7 @@ namespace FinalProject_GameForum.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 
 
-            TempData["SetSuccess"] = "綁定成功!";
+            TempData["ThirdSuccess"] = "綁定成功!";
             return RedirectToAction("Permissions");
         }
 
@@ -255,7 +275,7 @@ namespace FinalProject_GameForum.Controllers
             user.Provider = null;
             user.ProviderId = null;
             _context.SaveChanges();
-            TempData["SetSuccess"] = "解除綁定成功!";
+            TempData["ThirdSuccess"] = "解除綁定成功!";
             return RedirectToAction("Permissions");
         }
 

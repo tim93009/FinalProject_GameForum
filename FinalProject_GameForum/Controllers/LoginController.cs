@@ -216,7 +216,7 @@ namespace FinalProject_GameForum.Controllers
         [HttpGet]
         public IActionResult ThirdLogin(string provider, string returnURL = "/")
         {
-
+            TempData["LoginProvider"] = provider; 
             
             var redirectUrl = Url.Action("ThirdLoginCallback","Login", new { returnURL });
             var properties = new AuthenticationProperties
@@ -228,6 +228,7 @@ namespace FinalProject_GameForum.Controllers
         [HttpGet]
         public async Task<IActionResult> ThirdLoginCallBack(string returnURL = "/")
         {
+            
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             if (!result.Succeeded)
             {
@@ -236,11 +237,13 @@ namespace FinalProject_GameForum.Controllers
             }
             //判斷有沒有拿到登入者的資料
             var oldclaims = result.Principal.Claims.ToList();
-            var userID = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            
             var email = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
             var name = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+            var provider = TempData["LoginProvider"] as string;
             var providerID = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-       
+            
+            
          
             if (email == null)
             {
@@ -254,8 +257,15 @@ namespace FinalProject_GameForum.Controllers
                 TempData["Error"] = "您已註冊過，請使用原帳號登入!";
                 return RedirectToAction("Login");
             }
-
-
+            var userID = string.Empty;
+            if (!string.IsNullOrEmpty(user.UserId))
+            {
+                 userID = user.UserId;
+            }
+            else
+            {
+                 userID = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            }
 
 
             if (user != null)

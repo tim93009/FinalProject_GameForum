@@ -49,11 +49,11 @@ namespace FinalProject_GameForum.Controllers
                 return NotFound();  // 如果沒有這個看板，回傳 404
             }
 
-            // 查詢該看板下 Views 最高的 3 筆文章（依 ArticleGroup 計算）
+            // 熱門文章：查詢該看板下 Views 最高的 3 筆文章（依 ArticleGroup 計算）
             var hotArticles = _context.ArticleGroups
                 .Where(ag => ag.DiscussionId == id && !string.IsNullOrEmpty(ag.ArticleTitle))
                 .OrderByDescending(ag => ag.Views ?? 0)
-                .Take(3)
+                .Take(5)
                 .ToList();
             ViewBag.HotArticles = hotArticles;
 

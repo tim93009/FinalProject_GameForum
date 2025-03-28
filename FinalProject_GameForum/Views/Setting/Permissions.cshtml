@@ -111,7 +111,7 @@
 	</div>
 
 
-	@if (TempData["Error"] != null)
+	@if (TempData["ThirdError"] != null)
 	{
 		<script>
 				  document.addEventListener("DOMContentLoaded", function () {
@@ -131,7 +131,7 @@
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						@TempData["Error"]
+						@TempData["ThirdError"]
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
@@ -141,7 +141,7 @@
 		</div>
 	}
 
-	@if (TempData["Success"] != null)
+	@if (TempData["ThirdSuccess"] != null)
 	{
 		<script>
 				  document.addEventListener("DOMContentLoaded", function () {
@@ -161,7 +161,7 @@
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						@TempData["Success"]
+						@TempData["ThirdSuccess"]
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
