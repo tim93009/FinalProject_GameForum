@@ -24,7 +24,11 @@
 								<a class="nav-link" href="/Personal/Collect?ownerid=@user">文章收藏</a>
 								<a class="nav-link" href="/Personal/Log?ownerid=@user">個人日誌</a>
 								<a class="nav-link" href="/Personal/Friends?ownerid=@user&status=Friends">好友圈</a>
-								<a class="nav-link" asp-controller="Setting" asp-action="Setting">會員資訊</a>
+								@if (Model.Isowner)
+								{
+									<a class="nav-link" asp-controller="Setting" asp-action="Setting">設定</a>
+								}
+								
 							</div>
 						</div>
 					</div>
