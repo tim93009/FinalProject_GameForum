@@ -31,7 +31,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     option.LoginPath = new PathString("/Home/Index");
     option.ExpireTimeSpan = TimeSpan.FromDays(1); // 僅在 IsPersistent=true 時生效
     option.SlidingExpiration = true;
-    option.Cookie.SameSite = SameSiteMode.Strict;
+
 
 
 }).AddFacebook(options =>
