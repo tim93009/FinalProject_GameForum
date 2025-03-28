@@ -92,6 +92,16 @@ function imageHandler() {
 		if (imageUrl) {
 			var range = quill.getSelection();
 			quill.insertEmbed(range.index, "image", imageUrl);
+
+			// 等待 Quill 插入圖片後，再為圖片添加 class
+			setTimeout(() => {
+				let insertedImages = document.querySelectorAll(".ql-editor img");
+				insertedImages.forEach(img => {
+					if (img.src === imageUrl && !img.classList.contains("custom-image-class")) {
+						img.classList.add("custom-image-class");
+					}
+				});
+			}, 10);
 		}
 		closeModal();
 	};
@@ -101,6 +111,7 @@ function imageHandler() {
 		input.value = "";
 	};
 }
+
 // 圖片(結束)
 function videoHandler() {
 	document.getElementById("videoModal").style.display = "block";
