@@ -58,6 +58,7 @@ namespace FinalProject_GameForum.Controllers
                 .Select(a => new
                 {
                     a.ArticleGroupId,
+                    a.ArticleGroup!.Category,
                     Title = a.ArticleGroup!.ArticleTitle,
                     Image = a.ArticleGroup.CoverImage != null
                         ? $"data:image/jpeg;base64,{Convert.ToBase64String(a.ArticleGroup.CoverImage)}"
@@ -82,6 +83,7 @@ namespace FinalProject_GameForum.Controllers
                     .Select(a => new
                     {
                         a.ArticleGroupId,
+                        a.ArticleGroup!.Category,
                         Title = a.ArticleGroup!.ArticleTitle,
                         Image = a.ArticleGroup.CoverImage != null
                             ? $"data:image/jpeg;base64,{Convert.ToBase64String(a.ArticleGroup.CoverImage)}"
