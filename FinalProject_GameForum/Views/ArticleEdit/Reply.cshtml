@@ -1,7 +1,15 @@
 ﻿@{
 	ViewData["HideFooter"] = true;
 }
+@section Scripts {
+	<style>
+		main.pb-3 {
+			padding-bottom: 0 !important;
+		}
+	</style>
+}
 <link rel="stylesheet" href="~/lib/quill/quill.snow.css">
+<link rel="stylesheet" href="~/css/Article/ArticleEdit.css">
 
 <div class="myContainer">
 	<form id="editorForm" method="post" enctype="multipart/form-data" asp-action="ReplyArticle">

@@ -17,8 +17,8 @@
 		<input type="hidden" name="discussionId" value="@ViewBag.DiscussionId" />
 		<div class="row p-1">
 			<label for="type">
-				<h5>文章分類: </h5>
-				<select name="articleType">
+				<h5 class="fw-bold">文章分類: </h5>
+				<select name="articleType" class="articleText text-center">
 					<option>情報</option>
 					<option>攻略</option>
 					<option>討論</option>
@@ -29,8 +29,8 @@
 		</div>
 		<div class="row p-1">
 			<label for="articleTitle">
-				<h5>文章標題: </h5>
-				<input type="text" name="articleTitle" class="w-100" />
+				<h5 class="fw-bold">文章標題: </h5>
+				<input type="text" name="articleTitle" class="w-100 articleText" />
 			</label>
 		</div>
 		<div id="toolbar-container" class="toolbar-container">
