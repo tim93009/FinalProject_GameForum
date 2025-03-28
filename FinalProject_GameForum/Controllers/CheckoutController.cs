@@ -24,6 +24,11 @@ namespace FinalProject_GameForum.Controllers
                 .Where(c => c.UserId == userId)
                 .ToList();
 
+            if (!cartItems.Any())
+            {
+                return RedirectToAction("Index", "ShoppingCart"); // 若購物車為空，重定向
+            }
+
             return View(cartItems);
         }
 
@@ -47,66 +52,87 @@ namespace FinalProject_GameForum.Controllers
         // POST: /Checkout/SubmitOrder
         // 處理訂單提交
         [HttpPost]
-public IActionResult SubmitOrder(IFormCollection form)
-{
-    // 從表單中獲取收件人資訊
-    string userName = form["uname"];
-    string cellphone = form["ucell"];
-    string email = form["uemail"];
-    string cityCode = form["ucity"];
-    string telephone = form["utel"];
-    string address = form["uaddress"];
-    bool sendSms = form["usms"] == "on";
-
-    // 獲取當前用戶的購物車項目
-    string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-    var cartItems = _db.ShoppingCarts
-        .Include(c => c.Product)
-        .Include(c => c.User)
-        .Where(c => c.UserId == userId)
-        .ToList();
-
-    if (!cartItems.Any())
-    {
-        return Json(new { success = false, message = "購物車是空的" });
-    }
-
-    // 為每個購物車項目創建獨立的 Order
-    foreach (var cartItem in cartItems)
-    {
-        string quantityKey = $"quantity[{cartItem.ShoppingCartId}]";
-        int quantity = cartItem.Quantity;
-        if (form.ContainsKey(quantityKey) && int.TryParse(form[quantityKey], out int formQuantity) && formQuantity > 0)
+        public IActionResult SubmitOrder(IFormCollection form)
         {
-            quantity = formQuantity;
+            // 從表單中獲取收件人資訊
+            string userName = form["uname"];
+            string cellphone = form["ucell"];
+            string email = form["uemail"];
+            string cityCode = form["ucity"];
+            string telephone = form["utel"];
+            string address = form["uaddress"];
+            bool sendSms = form["usms"] == "on";
+
+            // 獲取當前用戶的購物車項目
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var cartItems = _db.ShoppingCarts
+                .Include(c => c.Product)
+                .Include(c => c.User)
+                .Where(c => c.UserId == userId)
+                .ToList();
+
+            if (!cartItems.Any())
+            {
+                return Json(new { success = false, message = "購物車是空的" });
+            }
+
+            // 檢查每個項目的數量是否超過庫存
+            foreach (var cartItem in cartItems)
+            {
+                string quantityKey = $"quantity[{cartItem.ShoppingCartId}]";
+                int quantity = cartItem.Quantity;
+                if (form.ContainsKey(quantityKey) && int.TryParse(form[quantityKey], out int formQuantity) && formQuantity > 0)
+                {
+                    quantity = formQuantity;
+                }
+
+                if (cartItem.Product.Stock < quantity)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = $"商品 '{cartItem.Product.ProductName}' 庫存不足，僅剩 {cartItem.Product.Stock} 件"
+                    });
+                }
+            }
+
+            // 創建訂單
+            foreach (var cartItem in cartItems)
+            {
+                string quantityKey = $"quantity[{cartItem.ShoppingCartId}]";
+                int quantity = cartItem.Quantity;
+                if (form.ContainsKey(quantityKey) && int.TryParse(form[quantityKey], out int formQuantity) && formQuantity > 0)
+                {
+                    quantity = formQuantity;
+                }
+
+                var order = new Order
+                {
+                    UserId = userId,
+                    ProductId = cartItem.ProductId,
+                    Quantity = quantity,
+                    OrderDate = DateTime.Now,
+                    OrderStatusId = 1, // 假設 1 表示 "待處理" 狀態
+                    ShippingAddress = address,
+                    RecipientName = userName,
+                    Cellphone = cellphone,
+                    TelephoneCityCode = cityCode,
+                    Telephone = telephone,
+                    Email = email,
+                    SendSms = sendSms
+                };
+
+                _db.Orders.Add(order);
+                cartItem.Product.Stock -= quantity; // 更新庫存
+            }
+
+            // 清空購物車並保存變更
+            _db.ShoppingCarts.RemoveRange(cartItems);
+            _db.SaveChanges();
+
+            // 返回 JSON 成功訊息，讓前端處理跳轉
+            return Json(new { success = true, redirectUrl = Url.Action("Index", "Order") });
         }
-
-        var order = new Order
-        {
-            UserId = userId,
-            ProductId = cartItem.ProductId,
-            Quantity = quantity,
-            OrderDate = DateTime.Now,
-            OrderStatusId = 1, // 假設 1 表示 "待處理" 狀態
-            ShippingAddress = address,
-            RecipientName = userName,
-            Cellphone = cellphone,
-            TelephoneCityCode = cityCode,
-            Telephone = telephone,
-            Email = email,
-            SendSms = sendSms
-        };
-
-        _db.Orders.Add(order);
-    }
-
-    // 清空購物車
-    _db.ShoppingCarts.RemoveRange(cartItems);
-    _db.SaveChanges();
-
-    // 跳轉到 OrderController 的 Index
-    return RedirectToAction("Index", "Order");
-}
 
         // GET: /Checkout/OrderSuccess
         // 訂單提交成功後的頁面
