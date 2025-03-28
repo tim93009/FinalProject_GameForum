@@ -3,12 +3,16 @@
 }
 /* 新聞內容 */
 .myContainer{
+    width:100%;
     padding:30px 80px;
 }
 
 .myContainer h2 {
     font-weight: bold;
-    padding:30px;
+    padding:0 30px;
+    text-indent: 2em;
+    margin-top: 10px;
+    line-height: 1.5em;
 }
 .myContainer p {
     padding: 0 30px 15px;
@@ -17,13 +21,22 @@
     font-weight: bold;
     border-bottom: 1px solid #c9cacb;
     margin-bottom: 15px;
+    margin-left: 30px;
 }
 
 .news-content {
-    padding: 50px;
+    width: 100%;
+    padding: 20px;
     margin-bottom: 10px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+    .news-content h3 {
+        padding: 10px 30px;
+        line-height: 2em;
+        margin-top: 20px;
+        text-indent: 2em;
+        font-size: 1.25rem
+    }
     .news-content h4 {
         padding: 10px 30px;
         line-height: 2em;
@@ -43,7 +56,7 @@
         margin-left: 2em;
         font-size: 1rem
     }
-.news-content img {
+    .news-content img {
         display: block;
         max-width: 90%;
         height: auto;
@@ -51,14 +64,15 @@
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-.news-content iframe {
-        width: 100%;
+    .news-content iframe {
+        width: 90%;
         height: auto;
         aspect-ratio: 16 / 9;
-        margin: 20px 0;
+        margin: 20px auto;
         border: none;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: block;
     }
 .category-btn {
     font-size: 16px;
@@ -199,6 +213,10 @@ textarea {
     color:white;
     border:1px solid black;
     border-radius:5px;
+}
+.send:hover {
+    background-color: lightgreen;
+    opacity: 0.8;
 }
 .text-area {
     position: relative;
