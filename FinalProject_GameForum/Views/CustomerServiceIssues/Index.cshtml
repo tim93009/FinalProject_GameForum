@@ -1,76 +1,85 @@
 ﻿@model FaqData
 @await Html.PartialAsync("_ErrorModal")
+@{ViewData["HideFooter"] = true;}
+<link rel="stylesheet" href="~/css/CustomerProblem/CustomerProblem.css" asp-append-version="true" />
 
-<h1 class="text-center m-3">客服問題</h1>
-<!-- 帳號問題 -->
-<div class="accordion m-3" id="accordionExample">
-	@for (int i = 0; i < Model.AccountFaqList.Count; i++)
-	{
-		var item = Model.AccountFaqList[i];
-		<div class="accordion-item">
-			<h2 class="accordion-header" id="headingA_@i">
-				<button class="accordion-button @(i == 0 ? "" : "collapsed")" type="button" data-bs-toggle="collapse" data-bs-target="#collapseA_@i">
-					@item.Question
-				</button>
-			</h2>
-			<div id="collapseA_@i" class="accordion-collapse collapse @(i == 0 ? "show" : "")">
-				<div class="accordion-body">
-					@Html.Raw(item.Answer)
+<div class="w-100 p-3">
+	<h1 class="text-center m-3">客服問題</h1>
+	<!-- 帳號問題 -->
+	<div class="accordion m-3" id="accordionExample">
+		@for (int i = 0; i < Model.AccountFaqList.Count; i++)
+		{
+			var item = Model.AccountFaqList[i];
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="headingA_@i">
+					<button class="accordion-button @(i == 0 ? "" : "collapsed")" type="button" data-bs-toggle="collapse" data-bs-target="#collapseA_@i">
+						@item.Question
+					</button>
+				</h2>
+				<div id="collapseA_@i" class="accordion-collapse collapse @(i == 0 ? "show" : "")">
+					<div class="accordion-body">
+						@Html.Raw(item.Answer)
+					</div>
 				</div>
 			</div>
-		</div>
-	}
-</div>
-<!-- 商城問題 -->
-<div class="accordion m-3" id="shopFaq">
-	@for (int i = 0; i < Model.ShopFaqList.Count; i++)
-	{
-		var item = Model.ShopFaqList[i];
-		<div class="accordion-item">
-			<h2 class="accordion-header" id="headingS_@i">
-				<button class="accordion-button @(i == 0 ? "" : "collapsed")" type="button" data-bs-toggle="collapse" data-bs-target="#collapseS_@i">
-					@item.Question
-				</button>
-			</h2>
-			<div id="collapseS_@i" class="accordion-collapse collapse @(i == 0 ? "show" : "")">
-				<div class="accordion-body">
-					@Html.Raw(item.Answer)
-				</div>
-			</div>
-		</div>
-	}
-</div>
-<form id="uploadForm" method="post" enctype="multipart/form-data" asp-action="Submit">
-	<div class="p-3">
-		<div class="mb-3">
-			@if (ViewBag.UserID == "")
-			{
-				<label for="userId">使用者 ID</label>
-				<input class="form-control" type="text" name="userId" required>
-			}
-			else
-			{
-				<input type="hidden" value="@ViewBag.UserID" name="userId"/>
-			}
-		</div>
-		<div class="mb-3">
-			<label for="questionType">問題類型</label>
-			<select class="form-control" name="questionType">
-				<option value="商城問題">商城問題</option>
-				<option value="帳號問題">帳號問題</option>
-			</select>
-		</div>
-		<div class="mb-3">
-			<label for="questionDescription" class="form-label">描述您的問題</label>
-			<textarea class="form-control" name="questionDescription" rows="5" maxlength="250" required 
-				style="resize: none; overflow-y: hidden;"></textarea>
-		</div>
-		<div class="mb-3">
-			<label for="image" class="form-label">上傳圖片(選填)</label>
-			<input class="form-control" type="file" name="image" id="image" accept="image/*">
-		</div>
-		<div id="error-message" class="text-danger mb-2" style="display: none;"></div>
-		<button type="submit" class="btn btn-primary">送出</button>
+		}
 	</div>
-</form>
+	<!-- 商城問題 -->
+	<div class="accordion m-3" id="shopFaq">
+		@for (int i = 0; i < Model.ShopFaqList.Count; i++)
+		{
+			var item = Model.ShopFaqList[i];
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="headingS_@i">
+					<button class="accordion-button @(i == 0 ? "" : "collapsed")" type="button" data-bs-toggle="collapse" data-bs-target="#collapseS_@i">
+						@item.Question
+					</button>
+				</h2>
+				<div id="collapseS_@i" class="accordion-collapse collapse @(i == 0 ? "show" : "")">
+					<div class="accordion-body">
+						@Html.Raw(item.Answer)
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+	<form id="uploadForm" method="post" enctype="multipart/form-data" asp-action="Submit">
+		<div class="p-3">
+			<div class="mb-3">
+				@if (ViewBag.UserID == "")
+				{
+					<label for="userId">使用者 ID</label>
+					<input class="form-control" type="text" name="userId" required>
+				}
+				else
+				{
+					<input type="hidden" value="@ViewBag.UserID" name="userId" />
+				}
+			</div>
+			<div class="mb-3">
+				<label for="questionType">問題類型</label>
+				<select class="form-control" name="questionType">
+					<option value="商城問題">商城問題</option>
+					<option value="帳號問題">帳號問題</option>
+				</select>
+			</div>
+			<div class="mb-3">
+				<label for="questionDescription" class="form-label">描述您的問題</label>
+				<textarea class="form-control" name="questionDescription" rows="5" maxlength="250" required
+						  style="resize: none; overflow-y: hidden;"></textarea>
+			</div>
+			<div class="mb-3">
+				<label for="image" class="form-label">上傳圖片(選填)</label>
+				<input class="form-control" type="file" name="image" id="image" accept="image/*">
+			</div>
+			<div id="error-message" class="text-danger mb-2" style="display: none;"></div>
+			<button type="submit" class="btn btn-primary">送出</button>
+		</div>
+	</form>
+</div>
+<footer class="footer text-muted">
+	<div class="container">
+		&copy; 2025 - FinalProject_GameForum - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+	</div>
+</footer>
 <script src="~/js/customerProblem/problem.js"></script>

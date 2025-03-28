@@ -62,3 +62,63 @@ a {
     width: 480px;
     height: 270px;
 }
+
+.ql-font-Arial {
+    font-family: "Arial"
+}
+
+.ql-font-Helvetica {
+    font-family: "Helvetica"
+}
+
+.ql-font-Verdana {
+    font-family: "Verdana"
+}
+
+.ql-font-Times-New-Roman {
+    font-family: "Times New Roman"
+}
+
+.ql-font-Georgia {
+    font-family: "Georgia"
+}
+
+.ql-font-Courier-New {
+    font-family: "Courier New"
+}
+
+.ql-font-Comic-Sans-MS {
+    font-family: "Comic Sans MS"
+}
+
+.ql-font-Microsoft-JhengHei {
+    font-family: "Microsoft JhengHei"
+}
+
+.ql-font-PingFang-TC {
+    font-family: "PingFang TC"
+}
+
+.ql-font-DFKai-SB {
+    font-family: "DFKai-SB"
+}
+
+.ql-font-PMingLiU {
+    font-family: "PMingLiU"
+}
+
+.ql-font-MingLiU {
+    font-family: "MingLiU"
+}
+
+.ql-size-small {
+    font-size: .75em
+}
+
+.ql-size-large {
+    font-size: 1.25em
+}
+
+.ql-size-huge {
+    font-size: 1.5em
+}
