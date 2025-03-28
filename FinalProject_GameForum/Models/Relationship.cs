@@ -12,4 +12,6 @@ public partial class Relationship
     public string? PersonBid { get; set; }
 
     public string? RelationshipType { get; set; }
+
+    public virtual User PersonA { get; set; } = null!;
 }
