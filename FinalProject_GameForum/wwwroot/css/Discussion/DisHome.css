@@ -1,19 +1,4 @@
 ﻿
-/* 文章封面圖片 */
-.col-md-2 img {
-    min-width: 210px;
-    min-height: 210px;
-    max-width: 210px;
-    max-height: 210px;
-    object-fit: contain;
-}
-
-/* 文章列表 標題超連結顏色 */
-.card-title a:hover {
-    color: #198754 !important; /* !important 強制覆蓋 */
-}
-
-
 .container {
     width: 100%;
     height: auto;
@@ -41,7 +26,7 @@
 .dis-container img {
     width: 100%;
     height: auto;
-/*    border-radius: 8px;*/
+    /*    border-radius: 8px;*/
     align-items: center;
     justify-content: center;
     transition: transform 0.3s ease;
@@ -53,11 +38,17 @@
     font-weight: bold;
     color: white;
     background-color: black;
-/*    margin-top: 20px;*/
-    margin-bottom: 20px;
+    /*    margin-bottom: 20px;*/
     text-align: center;
     padding-top: 11px;
 }
+
+.dis-container h4 {
+    text-align: center;
+    margin-top: 30px;
+    line-height: 1.6;
+}
+
 
 .hot-dis ul {
     list-style-type: none;
@@ -77,24 +68,37 @@
     color: #198754;
 }
 
-.dis-container h4 {
-    text-align: center;
-    margin-top: 30px;
-    line-height: 1.6;
-}
-
+/* 熱門文章 標題 */
 .hot-dis h5 {
     padding: 10px;
     font-size: 18px;
     color: black;
     margin-bottom: 5px;
-    margin-left: 10%;
+    margin-left: 12%;
+    max-width: 800px;
+    text-indent: -4em; /* 換行時加入空格 */
 }
 
+/* 繼續閱讀 */
 .hot-dis h6 {
     font-size: 14px;
     color: #198754;
-    margin-right: 20%;
+    margin-right: 12%;
+}
+
+
+/* 文章封面圖片 */
+.col-md-2 img {
+    min-width: 210px;
+    min-height: 210px;
+    max-width: 210px;
+    max-height: 210px;
+    object-fit: contain;
+}
+
+/* 文章列表 標題超連結顏色 */
+.card-title a:hover {
+    color: #198754 !important; /* !important 強制覆蓋 */
 }
 
 
