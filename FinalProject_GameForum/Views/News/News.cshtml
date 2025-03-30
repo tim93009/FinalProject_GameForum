@@ -65,6 +65,7 @@
 				@Html.Raw(cleanedParagraph)
 			}
 		}
+		<div id="fallback" style="display:none;">無法載入影片，請檢查您的廣告攔截設置或<a href="https://www.youtube.com/watch?v=vrc9x8d9OE0" target="_blank">點此觀看</a>。</div>
 	</div>
 </div>
 
@@ -132,3 +133,10 @@ else
 </div>
 
 <script src="~/js/News/News.js" asp-append-version="true"></script>
+<script>
+	const iframe = document.getElementById('youtube-iframe');
+	iframe.onerror = function () {
+		document.getElementById('youtube-iframe').style.display = 'none';
+		document.getElementById('fallback').style.display = 'block';
+	};
+</script>

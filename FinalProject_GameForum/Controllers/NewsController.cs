@@ -37,14 +37,33 @@ namespace FinalProject_GameForum.Controllers
                 .Take(10)
                 .ToListAsync();
 
-            var model = new NewsViewModel
+			
+
+		var model = new NewsViewModel
             {
                 NewsHome = NewsHome,
                 NewsDetail = NewsDetail
             };
-            return View(model);}
-        
-        public async Task<IActionResult> News(int id, string messageContent)
+            return View(model);
+        }
+
+		/* 搜索功能 */
+		public IActionResult Search(string search)
+		{
+			if (string.IsNullOrEmpty(search))
+			{
+				return RedirectToAction("Index");
+			}
+
+			var news = _context.News
+				.Where(n => n.NewsTitle.Contains(search) ||
+						   (n.NewsContent != null && n.NewsContent.Contains(search)))
+				.ToList();
+
+			return View(news);
+		}
+	
+	public async Task<IActionResult> News(int id, string messageContent)
         {
             var userId = User.Identity?.IsAuthenticated == true 
                 ? User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value 
