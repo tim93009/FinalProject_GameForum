@@ -1,0 +1,46 @@
+﻿@model List<FinalProject_GameForum.Models.News>
+
+<link rel="stylesheet" href="~/css/News/Index.css" asp-append-version="true" />
+
+@{
+    ViewData["Title"] = "搜尋結果";
+
+    <!-- 嵌入商城導覽列 -->
+    Layout = "~/Views/Shared/_LayoutNews.cshtml";
+    ViewData["HideFooter"] = true;
+}
+
+<div class="search-container">
+    <h2 class="search-title">搜尋結果</h2>
+
+    @if (Model.Any())
+    {
+        @foreach (var news in Model)
+        {
+            <div class="news-card">
+                @if (!string.IsNullOrEmpty(news.ImageUrl))
+                {
+                    <img src="@news.ImageUrl" class="news-image" alt="@news.NewsTitle">
+                }
+                else
+                {
+                    <img src="~/img/placeholder.jpg" class="news-image" alt="無圖片">
+                }
+                <div class="news-details">
+                    <h5 class="news-name">@news.NewsTitle</h5>
+                    @{
+                        string content = news.NewsContent ?? "";
+                        string plainText = System.Text.RegularExpressions.Regex.Replace(content, "<.*?>", "");
+                        string preview = plainText.Length > 100 ? plainText.Substring(0, 100) + "..." : plainText;
+                    }
+                    <p class="news-description">@preview</p>
+                    <a asp-controller="news" asp-action="Index" asp-route-newsId="@news.NewsId" class="btn-details">查看詳情</a>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p class="no-results">找不到符合搜尋條件的商品</p>
+    }
+</div>

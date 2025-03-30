@@ -348,10 +348,17 @@ namespace FinalProject_GameForum.Controllers
         {
             if(status == "Friends")
             {
+
                 var friend = _context.Relationships.FirstOrDefault(x => x.PersonBid == requestid && x.RelationshipType == "Accepted");
-                if(friend != null)
+                var friend2 = _context.Relationships.FirstOrDefault(x => x.PersonAid == requestid && x.RelationshipType == "Accepted");
+                if (friend != null ) 
                 {
                     _context.Relationships.Remove(friend);
+                    _context.SaveChanges();
+                    return RedirectToAction("Friends", new { ownerid = this.GetUserInfo(_context).UserId, status = "Accepted" });
+                }else if (friend2 != null)
+                {
+                    _context.Relationships.Remove(friend2);
                     _context.SaveChanges();
                     return RedirectToAction("Friends", new { ownerid = this.GetUserInfo(_context).UserId, status = "Accepted" });
                 }
