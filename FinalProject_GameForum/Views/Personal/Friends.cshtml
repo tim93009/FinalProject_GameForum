@@ -74,7 +74,7 @@
 
                                 <a href="/Personal/Friends?ownerid=@user&status=Followers" class="btn btn-success" id="btn-followers">追蹤者</a>
                             </div>
-                            
+
                             <div id="friendContainer" class="friend-list justify-content-between">
 
                                 @if(Model.friends != null && Model.friends.Any()){
@@ -104,7 +104,10 @@
                                                 //Followers
                                                 else
                                                 {
-                                                    <a href="/Personal/DeleteFriend?requestId=@friend.PersonAid&status=@Model.status" class="btn btn-danger btn-sm">刪除</a>
+                                                    @if (Model.Isowner)
+                                                    {
+                                                        <a href="/Personal/DeleteFriend?requestId=@friend&status=@Model.status" class="btn btn-danger btn-sm">刪除</a>
+                                                    }
                                                 }
 
                                             </div>
@@ -140,7 +143,11 @@
                                                     <span class="m-2">@Friendsinfo.Nickname</span>
 
                                                 </div>
-                                                <a href="/Personal/DeleteFriend?requestId=@friendid&status=@Model.status" class="btn btn-danger btn-sm">刪除</a>
+                                                @if (Model.Isowner)
+                                                {
+                                                    <a href="/Personal/DeleteFriend?requestId=@friendid&status=@Model.status" class="btn btn-danger btn-sm">刪除</a>
+                                                }
+                                                
                                             </div>
 
                                         }
