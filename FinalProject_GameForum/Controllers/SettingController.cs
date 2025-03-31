@@ -199,26 +199,28 @@ namespace FinalProject_GameForum.Controllers
             //取得第三方登入者的資料
             var Thirdclaims = result.Principal.Identities.FirstOrDefault()?.Claims; 
             var email = Thirdclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+            
             var providerID = Thirdclaims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var RepeatEmail = _context.Users.FirstOrDefault(u => u.Email == email);
-            //if (RepeatEmail == null && )
-            //{
-            //    TempData["ThirdError"] = "該信箱已有帳號，請使用其他信箱";
-            //    var OldClaims = new List<Claim>
-            //     {
-            //    new Claim(ClaimTypes.NameIdentifier, user.UserId),
-            //    new Claim(ClaimTypes.Name, user.Nickname),
-            //    new Claim("name", user.Nickname),
-            //    new Claim(ClaimTypes.Email, user.Email!),
-            //    new Claim("photo", user.PhotoUrl ?? "/img/Login/headphoto.jpg"),
+            var name = RepeatEmail?.UserId;
+            if (userid != name)
+            {
+                TempData["ThirdError"] = "該信箱已有帳號，請使用其他信箱";
+                var OldClaims = new List<Claim>
+                 {
+                new Claim(ClaimTypes.NameIdentifier, user.UserId),
+                new Claim(ClaimTypes.Name, user.Nickname),
+                new Claim("name", user.Nickname),
+                new Claim(ClaimTypes.Email, user.Email!),
+                new Claim("photo", user.PhotoUrl ?? "/img/Login/headphoto.jpg"),
 
-            //    };
-            //    var ClaimsIdentity = new ClaimsIdentity(OldClaims, CookieAuthenticationDefaults.AuthenticationScheme);
-            //    var AuthProperties = new AuthenticationProperties { IsPersistent = true };
-            //    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(ClaimsIdentity), AuthProperties);
-            //    return RedirectToAction("Permissions");
-                
-            //}
+                };
+                var ClaimsIdentity = new ClaimsIdentity(OldClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var AuthProperties = new AuthenticationProperties { IsPersistent = true };
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(ClaimsIdentity), AuthProperties);
+                return RedirectToAction("Permissions");
+
+            }
             if (email == null ||   providerID == null)
             {
                 TempData["ThirdError"] = "綁定失敗，請使用其他方式!";
