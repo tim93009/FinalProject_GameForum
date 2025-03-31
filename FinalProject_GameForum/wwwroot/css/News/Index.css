@@ -23,7 +23,10 @@ a {
 .carousel-item img {
     object-fit: contain;
 }
-
+.carousel-caption {
+    background-color: #00000090;
+    bottom: 0;
+}
 .box-container {
     display: flex;
     align-items: flex-start;
@@ -32,7 +35,7 @@ a {
     border-bottom: 2px dotted gray;
     overflow: auto;
     word-wrap: break-word;
-    margin-top:15px;
+    margin-top: 15px;
 }
 .box-container h1 {
     text-decoration: underline;

@@ -4,14 +4,15 @@ body {
     background-position: left top, center;
 }
 
-@media screen and (max-width: 1200px) {
+/*@media screen and (max-width: 1199.98px) {
     body {
         background: linear-gradient(to right, transparent 7%, #f0f0f0 7% 93%, transparent 93%), url('/img/Layout/matrix-code.gif');
     }
 }
-
+*/
 main {
     width: 100%;
+    height:auto;
 }
 
 .navbar {
@@ -38,21 +39,31 @@ main {
 .container.extra-navbar {
     margin-top: 200px; 
 }
-
-.container-fluid a span {
-    display: inline-block;
-    text-align: center;
-    line-height: 1.5;
-    transform: rotate(0deg);
-    margin-left: 30px;
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-    vertical-align: middle;
+    .container-fluid a span {
+        display: inline-block;
+        text-align: center;
+        line-height: 1.5;
+        transform: rotate(0deg);
+        margin-left: 20px;
+        font-size: 28px;
+        font-weight: bold;
+        color: white;
+        vertical-align: middle;
+    }
+.navbar-brand:hover span {
+    color: #198754;
 }
+
+.container-fluid a span h6{
+    font-size:16px;
+}
+
 .m-3 {
     color: #0077cc;
     text-decoration: none;
+}
+.text-light:hover {
+    color: #198754 !important;
 }
 .goTop {
     position: fixed;

@@ -8,7 +8,7 @@
     justify-content: space-between;
     align-items: center;
     position:relative;
-    background-color: blue;    
+    background-color: black;    
 }
 ul {
     display: flex;
@@ -47,7 +47,7 @@ form.search button {
     float: left;
     width: 50px;
     padding: 5px;
-    background: #2196F3;
+    background: #198754;
     color: white;
     font-size: 17px;
     border: 1px solid grey;
