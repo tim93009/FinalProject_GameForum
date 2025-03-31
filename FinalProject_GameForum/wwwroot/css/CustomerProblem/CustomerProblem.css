@@ -2,3 +2,15 @@
     background-color: snow;
     margin-top: 100px;
 }
+
+@media screen and (max-width: 957px) {
+    body {
+        margin-top: 150px;
+    }
+}
+
+@media screen and (max-width: 524px) {
+    body {
+        margin-top: 200px;
+    }
+}
