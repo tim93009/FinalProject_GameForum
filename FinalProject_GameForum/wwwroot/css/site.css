@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(to right, transparent 7%, #f0f0f0 7% 93%, transparent 93%), url('/img/Layout/matrix-code.gif');
+    background: linear-gradient(to right, transparent 16%, #f0f0f0 16% 84%, transparent 84%), url('/img/Layout/matrix-code.gif');
     background-size: 100% 100%, cover;
     background-position: left top, center;
 }
@@ -7,8 +7,6 @@ body {
 @media screen and (max-width: 1199.98px) {
     body {
         background: linear-gradient(to right, transparent 7%, #f0f0f0 7% 93%, transparent 93%), url('/img/Layout/matrix-code.gif');
-        background-size: 100% 100%, cover;
-        background-position: left top, center;
     }
 }
 
