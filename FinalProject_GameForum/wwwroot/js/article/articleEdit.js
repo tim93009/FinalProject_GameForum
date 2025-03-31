@@ -79,7 +79,10 @@ function linkHandler() {
 }
 // 超連結(結束)
 // 圖片(開始)
+let savedRange = null; // 用來儲存光標位置
+
 function imageHandler() {
+    savedRange = quill.getSelection(); // 儲存當前光標位置
     let modal = document.getElementById("imageModal");
     modal.style.display = "block";
 
@@ -87,11 +90,19 @@ function imageHandler() {
     let uploadButton = document.getElementById("uploadImage");
     let closeButton = document.getElementById("closeModal");
 
+    function closeModal() {
+        modal.style.display = "none";
+        input.value = "";
+        document.getElementById("imageUrl").value = ""; // 清空輸入框
+    }
+
     uploadButton.onclick = function () {
         var imageUrl = document.getElementById("imageUrl").value;
         if (imageUrl) {
-            var range = quill.getSelection();
-            quill.insertEmbed(range.index, "image", imageUrl);
+            if (savedRange) {
+                quill.setSelection(savedRange.index, Quill.sources.SILENT); // 恢復光標位置
+                quill.insertEmbed(savedRange.index, "image", imageUrl);
+            }
 
             // 等待 Quill 插入圖片後，再為圖片添加 class
             setTimeout(() => {
@@ -102,15 +113,15 @@ function imageHandler() {
                     }
                 });
             }, 10);
+
+            closeModal();
         }
-        closeModal();
     };
 
-    closeButton.onclick = function closeModal() {
-        modal.style.display = "none";
-        input.value = "";
-    };
+    closeButton.onclick = closeModal;
 }
+
+
 
 // 圖片(結束)
 function videoHandler() {

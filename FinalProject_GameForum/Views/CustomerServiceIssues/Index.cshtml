@@ -31,11 +31,11 @@
 			var item = Model.ShopFaqList[i];
 			<div class="accordion-item">
 				<h2 class="accordion-header" id="headingS_@i">
-					<button class="accordion-button @(i == 0 ? "" : "collapsed")" type="button" data-bs-toggle="collapse" data-bs-target="#collapseS_@i">
+					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseS_@i">
 						@item.Question
 					</button>
 				</h2>
-				<div id="collapseS_@i" class="accordion-collapse collapse @(i == 0 ? "show" : "")">
+				<div id="collapseS_@i" class="accordion-collapse collapse">
 					<div class="accordion-body">
 						@Html.Raw(item.Answer)
 					</div>
@@ -57,8 +57,9 @@
 				}
 			</div>
 			<div class="mb-3">
-				<label for="questionType">問題類型</label>
-				<select class="form-control" name="questionType">
+				<label for="questionType" class="form-label">問題類型</label>
+				<select id="questionType" class="form-select" name="questionType">
+					<option value="" disabled selected>請選擇問題類型</option>
 					<option value="商城問題">商城問題</option>
 					<option value="帳號問題">帳號問題</option>
 				</select>
@@ -69,7 +70,7 @@
 						  style="resize: none; overflow-y: hidden;"></textarea>
 			</div>
 			<div class="mb-3">
-				<label for="image" class="form-label">上傳圖片(選填)</label>
+				<label for="image" class="form-label">上傳圖片(選填)(檔案大小2MB以下)</label>
 				<input class="form-control" type="file" name="image" id="image" accept="image/*">
 			</div>
 			<div id="error-message" class="text-danger mb-2" style="display: none;"></div>
