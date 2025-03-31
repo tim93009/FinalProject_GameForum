@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(to right, transparent 7%, #f0f0f0 7% 93%, transparent 93%), url('/img/Layout/matrix-code.gif');
+    background: linear-gradient(to right, transparent 16%, #f0f0f0 16% 84%, transparent 84%), url('/img/Layout/matrix-code.gif');
     background-size: 100% 100%, cover;
     background-position: left top, center;
 }
@@ -40,11 +40,17 @@ main {
 .container.extra-navbar {
     margin-top: 200px; 
 }
+
 .container-fluid a span {
+    display: inline-block;
+    text-align: center;
+    line-height: 1.5;
+    transform: rotate(0deg);
     margin-left: 30px;
     font-size: 24px;
     font-weight: bold;
-    color: white
+    color: white;
+    vertical-align: middle;
 }
 .m-3 {
     color: #0077cc;

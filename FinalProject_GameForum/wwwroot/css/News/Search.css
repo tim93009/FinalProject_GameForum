@@ -1,0 +1,114 @@
+﻿/* search.css */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+.searchNews-container {
+    max-width: 100%;
+    margin: 0 auto;
+    margin-top: 200px;
+    padding: 20px;
+    display: block; /* 明確設定為塊級，防止被 flex 或 inline 影響 */
+}
+    .searchNews-container a {
+        color: black;
+        text-decoration:none;
+    }
+        .searchNews-container a:hover {
+            color: #198754;
+            text-decoration:underline;
+        }
+
+.searchNews-title {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+    .shoppingMall {
+        padding-top: 50px; /* 與商城導覽列的距離 */
+    }
+
+.news-card {
+    display: flex;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+    .news-card:hover {
+        transform: translateY(-5px);
+    }
+
+.news-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.news-details {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column; /* 垂直排列，確保換行 */
+    gap: 10px; /* 項目間距 */
+}
+
+.news-name {
+    font-size: 1.5rem;
+    color: #007bff;
+    margin: 0; /* 移除外邊距 */
+}
+
+.news-description {
+    color: #666;
+    font-size: 1rem;
+    margin: 0; /* 移除外邊距 */
+    line-height: 1.5;
+}
+
+.news-price {
+    font-size: 1.2rem;
+    color: #28a745;
+    font-weight: bold;
+    margin: 0; /* 移除外邊距 */
+}
+
+.btn-details {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    width: fit-content; /* 限制按鈕寬度 */
+}
+
+    .btn-details:hover {
+        background-color: #0056b3;
+        color: white;
+    }
+
+.no-results {
+    text-align: center;
+    color: #777;
+    font-size: 1.2rem;
+    margin-top: 50px;
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .news-card {
+        flex-direction: column;
+    }
+
+    .news-image {
+        width: 100%;
+        height: 300px;
+    }
+}
