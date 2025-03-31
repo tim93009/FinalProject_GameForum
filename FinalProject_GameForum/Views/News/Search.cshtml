@@ -1,6 +1,6 @@
 ﻿@model List<FinalProject_GameForum.Models.News>
 
-<link rel="stylesheet" href="~/css/News/Index.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/News/Search.css" asp-append-version="true" />
 
 @{
     ViewData["Title"] = "搜尋結果";
@@ -10,7 +10,7 @@
     ViewData["HideFooter"] = true;
 }
 
-<div class="search-container">
+<div class="searchNews-container">
     <h2 class="search-title">搜尋結果</h2>
 
     @if (Model.Any())
@@ -27,14 +27,16 @@
                     <img src="~/img/placeholder.jpg" class="news-image" alt="無圖片">
                 }
                 <div class="news-details">
-                    <h5 class="news-name">@news.NewsTitle</h5>
+                    <h5 class="news-name">
+                        <a href="@Url.Action("News", "News", new { id = news.NewsId })">@news.NewsTitle</a>
+                    </h5>
                     @{
                         string content = news.NewsContent ?? "";
                         string plainText = System.Text.RegularExpressions.Regex.Replace(content, "<.*?>", "");
                         string preview = plainText.Length > 100 ? plainText.Substring(0, 100) + "..." : plainText;
                     }
                     <p class="news-description">@preview</p>
-                    <a asp-controller="news" asp-action="Index" asp-route-newsId="@news.NewsId" class="btn-details">查看詳情</a>
+                    <a href="@Url.Action("News", "News", new { id = news.NewsId })"><span>繼續閱讀</span></a>
                 </div>
             </div>
         }
