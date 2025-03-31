@@ -240,6 +240,8 @@ namespace FinalProject_GameForum.Controllers
             
             var email = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
             var name = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+            oldclaims?.Add(new Claim("name", name!));
+            oldclaims?.Add(new Claim("userid", email!));
             var provider = TempData["LoginProvider"] as string;
             var providerID = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             
@@ -258,13 +260,15 @@ namespace FinalProject_GameForum.Controllers
                 return RedirectToAction("Login");
             }
             var userID = string.Empty;
-            if (!string.IsNullOrEmpty(user.UserId))
+            if (!string.IsNullOrEmpty(user?.UserId))
             {
-                 userID = user.UserId;
+                userID = user.UserId;
+               
+              
             }
             else
             {
-                 userID = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+                userID = oldclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
             }
 
 

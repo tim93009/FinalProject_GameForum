@@ -183,8 +183,8 @@ namespace FinalProject_GameForum.Controllers
             //取得使用者用什麼綁定
             var userid = TempData["userid"] as string;
             var provider = TempData["provider"] as string;
-       
-         
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userid);
+
 
 
 
@@ -200,15 +200,46 @@ namespace FinalProject_GameForum.Controllers
             var Thirdclaims = result.Principal.Identities.FirstOrDefault()?.Claims; 
             var email = Thirdclaims?.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
             var providerID = Thirdclaims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var RepeatEmail = _context.Users.FirstOrDefault(u => u.Email == email);
+            //if (RepeatEmail == null && )
+            //{
+            //    TempData["ThirdError"] = "該信箱已有帳號，請使用其他信箱";
+            //    var OldClaims = new List<Claim>
+            //     {
+            //    new Claim(ClaimTypes.NameIdentifier, user.UserId),
+            //    new Claim(ClaimTypes.Name, user.Nickname),
+            //    new Claim("name", user.Nickname),
+            //    new Claim(ClaimTypes.Email, user.Email!),
+            //    new Claim("photo", user.PhotoUrl ?? "/img/Login/headphoto.jpg"),
 
+            //    };
+            //    var ClaimsIdentity = new ClaimsIdentity(OldClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+            //    var AuthProperties = new AuthenticationProperties { IsPersistent = true };
+            //    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(ClaimsIdentity), AuthProperties);
+            //    return RedirectToAction("Permissions");
+                
+            //}
             if (email == null ||   providerID == null)
             {
                 TempData["ThirdError"] = "綁定失敗，請使用其他方式!";
+                var OldClaims = new List<Claim>
+                 {
+                new Claim(ClaimTypes.NameIdentifier, user.UserId),
+                new Claim(ClaimTypes.Name, user.Nickname),
+                new Claim("name", user.Nickname),
+                new Claim(ClaimTypes.Email, user.Email!),
+                new Claim("photo", user.PhotoUrl ?? "/img/Login/headphoto.jpg"),
+
+                };
+                var ClaimsIdentity = new ClaimsIdentity(OldClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var AuthProperties = new AuthenticationProperties { IsPersistent = true };
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(ClaimsIdentity), AuthProperties);
                 return RedirectToAction("Permissions");
+              
             }
             //取得目前登入使用者
         
-            var user = _context.Users.FirstOrDefault(u => u.UserId == userid);
+            
             if (user == null)
             {
                 TempData["ThirdError"] = "綁定失敗，請重新登入!";
@@ -220,14 +251,14 @@ namespace FinalProject_GameForum.Controllers
                 TempData["ThirdError"] = "綁定失敗，信箱不同!";
                 
                 var OldClaims = new List<Claim>
-            {
+                 {
                 new Claim(ClaimTypes.NameIdentifier, user.UserId),
                 new Claim(ClaimTypes.Name, user.Nickname),
                 new Claim("name", user.Nickname),
                 new Claim(ClaimTypes.Email, user.Email!),
                 new Claim("photo", user.PhotoUrl ?? "/img/Login/headphoto.jpg"),
                 
-            };
+                };
                 var ClaimsIdentity = new ClaimsIdentity(OldClaims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var AuthProperties = new AuthenticationProperties { IsPersistent = true };
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(ClaimsIdentity), AuthProperties);
