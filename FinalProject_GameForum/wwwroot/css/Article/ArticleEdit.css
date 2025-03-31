@@ -1,3 +1,17 @@
 ﻿.container {
     margin-top: 110px;
 }
+
+
+
+.ql-size-small {
+    font-size: .75em
+}
+
+.ql-size-large {
+    font-size: 1.25em
+}
+
+.ql-size-huge {
+    font-size: 1.5em
+}
