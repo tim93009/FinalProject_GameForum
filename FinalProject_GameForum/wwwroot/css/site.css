@@ -4,7 +4,7 @@ body {
     background-position: left top, center;
 }
 
-@media screen and (max-width: 1199.98px) {
+@media screen and (max-width: 1200px) {
     body {
         background: linear-gradient(to right, transparent 7%, #f0f0f0 7% 93%, transparent 93%), url('/img/Layout/matrix-code.gif');
     }
