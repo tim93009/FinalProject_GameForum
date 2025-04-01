@@ -4,15 +4,17 @@ body {
     background-position: left top, center;
 }
 
-/*@media screen and (max-width: 1199.98px) {
+@media (max-width: 1600px) {
     body {
         background: linear-gradient(to right, transparent 7%, #f0f0f0 7% 93%, transparent 93%), url('/img/Layout/matrix-code.gif');
+        background-size: 100% 100%, cover;
+        background-position: left top, center;
     }
 }
-*/
+
 main {
     width: 100%;
-    height:auto;
+    height: auto;
 }
 
 .navbar {
@@ -21,9 +23,10 @@ main {
     left: 0;
     right: 0;
     z-index: 1030;
-    width:100%;
+    width: 100%;
     padding: 0;
 }
+
 .extra-navbar {
     position: fixed;
     top: 110px;
@@ -31,40 +34,46 @@ main {
     width: 100%;
     z-index: 1020;
 }
+
 .container {
     width: 100%;
     height: auto;
-    margin-top: 130px;   
+    margin-top: 130px;
 }
-.container.extra-navbar {
-    margin-top: 200px; 
-}
-    .container-fluid a span {
-        display: inline-block;
-        text-align: center;
-        line-height: 1.5;
-        transform: rotate(0deg);
-        margin-left: 20px;
-        font-size: 28px;
-        font-weight: bold;
-        color: white;
-        vertical-align: middle;
+
+    .container.extra-navbar {
+        margin-top: 200px;
     }
+
+.container-fluid a span {
+    display: inline-block;
+    text-align: center;
+    line-height: 1.5;
+    transform: rotate(0deg);
+    margin-left: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    vertical-align: middle;
+}
+
 .navbar-brand:hover span {
     color: #198754;
 }
 
-.container-fluid a span h6{
-    font-size:16px;
+.container-fluid a span h6 {
+    font-size: 16px;
 }
 
 .m-3 {
     color: #0077cc;
     text-decoration: none;
 }
+
 .text-light:hover {
     color: #198754 !important;
 }
+
 .goTop {
     position: fixed;
     bottom: 60px;
@@ -100,12 +109,13 @@ main {
     letter-spacing: 2px;
     text-shadow: 1px 1px 3px black;
 }
+
 .goTop:hover {
     text-decoration: underline;
     color: white;
 }
-    /* 漢堡選單 */
-    .hamburger-menu {
+/* 漢堡選單 */
+.hamburger-menu {
     position: absolute;
     top: 30px;
     right: 20px;
@@ -236,54 +246,55 @@ main {
     justify-content: center;
     flex: 1;
     margin: 0 auto;
-    max-width:400px;
+    max-width: 400px;
 }
 
 form.search {
-    position:relative;
+    position: relative;
     width: 400px;
     max-width: 400px;
 }
-form.search input[type=text] {
-    padding: 10px;
-    padding-right: 60px;
-    font-size: 17px;
-    border: 1px solid grey;
-    border-radius: 5px;
-    float: left;
-    width: 100%;
-    background: #f1f1f1;
-}
 
-form.search button {
-    position:absolute;
-    right:0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 50px;
-    height: 100%;
-    background: #2196F3;
-    color: white;
-    font-size: 17px;
-    border: 1px solid grey;
-    border-radius: 5px;
-    border-left: none; /* Prevent double borders */
-    cursor: pointer;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-}
-
-    form.search button:hover {
-        background: #0b7dda;
+    form.search input[type=text] {
+        padding: 10px;
+        padding-right: 60px;
+        font-size: 17px;
+        border: 1px solid grey;
+        border-radius: 5px;
+        float: left;
+        width: 100%;
+        background: #f1f1f1;
     }
 
-/* Clear floats */
-form.search:after {
-    content: "";
-    clear: both;
-    display: table;
-}
+    form.search button {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px;
+        height: 100%;
+        background: #2196F3;
+        color: white;
+        font-size: 17px;
+        border: 1px solid grey;
+        border-radius: 5px;
+        border-left: none; /* Prevent double borders */
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        form.search button:hover {
+            background: #0b7dda;
+        }
+
+    /* Clear floats */
+    form.search:after {
+        content: "";
+        clear: both;
+        display: table;
+    }
 
 /* RWD */
 
