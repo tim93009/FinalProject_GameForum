@@ -79,10 +79,10 @@ function linkHandler() {
 }
 // 超連結(結束)
 // 圖片(開始)
-let savedRange = null; // 用來儲存光標位置
+let savedRange = null; // 用來儲存坐標位置
 
 function imageHandler() {
-    savedRange = quill.getSelection(); // 儲存當前光標位置
+    savedRange = quill.getSelection(); // 儲存當前坐標位置
     let modal = document.getElementById("imageModal");
     modal.style.display = "block";
 
@@ -100,7 +100,7 @@ function imageHandler() {
         var imageUrl = document.getElementById("imageUrl").value;
         if (imageUrl) {
             if (savedRange) {
-                quill.setSelection(savedRange.index, Quill.sources.SILENT); // 恢復光標位置
+                quill.setSelection(savedRange.index, Quill.sources.SILENT); // 恢復坐標位置
                 quill.insertEmbed(savedRange.index, "image", imageUrl);
             }
 
