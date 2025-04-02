@@ -64,7 +64,7 @@ namespace FinalProject_GameForum.Controllers
 
             if (checkUserId == null)
             {
-                TempData["ErrorMessage"] = "查無此用戶 ID，請重新輸入。";
+                TempData["Message"] = "查無此用戶 ID，請重新輸入。";
                 return RedirectToAction("Index");
             }
 
@@ -76,19 +76,27 @@ namespace FinalProject_GameForum.Controllers
                     imageData = memoryStream.ToArray();
                 }
             }
-
-            CustomerProblem problem = new CustomerProblem
+            if (ModelState.IsValid)
             {
-                UserId = userId,
-                QuestionType = questionType,
-                QuestionDescription = questionDescription,
-                Image = imageData
-            };
+                CustomerProblem problem = new CustomerProblem
+                {
+                    UserId = userId,
+                    QuestionType = questionType,
+                    QuestionDescription = questionDescription,
+                    Image = imageData
+                };
 
-            _context.CustomerProblems.Add(problem);
-            await _context.SaveChangesAsync();
+                _context.CustomerProblems.Add(problem);
+                await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index", "Home");
+                TempData["Message"] = "您的問題已成功提交，我們將盡快處理！";
+            }
+            else
+            {
+                TempData["Message"] = "您的問題提交失敗，請稍後再試！";
+
+            }
+            return RedirectToAction("Index");
         }
     }
 }
