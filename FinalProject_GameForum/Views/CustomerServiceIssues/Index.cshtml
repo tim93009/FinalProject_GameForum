@@ -6,6 +6,7 @@
 <div class="w-100 p-3">
 	<h1 class="text-center m-3">客服問題</h1>
 	<!-- 帳號問題 -->
+	<h3 class="text-start m-3">帳號問題</h3>
 	<div class="accordion m-3" id="accordionExample">
 		@for (int i = 0; i < Model.AccountFaqList.Count; i++)
 		{
@@ -25,6 +26,7 @@
 		}
 	</div>
 	<!-- 商城問題 -->
+	<h3 class="text-start m-3">商城問題</h3>
 	<div class="accordion m-3" id="shopFaq">
 		@for (int i = 0; i < Model.ShopFaqList.Count; i++)
 		{
@@ -48,7 +50,7 @@
 			<div class="mb-3">
 				@if (ViewBag.UserID == "")
 				{
-					<label for="userId">使用者 ID</label>
+					<label for="userId"><span class="text-danger">*</span> 使用者 ID</label>
 					<input class="form-control" type="text" name="userId" required>
 				}
 				else
@@ -57,7 +59,7 @@
 				}
 			</div>
 			<div class="mb-3">
-				<label for="questionType" class="form-label">問題類型</label>
+				<label for="questionType" class="form-label"><span class="text-danger">*</span> 問題類型</label>
 				<select id="questionType" class="form-select" name="questionType" required>
 					<option value="" selected>請選擇問題類型（必選）</option>
 					<option value="商城問題">商城問題</option>
@@ -66,7 +68,7 @@
 				<div class="form-text m-1">請務必選擇一個問題類型。</div>
 			</div>
 			<div class="mb-3">
-				<label for="questionDescription" class="form-label">描述您的問題</label>
+				<label for="questionDescription" class="form-label"><span class="text-danger">*</span> 描述您的問題</label>
 				<textarea class="form-control" name="questionDescription" rows="5" maxlength="250" required
 						  style="resize: none; overflow-y: hidden;"></textarea>
 			</div>

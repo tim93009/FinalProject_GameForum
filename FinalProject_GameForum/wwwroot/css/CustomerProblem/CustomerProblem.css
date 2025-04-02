@@ -14,3 +14,9 @@
         margin-top: 200px;
     }
 }
+
+a {
+    text-decoration: none; /* 移除下劃線 */
+    color: inherit;
+    outline: none; /* 移除點擊時的輪廓 */
+}
