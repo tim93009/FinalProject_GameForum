@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace FinalProject_GameForum.Controllers
 {
@@ -11,7 +12,7 @@ namespace FinalProject_GameForum.Controllers
     {
         private readonly GameForumContext _context;
         private readonly IWebHostEnvironment _env;
-        private string userId => User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty; // 取得登入使用者 ID
+        private string UserId => User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty; // 取得登入使用者 ID
 
         public CustomerServiceIssuesController(GameForumContext context, IWebHostEnvironment env)
         {
@@ -32,7 +33,12 @@ namespace FinalProject_GameForum.Controllers
             string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
             var faqData = JsonSerializer.Deserialize<FaqData>(jsonContent);
 
-            ViewBag.UserID = userId;
+            var email = _context.Users.Where(u => u.UserId == UserId)
+                .Select(u => u.Email)
+                .FirstOrDefault();
+
+            ViewBag.UserID = UserId;
+            ViewBag.Email = email;
             return View(faqData);
         }
 

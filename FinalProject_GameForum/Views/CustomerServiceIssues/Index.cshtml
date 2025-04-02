@@ -1,6 +1,8 @@
 ﻿@model FaqData
 @await Html.PartialAsync("_MessageModal")
-@{ViewData["HideFooter"] = true;}
+@{
+	ViewData["HideFooter"] = true;
+}
 <link rel="stylesheet" href="~/css/CustomerProblem/CustomerProblem.css" asp-append-version="true" />
 
 <div class="w-100 p-3">
@@ -57,6 +59,10 @@
 				{
 					<input type="hidden" value="@ViewBag.UserID" name="userId" />
 				}
+			</div>
+			<div class="mb-3">
+				<label for="email"><span class="text-danger">*</span> 使用者 email</label>
+				<input class="form-control" type="email" name="email" value="@ViewBag.UserID" required>
 			</div>
 			<div class="mb-3">
 				<label for="questionType" class="form-label"><span class="text-danger">*</span> 問題類型</label>
