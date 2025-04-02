@@ -3,6 +3,14 @@
     padding: 0px;
 }
 
+input[type="file"] {
+    display: none;
+}
+
+.imgFile-border {
+    border: 1px solid #ccc;
+}
+
 .custom-image-class {
     height: 240px;
 }
@@ -18,4 +26,158 @@
 
 .ql-size-huge {
     font-size: 1.5em;
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999; /* 確保覆蓋在畫面最上層 */
+    display: none;
+}
+
+#imageModal, #videoModal, #LinkModal {
+    width: 500px;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    z-index: 1000;
+}
+
+
+
+#hiddenContent {
+    display: none;
+}
+
+#imgFileBlock {
+    visibility: hidden;
+}
+
+#ql-font {
+    width: 150px;
+}
+
+
+#previewImg {
+    height: 200px;
+    width: 500px;
+    margin-top: 10px;
+    object-fit: cover;
+}
+
+.ql-size-small {
+    font-size: .75em
+}
+
+.ql-size-large {
+    font-size: 1.25em
+}
+
+.ql-size-huge {
+    font-size: 1.5em
+}
+
+.hexagon-button {
+    width: 160px;
+    height: 160px;
+    background-color: #20b2aa70;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    position: relative;
+    font-size: 20px;
+    border: 0px;
+    transition: transform 0.3s ease-in-out; /* 滑鼠移開時的平滑恢復 */
+}
+
+.hexagon-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease-in-out; /* 平滑過渡 */
+}
+
+.hexagon-button:hover {
+    animation: rotateAndScale 3s infinite linear;
+}
+
+    .hexagon-button:hover .hexagon-text {
+        animation: counterRotate 3s infinite linear; /* 反向旋轉 */
+    }
+
+.hexagon-button:not(:hover) {
+    transform: none;
+}
+
+@keyframes rotateAndScale {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    16.7% {
+        transform: rotate(60deg) scale(0.9);
+    }
+
+    33.3% {
+        transform: rotate(120deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(180deg) scale(0.9);
+    }
+
+    66.7% {
+        transform: rotate(240deg) scale(1);
+    }
+
+    83.3% {
+        transform: rotate(300deg) scale(0.9);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@keyframes counterRotate {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    16.7% {
+        transform: translate(-50%, -50%) rotate(-60deg);
+    }
+
+    33.3% {
+        transform: translate(-50%, -50%) rotate(-120deg);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) rotate(-180deg);
+    }
+
+    66.7% {
+        transform: translate(-50%, -50%) rotate(-240deg);
+    }
+
+    83.3% {
+        transform: translate(-50%, -50%) rotate(-300deg);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(-360deg);
+    }
 }

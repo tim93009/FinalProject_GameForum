@@ -1,12 +1,4 @@
-﻿input[type="file"] {
-    display: none;
-}
-
-.imgFile-border {
-    border: 1px solid #ccc;
-}
-
-.articleText {
+﻿.articleText {
     width: 100px;
     background: azure;
     font-size: 20px;
@@ -32,48 +24,4 @@
 
 .selectArticleType {
     width: 250px;
-}
-
-#hiddenContent{
-    display: none;
-}
-
-#imgFileBlock {
-    visibility: hidden;
-}
-
-#ql-font {
-    width: 150px;
-}
-
-#imageModal, #videoModal, #LinkModal {
-    width: 500px;
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 20px;
-    border: 1px solid #ccc;
-    z-index: 1000;
-}
-
-#previewImg {
-    height: 200px;
-    width: 500px;
-    margin-top: 10px;
-    object-fit: cover;
-}
-
-.ql-size-small {
-    font-size: .75em
-}
-
-.ql-size-large {
-    font-size: 1.25em
-}
-
-.ql-size-huge {
-    font-size: 1.5em
 }

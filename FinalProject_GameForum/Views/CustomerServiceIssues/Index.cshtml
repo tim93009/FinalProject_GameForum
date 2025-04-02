@@ -58,11 +58,12 @@
 			</div>
 			<div class="mb-3">
 				<label for="questionType" class="form-label">問題類型</label>
-				<select id="questionType" class="form-select" name="questionType">
-					<option value="" disabled selected>請選擇問題類型</option>
+				<select id="questionType" class="form-select" name="questionType" required>
+					<option value="" selected>請選擇問題類型（必選）</option>
 					<option value="商城問題">商城問題</option>
 					<option value="帳號問題">帳號問題</option>
 				</select>
+				<div class="form-text m-1">請務必選擇一個問題類型。</div>
 			</div>
 			<div class="mb-3">
 				<label for="questionDescription" class="form-label">描述您的問題</label>

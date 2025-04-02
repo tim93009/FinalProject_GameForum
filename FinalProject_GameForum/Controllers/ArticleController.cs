@@ -93,13 +93,18 @@ namespace FinalProject_GameForum.Controllers
                 relatedArticles.AddRange(additionalArticles);
             }
 
+            // 查詢是否已訂閱
+            bool isSubscribed = _context.SubscribedArticles
+                .Any(sa => sa.UserId == UserId && sa.ArticleGroupId == id && sa.IsSubscribed == true);
+
+
             ViewBag.UserId = UserId;
             ViewBag.ArticleGroupId = id;
             ViewBag.RelatedArticles = relatedArticles;
             ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
             ViewBag.TotalPages = totalPages;
-
+            ViewBag.Subscribed = isSubscribed;
             return View(articles);
         }
 
