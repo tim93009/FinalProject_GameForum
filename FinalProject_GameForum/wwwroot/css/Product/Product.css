@@ -26,6 +26,8 @@
     margin: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: transform 0.2s;
+    position: relative; /* 父元素建立定位上下文 */
+    height: 300px; /* 假設父元素有高度 */
 }
 
     .products-card:hover {
@@ -98,6 +100,11 @@
     text-decoration: none;
     font-size: 14px;
     transition: background 0.3s;
+    margin-top: 0px; /* 可以用 px, em, rem, % 等單位 */
+    position: absolute; /* 相對於父元素定位 */
+    bottom: 0; /* 固定在父元素底部 */
+    left: 0; /* 可選：控制水平位置 */
+    width: 100%; /* 可選：設置寬度 */
 }
 
     .btn-buy-now:hover {
