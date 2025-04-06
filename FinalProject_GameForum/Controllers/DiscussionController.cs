@@ -44,6 +44,8 @@ namespace FinalProject_GameForum.Controllers
         {
             var discussion = _context.Discussions
                 .FirstOrDefault(d => d.DiscussionId == id);
+            ViewBag.ShowFakeChat = (discussion.DiscussionId == 4);
+          
             if (discussion == null)
             {
                 return NotFound();  // 如果沒有這個看板，回傳 404

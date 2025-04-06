@@ -36,7 +36,7 @@ namespace FinalProject_GameForum.Controllers
             // 取得相關商品（相同類別的其他商品，排除當前商品）
             var relatedProducts = _db.Products
                 .Where(p => p.ProductCategoryId == product.ProductCategoryId && p.ProductId != productId)
-                .Take(5) // 限制顯示數量，例如 5 個
+                .Take(6) // 限制顯示數量，例如 5 個
                 .ToList();
 
             // 取得當前使用者的瀏覽紀錄
@@ -48,7 +48,7 @@ namespace FinalProject_GameForum.Controllers
                     .Where(vh => vh.UserId == userId)
                     .Include(vh => vh.Product)
                     .OrderByDescending(vh => vh.ViewDate) // 按瀏覽時間排序
-                    .Take(5) // 限制顯示數量，例如 5 個
+                    .Take(6) // 限制顯示數量，例如 5 個
                     .Select(vh => vh.Product)
                     .ToList();
 

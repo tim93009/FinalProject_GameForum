@@ -102,7 +102,9 @@
                                 @* 商品圖 *@
                                 <a asp-controller="Product" asp-action="Index" asp-route-productId="@obj.ProductId" class="products-card-img">
                                     <img src="@obj.MainImageUrl" alt="@obj.ProductName" class="pic-products">
-                                </a>                                
+                                </a>
+
+                                <div class="related-products-name">@obj.ProductName</div>
 
                                 @* 購買按鈕 *@
                                 <a class="btn-buy-now" asp-controller="Product" asp-action="Index" asp-route-productId="@obj.ProductId">
@@ -133,9 +135,9 @@
                             <div class="col-2">
                                 <div class="products-card">
                                     <a asp-controller="Product" asp-action="Index" asp-route-productId="@obj.ProductId" class="products-card-img">
-                                        <img src="@obj.MainImageUrl" alt="@obj.ProductName" class="pic-products">
+                                        <img src="@obj.MainImageUrl" alt="@obj.ProductName" class="pic-products">                                        
                                     </a>
-                                    
+                                    <div class="related-products-name">@obj.ProductName</div>
                                     <a class="btn-buy-now" asp-controller="Product" asp-action="Index" asp-route-productId="@obj.ProductId">
                                         前往購買
                                     </a>
