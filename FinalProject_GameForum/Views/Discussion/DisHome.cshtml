@@ -86,6 +86,7 @@
 			</div>
 		</div>
 
+
 		<!-- 聊天室 JS（SignalR.Hub、卷軸）-->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 		<script>
@@ -120,42 +121,94 @@
 				chatMessages.scrollTop = chatMessages.scrollHeight;
 			}
 
-			// 當訊息被發送時，自動滾動到底部
-			document.getElementById("sendButton").addEventListener("click", function () {
-				setTimeout(scrollToBottom, 100); // 稍微延遲，確保訊息已經插入
-			});
-
-			// 如果是用 Enter 發送訊息，也觸發滾動
-			document.getElementById("messageInput").addEventListener("keypress", function (event) {
-				if (event.key === "Enter") {
-					event.preventDefault(); // 防止換行
-					document.getElementById("sendButton").click(); // 模擬點擊發送按鈕
-					setTimeout(scrollToBottom, 100);
-				}
-			});
-
-			// 當聊天室載入時，自動滾到底部
-			document.addEventListener("DOMContentLoaded", scrollToBottom);
-
 			// 當訊息接收時，自動滾動到底部
 			connection.on("ReceiveMessage", function (user, message) {
 				var chatBox = document.getElementById("chatMessages");
 				var newMessage = document.createElement("div");
-				newMessage.innerHTML = user + "：" + convertLinksToAnchors(message); // 使用 convertLinksToAnchors 格式化訊息
+				// ★ 修改：使用者名稱以粗體且設定顏色 ★
+				newMessage.innerHTML = "<b style='color: #198754;'>" + user + "</b>：" + convertLinksToAnchors(message);
 				chatBox.appendChild(newMessage);
-
-				// 收到訊息後自動滾動到底部
 				scrollToBottom();
 			});
 
 			// 將訊息中的 URL 轉換為超連結
 			function convertLinksToAnchors(message) {
-				var urlRegex = /(https?:\/\/[^\s]+)/g; // 正則表達式匹配 URL
+				var urlRegex = /(https?:\/\/[^\s]+)/g;
 				return message.replace(urlRegex, function(url) {
-					return `<a href="${url}" target="_blank">${url}</a>`; // 將 URL 轉換為超連結
+					return `<a href="${url}" target="_blank">${url}</a>`;
 				});
 			}
+
+			// ★ 初始預設的對話紀錄 ★
+			const initialMessages = [
+				{ user: "發問前已爬文的乖寶寶", message: "<br>想吃玉米蛋餅了.." },
+				{ user: "深淵潛行者100", message: "我要去吃午餐了" },
+				{ user: "氣氛很好", message: "用餐區在哪啊??" },
+				{ user: "阿明", message: "阿災" },
+				{ user: "死忠的", message: "https://localhost:7282/Article/Index/34" },
+				{ user: "死忠的", message: "欸 這篇文有啊 大集會所的" },
+				{ user: "狂風騎士72", message: "啊餐卷怎麼拿?" },
+				{ user: "<br><b style='color: black;'>❖ 系統", message: "<b style='color: black;'>歡迎進入聊天室～<br>" }
+			];
+
+			function loadInitialMessages() {
+				let chatBox = document.getElementById("chatMessages");
+				initialMessages.forEach(msg => {
+					var newMessage = document.createElement("div");
+					// ★ 使用者名稱以粗體且設定顏色 ★
+					newMessage.innerHTML = "<b style='color: #198754;'>" + msg.user + "</b>：" + convertLinksToAnchors(msg.message);
+					chatBox.appendChild(newMessage);
+				});
+				scrollToBottom();
+			}
+
+			// ★ 模擬聊天訊息的部分 ★
+			const simulatedMessages = [
+				{ user: "<br>過客", message: "滾木桶有機會拿到" },
+				{ user: "小飛", message: "可惜攻擊加最多的交匯之地沒外送" },
+				{ user: "阿天", message: "你說的是 交匯之峰 蘇加" },
+				{ user: "舒婷的移動城堡", message: "對欸！怎麼沒蘇加？" },
+				{ user: "馬克羅斯７", message: "可能是因為大集會所就在蘇加" },
+				{ user: "氣氛很好", message: "就門口外幹嘛還要人送XD" }
+			];
+
+			function simulateChat() {
+				let delay = 0;
+				simulatedMessages.forEach(msg => {
+					delay += 6000; // 每則訊息間隔 6 秒
+					setTimeout(() => {
+						var chatBox = document.getElementById("chatMessages");
+						var newMessage = document.createElement("div");
+						// ★ 使用者名稱以粗體且設定顏色 ★
+						newMessage.innerHTML = "<b style='color: #198754;'>" + msg.user + "</b>：" + convertLinksToAnchors(msg.message);
+						chatBox.appendChild(newMessage);
+						scrollToBottom();
+					}, delay);
+				});
+			}
+
+			// ★ 修改：在頁面載入時依旗標決定是否載入預設訊息及模擬訊息 ★
+			document.addEventListener("DOMContentLoaded", function () {
+				if (@(ViewBag.ShowFakeChat.ToString().ToLower())) {
+					loadInitialMessages();  // 先載入預設訊息
+					simulateChat();         // 再依時間模擬新訊息
+				}
+			});
+
+			// 如果是用 Enter 發送訊息，也觸發滾動
+			document.getElementById("messageInput").addEventListener("keypress", function (event) {
+				if (event.key === "Enter") {
+					event.preventDefault();
+					document.getElementById("sendButton").click();
+					setTimeout(scrollToBottom, 100);
+				}
+			});
 		</script>
+
+
+
+
+
 
 	</div>
 </div>
