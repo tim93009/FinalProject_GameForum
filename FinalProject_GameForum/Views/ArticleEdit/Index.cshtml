@@ -143,9 +143,11 @@
 				</label>
 				<input type="file" id="imgFile" class="form-control mt-2" name="imgFile" accept="image/gif, image/jpeg, image/png" />
 			</div>
-			<div class="col-3 text-end">
+			<div class="col-3 d-flex justify-content-end">
 				@* <button type="submit" class="btn btn-outline-success w-100 mb-2" name="action" value="saveDraft">儲存草稿</button>暫時有問題 *@
-				<button type="submit" class="btn btn-outline-primary w-100" name="action" value="publish">發表文章</button>
+				<button type="submit" class="hexagon-button" name="action" value="publish">
+					<span class="hexagon-text">發表文章</span>
+				</button>
 			</div>
 		</div>
 	</form>
@@ -208,7 +210,7 @@
 		</div>
 	</div>
 </div>
-
+<div id="overlay"></div>
 
 <!-- Quill JS -->
 <script src="~/lib/quill/quill.js"></script>
