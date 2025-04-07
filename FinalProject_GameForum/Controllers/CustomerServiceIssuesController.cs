@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace FinalProject_GameForum.Controllers
 {
@@ -11,7 +12,7 @@ namespace FinalProject_GameForum.Controllers
     {
         private readonly GameForumContext _context;
         private readonly IWebHostEnvironment _env;
-        private string userId => User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty; // 取得登入使用者 ID
+        private string UserId => User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty; // 取得登入使用者 ID
 
         public CustomerServiceIssuesController(GameForumContext context, IWebHostEnvironment env)
         {
@@ -32,7 +33,12 @@ namespace FinalProject_GameForum.Controllers
             string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
             var faqData = JsonSerializer.Deserialize<FaqData>(jsonContent);
 
-            ViewBag.UserID = userId;
+            var email = _context.Users.Where(u => u.UserId == UserId)
+                .Select(u => u.Email)
+                .FirstOrDefault();
+
+            ViewBag.UserID = UserId;
+            ViewBag.Email = email;
             return View(faqData);
         }
 
@@ -64,7 +70,7 @@ namespace FinalProject_GameForum.Controllers
 
             if (checkUserId == null)
             {
-                TempData["ErrorMessage"] = "查無此用戶 ID，請重新輸入。";
+                TempData["Message"] = "查無此用戶 ID，請重新輸入。";
                 return RedirectToAction("Index");
             }
 
@@ -76,19 +82,27 @@ namespace FinalProject_GameForum.Controllers
                     imageData = memoryStream.ToArray();
                 }
             }
-
-            CustomerProblem problem = new CustomerProblem
+            if (ModelState.IsValid)
             {
-                UserId = userId,
-                QuestionType = questionType,
-                QuestionDescription = questionDescription,
-                Image = imageData
-            };
+                CustomerProblem problem = new CustomerProblem
+                {
+                    UserId = userId,
+                    QuestionType = questionType,
+                    QuestionDescription = questionDescription,
+                    Image = imageData
+                };
 
-            _context.CustomerProblems.Add(problem);
-            await _context.SaveChangesAsync();
+                _context.CustomerProblems.Add(problem);
+                await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index", "Home");
+                TempData["Message"] = "您的問題已成功提交，我們將盡快處理！";
+            }
+            else
+            {
+                TempData["Message"] = "您的問題提交失敗，請稍後再試！";
+
+            }
+            return RedirectToAction("Index");
         }
     }
 }

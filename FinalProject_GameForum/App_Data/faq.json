@@ -6,11 +6,11 @@
         },
         {
             "question": "02. 我忘記密碼了，該怎麼辦？",
-            "answer": "<p>您可以使用 <b><span style='color: rgb(230, 0, 0)'>忘記密碼</span></b> 功能，輸入註冊時的電子郵件地址，系統將會發送密碼重設信件至您的信箱，請依照信內指示進行密碼重設。</p>"
+            "answer": "<p>您可以使用<a href='/Login/ForgotPW' data-check-login><b><span style='color: rgb(230, 0, 0)'>忘記密碼</span></b></a>功能，輸入註冊時的電子郵件地址，系統將會發送密碼重設信件至您的信箱，請依照信內指示進行密碼重設。</p>"
         },
         {
             "question": "03. 帳密打錯太多次被鎖住而無法登入？",
-            "answer": "<p>為了帳號安全，系統會在短時間內多次輸入錯誤密碼時暫時鎖定帳號。請稍候 30 分鐘後再試，或使用<b><span style='color: rgb(230, 0, 0)'>忘記密碼</span></b>功能來重設密碼。</p>"
+            "answer": "<p>為了帳號安全，系統會在短時間內多次輸入錯誤密碼時暫時鎖定帳號。請稍候 30 分鐘後再試，或使用<a href='/Login/ForgotPW' data-check-login><b><span style='color: rgb(230, 0, 0)'>忘記密碼</span></b></a>功能來重設密碼。</p>"
         },
         {
             "question": "04. 為什麼我的帳號被封鎖？",
@@ -24,7 +24,7 @@
         },
         {
             "question": "02. 訂單查詢說明",
-            "answer": "<p>您可以在<b><span style='color: rgb(230, 0, 0)'>訂單查詢</span></b>頁面輸入訂單編號，查看訂單處理進度及物流資訊。</p>"
+            "answer": "<p>您可以在<a href='/Order/Index' data-check-login><b><span style='color: rgb(230, 0, 0)'>訂單查詢</span></b></a>頁面輸入訂單編號，查看訂單處理進度及物流資訊。</p>"
         },
         {
             "question": "03. 訂購之後，何時可以收到商品呢？",
@@ -36,7 +36,7 @@
         },
         {
             "question": "05. 我可以取消訂單嗎？",
-            "answer": "<p>若訂單尚未進入出貨流程，可至<b><span style='color: rgb(230, 0, 0)'>訂單查詢</span></b>頁面進行取消申請。若訂單已出貨，則無法取消，請於商品送達後辦理退貨。詳細退貨規則請參考<b><span style='color: rgb(230, 0, 0)'>退貨說明</span></b>。</p>"
+            "answer": "<p>若訂單尚未進入出貨流程，可至<a href='/Order/Index' data-check-login><b><span style='color: rgb(230, 0, 0)'>訂單查詢</span></b></a>頁面進行取消申請。若訂單已出貨，則無法取消，請於商品送達後辦理退貨。詳細退貨規則請參考退貨說明。</p>"
         }
     ]
 }
